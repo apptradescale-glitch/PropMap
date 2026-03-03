@@ -1,0 +1,4 @@
+/* Hide the X close button for dialogs with .no-x-close */
+.no-x-close [data-state="open"].absolute.right-4.top-4 {
+  display: none !important;
+}

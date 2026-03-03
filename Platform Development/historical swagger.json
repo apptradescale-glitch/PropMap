@@ -1,0 +1,1719 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "VolChallengeHistorical",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/historical/TradingAccount/List": {
+      "get": {
+        "tags": [
+          "TradingAccount"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingAccountDefinitionViewModelListApiSuccessDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingAccountDefinitionViewModelListApiSuccessDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingAccountDefinitionViewModelListApiSuccessDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/historical/TradingAccount/Report/{accountId}": {
+      "get": {
+        "tags": [
+          "TradingAccount"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingReportViewModelApiSuccessDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingReportViewModelApiSuccessDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingReportViewModelApiSuccessDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/historical/TradingAccount/Report": {
+      "post": {
+        "tags": [
+          "TradingAccount"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingReportViewModelTradingAccountDataViewModelListApiSuccessDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingReportViewModelTradingAccountDataViewModelListApiSuccessDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingReportViewModelTradingAccountDataViewModelListApiSuccessDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/historical/TradingAccount/Trades/{accountId}": {
+      "get": {
+        "tags": [
+          "TradingAccount"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportTradeViewModelListApiSuccessDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportTradeViewModelListApiSuccessDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportTradeViewModelListApiSuccessDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/historical/TradingAccount/Trades": {
+      "post": {
+        "tags": [
+          "TradingAccount"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportTradeViewModelListTradingAccountDataViewModelApiSuccessDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportTradeViewModelListTradingAccountDataViewModelApiSuccessDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportTradeViewModelListTradingAccountDataViewModelApiSuccessDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/historical/TradingAccount/Fills/{accountId}": {
+      "get": {
+        "tags": [
+          "TradingAccount"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingFillViewModelListApiSuccessDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingFillViewModelListApiSuccessDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingFillViewModelListApiSuccessDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/historical/TradingAccount/Fills": {
+      "post": {
+        "tags": [
+          "TradingAccount"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingFillViewModelListTradingAccountDataViewModelApiSuccessDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingFillViewModelListTradingAccountDataViewModelApiSuccessDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingFillViewModelListTradingAccountDataViewModelApiSuccessDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/historical/TradingAccount/Orders/{accountId}": {
+      "get": {
+        "tags": [
+          "TradingAccount"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filterStatus",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/OrderStatusEnum"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingOrderViewModelListApiSuccessDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingOrderViewModelListApiSuccessDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingOrderViewModelListApiSuccessDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/historical/TradingAccount/Orders": {
+      "post": {
+        "tags": [
+          "TradingAccount"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingOrderViewModelListTradingAccountDataViewModelApiSuccessDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingOrderViewModelListTradingAccountDataViewModelApiSuccessDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradingOrderViewModelListTradingAccountDataViewModelApiSuccessDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/historical/TradingAccount/SessionSnapshots/{accountId}": {
+      "get": {
+        "tags": [
+          "TradingAccount"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricalTradingAccountSnapshotListApiSuccessDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricalTradingAccountSnapshotListApiSuccessDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricalTradingAccountSnapshotListApiSuccessDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/historical/TradingAccount/SessionSnapshots": {
+      "post": {
+        "tags": [
+          "TradingAccount"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "String"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradingReportInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricalTradingAccountSnapshotListTradingAccountDataViewModelApiSuccessDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricalTradingAccountSnapshotListTradingAccountDataViewModelApiSuccessDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricalTradingAccountSnapshotListTradingAccountDataViewModelApiSuccessDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ContractDetailInfoModel": {
+        "type": "object",
+        "properties": {
+          "symbolId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "exchange": {
+            "type": "string",
+            "nullable": true
+          },
+          "contractName": {
+            "type": "string",
+            "nullable": true
+          },
+          "tradableQuantityFractionable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tradableQuantityMinimum": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CurrencyEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "HistoricalTradingAccountSnapshot": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/CurrencyEnum"
+          },
+          "startBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "balance": {
+            "type": "number",
+            "format": "double"
+          },
+          "equity": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "marginAvailable": {
+            "type": "number",
+            "format": "double"
+          },
+          "marginUsed": {
+            "type": "number",
+            "format": "double"
+          },
+          "minimumBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "maximumBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "maximumSessionClosedBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "maximumSessionClosedEquity": {
+            "type": "number",
+            "format": "double"
+          },
+          "maximumBalanceUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "minimumEquity": {
+            "type": "number",
+            "format": "double"
+          },
+          "maximumEquityUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "maximumEquity": {
+            "type": "number",
+            "format": "double"
+          },
+          "intradayStartBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "intradayStartEquity": {
+            "type": "number",
+            "format": "double"
+          },
+          "intradayMinimumBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "intradayMaximumBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "intradayMaximumBalanceUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "intradayMinimumEquity": {
+            "type": "number",
+            "format": "double"
+          },
+          "intradayMaximumEquity": {
+            "type": "number",
+            "format": "double"
+          },
+          "intradayMaximumEquityUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "intradayNumberOfTrades": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "intradayStartStopDrawdownBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "weeklyStartBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "weeklyStartEquity": {
+            "type": "number",
+            "format": "double"
+          },
+          "weeklyMaximumBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "weeklyMaximumEquity": {
+            "type": "number",
+            "format": "double"
+          },
+          "weeklyStartStopDrawdownBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "stopDrawdownBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "stopDrawdownIntradayBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "stopDrawdownWeeklyBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "stopRunupIntradayBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "profitTargetBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "sessionAmountWithdrawn": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "weeklyAmountWithdrawn": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "cumulativeAmountWithdrawn": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "dailyPL": {
+            "type": "number",
+            "format": "double"
+          },
+          "dailyNetPL": {
+            "type": "number",
+            "format": "double"
+          },
+          "groupUniverseScalingStep": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updateUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "utcDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "organizationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nodeIndex": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "HistoricalTradingAccountSnapshotListApiSuccessDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HistoricalTradingAccountSnapshot"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HistoricalTradingAccountSnapshotListTradingAccountDataViewModel": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountHeader": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HistoricalTradingAccountSnapshot"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HistoricalTradingAccountSnapshotListTradingAccountDataViewModelApiSuccessDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/HistoricalTradingAccountSnapshotListTradingAccountDataViewModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderQuantityModeEnum": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "OrderReasonEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "OrderSourceEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "OrderStatusEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "OrderTypeEnum": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "PlatformEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          1000,
+          1001,
+          1002,
+          1003,
+          1004,
+          1005,
+          1006,
+          1007,
+          1008,
+          1009,
+          1010,
+          10000,
+          -1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "ReportTradeViewModel": {
+        "type": "object",
+        "properties": {
+          "tradeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/ContractDetailInfoModel"
+          },
+          "contractId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "entryDate": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "exitDate": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "entryPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "exitPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "grossPl": {
+            "type": "number",
+            "format": "double"
+          },
+          "netPl": {
+            "type": "number",
+            "format": "double"
+          },
+          "convertedGrossPl": {
+            "type": "number",
+            "format": "double"
+          },
+          "convertedNetPl": {
+            "type": "number",
+            "format": "double"
+          },
+          "overnight": {
+            "type": "boolean"
+          },
+          "overweekend": {
+            "type": "boolean"
+          },
+          "isCloseTrade": {
+            "type": "boolean"
+          },
+          "maxQuantity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tradePl": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "convertedTradePl": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "maxDrawdown": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "maxRunup": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReportTradeViewModelListApiSuccessDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportTradeViewModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReportTradeViewModelListTradingAccountDataViewModel": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountHeader": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportTradeViewModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReportTradeViewModelListTradingAccountDataViewModelApiSuccessDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/ReportTradeViewModelListTradingAccountDataViewModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingAccountDefinitionViewModel": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountHeader": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingAccountDefinitionViewModelListApiSuccessDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TradingAccountDefinitionViewModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingFillViewModel": {
+        "type": "object",
+        "properties": {
+          "nodeIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organizationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fillId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "contractId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "executeDtUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "commissions": {
+            "type": "number",
+            "format": "double"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/ContractDetailInfoModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingFillViewModelListApiSuccessDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TradingFillViewModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingFillViewModelListTradingAccountDataViewModel": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountHeader": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TradingFillViewModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingFillViewModelListTradingAccountDataViewModelApiSuccessDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/TradingFillViewModelListTradingAccountDataViewModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingOrderViewModel": {
+        "type": "object",
+        "properties": {
+          "nodeIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organizationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "contractId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "insertDtUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "executeDtUtc": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cancelDtUtc": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatusEnum"
+          },
+          "ordType": {
+            "$ref": "#/components/schemas/OrderTypeEnum"
+          },
+          "insertPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "executePrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totalQty": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filledQty": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "modified": {
+            "type": "boolean"
+          },
+          "childOcoCumBracketId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "orginOcoGroupId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "orginOrderId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "linkedPositionId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "source": {
+            "$ref": "#/components/schemas/OrderSourceEnum"
+          },
+          "ip": {
+            "type": "string",
+            "nullable": true
+          },
+          "platform": {
+            "$ref": "#/components/schemas/PlatformEnum"
+          },
+          "reason": {
+            "$ref": "#/components/schemas/OrderReasonEnum"
+          },
+          "quantityMode": {
+            "$ref": "#/components/schemas/OrderQuantityModeEnum"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/ContractDetailInfoModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingOrderViewModelListApiSuccessDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TradingOrderViewModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingOrderViewModelListTradingAccountDataViewModel": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountHeader": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TradingOrderViewModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingOrderViewModelListTradingAccountDataViewModelApiSuccessDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/TradingOrderViewModelListTradingAccountDataViewModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingReportInputModel": {
+        "type": "object",
+        "properties": {
+          "accountIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Accounts can be filtered based on the UUID id - if not setted, all user accounts are returned",
+            "nullable": true
+          },
+          "accountNumbers": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "Accounts can be filtered based on the account number (to keep compatibility with the trading terminals) - if not setted, all user accounts are returned",
+            "nullable": true
+          },
+          "startDt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "period": {
+            "type": "string",
+            "description": "today, yesterday, week, month, year, days_7, days_30, days_90",
+            "nullable": true
+          },
+          "filterOrderStatus": {
+            "$ref": "#/components/schemas/OrderStatusEnum"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingReportViewModel": {
+        "type": "object",
+        "properties": {
+          "netProfit": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "nullable": true
+          },
+          "netLoss": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "nullable": true
+          },
+          "commissionsPaid": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "nullable": true
+          },
+          "maxCloseDrawdown": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "nullable": true
+          },
+          "winningTrades": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "losingTrades": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "maxWin": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "nullable": true
+          },
+          "maxLose": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "nullable": true
+          },
+          "trades": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportTradeViewModel"
+            },
+            "nullable": true
+          },
+          "contracts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "nullable": true
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingReportViewModelApiSuccessDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/TradingReportViewModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingReportViewModelTradingAccountDataViewModel": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountHeader": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/TradingReportViewModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TradingReportViewModelTradingAccountDataViewModelListApiSuccessDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TradingReportViewModelTradingAccountDataViewModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "TradingAccount",
+      "description": "This controller can be used to retrieve historical account infromation, single account with (GET) or multiple accounts at the same time (POST)"
+    }
+  ]
+}

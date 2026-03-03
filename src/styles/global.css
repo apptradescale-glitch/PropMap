@@ -1,0 +1,295 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: "Geist";
+        font-weight: 100;
+
+        src: url("/assets/fonts/geist/Geist-Thin.woff2") format("woff2");
+    }
+    @font-face {
+        font-family: "Geist";
+        font-weight: 200;
+
+        src: url("/assets/fonts/geist/Geist-UltraLight.woff2") format("woff2");
+    }
+    @font-face {
+        font-family: "Geist";
+        font-weight: 300;
+
+        src: url("/assets/fonts/geist/Geist-Light.woff2") format("woff2");
+    }
+    @font-face {
+        font-family: "Geist";
+        font-weight: 400;
+        font-style: normal;
+
+        src: url("/assets/fonts/geist/Geist-Regular.woff2") format("woff2");
+    }
+    @font-face {
+        font-family: "Geist";
+        font-weight: 600;
+
+        src: url("/assets/fonts/geist/Geist-SemiBold.woff2") format("woff2");
+    }
+    @font-face {
+        font-family: "Geist";
+        font-weight: 700;
+
+        src: url("/assets/fonts/geist/Geist-Bold.woff2") format("woff2");
+    }
+    @font-face {
+        font-family: "Geist";
+        font-weight: 800;
+
+        src: url("/assets/fonts/geist/Geist-Black.woff2") format("woff2");
+    }
+    @font-face {
+        font-family: "Geist";
+        font-weight: 900;
+
+        src: url("/assets/fonts/geist/Geist-UltraBlack.woff2") format("woff2");
+    }
+}
+
+@layer base {
+    :root {
+        --background: 40 30% 98%;
+        --foreground: 24 25% 5%;
+        --muted: 144 15% 66% / 0.3;
+        --muted-foreground: 20 10% 23%;
+        --popover: 40 30% 98%;
+        --popover-foreground: 24 25% 5%;
+        --card: 40 30% 98%;
+        --card-foreground: 24 25% 5%;
+        --border: 0 0% 90%;
+        --input: 20 15% 93%;
+        --primary: 0 0% 0%;  /* Changed from 265 70% 50% (purple) to pure black */
+        --primary-foreground: 0 0% 100%;  /* White text for contrast */
+        --secondary: 20 10% 91%;
+        --secondary-foreground: 20 5% 30%;
+        --accent: 260 50% 96%;
+        --accent-foreground: 20 5% 30%;
+        --destructive: 0 60% 31%;
+        --destructive-foreground: 0 86% 94%;
+        --ring: 0 0% 0% / 0;
+        --radius: 0.5rem;
+        --chart-1: #E85D45;
+        --chart-2: #2A9D8F;
+        --chart-3: #264653;
+        --chart-4: #E9C46A;
+        --chart-5: #F4A261;
+    }
+
+    .dark {
+        --background: 0 0% 0%;
+        --foreground: 260 100% 98%;
+        --muted: 144 15% 66% / 0.3;
+        --muted-foreground: 260 10% 66%;
+        --popover: 0 0% 0%; /* Changed to pure black */
+        --popover-foreground: 260 100% 98%;
+        --card: 0 0% 0%;
+        --card-foreground: 260 100% 98%;
+        --border: 0 0% 100% / 0.1;
+        --input: 225 15% 18%;
+        --primary: 0 0% 0%;  /* Changed from 265 70% 50% (purple) to pure black */
+        --primary-foreground: 0 0% 100%;  /* White text for contrast */
+        --secondary: 250 25% 11%;
+        --secondary-foreground: 260 10% 70%;
+        --accent: 250 25% 15%;
+        --dropdown-hover: rgba(148, 187, 163, 0.2);
+        --accent-foreground: 260 10% 75%;
+        --destructive: 350 84% 50%;
+        --destructive-foreground: 0 0% 100%;
+        --ring: 0 0% 0% / 0;
+        --chart-1: #4287F5;
+        --chart-2: #2FB344;
+        --chart-3: #F5A742;
+        --chart-4: #9B42F5;
+        --chart-5: #F542A1;
+    }
+        .light {
+   
+        --primary: 0 0% 100%;  /* Changed from 265 70% 50% (purple) to pure black */
+        --primary-foreground: 0 0% 0%;  /* White text for contrast */
+   
+    }
+}
+
+@layer base {
+    * {
+        @apply m-0 border-border p-0 font-sans;
+    }
+    body {
+        @apply overflow-hidden bg-background text-foreground;
+    }
+    .draglayer {
+        @apply bg-background;
+        -webkit-app-region: drag;
+    }
+    input:focus {
+        outline: none !important;
+    }
+
+    .allow-scroll {
+        overflow: auto !important;
+        height: 100vh;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE 10+ */
+    }
+    .allow-scroll::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+}
+
+@layer components {
+    /* Make the selector more specific */
+    .dark .dropdown-menu-content[data-radix-dropdown-menu-content],
+    .dark [data-radix-dropdown-menu-content] {
+        background-color: black !important;
+    }
+
+    /* Update hover state with more specific selector */
+    .dark .dropdown-menu-content[data-radix-dropdown-menu-content] [role="menuitem"][data-highlighted],
+    .dark .dropdown-menu-content[data-radix-dropdown-menu-content] [role="menuitem"]:hover,
+    .dark [data-radix-dropdown-menu-content] [role="menuitem"][data-highlighted],
+    .dark [data-radix-dropdown-menu-content] [role="menuitem"]:hover {
+        background-color: rgba(148, 187, 163, 0.2) !important;
+        color: var(--foreground) !important;
+    }
+}
+
+@layer utilities {
+    .min-h-screen {
+        min-height: 100vh; /* Fallback */
+        min-height: 100dvh;
+    }
+    .h-screen {
+        height: 100vh; /* Fallback */
+        height: 100dvh;
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 8px;  /* vertical scrollbar thickness */
+        height: 8px; /* horizontal scrollbar thickness */
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.1);  /* Changed to white with lower opacity */
+        border-radius: 4px;  /* Increased to match wider scrollbar */
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(255, 255, 255, 0.2);  /* Slightly more opaque on hover */
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:active,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus {
+        /* Match your input background */
+        -webkit-box-shadow: 0 0 0 1000px rgba(17, 24, 39, 0.85) inset !important; /* Example: Tailwind's bg-zinc-900 */
+        box-shadow: 0 0 0 1px #94bba34d, 0 0 0 1000px rgba(17,24,39,0.85) inset !important;
+
+        /* Match your input text color */
+        -webkit-text-fill-color: #fff !important;
+        color: #fff !important;
+
+        /* Match your border style */
+        border: 1px solid rgba(255,255,255,0.15) !important;
+
+        /* Match your focus ring if needed */
+        outline: none !important;
+        box-shadow: 0 0 0 0px rgba(255,255,255,0.15) !important;
+        transition: background-color 5000s ease-in-out 0s;
+    }
+
+    /* Light mode autofill styling */
+    .light input:-webkit-autofill,
+    .light input:-webkit-autofill:active,
+    .light input:-webkit-autofill:hover,
+    .light input:-webkit-autofill:focus {
+        /* Match your input background */
+        -webkit-box-shadow: 0 0 0 1000px rgba(249, 250, 251, 0.85) inset !important;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 1000px rgba(249, 250, 251, 0.85) inset !important;
+
+        /* Match your input text color - BLACK for light mode */
+        -webkit-text-fill-color: #000 !important;
+        color: #000 !important;
+
+        /* Match your border style */
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+
+        /* Match your focus ring if needed */
+        outline: none !important;
+        box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1) !important;
+        transition: background-color 5000s ease-in-out 0s;
+    }
+
+    select {
+        @apply bg-black border border-white/15 text-white rounded px-2 py-2 appearance-none;
+        background-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%2394bba3' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 1.5em 1.5em;
+    }
+
+    select:focus {
+        outline: none;
+        border-color: #94bba3;
+    }
+
+    option {
+        background: black;
+        color: white;
+    }
+
+    .select-no-outline:focus {
+    outline: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+    /* Glow animation keyframes and utility class */
+@keyframes glow-dot {
+  0% {
+    background-position: 0% 50%; /* far left */
+  }
+  100% {
+    background-position: 100% 50%; /* far right */
+  }
+}
+
+.animate-glow-dot {
+  background-size: 100% 100%;
+  animation: glow-dot 2s linear infinite;
+  background-repeat: no-repeat;
+}
+
+[role="option"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Light mode overrides - convert forced white text to black */
+.light .text-white {
+  @apply !text-black;
+}
+
+.light .bg-black {
+  @apply !bg-white;
+}
+
+.light .border-white {
+  @apply !border-black;
+}
+
+.light [class*="border-white/"] {
+  @apply !border-gray-400;
+}
+}

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://tradescale.app/sitemap.xml
+
+# Block access to sensitive areas (if any)
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/

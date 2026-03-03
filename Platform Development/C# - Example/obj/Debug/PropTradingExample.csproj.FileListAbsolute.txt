@@ -1,0 +1,59 @@
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\PropTradingExample.exe.config
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\PropTradingExample.exe
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\PropTradingExample.pdb
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\protobuf-net.Core.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\protobuf-net.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\RestSharp.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Buffers.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Collections.Immutable.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Memory.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Text.Encodings.Web.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Text.Json.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.ValueTuple.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\websocket-sharp.dll
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\protobuf-net.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\protobuf-net.Core.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\RestSharp.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Buffers.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Collections.Immutable.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Memory.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Text.Encodings.Web.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Text.Json.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\System.ValueTuple.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\bin\Debug\websocket-sharp.xml
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\obj\Debug\PropTradingExample.csproj.AssemblyReference.cache
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\obj\Debug\PropTradingExample.csproj.CoreCompileInputs.cache
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\obj\Debug\PropTradingExample.csproj.CopyComplete
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\obj\Debug\PropTradingExample.exe
+C:\Users\Antonio\Documents\Visual Studio 2017\Projects\PropTradingExample\PropTradingExample\obj\Debug\PropTradingExample.pdb
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\PropTradingExample.exe.config
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\PropTradingExample.exe
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\PropTradingExample.pdb
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\System.Buffers.dll
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\System.Numerics.Vectors.dll
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\System.Threading.Tasks.Extensions.dll
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\System.ValueTuple.dll
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\protobuf-net.xml
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\protobuf-net.Core.xml
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\RestSharp.xml
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\System.Collections.Immutable.xml
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\System.Memory.xml
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\System.Text.Encodings.Web.xml
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\System.Text.Json.xml
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\bin\Debug\websocket-sharp.xml
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\obj\Debug\PropTradingExample.csproj.AssemblyReference.cache
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\obj\Debug\PropTradingExample.csproj.SuggestedBindingRedirects.cache
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\obj\Debug\PropTradingExample.csproj.CoreCompileInputs.cache
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\obj\Debug\PropTradingExample.csproj.CopyComplete
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\obj\Debug\PropTradingExample.exe
+\\192.168.1.2\Volumetrica Trading\Propfirm documentation\Platform Development\C# - Example\obj\Debug\PropTradingExample.pdb
