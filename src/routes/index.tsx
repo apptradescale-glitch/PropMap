@@ -13,7 +13,6 @@ const LandingPage = lazy(() => import('@/pages/Landingpage'));
 const DashboardLayout = lazy(() => import('@/components/layout/dashboard-layout'));
 const SignInPage = lazy(() => import('@/pages/auth/signin'));
 const DashboardPage = lazy(() => import('@/pages/dashboard'));
-const StudentPage = lazy(() => import('@/pages/students'));
 
 const ForgotPasswordPage = lazy(() => import('@/pages/auth/forgot-password'));
 const SignUpPage = lazy(() => import('@/pages/auth/signup'));

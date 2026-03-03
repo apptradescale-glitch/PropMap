@@ -10,8 +10,6 @@ import { LogTrades } from './LogTrades';
 import { Riskcalc } from './Riskcalc';
 import { Filter } from './Filter';
 
-import { Cal } from './Cal';
-import { SyncAllTrades } from './Sync';
 
 
 
@@ -36,7 +34,6 @@ export default function Header() {
     <MobileSidebar />
   </div>
 <div className="flex-1 flex justify-center relative" style={{ bottom: '-2rem' }}>
-  <SyncAllTrades />
 </div>
   <div className="flex items-center gap-2 -mb-10 mt-6 relative z-50 pointer-events-auto">
     <LogTrades />

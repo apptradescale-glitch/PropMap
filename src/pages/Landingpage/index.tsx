@@ -1,28 +1,10 @@
-import InsightsImg from '@/assets/images/Insights.png';
-import A1 from '@/assets/images/A1.png';
-import A2 from '@/assets/images/A2.png';
-import A3 from '@/assets/images/A3.png';
-import A4 from '@/assets/images/A4.png';
-import Homescreen from '@/assets/images/homescreen.png';
-import LogoCPU from '@/assets/images/logocpu.png';
-import AlphaFutures from '@/assets/images/alphafutures.png';
-import HomeAlpha from '@/assets/images/Layer_1.png';
-import HomeAlpha1 from '@/assets/images/homealpha.png';
-import HomeAlpha2 from '@/assets/images/topstep.png';
-import HomeAlpha3 from '@/assets/images/tradeify.png';
-
-import A from '@/assets/images/apextraderfunding.png';
-import T from '@/assets/images/topstep.png';
-import M from '@/assets/images/myfundedfutures.png';
-import F from '@/assets/images/fundednextfutures.png';
-import L from '@/assets/images/lucid.png';
-import TPT from '@/assets/images/takeprofittrader.png';
-import TOF from '@/assets/images/toponefutures.png';
-import TR from '@/assets/images/tradeify.png';
-
-
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/FAuth';
+import { Helmet } from 'react-helmet-async';
+import Logo from '@/assets/images/lg34.png';
+import { Button } from '@/components/ui/button';
+import { Crosshair, Key, Home, User, GitFork, Shield, Zap } from 'lucide-react';
 // Animated counter hook with Intersection Observer
 function useCountUpOnVisible(target: number, duration: number = 1200, format?: (n: number) => string) {
   const [count, setCount] = useState(0);
@@ -65,26 +47,6 @@ function useCountUpOnVisible(target: number, duration: number = 1200, format?: (
   }, [started, target, duration]);
   return [ref, format ? format(count) : count] as const;
 }
-import { useNavigate } from 'react-router-dom';
-import { useRef, useState, useEffect } from 'react';
-import { useAuth } from '@/context/FAuth';
-import { Helmet } from 'react-helmet-async';
-import Logo from '@/assets/images/lg34.png';
-import { Button } from '@/components/ui/button';
-
-
-import Tradovate from '@/assets/images/tradovate.png'; 
-import TV from '@/assets/images/tvlogo.png'; 
-import TVLogo2 from '@/assets/images/tvlogo2.png';
-import NJT from '@/assets/images/njt.png'; 
-import PJX from '@/assets/images/projectx.png'; 
-import TPX from '@/assets/images/tpx.png';
-import TopstepX from '@/assets/images/topstepX.jpg'; 
-import Volumetrica from '@/assets/images/volumetrica.png';
-import DDD from '@/assets/images/ddd.png';
-import DDD2 from '@/assets/images/ddd2.png';
-
-import { Crosshair, Key, Home, User, GitFork, Shield, Zap } from 'lucide-react';
 
 
 
@@ -116,15 +78,15 @@ const CheckIcon = (
 );
 
 const firms = [
-  { name: "Apex Trader Funding", logo: A },
-  { name: "Topstep", logo: T },
-  { name: "MyFundedFutures", logo: M },
-  { name: "Lucid Trading", logo: L },
-  { name: "Funded Next Futures", logo: F },
-  { name: "Take Profit Trader", logo: TPT },
-  { name: "Top One Futures", logo: TOF },
-  { name: "Tradeify", logo: TR },
-  { name: "Alpha Futures", logo: AlphaFutures },
+  { name: "Apex Trader Funding", logo: Logo },
+  { name: "Topstep", logo: Logo },
+  { name: "MyFundedFutures", logo: Logo },
+  { name: "Lucid Trading", logo: Logo },
+  { name: "Funded Next Futures", logo: Logo },
+  { name: "Take Profit Trader", logo: Logo },
+  { name: "Top One Futures", logo: Logo },
+  { name: "Tradeify", logo: Logo },
+  { name: "Alpha Futures", logo: Logo },
 ];
 
 function FancyHorizontalSeparator() {
@@ -214,10 +176,10 @@ export default function LandingPage() {
   };
 
   const carouselImages = [
-    { src: A1, label: 'Trading Dashboard' },
-    { src: A2, label: 'Trade Logbook' },
-    { src: A3, label: 'Business Operational Tab' },
-    { src: A4, label: 'Trade Copier Interface' },
+    { src: Logo, label: 'Trading Dashboard' },
+    { src: Logo, label: 'Trade Logbook' },
+    { src: Logo, label: 'Business Operational Tab' },
+    { src: Logo, label: 'Trade Copier Interface' },
   ];
 
   const nextSlide = () => {
@@ -245,7 +207,7 @@ export default function LandingPage() {
         { key: 'contact', ref: contactRef },
       ] as const;
 
-      let current: typeof sections[number]['key'] = 'home';
+      let current: string = 'home';
       const allSections = [
         { key: 'home', ref: topRef },
         { key: 'platforms', ref: platformsRef },
@@ -263,7 +225,7 @@ export default function LandingPage() {
           }
         }
       }
-      setActiveSection(current);
+      setActiveSection(current as 'home' | 'platforms' | 'contact' | 'pricing' | 'insights' | 'overview');
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -276,7 +238,7 @@ export default function LandingPage() {
       <Helmet>
         <title>Tradescale</title>
         <meta name="description" content="Advanced trading Journal completely for free & other features available for professional traders. The most advanced tools for traders built for professional performance." />
-        <meta name="keywords" content="trading journal, futures trading, trade copier, trading tools, professional trading, Tradovate" />
+        <meta name="keywords" content="trading journal, futures trading, trade copier, trading tools, professional trading" />
         
         {/* Open Graph tags for social sharing */}
         <meta property="og:title" content="Tradescale - Advanced Trading Tools for Professional Traders" />
@@ -450,7 +412,7 @@ export default function LandingPage() {
                 transition: 'none'
               }}
             >
-              Official Partner of NinjaTrader & Tradovate
+              Official Partner of NinjaTrader
             </span>
           </div>
           {/* Top Banner moved above headline */}
@@ -827,78 +789,20 @@ export default function LandingPage() {
                   y="78"
                   width="45"
                   height="45"
-                  href={HomeAlpha}
+                  href={Logo}
                   preserveAspectRatio="xMidYMid meet"
                   clipPath="url(#circleClip)"
                 />
 
-                {/* DDD Rectangle - top left (where Tradovate was), same size as TopstepX */}
-                <rect
-                  x="75"
-                  y="60"
-                  width="120"
-                  height="80"
-                  fill="#000000"
-                  stroke="rgba(128, 128, 128, 0.15)"
-                  strokeWidth="1.5"
-                />
-                <image
-                  x="85"
-                  y="55"
-                  width="100"
-                  height="90"
-                  href={DDD}
-                  preserveAspectRatio="xMidYMid meet"
-                  clipPath="url(#rectClipTopLeftDDD)"
-                />
 
-                {/* Dark purple line on DDD rectangle top border */}
-                <rect
-                  x="117"
-                  y="58"
-                  width="36"
-                  height="4"
-                  fill="rgba(128, 128, 128, 0.6)"
-                  filter="url(#blueLineGlow)"
-                />
 
-                {/* Right Rectangle */}
-                <rect
-                  x="625"
-                  y="60"
-                  width="80"
-                  height="80"
-                  fill="#000000"
-                  stroke="rgba(128, 128, 128, 0.15)"
-                  strokeWidth="1.5"
-                />
-                <image
-                  x="630"
-                  y="65"
-                  width="70"
-                  height="70"
-                  href={TVLogo2}
-                  preserveAspectRatio="xMidYMid meet"
-                  clipPath="url(#rectClipTopRight)"
-                />
-
-                {/* White line on top right rectangle top border - center part */}
-                <rect
-                  x="647"
-                  y="58"
-                  width="36"
-                  height="4"
-                  fill="#ffffff"
-                  filter="url(#blueLineGlow)"
-                />
-
-                {/* Center CPU Logo */}
+                {/* Center Logo */}
                 <image
                   x="360"
                   y="220"
                   width="80"
                   height="80"
-                  href={LogoCPU}
+                  href={Logo}
                   preserveAspectRatio="xMidYMid meet"
                 />
 
@@ -941,55 +845,7 @@ export default function LandingPage() {
                   strokeWidth="1"
                 />
 
-                {/* Left Rectangle Bottom */}
-                <rect
-                  x="75"
-                  y="380"
-                  width="120"
-                  height="80"
-                  fill="#000000"
-                  stroke="rgba(128, 128, 128, 0.15)"
-                  strokeWidth="1.5"
-                />
-                <image
-                  x="95"
-                  y="380"
-                  width="80"
-                  height="80"
-                  href={TopstepX}
-                  preserveAspectRatio="xMidYMid meet"
-                  clipPath="url(#rectClipBottomLeft)"
-                />
 
-                {/* White line on bottom left rectangle top border - center part */}
-                <rect
-                  x="117"
-                  y="378"
-                  width="36"
-                  height="4"
-                  fill="#ffffff"
-                  filter="url(#blueLineGlow)"
-                />
-
-                {/* Right Rectangle Bottom */}
-                <rect
-                  x="625"
-                  y="380"
-                  width="80"
-                  height="80"
-                  fill="#000000"
-                  stroke="rgba(128, 128, 128, 0.15)"
-                  strokeWidth="1.5"
-                />
-                <image
-                  x="630"
-                  y="385"
-                  width="70"
-                  height="70"
-                  href={NJT}
-                  preserveAspectRatio="xMidYMid meet"
-                  clipPath="url(#rectClipBottomRight)"
-                />
 
                 {/* Orange line on bottom right rectangle top border - center part */}
                 <rect
@@ -1071,7 +927,7 @@ export default function LandingPage() {
                   y="394"
                   width="45"
                   height="45"
-                  href={HomeAlpha1}
+                  href={Logo}
                   preserveAspectRatio="xMidYMid meet"
                   clipPath="url(#circleClipBottom)"
                 />
@@ -1185,40 +1041,11 @@ export default function LandingPage() {
                   y="237"
                   width="45"
                   height="45"
-                  href={HomeAlpha2}
+                  href={Logo}
                   preserveAspectRatio="xMidYMid meet"
                   clipPath="url(#circleClipLeft)"
                 />
 
-                {/* Volumetrica Rectangle - mid left, next to Topstep circle, mirroring Tradovate */}
-                <rect
-                  x="10"
-                  y="220"
-                  width="80"
-                  height="80"
-                  fill="#000000"
-                  stroke="rgba(128, 128, 128, 0.15)"
-                  strokeWidth="1.5"
-                />
-                <image
-                  x="15"
-                  y="225"
-                  width="70"
-                  height="70"
-                  href={Volumetrica}
-                  preserveAspectRatio="xMidYMid meet"
-                  clipPath="url(#rectClipMidLeft)"
-                />
-
-                {/* Split-color line on Volumetrica rectangle top border */}
-                <rect
-                  x="32"
-                  y="218"
-                  width="36"
-                  height="4"
-                  fill="url(#volumetricaLineGrad)"
-                  filter="url(#blueLineGlow)"
-                />
 
                 {/* Traveling dot going right from CPU logo to right circle */}
                 <circle
@@ -1329,39 +1156,9 @@ export default function LandingPage() {
                   y="237"
                   width="45"
                   height="45"
-                  href={HomeAlpha3}
+                  href={Logo}
                   preserveAspectRatio="xMidYMid meet"
                   clipPath="url(#circleClipRight)"
-                />
-
-                {/* Tradovate Rectangle - right middle, next to Tradeify */}
-                <rect
-                  x="710"
-                  y="220"
-                  width="80"
-                  height="80"
-                  fill="#000000"
-                  stroke="rgba(128, 128, 128, 0.15)"
-                  strokeWidth="1.5"
-                />
-                <image
-                  x="715"
-                  y="225"
-                  width="70"
-                  height="70"
-                  href={Tradovate}
-                  preserveAspectRatio="xMidYMid meet"
-                  clipPath="url(#rectClipMidRight)"
-                />
-
-                {/* Blue line on Tradovate rectangle top border */}
-                <rect
-                  x="732"
-                  y="218"
-                  width="36"
-                  height="4"
-                  fill="#3b82f6"
-                  filter="url(#blueLineGlow)"
                 />
 
                 {/* Filter for glow */}
@@ -1438,44 +1235,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* Platforms Row */}
-          <div className="flex flex-wrap justify-center items-center gap-8 mb-0">
-            {/* Tradovate */}
-            <div className="flex items-center gap-3">
-              <img src={Tradovate} alt="Tradovate" className="w-12 h-12 grayscale" style={{ marginTop: '-4px' }} />
-              <span className="text-white text-lg font-medium">Tradovate</span>
-            </div>
-
-            {/* NinjaTrader */}
-            <div className="flex items-center gap-3">
-              <img src={NJT} alt="NinjaTrader" className="w-18 h-10 grayscale" />
-              <span className="text-white text-lg font-medium">NinjaTrader</span>
-            </div>
-
-            {/* TradingView */}
-            <div className="flex items-center gap-3">
-              <img src={TV} alt="TradingView" className="w-14 h-12 grayscale" />
-              <span className="text-white text-lg font-medium">TradingView</span>
-            </div>
-
-            {/* Volumetrica */}
-            <div className="flex items-center gap-3">
-              <img src={Volumetrica} alt="Volumetrica" className="w-12 h-12 grayscale" style={{ marginTop: '-4px' }} />
-              <span className="text-white text-lg font-medium">Volumetrica</span>
-            </div>
-
-            {/* DeepChart */}
-            <div className="flex items-center gap-3">
-              <img src={DDD} alt="DeepChart" className="w-26 h-10 grayscale" style={{ marginTop: '0px' }} />
-            </div>
-
-            {/* Topstep */}
-            <div className="flex items-center gap-3">
-              <img src={TopstepX} alt="Topstep" className="w-18 h-10 grayscale" />
-              <span className="text-white text-lg font-medium"></span>
-            </div>
-          </div>
-
+          
           {/* Horizontal Line */}
           <div style={{ width: '400px', height: '3px', background: 'linear-gradient(to right, transparent 0%, #0D4F8B 35%, #0D4F8B 65%, transparent 100%)', margin: '48px auto', borderRadius: '2px', boxShadow: '0 0 12px #0D4F8B, 0 0 24px rgba(13, 79, 139, 0.6)', animation: 'glowPulse 2.5s ease-in-out infinite' }} />
 
@@ -1935,7 +1695,7 @@ export default function LandingPage() {
             <button
               className="flex items-center justify-center border border-white/20 bg-transparent rounded-lg px-6 py-3 mt-4 shadow transition hover:border-[#0D4F8B]"
               style={{ minWidth: 64, minHeight: 48 }}
-              onClick={() => window.location = 'mailto:apptradescale@gmail.com'}
+              onClick={() => window.location.href = 'mailto:apptradescale@gmail.com'}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
