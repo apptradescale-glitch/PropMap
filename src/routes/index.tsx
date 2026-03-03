@@ -6,8 +6,7 @@ import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import ProtectedRouteForFeatures from '@/components/auth/ProtectedRouteForFeatures';
 import React from 'react';
 import logoImage from '@/assets/images/lg34.png';
-import OAuthCallback from '@/pages/oauth/callback';
-import AutoSyncPage from '@/pages/AutoSync';
+
 
 // Lazy import for LandingPage
 const LandingPage = lazy(() => import('@/pages/Landingpage'));
@@ -15,7 +14,7 @@ const DashboardLayout = lazy(() => import('@/components/layout/dashboard-layout'
 const SignInPage = lazy(() => import('@/pages/auth/signin'));
 const DashboardPage = lazy(() => import('@/pages/dashboard'));
 const StudentPage = lazy(() => import('@/pages/students'));
-const TradeLogbookPage = lazy(() => import('@/pages/TradeLogBook'));
+
 const ForgotPasswordPage = lazy(() => import('@/pages/auth/forgot-password'));
 const SignUpPage = lazy(() => import('@/pages/auth/signup'));
 const TermsAndConditions = lazy(() => import('@/pages/terms/TermsAndConditions'));
@@ -24,9 +23,7 @@ const PolicyPage = lazy(() => import('@/pages/policy/policy'));
 const TestPage = lazy(() => import('@/pages/Test'));
 
 const ManageSubscriptionPage = lazy(() => import('@/pages/ManageSubscription'));
-const BacktestPage = lazy(() => import('@/pages/Card'));
-const TradeCopierPage = lazy(() => import('@/pages/TradeCopier'));
-const Test = lazy(() => import('@/pages/AutoSync'));
+
 
 const REQUIRES_BASIC = ['basic'] as const;
 const REQUIRES_PRO = ['pro'] as const;
@@ -99,19 +96,7 @@ export default function AppRouter() {
       </Suspense>
     )
   },
-{
-  path: 'oauth',
-  children: [
-    {
-      path: 'callback',
-      element: (
-        <Suspense fallback={<CenteredLogoLoader />}>
-          <OAuthCallback />
-        </Suspense>
-      )
-    }
-  ]
-},
+
 
     // Protected dashboard routes (move to '/dashboard' or similar)
     {
@@ -134,56 +119,7 @@ export default function AppRouter() {
           ),
           index: true
         },
-        {
-          path: 'TradeLogbook',
-          element: (
-            <ProtectedRouteForFeatures requiresSubscription={REQUIRES_NONE}>
-              <TradeLogbookPage />
-            </ProtectedRouteForFeatures>
-          )
-        },
-        {
-          path: 'Operational',
-          element: (
-            <ProtectedRouteForFeatures requiresSubscription={REQUIRES_NONE}>
-              <StudentPage />
-            </ProtectedRouteForFeatures>
-          )
-        },
-    
-        {
-          path: 'TradeCopier',
-          element: (
-            <ProtectedRouteForFeatures requiresSubscription={REQUIRES_PRO}>
-              <TradeCopierPage />
-            </ProtectedRouteForFeatures>
-          )
-        },
-        {
-          path: 'AutoSync',
-          element: (
-            <ProtectedRouteForFeatures requiresSubscription={REQUIRES_BASIC}>
-              <AutoSyncPage />
-            </ProtectedRouteForFeatures>
-          )
-        },
-  
-          {
-          path: 'Card',
-          element: (
-              <ProtectedRouteForFeatures requiresSubscription={REQUIRES_BASIC}>
-              <BacktestPage />
-            </ProtectedRouteForFeatures>
-          )
-        },
-              {
-          path: 'Test',
-          element: (
-              <ProtectedRouteForFeatures requiresSubscription={REQUIRES_BASIC}>
-              <TestPage />
-            </ProtectedRouteForFeatures>
-          )
-        },
+ 
         {
           path: 'ManageSubscription',
             element: (
