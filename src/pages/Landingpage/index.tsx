@@ -512,11 +512,14 @@ export default function LandingPage() {
                 color: '#fff',
                 fontSize: 26,
                 cursor: 'pointer',
-                background: 'transparent',
-                border: '1px solid #333',
+                background: 'rgba(148,187,163,0.2)',
+                border: '1px solid rgba(255,255,255,0.15)',
                 padding: '10px 24px',
                 borderRadius: 12,
+                transition: 'transform 0.15s',
               }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
             >
               <svg width="24" height="24" viewBox="0 0 76 65" fill="none">
                 <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#fff" />
