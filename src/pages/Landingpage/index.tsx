@@ -811,20 +811,75 @@ export default function LandingPage() {
                 fontWeight: 400,
                 color: '#888',
               }}>/month</span></div>
-              <ul style={{
-                listStyle: 'none',
-                padding: 0,
-                margin: 0,
+              
+              {/* Feature list with checkmarks from propmap.app */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16,
                 textAlign: 'left',
-                color: '#888',
-                fontSize: 14,
-                lineHeight: 1.6,
+                marginBottom: 24,
               }}>
-                <li style={{ marginBottom: 12 }}>✓ All basic features</li>
-                <li style={{ marginBottom: 12 }}>✓ Dashboard access</li>
-                <li style={{ marginBottom: 12 }}>✓ Transaction tracking</li>
-                <li style={{ marginBottom: 12 }}>✓ Basic analytics</li>
-              </ul>
+                {[
+                  'Track your Expenses, Revenue and Profits',
+                  'Label & Categorize your transactions',
+                  'Connect your bank accounts securly',
+                  'Automated reporting & insights',
+                  'Preview to potetnial tax exposure',
+                ].map((feature, index) => (
+                  <div key={index} style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    color: '#fff',
+                    fontSize: 14,
+                  }}>
+                    <div style={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: 10,
+                      background: '#141414',
+                      border: '1px solid #2a2a2a',
+                      boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.03)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                    }}>
+                      <div style={{
+                        width: 20,
+                        height: 20,
+                        borderRadius: '50%',
+                        border: '2px solid #e0ac69',
+                        borderTopColor: 'transparent',
+                        background: '#141414',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                      }}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </div>
+                    </div>
+                    <span style={{ fontSize: 13 }}>{feature}</span>
+                  </div>
+                ))}
+              </div>
+              
+              <button style={{
+                background: 'rgba(224, 172, 105, 0.1)',
+                border: '1px solid #e0ac69',
+                color: '#e0ac69',
+                padding: '12px 24px',
+                borderRadius: 8,
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.15s',
+                width: '100%',
+              }}>Get Started</button>
             </div>
 
             {/* Yearly Pricing Card */}
@@ -863,115 +918,80 @@ export default function LandingPage() {
                 fontWeight: 400,
                 color: '#888',
               }}>/year</span></div>
-              <ul style={{
-                listStyle: 'none',
-                padding: 0,
-                margin: 0,
-                textAlign: 'left',
-                color: '#888',
-                fontSize: 14,
-                lineHeight: 1.6,
-              }}>
-                <li style={{ marginBottom: 12 }}>✓ All monthly features</li>
-                <li style={{ marginBottom: 12 }}>✓ Advanced analytics</li>
-                <li style={{ marginBottom: 12 }}>✓ Priority support</li>
-                <li style={{ marginBottom: 12 }}>✓ Custom reports</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* ═══════ PROP MAP WINDOW CONTENT ═══════ */}
-        <div style={{
-          maxWidth: 1100,
-          margin: '0 auto 60px',
-          padding: '0 24px',
-        }}>
-          <div style={{
-            background: '#0a0a0a',
-            border: '1px solid #1a1a1a',
-            borderRadius: 16,
-            overflow: 'hidden',
-          }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 4,
-              padding: '12px 16px',
-              borderBottom: '1px solid #1a1a1a',
-            }}>
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e0ac69' }} />
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e0ac69', opacity: 0.8 }} />
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e0ac69', opacity: 0.6 }} />
-              <span style={{ color: '#666', fontSize: 12, fontFamily: 'monospace', marginLeft: 8 }}>propmap.app</span>
-              <span style={{ color: '#444', fontSize: 11, fontFamily: 'monospace', marginLeft: 'auto' }}>COMING SOON</span>
-            </div>
-            <div style={{ padding: '32px' }}>
-              <h3 style={{
-                fontSize: 20,
-                fontWeight: 600,
-                color: '#fff',
-                marginBottom: 16,
-                textAlign: 'center',
-              }}>Platform Features</h3>
+              
+              {/* Feature list with checkmarks from propmap.app */}
               <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                gap: 24,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16,
+                textAlign: 'left',
+                marginBottom: 24,
               }}>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{
-                    width: 48,
-                    height: 48,
-                    background: 'rgba(224, 172, 105, 0.1)',
-                    borderRadius: 12,
+                {[
+                  'Track your Expenses, Revenue and Profits',
+                  'Label & Categorize your transactions',
+                  'Connect your bank accounts securly',
+                  'Automated reporting & insights',
+                  'Preview to potetnial tax exposure',
+                ].map((feature, index) => (
+                  <div key={index} style={{
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 12px',
+                    gap: 12,
+                    color: '#fff',
+                    fontSize: 14,
                   }}>
-                    <span style={{ fontSize: 24, color: '#e0ac69' }}>📊</span>
+                    <div style={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: 10,
+                      background: '#141414',
+                      border: '1px solid #2a2a2a',
+                      boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.03)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                    }}>
+                      <div style={{
+                        width: 20,
+                        height: 20,
+                        borderRadius: '50%',
+                        border: '2px solid #e0ac69',
+                        borderTopColor: 'transparent',
+                        background: '#141414',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                      }}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </div>
+                    </div>
+                    <span style={{ fontSize: 13 }}>{feature}</span>
                   </div>
-                  <h4 style={{ fontSize: 16, fontWeight: 600, color: '#fff', marginBottom: 8 }}>Analytics Dashboard</h4>
-                  <p style={{ fontSize: 14, color: '#888', lineHeight: 1.5 }}>Comprehensive analytics and insights for your business performance</p>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{
-                    width: 48,
-                    height: 48,
-                    background: 'rgba(224, 172, 105, 0.1)',
-                    borderRadius: 12,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 12px',
-                  }}>
-                    <span style={{ fontSize: 24, color: '#e0ac69' }}>🔒</span>
-                  </div>
-                  <h4 style={{ fontSize: 16, fontWeight: 600, color: '#fff', marginBottom: 8 }}>Secure Data</h4>
-                  <p style={{ fontSize: 14, color: '#888', lineHeight: 1.5 }}>Bank-level security for all your financial data and transactions</p>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{
-                    width: 48,
-                    height: 48,
-                    background: 'rgba(224, 172, 105, 0.1)',
-                    borderRadius: 12,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 12px',
-                  }}>
-                    <span style={{ fontSize: 24, color: '#e0ac69' }}>🚀</span>
-                  </div>
-                  <h4 style={{ fontSize: 16, fontWeight: 600, color: '#fff', marginBottom: 8 }}>Fast Sync</h4>
-                  <p style={{ fontSize: 14, color: '#888', lineHeight: 1.5 }}>Real-time synchronization with your accounts and trading platforms</p>
-                </div>
+                ))}
               </div>
+              
+              <button style={{
+                background: '#e0ac69',
+                border: '1px solid #e0ac69',
+                color: '#000',
+                padding: '12px 24px',
+                borderRadius: 8,
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.15s',
+                width: '100%',
+              }}>Get Started</button>
             </div>
           </div>
         </div>
 
+        
         {/* ═══════ FOOTER ═══════ */}
         <footer style={{
           borderTop: '1px solid #1a1a1a',
