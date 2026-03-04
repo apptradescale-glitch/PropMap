@@ -5,6 +5,7 @@ import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Recei
 import Logo from '@/assets/images/lg34.png';
 import TradescaleLogo from '@/assets/images/a.png';
 import PlaidLogo from '@/assets/images/plaid.png';
+import TinkLogo from '@/assets/images/tink.png';
 import GmailLogo from '@/assets/images/gmail.png';
 import OutlookLogo from '@/assets/images/outlook.png';
 
@@ -1237,14 +1238,24 @@ export default function LandingPage() {
               }}>For extracting Transactions [Expenses & Payouts]</p>
               <div style={{
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 8,
+                gap: 16,
                 marginTop: 16,
               }}>
                 <img 
                   src={PlaidLogo} 
                   alt="Plaid" 
+                  style={{
+                    width: 128,
+                    height: 128,
+                    objectFit: 'contain',
+                  }}
+                />
+                <img 
+                  src={TinkLogo} 
+                  alt="Tink" 
                   style={{
                     width: 128,
                     height: 128,
@@ -1310,7 +1321,6 @@ export default function LandingPage() {
                   alignItems: 'center',
                   gap: 8,
                 }}>
-                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Gmail</span>
                   <img 
                     src={GmailLogo} 
                     alt="Gmail" 
@@ -1320,13 +1330,13 @@ export default function LandingPage() {
                       objectFit: 'contain',
                     }}
                   />
+                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Gmail</span>
                 </div>
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: 8,
                 }}>
-                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Outlook</span>
                   <img 
                     src={OutlookLogo} 
                     alt="Outlook" 
@@ -1336,6 +1346,7 @@ export default function LandingPage() {
                       objectFit: 'contain',
                     }}
                   />
+                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Outlook</span>
                 </div>
               </div>
               <div style={{
@@ -1357,7 +1368,7 @@ export default function LandingPage() {
                 }}>
                   <Mail size={20} color="#fff" />
                 </div>
-                <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>IMAP</span>
+                <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>IMAP [ALL other emails connectable]</span>
               </div>
             </div>
 
