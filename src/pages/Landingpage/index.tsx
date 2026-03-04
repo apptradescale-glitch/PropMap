@@ -205,7 +205,7 @@ export default function LandingPage() {
                 backgroundImage: 'linear-gradient(to right, #666 25%, transparent 25%)',
                 backgroundSize: '8px 1px',
                 backgroundRepeat: 'repeat-x',
-                opacity: 0.4,
+                opacity: 0.6,
               }} />
               {/* Right vertical line */}
               <div style={{
@@ -546,7 +546,7 @@ export default function LandingPage() {
                   <animate
                     attributeName="stroke-dashoffset"
                     values="0;-560"
-                    dur="2.8s"
+                    dur="3.0s"
                     repeatCount="indefinite"
                   />
                 </rect>
