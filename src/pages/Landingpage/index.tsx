@@ -539,7 +539,7 @@ export default function LandingPage() {
                   fill="none"
                   stroke="rgba(224, 172, 105, 0.8)"
                   strokeWidth="1.5"
-                  strokeDasharray="50 460"
+                  strokeDasharray="60 740"
                   strokeDashoffset="0"
                   className="animate-addon-stroke-lg"
                   rx="6"
@@ -788,7 +788,7 @@ export default function LandingPage() {
 const styles = `
   @keyframes addonStrokeLg {
     0% { stroke-dashoffset: 0; }
-    100% { stroke-dashoffset: -510; }
+    100% { stroke-dashoffset: -800; }
   }
   .animate-addon-stroke-lg {
     animation: addonStrokeLg 2.8s linear infinite;
