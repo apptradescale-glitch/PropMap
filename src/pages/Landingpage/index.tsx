@@ -463,6 +463,104 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* ═══════ FEATURES ═══════ */}
+        <section style={{
+          maxWidth: 1100,
+          margin: '0 auto',
+          padding: '80px 24px 100px',
+        }}>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <h2 style={{
+              fontSize: 32,
+              fontWeight: 700,
+              color: '#fff',
+              marginBottom: 16,
+            }}>
+              Features
+            </h2>
+            <p style={{
+              fontSize: 18,
+              color: '#888',
+              maxWidth: 600,
+              margin: '0 auto',
+            }}>
+              Everything you need to manage your prop trading business efficiently
+            </p>
+          </div>
+          
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: 32,
+            maxWidth: 1100,
+            margin: '0 auto',
+          }}>
+            {[
+              {
+                title: 'Real-time Analytics',
+                description: 'Track your performance with live data and instant insights',
+                icon: '📊'
+              },
+              {
+                title: 'Tax Planning',
+                description: 'Preview potential tax exposure and plan accordingly',
+                icon: '📈'
+              },
+              {
+                title: 'Secure Banking',
+                description: 'Connect your bank accounts with bank-level security',
+                icon: '🔒'
+              },
+              {
+                title: 'Automated Reports',
+                description: 'Generate comprehensive reports automatically',
+                icon: '📋'
+              },
+              {
+                title: 'Expense Tracking',
+                description: 'Categorize and track every business expense',
+                icon: '💳'
+              },
+              {
+                title: 'Revenue Monitoring',
+                description: 'Monitor revenue streams and growth patterns',
+                icon: '💰'
+              }
+            ].map((feature, index) => (
+              <div key={index} style={{
+                background: '#0a0a0a',
+                border: '1px solid #1a1a1a',
+                borderRadius: 12,
+                padding: '24px',
+                textAlign: 'center',
+                transition: 'transform 0.2s, border-color 0.2s',
+              }}>
+                <div style={{
+                  fontSize: 32,
+                  marginBottom: 16,
+                }}>
+                  {feature.icon}
+                </div>
+                <h3 style={{
+                  fontSize: 18,
+                  fontWeight: 600,
+                  color: '#fff',
+                  marginBottom: 8,
+                }}>
+                  {feature.title}
+                </h3>
+                <p style={{
+                  fontSize: 14,
+                  color: '#888',
+                  lineHeight: 1.5,
+                }}>
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* ═══════ FOOTER ═══════ */}
         <footer style={{
           borderTop: '1px solid #1a1a1a',
