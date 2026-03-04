@@ -542,7 +542,7 @@ export default function LandingPage() {
                   strokeDasharray="60 740"
                   strokeDashoffset="0"
                   className="animate-addon-stroke-lg"
-                  rx="6"
+                  rx="9"
                 />
               </svg>
               <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
