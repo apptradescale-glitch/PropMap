@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown, Zap, ShieldCheck, PieChart, ArchiveRestore, BrainCircuit, Link2, Calculator, NotebookPen } from 'lucide-react';
+import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown, Zap, ShieldCheck, PieChart, ArchiveRestore, BrainCircuit, Link2, Calculator, NotebookPen, Lock, LockOpen } from 'lucide-react';
 import Logo from '@/assets/images/lg34.png';
 
 export default function LandingPage() {
@@ -109,7 +109,7 @@ export default function LandingPage() {
                   <circle cx="11" cy="11" r="8" />
                   <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
-                <span style={{ color: '#555', fontSize: 13 }}>Search through docs</span>
+                <span style={{ color: '#555', fontSize: 13 }}>Free Trial available [Test 3-days for free]</span>
               </div>
               {/* Dark mode icon */}
               <span style={{
@@ -812,7 +812,7 @@ export default function LandingPage() {
                 color: '#888',
               }}>/month</span></div>
               
-              {/* Search through docs */}
+              {/* Free Trial info */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -824,11 +824,8 @@ export default function LandingPage() {
                 minWidth: 180,
                 margin: '0 auto 24px',
               }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                <span style={{ color: '#555', fontSize: 13 }}>Search through docs</span>
+                <LockOpen size={14} color="#666" />
+                <span style={{ color: '#555', fontSize: 13 }}>Free Trial available [Test 3-days for free]</span>
               </div>
               
               {/* Feature list with checkmarks from propmap.app */}
@@ -945,7 +942,7 @@ export default function LandingPage() {
                 color: '#888',
               }}>/year</span></div>
               
-              {/* Search through docs */}
+              {/* Free Trial info */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -957,11 +954,8 @@ export default function LandingPage() {
                 minWidth: 180,
                 margin: '0 auto 24px',
               }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                <span style={{ color: '#555', fontSize: 13 }}>Search through docs</span>
+                <LockOpen size={14} color="#666" />
+                <span style={{ color: '#555', fontSize: 13 }}>Free Trial available [Test 3-days for free]</span>
               </div>
               
               {/* Feature list with checkmarks from propmap.app */}
