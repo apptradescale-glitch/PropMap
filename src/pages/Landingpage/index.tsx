@@ -341,19 +341,16 @@ export default function LandingPage() {
                 alignItems: 'center',
                 gap: 40,
               }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                  <img src={Logo} alt='PropMap' style={{ height: 48, width: 56, marginBottom: 12 }} />
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+                  <img src={Logo} alt='PropMap' style={{ height: 96, width: 112, marginBottom: 6 }} />
                   <h2 style={{
-                    fontSize: 48,
+                    fontSize: 18,
                     fontWeight: 700,
-                    fontStyle: 'italic',
-                    letterSpacing: '-0.02em',
+                    letterSpacing: '-0.04em',
                     margin: 0,
-                    fontFamily: '"Ethnocentric", "Eurostile Extended", "Impact", "Arial Black", sans-serif',
-                    fontStretch: 'condensed',
-                    textTransform: 'uppercase',
+                    color: '#fff',
                   }}>
-                    <span style={{ color: '#fff' }}>PROP</span><span style={{ color: '#888' }}>MAP</span>
+                    PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 1, opacity: 0.7 }}>MAP</span>
                   </h2>
                 </div>
                 <p style={{
