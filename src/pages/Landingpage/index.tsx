@@ -806,7 +806,7 @@ export default function LandingPage() {
                 fontWeight: 800,
                 color: '#fff',
                 marginBottom: 24,
-              }}>$0<span style={{
+              }}>$7.99<span style={{
                 fontSize: 18,
                 fontWeight: 400,
                 color: '#888',
@@ -891,7 +891,7 @@ export default function LandingPage() {
             {/* Yearly Pricing Card */}
             <div style={{
               background: 'transparent',
-              border: '1px solid #e0ac69',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
               borderRadius: 16,
               padding: '32px',
               textAlign: 'center',
@@ -908,7 +908,7 @@ export default function LandingPage() {
                 borderRadius: 12,
                 fontSize: 12,
                 fontWeight: 600,
-              }}>SAVE 20%</div>
+              }}>SAVE 10%</div>
               <h3 style={{
                 fontSize: 24,
                 fontWeight: 700,
@@ -920,7 +920,7 @@ export default function LandingPage() {
                 fontWeight: 800,
                 color: '#fff',
                 marginBottom: 24,
-              }}>$0<span style={{
+              }}>$85<span style={{
                 fontSize: 18,
                 fontWeight: 400,
                 color: '#888',
