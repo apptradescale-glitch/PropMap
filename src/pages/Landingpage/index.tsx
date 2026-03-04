@@ -573,18 +573,35 @@ export default function LandingPage() {
                 borderBottom: '1px solid #1a1a1a',
               }}>
                 <div style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 12,
-                  background: '#111',
-                  border: '1px solid #1a1a1a',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 20,
-                }}>
-                  <feature.Icon size={22} color="#e0ac69" />
-                </div>
+                        width: 48,
+                        height: 48,
+                        borderRadius: 14,
+                        background: '#141414',
+                        border: '1px solid #2a2a2a',
+                        boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.03)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: 20,
+                        flexShrink: 0,
+                      }}>
+                        <div style={{
+                          width: 28,
+                          height: 28,
+                          borderRadius: '50%',
+                          border: '2px solid #e0ac69',
+                          borderTopColor: 'transparent',
+                          background: '#141414',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                        }}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        </div>
+                      </div>
                 <h3 style={{
                   fontSize: 17,
                   fontWeight: 700,
