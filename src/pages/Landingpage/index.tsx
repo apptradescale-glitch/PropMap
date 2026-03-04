@@ -546,7 +546,7 @@ export default function LandingPage() {
                   <animate
                     attributeName="stroke-dashoffset"
                     values="0;-560"
-                    dur="3.0s"
+                    dur="2.5s"
                     repeatCount="indefinite"
                   />
                 </rect>
