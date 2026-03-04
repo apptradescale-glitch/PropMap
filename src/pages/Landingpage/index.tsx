@@ -20,7 +20,7 @@ export default function LandingPage() {
   return (
     <>
       <Helmet>
-        <title>PROPMAP</title>
+        <title>PropMap</title>
       </Helmet>
 
       <style>{`
@@ -168,7 +168,7 @@ export default function LandingPage() {
             maxWidth: 750,
             margin: '0 auto',
             textAlign: 'center',
-            padding: '50px 24px 40px',
+            padding: '100px 24px 40px',
             position: 'relative',
             zIndex: 1,
           }}>
@@ -178,47 +178,21 @@ export default function LandingPage() {
               fontWeight: 800,
               letterSpacing: '-0.05em',
               lineHeight: 1.1,
-              margin: '0 0 8px',
+              margin: '0 0 16px',
               color: '#fff',
             }}>
               Track Your Business
             </h1>
 
-            {/* Dotted line with vertical ends */}
+            {/* Dotted line separator */}
             <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 8px',
-            }}>
-              {/* Left vertical dotted line */}
-              <div style={{
-                width: 1,
-                height: 400,
-                backgroundImage: 'linear-gradient(to bottom, #666 25%, transparent 25%)',
-                backgroundSize: '1px 8px',
-                backgroundRepeat: 'repeat-y',
-                opacity: 0.4,
-              }} />
-              {/* Horizontal dotted line */}
-              <div style={{
-                width: 600,
-                height: 1,
-                backgroundImage: 'linear-gradient(to right, #666 25%, transparent 25%)',
-                backgroundSize: '8px 1px',
-                backgroundRepeat: 'repeat-x',
-                opacity: 0.4,
-              }} />
-              {/* Right vertical dotted line */}
-              <div style={{
-                width: 1,
-                height: 400,
-                backgroundImage: 'linear-gradient(to bottom, #666 25%, transparent 25%)',
-                backgroundSize: '1px 8px',
-                backgroundRepeat: 'repeat-y',
-                opacity: 0.4,
-              }} />
-            </div>
+              width: 400,
+              height: 1,
+              margin: '0 auto 24px',
+              backgroundImage: 'linear-gradient(to right, #666 25%, transparent 25%)',
+              backgroundSize: '8px 1px',
+              backgroundRepeat: 'repeat-x',
+            }} />
 
             <h2 style={{
               fontSize: 48,
@@ -226,7 +200,7 @@ export default function LandingPage() {
               fontStyle: 'italic',
               color: '#888',
               lineHeight: 1.1,
-              margin: '0 0 24px',
+              margin: '0 0 40px',
               textAlign: 'center',
               fontFamily: '"Ethnocentric", "Eurostile Extended", "Impact", "Arial Black", sans-serif',
               fontStretch: 'condensed',
@@ -451,16 +425,18 @@ export default function LandingPage() {
               marginTop: 8,
             }}>
               Everything you need to get the full control about your 
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#fff' }}>
-                <Box size={14} />
-                business
-              </span>
-              <span style={{ color: '#979797ff' }}> & </span>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#fff' }}>
-                <AlignHorizontalDistributeCenter size={14} />
-                prop trading
-              </span>
-              {' '}ANALYTICS
+              <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#fff' }}>
+                  <Box size={14} />
+                  business
+                </span>
+                <span style={{ color: '#979797ff' }}>&</span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#fff' }}>
+                  <AlignHorizontalDistributeCenter size={14} />
+                 prop trading
+                </span>
+              </div>
+              ANALYTICS
             </span>
           </div>
         </section>
