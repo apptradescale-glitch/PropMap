@@ -1242,7 +1242,7 @@ export default function LandingPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 4,
-                marginTop: 4,
+                marginTop: 0,
               }}>
                 <img 
                   src={PlaidLogo} 
@@ -1314,7 +1314,7 @@ export default function LandingPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 48,
-                marginTop: 32,
+                marginTop: 48,
               }}>
                 <div style={{
                   display: 'flex',
@@ -1427,8 +1427,8 @@ export default function LandingPage() {
                   src={TradescaleLogo} 
                   alt="Tradescale" 
                   style={{
-                    width: 64,
-                    height: 64,
+                    width: 48,
+                    height: 48,
                     objectFit: 'contain',
                   }}
                 />
