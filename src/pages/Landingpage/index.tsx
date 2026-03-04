@@ -168,7 +168,7 @@ export default function LandingPage() {
             maxWidth: 750,
             margin: '0 auto',
             textAlign: 'center',
-            padding: '100px 24px 40px',
+            padding: '50px 24px 40px',
             position: 'relative',
             zIndex: 1,
           }}>
@@ -451,18 +451,16 @@ export default function LandingPage() {
               marginTop: 8,
             }}>
               Everything you need to get the full control about your 
-              <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#fff' }}>
-                  <Box size={14} />
-                  business
-                </span>
-                <span style={{ color: '#979797ff' }}>&</span>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#fff' }}>
-                  <AlignHorizontalDistributeCenter size={14} />
-                 prop trading
-                </span>
-              </div>
-              ANALYTICS
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#fff' }}>
+                <Box size={14} />
+                business
+              </span>
+              <span style={{ color: '#979797ff' }}> & </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#fff' }}>
+                <AlignHorizontalDistributeCenter size={14} />
+                prop trading
+              </span>
+              {' '}ANALYTICS
             </span>
           </div>
         </section>
