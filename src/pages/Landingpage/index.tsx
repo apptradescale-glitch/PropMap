@@ -69,7 +69,7 @@ export default function LandingPage() {
                   letterSpacing: '-0.04em',
                   color: '#fff',
                 }}>
-                  PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'super', marginLeft: 1, opacity: 0.7 }}>MAP</span>
+                  PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7 }}>MAP</span>
                 </span>
               </div>
               {/* Nav links */}
@@ -174,14 +174,14 @@ export default function LandingPage() {
           }}>
             {/* Main heading */}
             <h1 style={{
-              fontSize: 64,
+              fontSize: 96,
               fontWeight: 800,
               letterSpacing: '-0.05em',
               lineHeight: 1.1,
               margin: '0 0 24px',
               color: '#fff',
             }}>
-              Track Your Business <span style={{ color: '#888', fontWeight: 600, fontSize: 56 }}>Finances & Numbers</span>
+              Track Your Business <span style={{ color: '#888', fontWeight: 600, fontSize: 48, fontStyle: 'italic' }}>Finances & Numbers</span>
             </h1>
 
             {/* Subtitle */}
@@ -311,23 +311,25 @@ export default function LandingPage() {
               What's PropMap?
             </span>
             <span style={{
-              color: '#ffffffff',
+              color: '#979797ff',
               fontSize: 16,
               marginLeft: 16,
               fontWeight: 400,
               display: 'block',
               marginTop: 8,
             }}>
-              Everything you need to get the full control about{' '}
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                <Box size={14} />
-                business
-              </span>
-              {' & '}
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                <AlignHorizontalDistributeCenter size={14} />
-               prop trading
-              </span>
+              Everything you need to get the full control about
+              <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#fff' }}>
+                  <Box size={14} />
+                  business
+                </span>
+                <span style={{ color: '#979797ff' }}>&</span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#fff' }}>
+                  <AlignHorizontalDistributeCenter size={14} />
+                 prop trading
+                </span>
+              </div>
               .
             </span>
           </div>
@@ -380,15 +382,6 @@ export default function LandingPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Features</span>
                   <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Pricing</span>
-                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>API</span>
-                </div>
-              </div>
-              <div>
-                <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8, color: '#888' }}>Company</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>About</span>
-                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Blog</span>
-                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Careers</span>
                 </div>
               </div>
               <div>
@@ -396,7 +389,6 @@ export default function LandingPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Documentation</span>
                   <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Contact</span>
-                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Status</span>
                 </div>
               </div>
             </div>
@@ -415,7 +407,6 @@ export default function LandingPage() {
               <div style={{ display: 'flex', gap: 24 }}>
                 <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Privacy</span>
                 <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Terms</span>
-                <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Cookies</span>
               </div>
             </div>
           </div>
