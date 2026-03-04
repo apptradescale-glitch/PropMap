@@ -496,12 +496,9 @@ export default function LandingPage() {
           margin: '0 auto',
           padding: '80px 24px 100px',
         }}>
-          {/* Full-width horizontal line */}
           <div style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
             borderTop: '1px solid #1a1a1a',
+            marginBottom: '56px',
           }} />
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
@@ -1149,6 +1146,37 @@ export default function LandingPage() {
           </div>
         </div>
 
+        {/* ═══════ PROVIDER CONNECTION TEXT ═══════ */}
+        <div style={{
+          textAlign: 'center',
+          margin: '40px auto 60px',
+          padding: '0 24px',
+        }}>
+          <p style={{
+            fontSize: 18,
+            fontWeight: 400,
+            color: '#fff',
+            marginBottom: 8,
+            opacity: 0.9,
+          }}>We make your life easy</p>
+          <p style={{
+            fontSize: 16,
+            color: '#888',
+            lineHeight: 1.6,
+          }}>
+            Connect these Providers directly to <span style={{
+              fontSize: 18,
+              fontWeight: 700,
+              letterSpacing: '-0.04em',
+              color: '#ededed',
+              display: 'inline-flex',
+              alignItems: 'center',
+            }}>
+              PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 1, opacity: 0.7 }}>MAP</span>
+            </span>
+          </p>
+        </div>
+
         {/* ═══════ PLATFORM CONNECTIONS ═══════ */}
         <div style={{
           maxWidth: 1100,
@@ -1295,58 +1323,27 @@ export default function LandingPage() {
                 color: '#888',
                 lineHeight: 1.5,
                 marginBottom: 16,
-              }}>For extracting Account Balance, Account Type & State (In Drawdown or eligible for Payout)</p>
+              }}>For extracting Account Balance, Account Type & State <br /> [State = In Drawdown or eligible for Payout]</p>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 12,
+                gap: 6,
                 marginTop: 16,
               }}>
                 <img 
                   src={TradescaleLogo} 
                   alt="Tradescale" 
                   style={{
-                    width: 32,
-                    height: 32,
+                    width: 64,
+                    height: 64,
                     objectFit: 'contain',
                   }}
                 />
-                <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Tradescale</span>
+                <span style={{ color: '#fff', fontSize: 32, fontWeight: 500 }}>Tradescale</span>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* ═══════ PROVIDER CONNECTION TEXT ═══════ */}
-        <div style={{
-          textAlign: 'center',
-          margin: '40px auto 60px',
-          padding: '0 24px',
-        }}>
-          <p style={{
-            fontSize: 18,
-            fontWeight: 400,
-            color: '#fff',
-            marginBottom: 8,
-            opacity: 0.9,
-          }}>Ready to take control?</p>
-          <p style={{
-            fontSize: 16,
-            color: '#888',
-            lineHeight: 1.6,
-          }}>
-            Connect these Providers directly to <span style={{
-              fontSize: 16,
-              fontWeight: 700,
-              letterSpacing: '-0.04em',
-              color: '#e0ac69',
-              display: 'inline-flex',
-              alignItems: 'center',
-            }}>
-              PROP<span style={{ fontSize: 10, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 1 }}>MAP</span>
-            </span>
-          </p>
         </div>
 
         
