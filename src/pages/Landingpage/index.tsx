@@ -191,11 +191,13 @@ export default function LandingPage() {
               justifyContent: 'center',
               margin: '0 auto 24px',
             }}>
-              {/* Left vertical line */}
+              {/* Left vertical dotted line */}
               <div style={{
                 width: 1,
                 height: 20,
-                background: 'linear-gradient(to bottom, transparent, #666 50%, transparent)',
+                backgroundImage: 'linear-gradient(to bottom, #666 25%, transparent 25%)',
+                backgroundSize: '1px 8px',
+                backgroundRepeat: 'repeat-y',
                 opacity: 0.4,
               }} />
               {/* Horizontal dotted line */}
@@ -207,11 +209,13 @@ export default function LandingPage() {
                 backgroundRepeat: 'repeat-x',
                 opacity: 0.4,
               }} />
-              {/* Right vertical line */}
+              {/* Right vertical dotted line */}
               <div style={{
                 width: 1,
                 height: 20,
-                background: 'linear-gradient(to bottom, transparent, #666 50%, transparent)',
+                backgroundImage: 'linear-gradient(to bottom, #666 25%, transparent 25%)',
+                backgroundSize: '1px 8px',
+                backgroundRepeat: 'repeat-y',
                 opacity: 0.4,
               }} />
             </div>
