@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Box, AlignHorizontalDistributeCenter } from 'lucide-react';
+import { Box, AlignHorizontalDistributeCenter, Key, Eye } from 'lucide-react';
+import Logo from '@/assets/images/lg34.png';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function LandingPage() {
         }
       `}</style>
 
-      <div style={{
+      <div className="allow-scroll" style={{
         minHeight: '100vh',
         backgroundColor: '#000',
         color: '#fff',
@@ -59,18 +60,16 @@ export default function LandingPage() {
           }}>
             {/* Left side: logo + nav links */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-              {/* Logo: triangle + NEXT.js */}
+              {/* Logo: PropMap logo */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 7, cursor: 'default' }}>
-                <svg width="18" height="18" viewBox="0 0 76 65" fill="none">
-                  <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#fff" />
-                </svg>
+                <img src={Logo} alt='PropMap' style={{ height: 22, width: 26 }} />
                 <span style={{
                   fontSize: 18,
                   fontWeight: 700,
                   letterSpacing: '-0.04em',
                   color: '#fff',
                 }}>
-                  NEXT<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'super', marginLeft: 1, opacity: 0.7 }}>.js</span>
+                  PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'super', marginLeft: 1, opacity: 0.7 }}>MAP</span>
                 </span>
               </div>
               {/* Nav links */}
@@ -182,7 +181,7 @@ export default function LandingPage() {
               margin: '0 0 24px',
               color: '#fff',
             }}>
-              Track Your Business Numbers
+              Track Your Business <span style={{ color: '#888', fontWeight: 600, fontSize: 56 }}>Finances & Numbers</span>
             </h1>
 
             {/* Subtitle */}
@@ -228,7 +227,10 @@ export default function LandingPage() {
                 onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
               >
-               Start Free Trial [3-days]
+               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                  <Key size={14} />
+                  Start Free Trial [3-days]
+                </span>
               </button>
               <button
                 style={{
@@ -245,7 +247,10 @@ export default function LandingPage() {
                 onMouseEnter={e => { e.currentTarget.style.borderColor = '#666'; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = '#333'; }}
               >
-              See our Features
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                  <Eye size={14} />
+                  See our Features
+                </span>
               </button>
             </div>
 
@@ -306,120 +311,25 @@ export default function LandingPage() {
               What's PropMap?
             </span>
             <span style={{
-              color: '#666',
+              color: '#ffffffff',
               fontSize: 16,
               marginLeft: 16,
               fontWeight: 400,
+              display: 'block',
+              marginTop: 8,
             }}>
               Everything you need to get the full control about{' '}
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                 <Box size={14} />
                 business
               </span>
-              {' / '}
+              {' & '}
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                 <AlignHorizontalDistributeCenter size={14} />
-                trading
+               prop trading
               </span>
               .
             </span>
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            borderRadius: 12,
-            overflow: 'hidden',
-            border: '1px solid #1a1a1a',
-          }}>
-            {/* Card 1: Built-in Optimizations */}
-            <div style={{ background: '#0a0a0a', padding: '28px 24px', borderRight: '1px solid #1a1a1a' }}>
-              <div style={{
-                width: '100%', height: 200, marginBottom: 20, borderRadius: 8,
-                overflow: 'hidden', position: 'relative',
-                background: 'linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%)',
-              }}>
-                <div style={{ position: 'absolute', top: 12, left: 14, display: 'flex', gap: 5 }}>
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ff5f57' }} />
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ffbd2e' }} />
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#28c840' }} />
-                </div>
-                <div style={{ position: 'absolute', top: 10, right: 14, color: '#444', fontSize: 10, fontFamily: 'monospace', letterSpacing: '0.08em', textTransform: 'uppercase' }}>DEVELOP</div>
-                <svg width="100%" height="100%" viewBox="0 0 340 200" preserveAspectRatio="none" style={{ position: 'absolute', bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="m1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2a2a4a" /><stop offset="100%" stopColor="#1a1a30" /></linearGradient>
-                    <linearGradient id="m2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#333355" /><stop offset="100%" stopColor="#222244" /></linearGradient>
-                  </defs>
-                  <polygon points="0,200 70,80 150,140 210,50 270,110 340,75 340,200" fill="url(#m1)" opacity="0.5" />
-                  <polygon points="0,200 90,125 170,95 250,135 340,105 340,200" fill="url(#m2)" opacity="0.35" />
-                </svg>
-              </div>
-              <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 6, color: '#ededed' }}>Built-in Optimizations</h3>
-              <p style={{ color: '#666', fontSize: 14, lineHeight: 1.55, margin: 0 }}>Automatic Image, Font, and Script Optimizations for improved UX and Core Web Vitals.</p>
-            </div>
-
-            {/* Card 2: Dynamic HTML Streaming */}
-            <div style={{ background: '#0a0a0a', padding: '28px 24px', borderRight: '1px solid #1a1a1a' }}>
-              <div style={{
-                width: '100%', height: 200, marginBottom: 20, borderRadius: 8,
-                overflow: 'hidden', background: '#111', position: 'relative',
-              }}>
-                <div style={{ position: 'absolute', top: 12, left: 14, display: 'flex', gap: 5 }}>
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ff5f57' }} />
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ffbd2e' }} />
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#28c840' }} />
-                </div>
-                <div style={{ padding: '38px 16px 16px' }}>
-                  <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
-                    <div style={{ width: 50, height: 6, borderRadius: 3, background: '#222' }} />
-                    <div style={{ width: 40, height: 6, borderRadius: 3, background: '#222' }} />
-                    <div style={{ width: 60, height: 6, borderRadius: 3, background: '#222' }} />
-                  </div>
-                  <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-                    <div style={{ flex: 1, height: 50, borderRadius: 4, background: '#1a1a1a', border: '1px solid #222' }} />
-                    <div style={{ flex: 1, height: 50, borderRadius: 4, background: '#1a1a1a', border: '1px solid #222' }} />
-                  </div>
-                  <div style={{ width: '100%', height: 60, borderRadius: 4, background: '#1a1a1a', border: '1px solid #222' }} />
-                </div>
-              </div>
-              <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 6, color: '#ededed' }}>Dynamic HTML Streaming</h3>
-              <p style={{ color: '#666', fontSize: 14, lineHeight: 1.55, margin: 0 }}>Instantly stream UI from the server, integrated with the App Router and React Suspense.</p>
-            </div>
-
-            {/* Card 3: React Server Components */}
-            <div style={{ background: '#0a0a0a', padding: '28px 24px' }}>
-              <div style={{
-                width: '100%', height: 200, marginBottom: 20, borderRadius: 8,
-                overflow: 'hidden', background: '#111',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <svg width="180" height="140" viewBox="0 0 180 140">
-                  <line x1="50" y1="42" x2="90" y2="42" stroke="#222" strokeWidth="1" />
-                  <line x1="90" y1="42" x2="130" y2="42" stroke="#222" strokeWidth="1" />
-                  <line x1="50" y1="42" x2="70" y2="98" stroke="#222" strokeWidth="1" />
-                  <line x1="90" y1="42" x2="70" y2="98" stroke="#222" strokeWidth="1" />
-                  <line x1="90" y1="42" x2="110" y2="98" stroke="#222" strokeWidth="1" />
-                  <line x1="130" y1="42" x2="110" y2="98" stroke="#222" strokeWidth="1" />
-                  <circle cx="50" cy="42" r="18" fill="none" stroke="#2a2a2a" strokeWidth="1.5" />
-                  <circle cx="90" cy="42" r="18" fill="none" stroke="#2a2a2a" strokeWidth="1.5" />
-                  <circle cx="130" cy="42" r="18" fill="none" stroke="#2a2a2a" strokeWidth="1.5" />
-                  <circle cx="70" cy="98" r="18" fill="none" stroke="#2a2a2a" strokeWidth="1.5" />
-                  <circle cx="110" cy="98" r="18" fill="none" stroke="#2a2a2a" strokeWidth="1.5" />
-                  <circle cx="50" cy="42" r="8" fill="#2a2a2a" />
-                  <circle cx="90" cy="42" r="8" fill="#333" />
-                  <circle cx="130" cy="42" r="8" fill="#2a2a2a" />
-                  <circle cx="70" cy="98" r="8" fill="#2e2e2e" />
-                  <circle cx="110" cy="98" r="8" fill="#2e2e2e" />
-                  <circle cx="47" cy="39" r="2" fill="#555" />
-                  <circle cx="87" cy="39" r="2.5" fill="#666" />
-                  <circle cx="127" cy="39" r="2" fill="#555" />
-                  <circle cx="67" cy="95" r="2" fill="#555" />
-                  <circle cx="107" cy="95" r="2" fill="#555" />
-                </svg>
-              </div>
-              <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 6, color: '#ededed' }}>React Server Components</h3>
-              <p style={{ color: '#666', fontSize: 14, lineHeight: 1.55, margin: 0 }}>Add components without sending additional client-side JavaScript. Built on the latest React features.</p>
-            </div>
           </div>
         </section>
 
