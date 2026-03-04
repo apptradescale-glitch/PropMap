@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown, Zap } from 'lucide-react';
+import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown, Zap, ShieldCheck } from 'lucide-react';
 import Logo from '@/assets/images/lg34.png';
 
 export default function LandingPage() {
@@ -510,19 +510,16 @@ export default function LandingPage() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 8,
-                fontSize: 15,
+                gap: 12,
+                fontSize: 22.5,
                 fontWeight: 500,
                 cursor: 'pointer',
-                padding: '8px 18px',
-                borderRadius: 6,
+                padding: '12px 27px',
+                borderRadius: 9,
                 letterSpacing: '0.02em',
                 overflow: 'hidden',
-                transition: 'transform 0.15s',
                 border: '1px solid rgba(255,255,255,0.2)',
               }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
             >
               <svg
                 style={{
@@ -549,13 +546,13 @@ export default function LandingPage() {
                   <animate
                     attributeName="stroke-dashoffset"
                     values="0;-560"
-                    dur="3.2s"
+                    dur="2.8s"
                     repeatCount="indefinite"
                   />
                 </rect>
               </svg>
-              <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Zap size={16} color="#e0ac69" />
+              <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+                <Zap size={24} color="#e0ac69" />
                 Features
               </span>
             </div>
@@ -584,7 +581,7 @@ export default function LandingPage() {
               {
                 title: 'Secure Banking',
                 description: 'Connect your bank accounts with bank-level security and encrypted data transfers.',
-                useShield: true,
+                useShieldCheck: true,
               },
               {
                 title: 'Automated Reports',
@@ -633,8 +630,8 @@ export default function LandingPage() {
                           justifyContent: 'center',
                           boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
                         }}>
-                          {feature.useShield ? (
-                            <Shield size={14} color="#e0ac69" />
+                          {feature.useShieldCheck ? (
+                            <ShieldCheck size={14} color="#e0ac69" />
                           ) : (
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                               <polyline points="20 6 9 17 4 12" />
