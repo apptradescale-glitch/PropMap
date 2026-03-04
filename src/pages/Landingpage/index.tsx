@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown, Zap, ShieldCheck, PieChart, ArchiveRestore, BrainCircuit, Link2, Calculator, NotebookPen, Lock, LockOpen } from 'lucide-react';
+import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown, Zap, ShieldCheck, PieChart, ArchiveRestore, BrainCircuit, Link2, Calculator, NotebookPen, Lock, LockOpen, Building2, Mail, TrendingUp as TradingIcon } from 'lucide-react';
 import Logo from '@/assets/images/lg34.png';
 
 export default function LandingPage() {
@@ -819,7 +819,7 @@ export default function LandingPage() {
                 fontWeight: 800,
                 color: '#fff',
                 marginBottom: 24,
-              }}>$7.99<span style={{
+              }}>$12.99<span style={{
                 fontSize: 18,
                 fontWeight: 400,
                 color: '#888',
@@ -964,7 +964,7 @@ export default function LandingPage() {
                 fontWeight: 800,
                 color: '#fff',
                 marginBottom: 24,
-              }}>$85<span style={{
+              }}>$140<span style={{
                 fontSize: 18,
                 fontWeight: 400,
                 color: '#888',
@@ -1156,19 +1156,32 @@ export default function LandingPage() {
               textAlign: 'center',
             }}>
               <div style={{
-                width: 64,
-                height: 64,
-                background: 'rgba(224, 172, 105, 0.1)',
-                borderRadius: 16,
+                width: 48,
+                height: 48,
+                borderRadius: 14,
+                background: '#141414',
+                border: '1px solid #2a2a2a',
+                boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.03)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 16px',
+                flexShrink: 0,
               }}>
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <path d="M6 8h.01M8 12h.01M10 8h.01M12 12h.01M14 8h.01M16 12h.01M18 8h.01" />
-                </svg>
+                <div style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: '50%',
+                  border: '2px solid #e0ac69',
+                  borderTopColor: 'transparent',
+                  background: '#141414',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                }}>
+                  <Building2 size={14} color="#e0ac69" />
+                </div>
               </div>
               <h3 style={{
                 fontSize: 20,
@@ -1212,19 +1225,32 @@ export default function LandingPage() {
               textAlign: 'center',
             }}>
               <div style={{
-                width: 64,
-                height: 64,
-                background: 'rgba(224, 172, 105, 0.1)',
-                borderRadius: 16,
+                width: 48,
+                height: 48,
+                borderRadius: 14,
+                background: '#141414',
+                border: '1px solid #2a2a2a',
+                boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.03)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 16px',
+                flexShrink: 0,
               }}>
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <path d="m22 7-10 5L2 7" />
-                </svg>
+                <div style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: '50%',
+                  border: '2px solid #e0ac69',
+                  borderTopColor: 'transparent',
+                  background: '#141414',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                }}>
+                  <Mail size={14} color="#e0ac69" />
+                </div>
               </div>
               <h3 style={{
                 fontSize: 20,
@@ -1312,20 +1338,32 @@ export default function LandingPage() {
               textAlign: 'center',
             }}>
               <div style={{
-                width: 64,
-                height: 64,
-                background: 'rgba(224, 172, 105, 0.1)',
-                borderRadius: 16,
+                width: 48,
+                height: 48,
+                borderRadius: 14,
+                background: '#141414',
+                border: '1px solid #2a2a2a',
+                boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.03)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 16px',
+                flexShrink: 0,
               }}>
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 3v18h18" />
-                  <path d="m18 17-5-5-6 6" />
-                  <path d="m8 12 4-4 4 4" />
-                </svg>
+                <div style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: '50%',
+                  border: '2px solid #e0ac69',
+                  borderTopColor: 'transparent',
+                  background: '#141414',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                }}>
+                  <TradingIcon size={14} color="#e0ac69" />
+                </div>
               </div>
               <h3 style={{
                 fontSize: 20,
