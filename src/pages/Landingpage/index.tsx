@@ -587,8 +587,8 @@ export default function LandingPage() {
                 usePieChart: true,
               },
               {
-                title: 'Upload Files',
-                description: 'Upload all your files, invoices or certificates, label them, put notes and save them in our database. Easy filtering & finding documents.',
+                title: 'Upload Files & Connect Email',
+                description: ['Upload all your files, invoices or certificates, label them, put notes and save them in our database. Easy filtering & finding documents.', 'Connect your email for easy imports of documetns that were sent to you'],
                 useArchiveRestore: true,
               },
               {
@@ -598,7 +598,7 @@ export default function LandingPage() {
               },
               {
                 title: 'Automated Sync',
-                description: ['Not only transacton history, also new transaction are automatically inputted into the dashboard.', 'PropFirm Trading Accounts are also connectable with our supported brokers to see payout eligibality or drawdowns'],
+                description: ['Not only transacton history, also new transaction are automatically inputted into the dashboard automatically.', 'PropFirm Trading Accounts are also connectable with our supported brokers to see payout eligibality or drawdowns'],
                 useBrainCircuit: true,
               },
               {
