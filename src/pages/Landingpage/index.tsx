@@ -1317,7 +1317,7 @@ export default function LandingPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 48,
-                marginTop: 64,
+                marginTop: 56,
               }}>
                 <div style={{
                   display: 'flex',
@@ -1357,7 +1357,7 @@ export default function LandingPage() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginTop: 32,
+                marginTop: 24,
               }}>
                 <div style={{
                   display: 'flex',
@@ -1431,7 +1431,7 @@ export default function LandingPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 4,
-                marginTop: 16,
+                marginTop: 32,
               }}>
                 <img 
                   src={TradescaleLogo} 
