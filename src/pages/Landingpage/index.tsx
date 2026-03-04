@@ -547,6 +547,7 @@ export default function LandingPage() {
                     attributeName="stroke-dashoffset"
                     values="0;-560"
                     dur="2.5s"
+                    begin="0.2s"
                     repeatCount="indefinite"
                   />
                 </rect>
