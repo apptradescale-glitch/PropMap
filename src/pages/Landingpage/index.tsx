@@ -69,7 +69,7 @@ export default function LandingPage() {
                   letterSpacing: '-0.04em',
                   color: '#fff',
                 }}>
-                  PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7 }}>MAP</span>
+                  PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 1, opacity: 0.7 }}>MAP</span>
                 </span>
               </div>
               {/* Nav links */}
@@ -178,11 +178,33 @@ export default function LandingPage() {
               fontWeight: 800,
               letterSpacing: '-0.05em',
               lineHeight: 1.1,
-              margin: '0 0 24px',
+              margin: '0 0 16px',
               color: '#fff',
             }}>
-              Track Your Business <span style={{ color: '#888', fontWeight: 600, fontSize: 48, fontStyle: 'italic' }}>Finances & Numbers</span>
+              Track Your Business
             </h1>
+
+            <h2 style={{
+              fontSize: 48,
+              fontWeight: 600,
+              fontStyle: 'italic',
+              color: '#888',
+              lineHeight: 1.1,
+              margin: '0 0 24px',
+              textAlign: 'center',
+            }}>
+              Finances & Numbers
+            </h2>
+
+            {/* Dotted line separator */}
+            <div style={{
+              width: 400,
+              height: 1,
+              margin: '0 auto 40px',
+              backgroundImage: 'linear-gradient(to right, #666 25%, transparent 25%)',
+              backgroundSize: '8px 1px',
+              backgroundRepeat: 'repeat-x',
+            }} />
 
             {/* Subtitle */}
             <p style={{
@@ -270,27 +292,100 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* ═══════ GRID PATTERN ═══════ */}
+          {/* ═══════ DASHBOARD PREVIEW ═══════ */}
           <div style={{
-            maxWidth: 680,
+            maxWidth: 800,
             margin: '0 auto',
-            padding: '0 24px 56px',
+            padding: '0 24px 80px',
             position: 'relative',
             zIndex: 1,
           }}>
             <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr 1fr',
-              borderRadius: 12,
-              overflow: 'hidden',
+              background: '#0a0a0a',
               border: '1px solid #1a1a1a',
+              borderRadius: 16,
+              overflow: 'hidden',
             }}>
-              <div style={{ height: 72, background: '#0a0a0a', borderRight: '1px solid #1a1a1a', borderBottom: '1px solid #1a1a1a' }} />
-              <div style={{ height: 72, background: '#0a0a0a', borderRight: '1px solid #1a1a1a', borderBottom: '1px solid #1a1a1a' }} />
-              <div style={{ height: 72, background: '#0a0a0a', borderBottom: '1px solid #1a1a1a' }} />
-              <div style={{ height: 72, background: '#0a0a0a', borderRight: '1px solid #1a1a1a' }} />
-              <div style={{ height: 72, background: '#0a0a0a', borderRight: '1px solid #1a1a1a' }} />
-              <div style={{ height: 72, background: '#0a0a0a' }} />
+              {/* Dashboard window header */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '16px 20px',
+                borderBottom: '1px solid #1a1a1a',
+                background: '#111',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{ display: 'flex', gap: 4 }}>
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ff5f57' }} />
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ffbd2e' }} />
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#28c840' }} />
+                  </div>
+                  <span style={{ color: '#666', fontSize: 12, fontFamily: 'monospace' }}>dashboard.propmap.com</span>
+                </div>
+                <span style={{ color: '#444', fontSize: 11, fontFamily: 'monospace' }}>COMING SOON</span>
+              </div>
+              
+              {/* Dashboard content */}
+              <div style={{
+                padding: '60px 40px',
+                textAlign: 'center',
+                minHeight: 300,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 40,
+              }}>
+                <div>
+                  <h2 style={{
+                    fontSize: 48,
+                    fontWeight: 700,
+                    color: '#fff',
+                    marginBottom: 16,
+                    letterSpacing: '-0.03em',
+                  }}>
+                    Dashboard
+                  </h2>
+                  <p style={{
+                    fontSize: 20,
+                    color: '#888',
+                    marginBottom: 32,
+                  }}>
+                    Keep 100% of the profits
+                  </p>
+                </div>
+                
+                {/* Feature list with checkmarks */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 16,
+                  maxWidth: 400,
+                  width: '100%',
+                }}>
+                  {[
+                    'Real-time profit tracking',
+                    'Advanced analytics dashboard',
+                    'Multi-account management',
+                    'Automated reporting',
+                    'Risk management tools',
+                  ].map((feature, index) => (
+                    <div key={index} style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 12,
+                      color: '#fff',
+                      fontSize: 16,
+                    }}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#28c840" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
