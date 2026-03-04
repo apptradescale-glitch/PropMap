@@ -1240,7 +1240,7 @@ export default function LandingPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 16,
+                gap: 24,
                 marginTop: -8,
               }}>
                 <img 
@@ -1313,7 +1313,7 @@ export default function LandingPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 48,
-                marginTop: 48,
+                marginTop: 64,
               }}>
                 <div style={{
                   display: 'flex',
@@ -1353,7 +1353,7 @@ export default function LandingPage() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginTop: 24,
+                marginTop: 32,
               }}>
                 <div style={{
                   display: 'flex',
