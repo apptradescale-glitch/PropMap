@@ -20,7 +20,7 @@ export default function LandingPage() {
   return (
     <>
       <Helmet>
-        <title>PropMap</title>
+        <title>PROPMAP</title>
       </Helmet>
 
       <style>{`
@@ -253,6 +253,79 @@ export default function LandingPage() {
              across revenue, expenses, and performance.
             </p>
 
+            {/* CTA Buttons */}
+            <div style={{
+              display: 'flex',
+              gap: 12,
+              justifyContent: 'center',
+              marginBottom: 18,
+            }}>
+              <button
+                style={{
+                  background: '#fff',
+                  color: '#000',
+                  border: '1px solid #333',
+                  padding: '9px 22px',
+                  borderRadius: 7,
+                  fontSize: 15,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+              >
+               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                  <Key size={14} />
+                  Start Free Trial [3-days]
+                </span>
+              </button>
+              <button
+                style={{
+                  background: 'transparent',
+                  color: '#fff',
+                  border: '1px solid #333',
+                  padding: '9px 22px',
+                  borderRadius: 7,
+                  fontSize: 15,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'border-color 0.15s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = '#666'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = '#333'; }}
+              >
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                  <Eye size={14} />
+                  See our Features
+                </span>
+              </button>
+            </div>
+
+            {/* Terminal command */}
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              color: '#555',
+              fontSize: 13,
+              fontFamily: '"SF Mono", "Fira Code", Menlo, Consolas, monospace',
+            }}>
+              <svg width="11" height="11" viewBox="0 0 76 65" fill="none">
+                <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#444" />
+              </svg>
+              <span>~ Take your business to the next level</span>
+            </div>
+          </div>
+
+          {/* ═══════ READY TO TAKE CONTROL (Duplicated) ═══════ */}
+          <div style={{
+            maxWidth: 560,
+            margin: '0 auto 40px',
+            padding: '0 24px',
+            position: 'relative',
+            zIndex: 1,
+          }}>
             {/* CTA Buttons */}
             <div style={{
               display: 'flex',
