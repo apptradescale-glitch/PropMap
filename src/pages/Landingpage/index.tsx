@@ -1176,7 +1176,7 @@ export default function LandingPage() {
               display: 'inline-flex',
               alignItems: 'center',
             }}>
-              PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 1, opacity: 0.7 }}>MAP</span>
+              PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 1 }}>MAP</span>
             </span>
           </p>
         </div>
@@ -1241,8 +1241,8 @@ export default function LandingPage() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 16,
-                marginTop: 16,
+                gap: 4,
+                marginTop: 4,
               }}>
                 <img 
                   src={PlaidLogo} 
@@ -1314,7 +1314,7 @@ export default function LandingPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 48,
-                marginTop: 16,
+                marginTop: 32,
               }}>
                 <div style={{
                   display: 'flex',
@@ -1330,7 +1330,7 @@ export default function LandingPage() {
                       objectFit: 'contain',
                     }}
                   />
-                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Gmail</span>
+                  <span style={{ color: '#fff', fontSize: 20, fontWeight: 500 }}>Gmail</span>
                 </div>
                 <div style={{
                   display: 'flex',
@@ -1346,7 +1346,7 @@ export default function LandingPage() {
                       objectFit: 'contain',
                     }}
                   />
-                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Outlook</span>
+                  <span style={{ color: '#fff', fontSize: 20, fontWeight: 500 }}>Outlook</span>
                 </div>
               </div>
               <div style={{
@@ -1368,7 +1368,7 @@ export default function LandingPage() {
                 }}>
                   <Mail size={20} color="#fff" />
                 </div>
-                <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>IMAP [ALL other emails connectable]</span>
+                <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>IMAP [<span style={{ color: '#e0ac69', fontWeight: 700 }}>ALL</span> other emails connectable]</span>
               </div>
             </div>
 
