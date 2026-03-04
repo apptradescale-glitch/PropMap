@@ -500,10 +500,14 @@ export default function LandingPage() {
           margin: '0 auto',
           padding: '80px 24px 100px',
         }}>
+          {/* Full-width horizontal line */}
           <div style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
             borderTop: '1px solid #1a1a1a',
-            marginBottom: '40px',
           }} />
+          <div style={{ marginBottom: '40px' }} />
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div
