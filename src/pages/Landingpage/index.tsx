@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown, Zap, ShieldCheck, PieChart, ArchiveRestore, BrainCircuit, Link2, Calculator } from 'lucide-react';
+import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown, Zap, ShieldCheck, PieChart, ArchiveRestore, BrainCircuit, Link2, Calculator, NotebookPen } from 'lucide-react';
 import Logo from '@/assets/images/lg34.png';
 
 export default function LandingPage() {
@@ -552,8 +552,18 @@ export default function LandingPage() {
                 </rect>
               </svg>
               <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{
+                  fontSize: 22.5,
+                  fontWeight: 700,
+                  letterSpacing: '-0.04em',
+                  color: '#e0ac69',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}>
+                  PROP<span style={{ fontSize: 13.75, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 1, opacity: 0.7 }}>MAP</span>
+                </span>
+                <span style={{ fontSize: 22.5, color: '#e0ac69', marginLeft: 8 }}>Features</span>
                 <Zap size={24} color="#e0ac69" />
-                Features
               </span>
             </div>
           </div>
@@ -596,7 +606,7 @@ export default function LandingPage() {
               {
                 title: 'Tax Overview',
                 description: 'Overview of all your tax liabilities, potential deductions and taxable income. [IMPORTANT: This is not tax advice, always consult a tax professional, ONLY A OVERVIEW]',
-                useCalculator: true,
+                useNotebookPen: true,
               }
             ].map((feature, index) => (
               <div key={index} style={{
@@ -638,8 +648,8 @@ export default function LandingPage() {
                             <BrainCircuit size={14} color="#e0ac69" />
                           ) : feature.useLink2 ? (
                             <Link2 size={14} color="#e0ac69" />
-                          ) : feature.useCalculator ? (
-                            <Calculator size={14} color="#e0ac69" />
+                          ) : feature.useNotebookPen ? (
+                            <NotebookPen size={14} color="#e0ac69" />
                           ) : feature.useShieldCheck ? (
                             <ShieldCheck size={14} color="#e0ac69" />
                           ) : (
