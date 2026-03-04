@@ -4,6 +4,9 @@ import { Helmet } from 'react-helmet-async';
 import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown, Zap, ShieldCheck, PieChart, ArchiveRestore, BrainCircuit, Link2, Calculator, NotebookPen, Lock, LockOpen, Building2, Mail, TrendingUp as TradingIcon } from 'lucide-react';
 import Logo from '@/assets/images/lg34.png';
 import TradescaleLogo from '@/assets/images/a.png';
+import PlaidLogo from '@/assets/images/plaid.png';
+import GmailLogo from '@/assets/images/gmail.png';
+import OutlookLogo from '@/assets/images/outlook.jpg';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -1232,6 +1235,23 @@ export default function LandingPage() {
                 lineHeight: 1.5,
                 marginBottom: 16,
               }}>For extracting Transactions [Expenses & Payouts]</p>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                marginTop: 16,
+              }}>
+                <img 
+                  src={PlaidLogo} 
+                  alt="Plaid" 
+                  style={{
+                    width: 64,
+                    height: 64,
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
             </div>
 
             {/* Email Connections */}
@@ -1278,6 +1298,69 @@ export default function LandingPage() {
                 lineHeight: 1.5,
                 marginBottom: 16,
               }}>For extracting Invoices & more</p>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 24,
+                marginTop: 16,
+              }}>
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 8,
+                }}>
+                  <img 
+                    src={GmailLogo} 
+                    alt="Gmail" 
+                    style={{
+                      width: 64,
+                      height: 64,
+                      objectFit: 'contain',
+                    }}
+                  />
+                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Gmail</span>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 8,
+                }}>
+                  <img 
+                    src={OutlookLogo} 
+                    alt="Outlook" 
+                    style={{
+                      width: 64,
+                      height: 64,
+                      objectFit: 'contain',
+                    }}
+                  />
+                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Outlook</span>
+                </div>
+              </div>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                marginTop: 24,
+              }}>
+                <div style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: 14,
+                  background: 'transparent',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  <Mail size={20} color="#fff" />
+                </div>
+                <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>IMAP</span>
+              </div>
             </div>
 
             {/* Trading Connections */}
@@ -1328,7 +1411,7 @@ export default function LandingPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 6,
+                gap: 4,
                 marginTop: 16,
               }}>
                 <img 
