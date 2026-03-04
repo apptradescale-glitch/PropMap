@@ -20,7 +20,7 @@ export default function LandingPage() {
   return (
     <>
       <Helmet>
-        <title>PropMap</title>
+        <title>PROPMAP</title>
       </Helmet>
 
       <style>{`
@@ -178,7 +178,7 @@ export default function LandingPage() {
               fontWeight: 800,
               letterSpacing: '-0.05em',
               lineHeight: 1.1,
-              margin: '0 0 16px',
+              margin: '0 0 8px',
               color: '#fff',
             }}>
               Track Your Business
@@ -189,7 +189,7 @@ export default function LandingPage() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              margin: '0 auto 24px',
+              margin: '0 auto 8px',
             }}>
               {/* Left vertical dotted line */}
               <div style={{
@@ -226,7 +226,7 @@ export default function LandingPage() {
               fontStyle: 'italic',
               color: '#888',
               lineHeight: 1.1,
-              margin: '0 0 40px',
+              margin: '0 0 24px',
               textAlign: 'center',
               fontFamily: '"Ethnocentric", "Eurostile Extended", "Impact", "Arial Black", sans-serif',
               fontStretch: 'condensed',
