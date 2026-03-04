@@ -427,7 +427,7 @@ export default function LandingPage() {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          boxShadow: '0 0 8px rgba(224,172,105,0.15)',
+                          boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
                         }}>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                             <polyline points="20 6 9 17 4 12" />
