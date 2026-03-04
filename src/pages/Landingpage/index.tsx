@@ -502,7 +502,7 @@ export default function LandingPage() {
         }}>
           <div style={{
             borderTop: '1px solid #1a1a1a',
-            marginBottom: '56px',
+            marginBottom: '40px',
           }} />
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
@@ -1241,8 +1241,8 @@ export default function LandingPage() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 4,
-                marginTop: 0,
+                gap: 0,
+                marginTop: -8,
               }}>
                 <img 
                   src={PlaidLogo} 
@@ -1351,24 +1351,31 @@ export default function LandingPage() {
               </div>
               <div style={{
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 8,
                 marginTop: 24,
               }}>
                 <div style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 14,
-                  background: 'transparent',
-                  border: '1px solid rgba(255,255,255,0.2)',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  gap: 8,
                 }}>
-                  <Mail size={20} color="#fff" />
+                  <div style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 10,
+                    background: 'transparent',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Mail size={16} color="#fff" />
+                  </div>
+                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>IMAP</span>
                 </div>
-                <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>IMAP [<span style={{ color: '#e0ac69', fontWeight: 700 }}>ALL</span> other emails connectable]</span>
+                <span style={{ color: '#888', fontSize: 13, marginTop: 6 }}>[<span style={{ color: '#e0ac69', fontWeight: 700 }}>ALL</span> other emails connectable]</span>
               </div>
             </div>
 
@@ -1427,8 +1434,8 @@ export default function LandingPage() {
                   src={TradescaleLogo} 
                   alt="Tradescale" 
                   style={{
-                    width: 48,
-                    height: 48,
+                    width: 40,
+                    height: 40,
                     objectFit: 'contain',
                   }}
                 />
