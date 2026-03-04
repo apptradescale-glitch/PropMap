@@ -427,7 +427,7 @@ export default function LandingPage() {
               display: 'block',
               marginTop: 8,
             }}>
-              Everything you need to get the full control about
+              Everything you need to get the full control about your 
               <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#fff' }}>
                   <Box size={14} />
@@ -439,7 +439,7 @@ export default function LandingPage() {
                  prop trading
                 </span>
               </div>
-              
+              ANALYTICS
             </span>
           </div>
         </section>
