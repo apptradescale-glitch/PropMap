@@ -569,33 +569,33 @@ export default function LandingPage() {
           }}>
             {[
               {
-                title: 'Real-time Analytics',
-                description: 'Track your performance with live data and instant insights across all your accounts.',
+                title: 'Visual Analytics',
+                description: 'Track real performance across all business types with powerful visual analytics. Our platform delivers in-depth insights and detailed statistics, with specialized tools designed for prop trading—helping you identify inefficiencies, fix issues faster, and scale with confidence..',
                 Icon: BarChart3,
               },
               {
-                title: 'Tax Planning',
-                description: 'Preview potential tax exposure and plan accordingly with automated calculations.',
+                title: 'Upload Files',
+                description: 'Upload all your files, invoices or certificates, label them, put notes and save them in our database. Easy filtering & finding documents.',
                 Icon: Receipt,
               },
               {
-                title: 'Secure Banking',
-                description: 'Connect your bank accounts with bank-level security and encrypted data transfers.',
+                title: 'Secure Bank Connection',
+                description: 'Connect your bank accounts with plaid, encrypted data transfer, credentials are never stored.',
                 useShieldCheck: true,
               },
               {
-                title: 'Automated Reports',
-                description: 'Generate comprehensive reports automatically with detailed breakdowns and exports.',
+                title: 'Automated Sync',
+                description: 'Not only transacton history, also new transaction are automatically inputted into the dashboard.',
                 Icon: FileText,
               },
               {
-                title: 'Expense Tracking',
-                description: 'Categorize and track every business expense with smart labeling and filtering.',
+                title: 'Smart Categorization',
+                description: 'Categorize and track all business expenses & profits with smart labeling and filtering.',
                 Icon: CreditCard,
               },
               {
-                title: 'Revenue Monitoring',
-                description: 'Monitor revenue streams and growth patterns across all your trading accounts.',
+                title: 'Tax Overview',
+                description: 'Overview of all your tax liabilities, potential deductions and taxable income. [IMPORTANT: This is not tax advice, always consult a tax professional, ONLY A OVERVIEW]',
                 Icon: TrendingUp,
               }
             ].map((feature, index) => (
