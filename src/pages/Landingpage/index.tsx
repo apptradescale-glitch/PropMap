@@ -508,20 +508,22 @@ export default function LandingPage() {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 10,
-                color: '#fff',
-                fontSize: 26,
+                gap: 8,
+                color: '#e0ac69',
+                fontSize: 15,
+                fontWeight: 500,
                 cursor: 'pointer',
-                background: 'rgba(224,172,105,0.1)',
-                border: '1px solid rgba(224,172,105,0.5)',
-                padding: '10px 24px',
-                borderRadius: 12,
+                background: 'transparent',
+                border: '1px solid #e0ac69',
+                padding: '8px 18px',
+                borderRadius: 999,
                 transition: 'transform 0.15s',
+                letterSpacing: '0.02em',
               }}
               onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
             >
-              <Crown size={24} color="#fff" />
+              <Box size={16} color="#e0ac69" />
               Features
             </span>
           </div>
