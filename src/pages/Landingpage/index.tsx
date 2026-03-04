@@ -588,7 +588,7 @@ export default function LandingPage() {
               },
               {
                 title: 'Upload Files & Connect Email',
-                description: ['Upload all your files, invoices or certificates, label them, put notes and save them in our database. Easy filtering & finding documents.', 'Connect your email for easy imports of documetns that were sent to you'],
+                description: ['Upload all your files, invoices or certificates, label them, put notes and save them in our database.', 'Connect your email for easy imports of documetns that were sent to you'],
                 useArchiveRestore: true,
               },
               {
