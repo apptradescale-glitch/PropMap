@@ -423,6 +423,7 @@ export default function LandingPage() {
                           height: 28,
                           borderRadius: '50%',
                           border: '2px solid #e0ac69',
+                          borderTopColor: 'transparent',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
