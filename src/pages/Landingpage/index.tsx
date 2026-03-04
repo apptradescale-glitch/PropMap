@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown } from 'lucide-react';
+import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown, Zap } from 'lucide-react';
 import Logo from '@/assets/images/lg34.png';
 
 export default function LandingPage() {
@@ -250,7 +250,7 @@ export default function LandingPage() {
                 textUnderlineOffset: '3px',
                 textDecorationThickness: '1px',
               }}>deep financial analytics</strong>{' '}
-             across revenue, expenses, and performance.
+             across revenue, expenses, and more.
             </p>
 
             {/* CTA Buttons */}
@@ -519,6 +519,7 @@ export default function LandingPage() {
                 letterSpacing: '0.02em',
                 overflow: 'hidden',
                 transition: 'transform 0.15s',
+                border: '1px solid rgba(255,255,255,0.2)',
               }}
               onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
@@ -554,7 +555,7 @@ export default function LandingPage() {
                 </rect>
               </svg>
               <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Box size={16} color="#e0ac69" />
+                <Zap size={16} color="#e0ac69" />
                 Features
               </span>
             </div>
