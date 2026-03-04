@@ -532,17 +532,17 @@ export default function LandingPage() {
                 }}
               >
                 <rect
-                  x="0.5"
-                  y="0.5"
-                  width="calc(100% - 1px)"
-                  height="calc(100% - 1px)"
+                  x="1.5"
+                  y="1.5"
+                  width="calc(100% - 3px)"
+                  height="calc(100% - 3px)"
                   fill="none"
                   stroke="rgba(224, 172, 105, 0.8)"
                   strokeWidth="1.5"
                   strokeDasharray="60 740"
                   strokeDashoffset="0"
                   className="animate-addon-stroke-lg"
-                  rx="9"
+                  rx="8"
                 />
               </svg>
               <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
