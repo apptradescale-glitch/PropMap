@@ -109,7 +109,7 @@ export default function LandingPage() {
                   <circle cx="11" cy="11" r="8" />
                   <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
-                <span style={{ color: '#555', fontSize: 13 }}>Free Trial available [Test 3-days for free]</span>
+                <span style={{ color: '#555', fontSize: 13 }}>Search smoothly through your data</span>
               </div>
               {/* Dark mode icon */}
               <span style={{
@@ -1062,6 +1062,295 @@ export default function LandingPage() {
               >
                  Start 3-days free trial
               </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ═══════ ADDITIONAL PRICING BUTTON ═══════ */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginTop: '60px',
+          marginBottom: '40px',
+        }}>
+          <div
+            style={{
+              position: 'relative',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 12,
+              fontSize: 22.5,
+              fontWeight: 500,
+              cursor: 'pointer',
+              padding: '12px 27px',
+              borderRadius: 9,
+              letterSpacing: '0.02em',
+              overflow: 'hidden',
+              border: '1px solid rgba(255,255,255,0.2)',
+            }}
+          >
+            <svg
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                pointerEvents: 'none',
+                filter: 'drop-shadow(0 0 3px rgba(224,172,105,0.8))'
+              }}
+            >
+              <rect
+                x="1.5"
+                y="1.5"
+                width="calc(100% - 3px)"
+                height="calc(100% - 3px)"
+                fill="none"
+                stroke="rgba(224, 172, 105, 0.8)"
+                strokeWidth="1.5"
+                strokeDasharray="60 740"
+                strokeDashoffset="0"
+                className="animate-addon-stroke-lg"
+                rx="8"
+              />
+            </svg>
+            <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{
+                fontSize: 22.5,
+                fontWeight: 700,
+                letterSpacing: '-0.04em',
+                color: '#e0ac69',
+                display: 'flex',
+                alignItems: 'center',
+              }}>
+                PROP<span style={{ fontSize: 13.75, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 2 }}>MAP</span>
+              </span>
+              <span style={{ 
+                fontSize: 22.5, 
+                color: '#e0ac69', 
+                marginLeft: 8,
+                fontWeight: 700,
+                fontStyle: 'italic',
+                letterSpacing: '-0.02em',
+                textTransform: 'uppercase',
+                fontFamily: '"Ethnocentric", "Eurostile Extended", "Impact", "Arial Black", sans-serif',
+                fontStretch: 'condensed'
+              }}>Connections</span>
+            </span>
+          </div>
+        </div>
+
+        {/* ═══════ PLATFORM CONNECTIONS ═══════ */}
+        <div style={{
+          maxWidth: 1100,
+          margin: '40px auto 60px',
+          padding: '0 24px',
+        }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: 48,
+          }}>
+            {/* Bank Connections */}
+            <div style={{
+              textAlign: 'center',
+            }}>
+              <div style={{
+                width: 64,
+                height: 64,
+                background: 'rgba(224, 172, 105, 0.1)',
+                borderRadius: 16,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 16px',
+              }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="M6 8h.01M8 12h.01M10 8h.01M12 12h.01M14 8h.01M16 12h.01M18 8h.01" />
+                </svg>
+              </div>
+              <h3 style={{
+                fontSize: 20,
+                fontWeight: 600,
+                color: '#fff',
+                marginBottom: 16,
+              }}>Connect Bank Account</h3>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 12,
+                alignItems: 'center',
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '8px 16px',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 8,
+                }}>
+                  <div style={{
+                    width: 24,
+                    height: 24,
+                    background: 'rgba(224, 172, 105, 0.2)',
+                    borderRadius: 4,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#e0ac69',
+                    fontSize: 10,
+                    fontWeight: 600,
+                  }}>PLAID</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Email Connections */}
+            <div style={{
+              textAlign: 'center',
+            }}>
+              <div style={{
+                width: 64,
+                height: 64,
+                background: 'rgba(224, 172, 105, 0.1)',
+                borderRadius: 16,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 16px',
+              }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="m22 7-10 5L2 7" />
+                </svg>
+              </div>
+              <h3 style={{
+                fontSize: 20,
+                fontWeight: 600,
+                color: '#fff',
+                marginBottom: 16,
+              }}>Connect Email for Invoices</h3>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 12,
+                alignItems: 'center',
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '8px 16px',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 8,
+                }}>
+                  <div style={{
+                    width: 24,
+                    height: 24,
+                    background: 'rgba(224, 172, 105, 0.2)',
+                    borderRadius: 4,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#e0ac69',
+                    fontSize: 10,
+                    fontWeight: 600,
+                  }}>GMAIL</div>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '8px 16px',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 8,
+                }}>
+                  <div style={{
+                    width: 24,
+                    height: 24,
+                    background: 'rgba(224, 172, 105, 0.2)',
+                    borderRadius: 4,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#e0ac69',
+                    fontSize: 10,
+                    fontWeight: 600,
+                  }}>OUTLOOK</div>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '8px 16px',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 8,
+                }}>
+                  <div style={{
+                    width: 24,
+                    height: 24,
+                    background: 'rgba(224, 172, 105, 0.2)',
+                    borderRadius: 4,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#e0ac69',
+                    fontSize: 10,
+                    fontWeight: 600,
+                  }}>IMAP</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Trading Connections */}
+            <div style={{
+              textAlign: 'center',
+            }}>
+              <div style={{
+                width: 64,
+                height: 64,
+                background: 'rgba(224, 172, 105, 0.1)',
+                borderRadius: 16,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 16px',
+              }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 3v18h18" />
+                  <path d="m18 17-5-5-6 6" />
+                  <path d="m8 12 4-4 4 4" />
+                </svg>
+              </div>
+              <h3 style={{
+                fontSize: 20,
+                fontWeight: 600,
+                color: '#fff',
+                marginBottom: 16,
+              }}>Connect Trading Accounts</h3>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 12,
+                alignItems: 'center',
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '8px 16px',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 8,
+                }}>
+                  <span style={{ color: '#888', fontSize: 14 }}>Tradescale</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
