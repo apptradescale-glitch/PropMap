@@ -598,7 +598,7 @@ export default function LandingPage() {
               },
               {
                 title: 'Automated Sync',
-                description: ['Not only transacton history, also new transaction are automatically inputted into the dashboard.', 'this text will be here'],
+                description: ['Not only transacton history, also new transaction are automatically inputted into the dashboard.', 'PropFirm Accounts are also connectable with our supported brokers to see payout eligibality or drawdown limitations'],
                 useBrainCircuit: true,
               },
               {
@@ -791,7 +791,7 @@ const styles = `
     100% { stroke-dashoffset: -800; }
   }
   .animate-addon-stroke-lg {
-    animation: addonStrokeLg 2.8s linear infinite;
+    animation: addonStrokeLg 2.6s linear infinite;
   }
 `;
 
