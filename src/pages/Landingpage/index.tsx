@@ -229,7 +229,7 @@ export default function LandingPage() {
               letterSpacing: '-0.02em',
               textTransform: 'uppercase',
             }}>
-              Finances & Numbers
+              Finances & Analytics
             </h2>
 
             {/* Subtitle */}
@@ -504,28 +504,60 @@ export default function LandingPage() {
           }} />
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <span
+            <div
               style={{
+                position: 'relative',
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: 8,
-                color: '#e0ac69',
                 fontSize: 15,
                 fontWeight: 500,
                 cursor: 'pointer',
-                background: 'transparent',
-                border: '1px solid #e0ac69',
                 padding: '8px 18px',
-                borderRadius: 999,
-                transition: 'transform 0.15s',
+                borderRadius: 6,
                 letterSpacing: '0.02em',
+                overflow: 'hidden',
+                transition: 'transform 0.15s',
               }}
               onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
             >
-              <Box size={16} color="#e0ac69" />
-              Features
-            </span>
+              <svg
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  pointerEvents: 'none',
+                  filter: 'drop-shadow(0 0 3px rgba(224,172,105,0.8))'
+                }}
+              >
+                <rect
+                  x="0.5"
+                  y="0.5"
+                  width="calc(100% - 1px)"
+                  height="calc(100% - 1px)"
+                  fill="none"
+                  stroke="rgba(224, 172, 105, 0.8)"
+                  strokeWidth="1.5"
+                  strokeDasharray="50 510"
+                  strokeDashoffset="0"
+                  rx="6"
+                >
+                  <animate
+                    attributeName="stroke-dashoffset"
+                    values="0;-560"
+                    dur="3.2s"
+                    repeatCount="indefinite"
+                  />
+                </rect>
+              </svg>
+              <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Box size={16} color="#e0ac69" />
+                Features
+              </span>
+            </div>
           </div>
           </div>
           
