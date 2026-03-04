@@ -789,7 +789,7 @@ export default function LandingPage() {
           }}>
             {/* Monthly Pricing Card */}
             <div style={{
-              background: '#0a0a0a',
+              background: 'transparent',
               border: '1px solid #1a1a1a',
               borderRadius: 16,
               padding: '32px',
@@ -804,7 +804,7 @@ export default function LandingPage() {
               <div style={{
                 fontSize: 48,
                 fontWeight: 800,
-                color: '#e0ac69',
+                color: '#fff',
                 marginBottom: 24,
               }}>$0<span style={{
                 fontSize: 18,
@@ -868,23 +868,29 @@ export default function LandingPage() {
                 ))}
               </div>
               
-              <button style={{
-                background: 'rgba(224, 172, 105, 0.1)',
-                border: '1px solid #e0ac69',
-                color: '#e0ac69',
-                padding: '12px 24px',
-                borderRadius: 8,
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.15s',
-                width: '100%',
-              }}>Get Started</button>
+              <button
+                style={{
+                  background: '#fff',
+                  color: '#000',
+                  border: '1px solid #333',
+                  padding: '10px 24px',
+                  borderRadius: 7,
+                  fontSize: 15,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'background 0.15s',
+                  width: '100%',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+              >
+                Get Started
+              </button>
             </div>
 
             {/* Yearly Pricing Card */}
             <div style={{
-              background: '#0a0a0a',
+              background: 'transparent',
               border: '1px solid #e0ac69',
               borderRadius: 16,
               padding: '32px',
@@ -911,7 +917,7 @@ export default function LandingPage() {
               <div style={{
                 fontSize: 48,
                 fontWeight: 800,
-                color: '#e0ac69',
+                color: '#fff',
                 marginBottom: 24,
               }}>$0<span style={{
                 fontSize: 18,
@@ -975,18 +981,24 @@ export default function LandingPage() {
                 ))}
               </div>
               
-              <button style={{
-                background: '#e0ac69',
-                border: '1px solid #e0ac69',
-                color: '#000',
-                padding: '12px 24px',
-                borderRadius: 8,
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.15s',
-                width: '100%',
-              }}>Get Started</button>
+              <button
+                style={{
+                  background: '#fff',
+                  color: '#000',
+                  border: '1px solid #333',
+                  padding: '10px 24px',
+                  borderRadius: 7,
+                  fontSize: 15,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'background 0.15s',
+                  width: '100%',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+              >
+                Get Started
+              </button>
             </div>
           </div>
         </div>
