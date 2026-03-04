@@ -542,15 +542,8 @@ export default function LandingPage() {
                   strokeDasharray="50 510"
                   strokeDashoffset="0"
                   rx="6"
-                >
-                  <animate
-                    attributeName="stroke-dashoffset"
-                    values="0;-560"
-                    dur="2.5s"
-                    begin="0.2s"
-                    repeatCount="indefinite"
-                  />
-                </rect>
+                  className="animate-addon-stroke-lg"
+                />
               </svg>
               <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{
@@ -595,7 +588,7 @@ export default function LandingPage() {
               },
               {
                 title: 'Automated Sync',
-                description: 'Not only transacton history, also new transaction are automatically inputted into the dashboard.',
+                description: ['Not only transacton history, also new transaction are automatically inputted into the dashboard.', 'this text will be here'],
                 useBrainCircuit: true,
               },
               {
@@ -667,14 +660,28 @@ export default function LandingPage() {
                 }}>
                   {feature.title}
                 </h3>
-                <p style={{
+                <div style={{
                   fontSize: 14,
                   color: '#888',
-                  lineHeight: 1.6,
-                  margin: 0,
+                  lineHeight: 1.5,
+                  display: 'flex',
+                  gap: 16,
                 }}>
-                  {feature.description}
-                </p>
+                  {Array.isArray(feature.description) ? (
+                    <>
+                      <div style={{ flex: 1 }}>
+                        {feature.description[0]}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        {feature.description[1]}
+                      </div>
+                    </>
+                  ) : (
+                    <div style={{ flex: 1 }}>
+                      {feature.description}
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
@@ -760,4 +767,22 @@ export default function LandingPage() {
       </div>
     </>
   );
+}
+
+// Add CSS styles for the animation
+const styles = `
+  @keyframes addonStrokeLg {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -560; }
+  }
+  .animate-addon-stroke-lg {
+    animation: addonStrokeLg 3.2s linear infinite;
+  }
+`;
+
+// Inject styles into the document
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement('style');
+  styleSheet.textContent = styles;
+  document.head.appendChild(styleSheet);
 }
