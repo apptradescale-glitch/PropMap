@@ -424,6 +424,7 @@ export default function LandingPage() {
                           borderRadius: '50%',
                           border: '2px solid #e0ac69',
                           borderTopColor: 'transparent',
+                          background: '#141414',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
