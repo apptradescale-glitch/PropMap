@@ -194,7 +194,7 @@ export default function LandingPage() {
               {/* Left vertical dotted line */}
               <div style={{
                 width: 1,
-                height: 20,
+                height: 400,
                 backgroundImage: 'linear-gradient(to bottom, #666 25%, transparent 25%)',
                 backgroundSize: '1px 8px',
                 backgroundRepeat: 'repeat-y',
@@ -212,7 +212,7 @@ export default function LandingPage() {
               {/* Right vertical dotted line */}
               <div style={{
                 width: 1,
-                height: 20,
+                height: 400,
                 backgroundImage: 'linear-gradient(to bottom, #666 25%, transparent 25%)',
                 backgroundSize: '1px 8px',
                 backgroundRepeat: 'repeat-y',
