@@ -560,10 +560,9 @@ export default function LandingPage() {
                   display: 'flex',
                   alignItems: 'center',
                 }}>
-                  PROP<span style={{ fontSize: 13.75, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 1, opacity: 0.7 }}>MAP</span>
+                  PROP<span style={{ fontSize: 13.75, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 2 }}>MAP</span>
                 </span>
                 <span style={{ fontSize: 22.5, color: '#e0ac69', marginLeft: 8 }}>Features</span>
-                <Zap size={24} color="#e0ac69" />
               </span>
             </div>
           </div>
