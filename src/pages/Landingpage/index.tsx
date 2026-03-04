@@ -406,9 +406,20 @@ export default function LandingPage() {
                       color: '#fff',
                       fontSize: 16,
                     }}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
+                      <div style={{
+                        width: 16,
+                        height: 16,
+                        borderRadius: 3,
+                        border: '1px solid #e0ac69',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </div>
                       <span>{feature}</span>
                     </div>
                   ))}
@@ -468,8 +479,14 @@ export default function LandingPage() {
           maxWidth: 1100,
           margin: '0 auto',
           padding: '80px 24px 100px',
-          borderTop: '1px solid #1a1a1a',
         }}>
+          {/* Full-width horizontal line */}
+          <div style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            borderTop: '1px solid #1a1a1a',
+          }} />
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <span
