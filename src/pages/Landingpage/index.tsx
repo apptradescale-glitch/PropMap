@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp } from 'lucide-react';
+import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown } from 'lucide-react';
 import Logo from '@/assets/images/lg34.png';
 
 export default function LandingPage() {
@@ -512,7 +512,7 @@ export default function LandingPage() {
                 color: '#fff',
                 fontSize: 26,
                 cursor: 'pointer',
-                background: 'rgba(148,187,163,0.2)',
+                background: 'rgba(224,172,105,0.2)',
                 border: '1px solid rgba(255,255,255,0.15)',
                 padding: '10px 24px',
                 borderRadius: 12,
@@ -521,9 +521,7 @@ export default function LandingPage() {
               onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
             >
-              <svg width="24" height="24" viewBox="0 0 76 65" fill="none">
-                <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#fff" />
-              </svg>
+              <Crown size={24} color="#fff" />
               Features
             </span>
           </div>
