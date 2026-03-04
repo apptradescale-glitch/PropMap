@@ -407,18 +407,31 @@ export default function LandingPage() {
                       fontSize: 16,
                     }}>
                       <div style={{
-                        width: 16,
-                        height: 16,
-                        borderRadius: 3,
-                        border: '1px solid #e0ac69',
+                        width: 48,
+                        height: 48,
+                        borderRadius: 14,
+                        background: '#141414',
+                        border: '1px solid #2a2a2a',
+                        boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.03)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexShrink: 0,
                       }}>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
+                        <div style={{
+                          width: 28,
+                          height: 28,
+                          borderRadius: '50%',
+                          border: '2px solid #33cc66',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          boxShadow: '0 0 8px rgba(51,204,102,0.15)',
+                        }}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#33cc66" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        </div>
                       </div>
                       <span>{feature}</span>
                     </div>
