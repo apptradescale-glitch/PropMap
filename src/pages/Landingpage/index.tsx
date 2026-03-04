@@ -471,36 +471,35 @@ export default function LandingPage() {
         }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <button
+            <span
               style={{
-                background: '#fff',
-                color: '#000',
-                border: '1px solid #333',
-                padding: '9px 22px',
-                borderRadius: 7,
-                fontSize: 15,
-                fontWeight: 500,
-                cursor: 'pointer',
-                transition: 'background 0.15s',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 6,
+                gap: 5,
+                color: '#fff',
+                fontSize: 13,
+                cursor: 'pointer',
+                background: 'transparent',
+                border: '1px solid #333',
+                padding: '5px 12px',
+                borderRadius: 6,
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
             >
-              <Focus size={14} />
+              <svg width="12" height="12" viewBox="0 0 76 65" fill="none">
+                <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#fff" />
+              </svg>
               Features
-            </button>
+            </span>
           </div>
           </div>
           
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 40,
             maxWidth: 1100,
             margin: '0 auto',
+            borderTop: '1px solid #1a1a1a',
+            borderLeft: '1px solid #1a1a1a',
           }}>
             {[
               {
@@ -535,8 +534,10 @@ export default function LandingPage() {
               }
             ].map((feature, index) => (
               <div key={index} style={{
-                padding: '32px 0',
+                padding: '32px',
                 textAlign: 'left',
+                borderRight: '1px solid #1a1a1a',
+                borderBottom: '1px solid #1a1a1a',
               }}>
                 <div style={{
                   width: 48,
