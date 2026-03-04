@@ -184,15 +184,37 @@ export default function LandingPage() {
               Track Your Business
             </h1>
 
-            {/* Dotted line separator */}
+            {/* Dotted line with vertical ends */}
             <div style={{
-              width: 400,
-              height: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               margin: '0 auto 24px',
-              backgroundImage: 'linear-gradient(to right, #666 25%, transparent 25%)',
-              backgroundSize: '8px 1px',
-              backgroundRepeat: 'repeat-x',
-            }} />
+            }}>
+              {/* Left vertical line */}
+              <div style={{
+                width: 1,
+                height: 20,
+                background: 'linear-gradient(to bottom, transparent, #666 50%, transparent)',
+                opacity: 0.4,
+              }} />
+              {/* Horizontal dotted line */}
+              <div style={{
+                width: 600,
+                height: 1,
+                backgroundImage: 'linear-gradient(to right, #666 25%, transparent 25%)',
+                backgroundSize: '8px 1px',
+                backgroundRepeat: 'repeat-x',
+                opacity: 0.4,
+              }} />
+              {/* Right vertical line */}
+              <div style={{
+                width: 1,
+                height: 20,
+                background: 'linear-gradient(to bottom, transparent, #666 50%, transparent)',
+                opacity: 0.4,
+              }} />
+            </div>
 
             <h2 style={{
               fontSize: 48,
