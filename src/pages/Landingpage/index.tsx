@@ -879,7 +879,7 @@ export default function LandingPage() {
                   fontWeight: 500,
                   cursor: 'pointer',
                   transition: 'background 0.15s',
-                  width: '100%',
+                  width: 'fit-content',
                 }}
                 onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
@@ -896,6 +896,7 @@ export default function LandingPage() {
               padding: '32px',
               textAlign: 'center',
               position: 'relative',
+              boxShadow: '0 0 20px 2px rgba(224, 172, 105, 0.5)',
             }}>
               <div style={{
                 position: 'absolute',
@@ -992,7 +993,7 @@ export default function LandingPage() {
                   fontWeight: 500,
                   cursor: 'pointer',
                   transition: 'background 0.15s',
-                  width: '100%',
+                  width: 'fit-content',
                 }}
                 onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
