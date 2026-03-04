@@ -1,17 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/FAuth';
 import { Helmet } from 'react-helmet-async';
-import Logo from '@/assets/images/lg34.png';
 
 export default function LandingPage() {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
-  const topRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
-    document.body.style.backgroundColor = '#000000';
+    document.body.style.backgroundColor = '#000';
     document.body.style.margin = '0';
     return () => {
       document.documentElement.classList.remove('dark');
@@ -22,371 +18,400 @@ export default function LandingPage() {
   return (
     <>
       <Helmet>
-        <title>Tradescale</title>
-        <meta name='description' content='Advanced trading Journal completely for free & other features available for professional traders.' />
-        <meta name='robots' content='index, follow' />
-        <meta name='author' content='Tradescale Group' />
+        <title>Next.js by Vercel - The React Framework</title>
       </Helmet>
 
       <style>{`
-        @keyframes subtleFloat {
-          0%, 100% { opacity: 0.35; transform: scale(1) translateY(0); }
-          50% { opacity: 0.55; transform: scale(1.08) translateY(-8px); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: #fff; }
+        @keyframes bgGlow {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.5; }
         }
-        .nav-link {
-          background: none; border: none; color: #888; font-size: 14px;
-          cursor: pointer; padding: 0; transition: color 0.2s;
-        }
-        .nav-link:hover { color: #fff; }
-        .cta-primary {
-          background: #fff; color: #000; border: 1px solid #333;
-          padding: 8px 20px; border-radius: 7px; font-size: 14px;
-          font-weight: 500; cursor: pointer; transition: background 0.15s;
-        }
-        .cta-primary:hover { background: #e0e0e0; }
-        .cta-secondary {
-          background: transparent; color: #fff; border: 1px solid #333;
-          padding: 8px 20px; border-radius: 7px; font-size: 14px;
-          font-weight: 500; cursor: pointer; transition: border-color 0.15s;
-        }
-        .cta-secondary:hover { border-color: #666; }
-        .feature-card {
-          background: #0a0a0a; padding: 32px 28px;
-          transition: background 0.2s;
-        }
-        .feature-card:hover { background: #111; }
       `}</style>
 
-      <div ref={topRef} style={{
-        minHeight: '100vh', backgroundColor: '#000', color: '#ededed',
+      <div style={{
+        minHeight: '100vh',
+        backgroundColor: '#000',
+        color: '#fff',
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       }}>
 
-        {/* ─── NAVBAR ─── */}
+        {/* ═══════ NAVBAR ═══════ */}
         <nav style={{
-          position: 'sticky', top: 0, zIndex: 50,
-          borderBottom: '1px solid #1a1a1a',
-          backgroundColor: 'rgba(0,0,0,0.85)',
+          position: 'sticky',
+          top: 0,
+          zIndex: 100,
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          backgroundColor: 'rgba(0,0,0,0.8)',
           backdropFilter: 'saturate(180%) blur(20px)',
           WebkitBackdropFilter: 'saturate(180%) blur(20px)',
         }}>
           <div style={{
-            maxWidth: 1100, margin: '0 auto',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '0 24px', height: 48,
+            maxWidth: 1100,
+            margin: '0 auto',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 24px',
+            height: 47,
           }}>
-            {/* Left: logo + company name + nav links */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'default' }}>
-                <img src={Logo} alt='Tradescale' style={{ height: 22, width: 26 }} />
-                <span style={{ fontWeight: 700, fontSize: 16, letterSpacing: '-0.03em', color: '#ededed' }}>
-                  Tradescale
+            {/* Left side: logo + nav links */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
+              {/* Logo: triangle + NEXT.js */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 7, cursor: 'default' }}>
+                <svg width="18" height="18" viewBox="0 0 76 65" fill="none">
+                  <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#fff" />
+                </svg>
+                <span style={{
+                  fontSize: 18,
+                  fontWeight: 700,
+                  letterSpacing: '-0.04em',
+                  color: '#fff',
+                }}>
+                  NEXT<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'super', marginLeft: 1, opacity: 0.7 }}>.js</span>
                 </span>
               </div>
-              <div style={{ display: 'flex', gap: 20 }} className='hidden md:flex'>
-                {['Home', 'Plans', 'Insights', 'Contact'].map(item => (
-                  <button key={item} className='nav-link'>{item}</button>
+              {/* Nav links */}
+              <div style={{ display: 'flex', gap: 22 }}>
+                {['Showcase', 'Docs', 'Blog', 'Templates', 'Enterprise'].map(item => (
+                  <span
+                    key={item}
+                    style={{
+                      color: '#888',
+                      fontSize: 14,
+                      cursor: 'pointer',
+                      transition: 'color 0.15s',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                    onMouseLeave={e => (e.currentTarget.style.color = '#888')}
+                  >
+                    {item}
+                  </span>
                 ))}
               </div>
             </div>
 
-            {/* Right: auth actions */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <button
-                onClick={() => navigate('/auth/signup')}
-                className='nav-link'
-              >
-                Sign up
-              </button>
-              <button
-                onClick={() => navigate('/auth/signin')}
-                style={{
-                  background: '#ededed', color: '#000', border: 'none',
-                  padding: '5px 14px', borderRadius: 5, fontSize: 13,
-                  fontWeight: 500, cursor: 'pointer', transition: 'background 0.15s',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#ccc'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = '#ededed'; }}
-              >
-                Sign in
-              </button>
+            {/* Right side: search + buttons */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              {/* Search bar */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                background: 'rgba(255,255,255,0.06)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 6,
+                padding: '5px 12px',
+                minWidth: 180,
+              }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <span style={{ color: '#555', fontSize: 13 }}>Search documentation...</span>
+              </div>
+              {/* Dark mode icon */}
+              <span style={{
+                color: '#888', fontSize: 13, cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: 4,
+              }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2">
+                  <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+              </span>
+              {/* Deploy button */}
+              <span style={{
+                display: 'flex', alignItems: 'center', gap: 5,
+                color: '#fff', fontSize: 13, cursor: 'pointer',
+                background: 'transparent', border: '1px solid #333',
+                padding: '5px 12px', borderRadius: 6,
+              }}>
+                <svg width="12" height="12" viewBox="0 0 76 65" fill="none">
+                  <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#fff" />
+                </svg>
+                Deploy
+              </span>
+              {/* Learn button */}
+              <span style={{
+                background: '#fff',
+                color: '#000',
+                fontSize: 13,
+                fontWeight: 500,
+                padding: '5px 14px',
+                borderRadius: 6,
+                cursor: 'pointer',
+              }}>
+                Learn
+              </span>
             </div>
           </div>
         </nav>
 
-        {/* ─── HERO SECTION ─── */}
+        {/* ═══════ HERO ═══════ */}
         <section style={{ position: 'relative', overflow: 'hidden' }}>
-          {/* Subtle ambient glow behind heading */}
+          {/* Subtle radial glow */}
           <div style={{
-            position: 'absolute', top: -60, left: '50%', transform: 'translateX(-50%)',
-            width: 600, height: 400, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 65%)',
+            position: 'absolute',
+            top: -100,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 700,
+            height: 500,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(255,255,255,0.035) 0%, transparent 60%)',
             pointerEvents: 'none',
-            animation: 'subtleFloat 10s ease-in-out infinite',
+            animation: 'bgGlow 8s ease-in-out infinite',
           }} />
 
           <div style={{
-            maxWidth: 720, margin: '0 auto', textAlign: 'center',
-            padding: '100px 24px 48px',
-            position: 'relative', zIndex: 1,
+            maxWidth: 750,
+            margin: '0 auto',
+            textAlign: 'center',
+            padding: '100px 24px 40px',
+            position: 'relative',
+            zIndex: 1,
           }}>
-            {/* Main heading — large, bold, tight letter-spacing */}
+            {/* Main heading */}
             <h1 style={{
               fontSize: 64,
               fontWeight: 800,
               letterSpacing: '-0.05em',
-              lineHeight: 1.08,
-              margin: '0 0 20px',
+              lineHeight: 1.1,
+              margin: '0 0 24px',
               color: '#fff',
             }}>
-              The Trading Platform<br />for Professionals
+              The React Framework<br />for the Web
             </h1>
 
-            {/* Subtitle — smaller, gray, with bold+underline highlight */}
+            {/* Subtitle */}
             <p style={{
-              fontSize: 16, lineHeight: 1.65,
+              fontSize: 16,
+              lineHeight: 1.6,
               color: '#888',
-              maxWidth: 540, margin: '0 auto 36px',
+              maxWidth: 560,
+              margin: '0 auto 40px',
               fontWeight: 400,
             }}>
-              Used by traders worldwide, Tradescale enables you to create{' '}
+              Used by some of the world's largest companies, Next.js enables you to create{' '}
               <strong style={{
-                color: '#fff', fontWeight: 600,
+                color: '#fff',
+                fontWeight: 600,
                 textDecoration: 'underline',
                 textDecorationColor: 'rgba(255,255,255,0.4)',
                 textUnderlineOffset: '3px',
-              }}>high-performance trading workflows</strong>{' '}
-              with the power of automated trade copying and journaling.
+                textDecorationThickness: '1px',
+              }}>high-quality web applications</strong>{' '}
+              with the power of React components.
             </p>
 
-            {/* CTA buttons — exactly like Next.js: white filled + dark bordered */}
+            {/* CTA Buttons */}
             <div style={{
-              display: 'flex', gap: 12, justifyContent: 'center',
-              flexWrap: 'wrap', marginBottom: 16,
+              display: 'flex',
+              gap: 12,
+              justifyContent: 'center',
+              marginBottom: 18,
             }}>
-              <button className='cta-primary' onClick={() => navigate('/auth/signup')}>
+              <button
+                style={{
+                  background: '#fff',
+                  color: '#000',
+                  border: '1px solid #333',
+                  padding: '9px 22px',
+                  borderRadius: 7,
+                  fontSize: 15,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+              >
                 Get Started
               </button>
-              <button className='cta-secondary' onClick={() => navigate('/auth/signin')}>
-                Learn More
+              <button
+                style={{
+                  background: 'transparent',
+                  color: '#fff',
+                  border: '1px solid #333',
+                  padding: '9px 22px',
+                  borderRadius: 7,
+                  fontSize: 15,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'border-color 0.15s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = '#666'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = '#333'; }}
+              >
+                Learn Next.js
               </button>
             </div>
 
-            {/* Terminal-style command line */}
+            {/* Terminal command */}
             <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              color: '#666', fontSize: 13,
-              fontFamily: '"SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace',
-              marginTop: 4,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              color: '#555',
+              fontSize: 13,
+              fontFamily: '"SF Mono", "Fira Code", Menlo, Consolas, monospace',
             }}>
-              <span style={{ color: '#555' }}>▲</span>
-              <span>~  Start trading smarter today</span>
+              <svg width="11" height="11" viewBox="0 0 76 65" fill="none">
+                <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#444" />
+              </svg>
+              <span>~ npx create-next-app@latest</span>
             </div>
           </div>
 
-          {/* ─── GRID PATTERN below hero content ─── */}
+          {/* ═══════ GRID PATTERN ═══════ */}
           <div style={{
-            position: 'relative', zIndex: 1,
-            maxWidth: 720, margin: '0 auto',
-            padding: '0 24px 60px',
+            maxWidth: 680,
+            margin: '0 auto',
+            padding: '0 24px 56px',
+            position: 'relative',
+            zIndex: 1,
           }}>
-            {/* 3-column grid of dark rectangles with subtle borders */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr 1fr',
-              gap: 0,
               borderRadius: 12,
               overflow: 'hidden',
               border: '1px solid #1a1a1a',
             }}>
-              {/* Row 1 */}
-              <div style={{ height: 80, background: '#0a0a0a', borderRight: '1px solid #1a1a1a', borderBottom: '1px solid #1a1a1a' }} />
-              <div style={{ height: 80, background: '#0a0a0a', borderRight: '1px solid #1a1a1a', borderBottom: '1px solid #1a1a1a' }} />
-              <div style={{ height: 80, background: '#0a0a0a', borderBottom: '1px solid #1a1a1a' }} />
-              {/* Row 2 */}
-              <div style={{ height: 80, background: '#0a0a0a', borderRight: '1px solid #1a1a1a' }} />
-              <div style={{ height: 80, background: '#0a0a0a', borderRight: '1px solid #1a1a1a' }} />
-              <div style={{ height: 80, background: '#0a0a0a' }} />
+              <div style={{ height: 72, background: '#0a0a0a', borderRight: '1px solid #1a1a1a', borderBottom: '1px solid #1a1a1a' }} />
+              <div style={{ height: 72, background: '#0a0a0a', borderRight: '1px solid #1a1a1a', borderBottom: '1px solid #1a1a1a' }} />
+              <div style={{ height: 72, background: '#0a0a0a', borderBottom: '1px solid #1a1a1a' }} />
+              <div style={{ height: 72, background: '#0a0a0a', borderRight: '1px solid #1a1a1a' }} />
+              <div style={{ height: 72, background: '#0a0a0a', borderRight: '1px solid #1a1a1a' }} />
+              <div style={{ height: 72, background: '#0a0a0a' }} />
             </div>
           </div>
-
-          {/* Bottom gradient line separator */}
-          <div style={{
-            position: 'absolute', bottom: 0, left: 0, right: 0, height: 1,
-            background: 'linear-gradient(to right, transparent, #222 50%, transparent)',
-          }} />
         </section>
 
-        {/* ─── FEATURES SECTION ─── */}
+        {/* ═══════ FEATURES ═══════ */}
         <section style={{
-          maxWidth: 1100, margin: '0 auto',
-          padding: '80px 24px',
+          maxWidth: 1100,
+          margin: '0 auto',
+          padding: '80px 24px 100px',
         }}>
-          {/* Section heading — bold title + gray subtitle inline */}
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <span style={{
-              fontSize: 24, fontWeight: 700, color: '#ededed',
+              fontSize: 24,
+              fontWeight: 700,
+              color: '#ededed',
               letterSpacing: '-0.03em',
             }}>
-              What's in Tradescale?
+              What's in Next.js?
             </span>
             <span style={{
-              color: '#666', fontSize: 16, marginLeft: 16,
+              color: '#666',
+              fontSize: 16,
+              marginLeft: 16,
               fontWeight: 400,
             }}>
-              Everything you need to trade at the highest level.
+              Everything you need to build great products on the web.
             </span>
           </div>
 
-          {/* Feature cards — 3 columns, flush together with border separators */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 0,
             borderRadius: 12,
             overflow: 'hidden',
             border: '1px solid #1a1a1a',
           }}>
-            {/* Card 1: Built-in Optimizations style — gradient mountain illustration */}
-            <div className='feature-card' style={{ borderRight: '1px solid #1a1a1a' }}>
+            {/* Card 1: Built-in Optimizations */}
+            <div style={{ background: '#0a0a0a', padding: '28px 24px', borderRight: '1px solid #1a1a1a' }}>
               <div style={{
-                width: '100%', height: 200, marginBottom: 20,
-                borderRadius: 8, overflow: 'hidden',
-                position: 'relative',
-                background: 'linear-gradient(180deg, #1a1a2e 0%, #111 100%)',
+                width: '100%', height: 200, marginBottom: 20, borderRadius: 8,
+                overflow: 'hidden', position: 'relative',
+                background: 'linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%)',
               }}>
-                {/* Mountain/landscape shapes */}
-                <svg width='100%' height='100%' viewBox='0 0 320 200' preserveAspectRatio='none' style={{ position: 'absolute', bottom: 0 }}>
+                <div style={{ position: 'absolute', top: 12, left: 14, display: 'flex', gap: 5 }}>
+                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ff5f57' }} />
+                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ffbd2e' }} />
+                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#28c840' }} />
+                </div>
+                <div style={{ position: 'absolute', top: 10, right: 14, color: '#444', fontSize: 10, fontFamily: 'monospace', letterSpacing: '0.08em', textTransform: 'uppercase' }}>DEVELOP</div>
+                <svg width="100%" height="100%" viewBox="0 0 340 200" preserveAspectRatio="none" style={{ position: 'absolute', bottom: 0 }}>
                   <defs>
-                    <linearGradient id='mtn1' x1='0' y1='0' x2='0' y2='1'>
-                      <stop offset='0%' stopColor='#2a2a4a' />
-                      <stop offset='100%' stopColor='#1a1a2e' />
-                    </linearGradient>
-                    <linearGradient id='mtn2' x1='0' y1='0' x2='0' y2='1'>
-                      <stop offset='0%' stopColor='#333355' />
-                      <stop offset='100%' stopColor='#222240' />
-                    </linearGradient>
+                    <linearGradient id="m1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2a2a4a" /><stop offset="100%" stopColor="#1a1a30" /></linearGradient>
+                    <linearGradient id="m2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#333355" /><stop offset="100%" stopColor="#222244" /></linearGradient>
                   </defs>
-                  <polygon points='0,200 60,90 140,140 200,60 260,120 320,80 320,200' fill='url(#mtn1)' opacity='0.6' />
-                  <polygon points='0,200 80,130 160,100 240,140 320,110 320,200' fill='url(#mtn2)' opacity='0.4' />
-                  <line x1='0' y1='200' x2='320' y2='200' stroke='#2a2a4a' strokeWidth='1' />
+                  <polygon points="0,200 70,80 150,140 210,50 270,110 340,75 340,200" fill="url(#m1)" opacity="0.5" />
+                  <polygon points="0,200 90,125 170,95 250,135 340,105 340,200" fill="url(#m2)" opacity="0.35" />
                 </svg>
-                {/* Window dots */}
-                <div style={{ position: 'absolute', top: 12, left: 14, display: 'flex', gap: 5 }}>
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ff5f57' }} />
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ffbd2e' }} />
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#28c840' }} />
-                </div>
-                {/* "DEVELOP" label */}
-                <div style={{
-                  position: 'absolute', top: 10, right: 14,
-                  color: '#555', fontSize: 10, fontFamily: 'monospace',
-                  letterSpacing: '0.1em', textTransform: 'uppercase',
-                }}>
-                  JOURNAL
-                </div>
               </div>
-              <h3 style={{ fontSize: 17, fontWeight: 600, marginBottom: 6, color: '#ededed' }}>
-                Built-in Trade Journal
-              </h3>
-              <p style={{ color: '#666', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
-                Automatic and manual trade logging with in-depth statistics, screenshots, and performance analytics.
-              </p>
+              <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 6, color: '#ededed' }}>Built-in Optimizations</h3>
+              <p style={{ color: '#666', fontSize: 14, lineHeight: 1.55, margin: 0 }}>Automatic Image, Font, and Script Optimizations for improved UX and Core Web Vitals.</p>
             </div>
 
-            {/* Card 2: Dynamic HTML Streaming style — terminal/code UI */}
-            <div className='feature-card' style={{ borderRight: '1px solid #1a1a1a' }}>
+            {/* Card 2: Dynamic HTML Streaming */}
+            <div style={{ background: '#0a0a0a', padding: '28px 24px', borderRight: '1px solid #1a1a1a' }}>
               <div style={{
-                width: '100%', height: 200, marginBottom: 20,
-                borderRadius: 8, overflow: 'hidden',
-                background: '#111', position: 'relative',
+                width: '100%', height: 200, marginBottom: 20, borderRadius: 8,
+                overflow: 'hidden', background: '#111', position: 'relative',
               }}>
-                {/* Window dots */}
                 <div style={{ position: 'absolute', top: 12, left: 14, display: 'flex', gap: 5 }}>
                   <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ff5f57' }} />
                   <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ffbd2e' }} />
                   <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#28c840' }} />
                 </div>
-                {/* Code/terminal content */}
-                <div style={{
-                  padding: '36px 16px 16px', fontFamily: 'monospace', fontSize: 11,
-                  color: '#555', lineHeight: 1.7,
-                }}>
-                  <div><span style={{ color: '#666' }}>{'>'}</span> <span style={{ color: '#888' }}>Copying trade...</span></div>
-                  <div style={{ color: '#444' }}>  ├─ Account 1 <span style={{ color: '#28c840' }}>✓ filled</span></div>
-                  <div style={{ color: '#444' }}>  ├─ Account 2 <span style={{ color: '#28c840' }}>✓ filled</span></div>
-                  <div style={{ color: '#444' }}>  ├─ Account 3 <span style={{ color: '#28c840' }}>✓ filled</span></div>
-                  <div style={{ color: '#444' }}>  ├─ Account 4 <span style={{ color: '#28c840' }}>✓ filled</span></div>
-                  <div style={{ color: '#444' }}>  └─ Account 5 <span style={{ color: '#28c840' }}>✓ filled</span></div>
-                  <div style={{ marginTop: 8, color: '#555' }}>
-                    <span style={{ color: '#666' }}>{'>'}</span> <span style={{ color: '#888' }}>5/5 accounts synced</span> <span style={{ color: '#28c840' }}>■</span>
+                <div style={{ padding: '38px 16px 16px' }}>
+                  <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+                    <div style={{ width: 50, height: 6, borderRadius: 3, background: '#222' }} />
+                    <div style={{ width: 40, height: 6, borderRadius: 3, background: '#222' }} />
+                    <div style={{ width: 60, height: 6, borderRadius: 3, background: '#222' }} />
                   </div>
+                  <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+                    <div style={{ flex: 1, height: 50, borderRadius: 4, background: '#1a1a1a', border: '1px solid #222' }} />
+                    <div style={{ flex: 1, height: 50, borderRadius: 4, background: '#1a1a1a', border: '1px solid #222' }} />
+                  </div>
+                  <div style={{ width: '100%', height: 60, borderRadius: 4, background: '#1a1a1a', border: '1px solid #222' }} />
                 </div>
               </div>
-              <h3 style={{ fontSize: 17, fontWeight: 600, marginBottom: 6, color: '#ededed' }}>
-                Instant Trade Copying
-              </h3>
-              <p style={{ color: '#666', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
-                Streaming real-time trade execution across unlimited prop firm accounts with zero delay.
-              </p>
+              <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 6, color: '#ededed' }}>Dynamic HTML Streaming</h3>
+              <p style={{ color: '#666', fontSize: 14, lineHeight: 1.55, margin: 0 }}>Instantly stream UI from the server, integrated with the App Router and React Suspense.</p>
             </div>
 
-            {/* Card 3: React Server Components style — abstract connected circles */}
-            <div className='feature-card'>
+            {/* Card 3: React Server Components */}
+            <div style={{ background: '#0a0a0a', padding: '28px 24px' }}>
               <div style={{
-                width: '100%', height: 200, marginBottom: 20,
-                borderRadius: 8, overflow: 'hidden',
-                background: '#111',
+                width: '100%', height: 200, marginBottom: 20, borderRadius: 8,
+                overflow: 'hidden', background: '#111',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <svg width='180' height='140' viewBox='0 0 180 140'>
-                  {/* Connection lines */}
-                  <line x1='50' y1='45' x2='90' y2='45' stroke='#222' strokeWidth='1' />
-                  <line x1='90' y1='45' x2='130' y2='45' stroke='#222' strokeWidth='1' />
-                  <line x1='50' y1='45' x2='70' y2='95' stroke='#222' strokeWidth='1' />
-                  <line x1='90' y1='45' x2='70' y2='95' stroke='#222' strokeWidth='1' />
-                  <line x1='90' y1='45' x2='110' y2='95' stroke='#222' strokeWidth='1' />
-                  <line x1='130' y1='45' x2='110' y2='95' stroke='#222' strokeWidth='1' />
-                  {/* Outer circles */}
-                  <circle cx='50' cy='45' r='18' fill='none' stroke='#2a2a2a' strokeWidth='1.5' />
-                  <circle cx='90' cy='45' r='18' fill='none' stroke='#2a2a2a' strokeWidth='1.5' />
-                  <circle cx='130' cy='45' r='18' fill='none' stroke='#2a2a2a' strokeWidth='1.5' />
-                  <circle cx='70' cy='95' r='18' fill='none' stroke='#2a2a2a' strokeWidth='1.5' />
-                  <circle cx='110' cy='95' r='18' fill='none' stroke='#2a2a2a' strokeWidth='1.5' />
-                  {/* Inner filled circles */}
-                  <circle cx='50' cy='45' r='7' fill='#333' />
-                  <circle cx='90' cy='45' r='7' fill='#444' />
-                  <circle cx='130' cy='45' r='7' fill='#333' />
-                  <circle cx='70' cy='95' r='7' fill='#3a3a3a' />
-                  <circle cx='110' cy='95' r='7' fill='#3a3a3a' />
-                  {/* Highlight dots */}
-                  <circle cx='50' cy='45' r='2.5' fill='#888' />
-                  <circle cx='90' cy='45' r='2.5' fill='#aaa' />
-                  <circle cx='130' cy='45' r='2.5' fill='#888' />
-                  <circle cx='70' cy='95' r='2.5' fill='#888' />
-                  <circle cx='110' cy='95' r='2.5' fill='#888' />
+                <svg width="180" height="140" viewBox="0 0 180 140">
+                  <line x1="50" y1="42" x2="90" y2="42" stroke="#222" strokeWidth="1" />
+                  <line x1="90" y1="42" x2="130" y2="42" stroke="#222" strokeWidth="1" />
+                  <line x1="50" y1="42" x2="70" y2="98" stroke="#222" strokeWidth="1" />
+                  <line x1="90" y1="42" x2="70" y2="98" stroke="#222" strokeWidth="1" />
+                  <line x1="90" y1="42" x2="110" y2="98" stroke="#222" strokeWidth="1" />
+                  <line x1="130" y1="42" x2="110" y2="98" stroke="#222" strokeWidth="1" />
+                  <circle cx="50" cy="42" r="18" fill="none" stroke="#2a2a2a" strokeWidth="1.5" />
+                  <circle cx="90" cy="42" r="18" fill="none" stroke="#2a2a2a" strokeWidth="1.5" />
+                  <circle cx="130" cy="42" r="18" fill="none" stroke="#2a2a2a" strokeWidth="1.5" />
+                  <circle cx="70" cy="98" r="18" fill="none" stroke="#2a2a2a" strokeWidth="1.5" />
+                  <circle cx="110" cy="98" r="18" fill="none" stroke="#2a2a2a" strokeWidth="1.5" />
+                  <circle cx="50" cy="42" r="8" fill="#2a2a2a" />
+                  <circle cx="90" cy="42" r="8" fill="#333" />
+                  <circle cx="130" cy="42" r="8" fill="#2a2a2a" />
+                  <circle cx="70" cy="98" r="8" fill="#2e2e2e" />
+                  <circle cx="110" cy="98" r="8" fill="#2e2e2e" />
+                  <circle cx="47" cy="39" r="2" fill="#555" />
+                  <circle cx="87" cy="39" r="2.5" fill="#666" />
+                  <circle cx="127" cy="39" r="2" fill="#555" />
+                  <circle cx="67" cy="95" r="2" fill="#555" />
+                  <circle cx="107" cy="95" r="2" fill="#555" />
                 </svg>
               </div>
-              <h3 style={{ fontSize: 17, fontWeight: 600, marginBottom: 6, color: '#ededed' }}>
-                Multi-Platform Connectivity
-              </h3>
-              <p style={{ color: '#666', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
-                Seamlessly connect every major futures prop firm. Apex, Topstep, MyFundedFutures, Tradeify, and more.
-              </p>
+              <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 6, color: '#ededed' }}>React Server Components</h3>
+              <p style={{ color: '#666', fontSize: 14, lineHeight: 1.55, margin: 0 }}>Add components without sending additional client-side JavaScript. Built on the latest React features.</p>
             </div>
           </div>
         </section>
 
-        {/* ─── FOOTER ─── */}
-        <footer style={{
-          borderTop: '1px solid #1a1a1a',
-          padding: '32px 24px',
-          textAlign: 'center',
-        }}>
-          <p style={{ color: '#444', fontSize: 13, margin: 0 }}>
-            © {new Date().getFullYear()} Tradescale Group. All rights reserved.
-          </p>
-        </footer>
       </div>
     </>
   );
