@@ -320,7 +320,7 @@ export default function LandingPage() {
 
           {/* ═══════ DASHBOARD PREVIEW ═══════ */}
           <div style={{
-            maxWidth: 800,
+            maxWidth: 1000,
             margin: '0 auto',
             padding: '0 24px 80px',
             position: 'relative',
@@ -468,6 +468,7 @@ export default function LandingPage() {
           maxWidth: 1100,
           margin: '0 auto',
           padding: '80px 24px 100px',
+          borderTop: '1px solid #1a1a1a',
         }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
@@ -475,17 +476,17 @@ export default function LandingPage() {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 5,
+                gap: 10,
                 color: '#fff',
-                fontSize: 13,
+                fontSize: 26,
                 cursor: 'pointer',
                 background: 'transparent',
                 border: '1px solid #333',
-                padding: '5px 12px',
-                borderRadius: 6,
+                padding: '10px 24px',
+                borderRadius: 12,
               }}
             >
-              <svg width="12" height="12" viewBox="0 0 76 65" fill="none">
+              <svg width="24" height="24" viewBox="0 0 76 65" fill="none">
                 <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#fff" />
               </svg>
               Features
