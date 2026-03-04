@@ -74,7 +74,7 @@ export default function LandingPage() {
               </div>
               {/* Nav links */}
               <div style={{ display: 'flex', gap: 22 }}>
-                {['Home', 'Features', 'Pricing', 'Connections', 'Contact'].map(item => (
+                {['Home', 'Features', 'Pricing', 'Connections', 'FAQ', 'Contact'].map(item => (
                   <span
                     key={item}
                     style={{
@@ -701,6 +701,80 @@ export default function LandingPage() {
             ))}
           </div>
         </section>
+
+        {/* ═══════ ADDITIONAL BUTTON ═══════ */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginTop: '60px',
+          marginBottom: '40px',
+        }}>
+          <div
+            style={{
+              position: 'relative',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 12,
+              fontSize: 22.5,
+              fontWeight: 500,
+              cursor: 'pointer',
+              padding: '12px 27px',
+              borderRadius: 9,
+              letterSpacing: '0.02em',
+              overflow: 'hidden',
+              border: '1px solid rgba(255,255,255,0.2)',
+            }}
+          >
+            <svg
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                pointerEvents: 'none',
+                filter: 'drop-shadow(0 0 3px rgba(224,172,105,0.8))'
+              }}
+            >
+              <rect
+                x="1.5"
+                y="1.5"
+                width="calc(100% - 3px)"
+                height="calc(100% - 3px)"
+                fill="none"
+                stroke="rgba(224, 172, 105, 0.8)"
+                strokeWidth="1.5"
+                strokeDasharray="60 740"
+                strokeDashoffset="0"
+                className="animate-addon-stroke-lg"
+                rx="8"
+              />
+            </svg>
+            <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{
+                fontSize: 22.5,
+                fontWeight: 700,
+                letterSpacing: '-0.04em',
+                color: '#e0ac69',
+                display: 'flex',
+                alignItems: 'center',
+              }}>
+                PROP<span style={{ fontSize: 13.75, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 2 }}>MAP</span>
+              </span>
+              <span style={{ 
+                fontSize: 22.5, 
+                color: '#e0ac69', 
+                marginLeft: 8,
+                fontWeight: 700,
+                fontStyle: 'italic',
+                letterSpacing: '-0.02em',
+                textTransform: 'uppercase',
+                fontFamily: '"Ethnocentric", "Eurostile Extended", "Impact", "Arial Black", sans-serif',
+                fontStretch: 'condensed'
+              }}>Pricing</span>
+            </span>
+          </div>
+        </div>
 
         {/* ═══════ FOOTER ═══════ */}
         <footer style={{
