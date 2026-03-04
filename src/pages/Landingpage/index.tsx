@@ -548,7 +548,7 @@ export default function LandingPage() {
               {
                 title: 'Secure Banking',
                 description: 'Connect your bank accounts with bank-level security and encrypted data transfers.',
-                Icon: Shield,
+                useShield: true,
               },
               {
                 title: 'Automated Reports',
@@ -597,9 +597,13 @@ export default function LandingPage() {
                           justifyContent: 'center',
                           boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
                         }}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="20 6 9 17 4 12" />
-                          </svg>
+                          {feature.useShield ? (
+                            <Shield size={14} color="#e0ac69" />
+                          ) : (
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                          )}
                         </div>
                       </div>
                 <h3 style={{
