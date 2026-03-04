@@ -184,27 +184,31 @@ export default function LandingPage() {
               Track Your Business
             </h1>
 
-            <h2 style={{
-              fontSize: 48,
-              fontWeight: 600,
-              fontStyle: 'italic',
-              color: '#888',
-              lineHeight: 1.1,
-              margin: '0 0 24px',
-              textAlign: 'center',
-            }}>
-              Finances & Numbers
-            </h2>
-
             {/* Dotted line separator */}
             <div style={{
               width: 400,
               height: 1,
-              margin: '0 auto 40px',
+              margin: '0 auto 24px',
               backgroundImage: 'linear-gradient(to right, #666 25%, transparent 25%)',
               backgroundSize: '8px 1px',
               backgroundRepeat: 'repeat-x',
             }} />
+
+            <h2 style={{
+              fontSize: 48,
+              fontWeight: 700,
+              fontStyle: 'italic',
+              color: '#888',
+              lineHeight: 1.1,
+              margin: '0 0 40px',
+              textAlign: 'center',
+              fontFamily: '"Ethnocentric", "Eurostile Extended", "Impact", "Arial Black", sans-serif',
+              fontStretch: 'condensed',
+              letterSpacing: '-0.02em',
+              textTransform: 'uppercase',
+            }}>
+              Finances & Numbers
+            </h2>
 
             {/* Subtitle */}
             <p style={{
@@ -321,7 +325,7 @@ export default function LandingPage() {
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ffbd2e' }} />
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#28c840' }} />
                   </div>
-                  <span style={{ color: '#666', fontSize: 12, fontFamily: 'monospace' }}>dashboard.propmap.com</span>
+                  <span style={{ color: '#666', fontSize: 12, fontFamily: 'monospace' }}>propmap.app</span>
                 </div>
                 <span style={{ color: '#444', fontSize: 11, fontFamily: 'monospace' }}>COMING SOON</span>
               </div>
@@ -337,24 +341,26 @@ export default function LandingPage() {
                 alignItems: 'center',
                 gap: 40,
               }}>
-                <div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 }}>
+                  <img src={Logo} alt='PropMap' style={{ height: 48, width: 56 }} />
                   <h2 style={{
                     fontSize: 48,
                     fontWeight: 700,
                     color: '#fff',
-                    marginBottom: 16,
                     letterSpacing: '-0.03em',
+                    margin: 0,
                   }}>
-                    Dashboard
+                    PROP<span style={{ fontSize: 28, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 2, opacity: 0.7 }}>MAP</span>
                   </h2>
-                  <p style={{
-                    fontSize: 20,
-                    color: '#888',
-                    marginBottom: 32,
-                  }}>
-                    Keep 100% of the profits
-                  </p>
                 </div>
+                <p style={{
+                  fontSize: 20,
+                  color: '#888',
+                  marginBottom: 32,
+                  textAlign: 'center',
+                }}>
+                  
+                </p>
                 
                 {/* Feature list with checkmarks */}
                 <div style={{
@@ -365,11 +371,11 @@ export default function LandingPage() {
                   width: '100%',
                 }}>
                   {[
-                    'Real-time profit tracking',
-                    'Advanced analytics dashboard',
-                    'Multi-account management',
-                    'Automated reporting',
-                    'Risk management tools',
+                    'Track your Expenses, Revenue and Profits',
+                    'Label & Categorize your transactions',
+                    'Connect your bank accounts securly ',
+                    'Automated reporting & insights',
+                    'Preview to potetnial tax exposure',
                   ].map((feature, index) => (
                     <div key={index} style={{
                       display: 'flex',
@@ -378,7 +384,7 @@ export default function LandingPage() {
                       color: '#fff',
                       fontSize: 16,
                     }}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#28c840" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
                       <span>{feature}</span>
@@ -403,7 +409,12 @@ export default function LandingPage() {
               color: '#ededed',
               letterSpacing: '-0.03em',
             }}>
-              What's PropMap?
+              What's <span style={{
+              fontSize: 18,
+              fontWeight: 700,
+              letterSpacing: '-0.04em',
+              color: '#ededed',
+            }}>PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 1, opacity: 0.7 }}>MAP</span></span>?
             </span>
             <span style={{
               color: '#979797ff',
@@ -425,7 +436,7 @@ export default function LandingPage() {
                  prop trading
                 </span>
               </div>
-              .
+              
             </span>
           </div>
         </section>
