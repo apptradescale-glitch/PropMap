@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { Box, AlignHorizontalDistributeCenter } from 'lucide-react';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function LandingPage() {
   return (
     <>
       <Helmet>
-        <title>Next.js by Vercel - The React Framework</title>
+        <title>PropMap</title>
       </Helmet>
 
       <style>{`
@@ -74,7 +75,7 @@ export default function LandingPage() {
               </div>
               {/* Nav links */}
               <div style={{ display: 'flex', gap: 22 }}>
-                {['Showcase', 'Docs', 'Blog', 'Templates', 'Enterprise'].map(item => (
+                {['Home', 'Features', 'Pricing', 'Contact'].map(item => (
                   <span
                     key={item}
                     style={{
@@ -109,7 +110,7 @@ export default function LandingPage() {
                   <circle cx="11" cy="11" r="8" />
                   <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
-                <span style={{ color: '#555', fontSize: 13 }}>Search documentation...</span>
+                <span style={{ color: '#555', fontSize: 13 }}>Search through docs</span>
               </div>
               {/* Dark mode icon */}
               <span style={{
@@ -130,7 +131,7 @@ export default function LandingPage() {
                 <svg width="12" height="12" viewBox="0 0 76 65" fill="none">
                   <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#fff" />
                 </svg>
-                Deploy
+                Sign Up
               </span>
               {/* Learn button */}
               <span style={{
@@ -142,7 +143,7 @@ export default function LandingPage() {
                 borderRadius: 6,
                 cursor: 'pointer',
               }}>
-                Learn
+                Sign In
               </span>
             </div>
           </div>
@@ -181,7 +182,7 @@ export default function LandingPage() {
               margin: '0 0 24px',
               color: '#fff',
             }}>
-              The React Framework<br />for the Web
+              Track Your Business Numbers
             </h1>
 
             {/* Subtitle */}
@@ -193,7 +194,7 @@ export default function LandingPage() {
               margin: '0 auto 40px',
               fontWeight: 400,
             }}>
-              Used by some of the world's largest companies, Next.js enables you to create{' '}
+             Designed for prop traders and business owners, PropMap enables{' '}
               <strong style={{
                 color: '#fff',
                 fontWeight: 600,
@@ -201,8 +202,8 @@ export default function LandingPage() {
                 textDecorationColor: 'rgba(255,255,255,0.4)',
                 textUnderlineOffset: '3px',
                 textDecorationThickness: '1px',
-              }}>high-quality web applications</strong>{' '}
-              with the power of React components.
+              }}>deep financial analytics</strong>{' '}
+             across revenue, expenses, and performance.
             </p>
 
             {/* CTA Buttons */}
@@ -227,7 +228,7 @@ export default function LandingPage() {
                 onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
               >
-                Get Started
+               Start Free Trial [3-days]
               </button>
               <button
                 style={{
@@ -244,7 +245,7 @@ export default function LandingPage() {
                 onMouseEnter={e => { e.currentTarget.style.borderColor = '#666'; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = '#333'; }}
               >
-                Learn Next.js
+              See our Features
               </button>
             </div>
 
@@ -260,7 +261,7 @@ export default function LandingPage() {
               <svg width="11" height="11" viewBox="0 0 76 65" fill="none">
                 <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#444" />
               </svg>
-              <span>~ npx create-next-app@latest</span>
+              <span>~ Take your business to the next level</span>
             </div>
           </div>
 
@@ -302,7 +303,7 @@ export default function LandingPage() {
               color: '#ededed',
               letterSpacing: '-0.03em',
             }}>
-              What's in Next.js?
+              What's PropMap?
             </span>
             <span style={{
               color: '#666',
@@ -310,7 +311,17 @@ export default function LandingPage() {
               marginLeft: 16,
               fontWeight: 400,
             }}>
-              Everything you need to build great products on the web.
+              Everything you need to get the full control about{' '}
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <Box size={14} />
+                business
+              </span>
+              {' / '}
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <AlignHorizontalDistributeCenter size={14} />
+                trading
+              </span>
+              .
             </span>
           </div>
 
@@ -411,6 +422,94 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        {/* ═══════ FOOTER ═══════ */}
+        <footer style={{
+          borderTop: '1px solid #1a1a1a',
+          padding: '60px 24px 40px',
+          textAlign: 'center',
+        }}>
+          <div style={{
+            maxWidth: 1100,
+            margin: '0 auto',
+          }}>
+            <div style={{ marginBottom: 40 }}>
+              <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 12, color: '#ededed' }}>
+                Ready to take control?
+              </h3>
+              <p style={{ color: '#666', fontSize: 14, marginBottom: 24 }}>
+                Join thousands of traders and business owners using PropMap to track their performance.
+              </p>
+              <button
+                style={{
+                  background: '#fff',
+                  color: '#000',
+                  border: '1px solid #333',
+                  padding: '10px 24px',
+                  borderRadius: 7,
+                  fontSize: 15,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+              >
+                Start Free Trial
+              </button>
+            </div>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: 40,
+              marginBottom: 40,
+              flexWrap: 'wrap',
+            }}>
+              <div>
+                <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8, color: '#888' }}>Product</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Features</span>
+                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Pricing</span>
+                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>API</span>
+                </div>
+              </div>
+              <div>
+                <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8, color: '#888' }}>Company</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>About</span>
+                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Blog</span>
+                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Careers</span>
+                </div>
+              </div>
+              <div>
+                <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8, color: '#888' }}>Support</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Documentation</span>
+                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Contact</span>
+                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Status</span>
+                </div>
+              </div>
+            </div>
+            <div style={{
+              paddingTop: 32,
+              borderTop: '1px solid #1a1a1a',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: 16,
+            }}>
+              <p style={{ color: '#444', fontSize: 13, margin: 0 }}>
+                © {new Date().getFullYear()} PropMap. All rights reserved.
+              </p>
+              <div style={{ display: 'flex', gap: 24 }}>
+                <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Privacy</span>
+                <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Terms</span>
+                <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Cookies</span>
+              </div>
+            </div>
+          </div>
+        </footer>
 
       </div>
     </>
