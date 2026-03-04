@@ -795,12 +795,25 @@ export default function LandingPage() {
               padding: '32px',
               textAlign: 'center',
             }}>
-              <h3 style={{
-                fontSize: 24,
-                fontWeight: 700,
-                color: '#fff',
-                marginBottom: 16,
-              }}>Monthly</h3>
+              <div style={{ position: 'relative', display: 'inline-block' }}>
+                <h3 style={{
+                  fontSize: 24,
+                  fontWeight: 700,
+                  color: '#fff',
+                  marginBottom: 16,
+                  position: 'relative',
+                }}>Monthly</h3>
+                <div style={{
+                  position: 'absolute',
+                  bottom: 8,
+                  left: 0,
+                  right: 0,
+                  height: 2,
+                  background: 'linear-gradient(90deg, transparent, #e0ac69, transparent)',
+                  filter: 'blur(1px)',
+                  boxShadow: '0 0 8px rgba(224, 172, 105, 0.6)',
+                }} />
+              </div>
               <div style={{
                 fontSize: 48,
                 fontWeight: 800,
@@ -814,15 +827,15 @@ export default function LandingPage() {
               
               {/* Free Trial info */}
               <div style={{
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
                 gap: 6,
                 background: 'rgba(255,255,255,0.06)',
                 border: '1px solid rgba(255,255,255,0.1)',
                 borderRadius: 6,
                 padding: '5px 12px',
-                minWidth: 180,
                 margin: '0 auto 24px',
+                justifyContent: 'center',
               }}>
                 <LockOpen size={14} color="#666" />
                 <span style={{ color: '#555', fontSize: 13 }}>Free Trial available [Test 3-days for free]</span>
@@ -925,12 +938,25 @@ export default function LandingPage() {
                 fontSize: 12,
                 fontWeight: 600,
               }}>SAVE 10%</div>
-              <h3 style={{
-                fontSize: 24,
-                fontWeight: 700,
-                color: '#fff',
-                marginBottom: 16,
-              }}>Yearly</h3>
+              <div style={{ position: 'relative', display: 'inline-block' }}>
+                <h3 style={{
+                  fontSize: 24,
+                  fontWeight: 700,
+                  color: '#fff',
+                  marginBottom: 16,
+                  position: 'relative',
+                }}>Yearly</h3>
+                <div style={{
+                  position: 'absolute',
+                  bottom: 8,
+                  left: 0,
+                  right: 0,
+                  height: 2,
+                  background: 'linear-gradient(90deg, transparent, #e0ac69, transparent)',
+                  filter: 'blur(1px)',
+                  boxShadow: '0 0 8px rgba(224, 172, 105, 0.6)',
+                }} />
+              </div>
               <div style={{
                 fontSize: 48,
                 fontWeight: 800,
@@ -944,15 +970,15 @@ export default function LandingPage() {
               
               {/* Free Trial info */}
               <div style={{
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
                 gap: 6,
                 background: 'rgba(255,255,255,0.06)',
                 border: '1px solid rgba(255,255,255,0.1)',
                 borderRadius: 6,
                 padding: '5px 12px',
-                minWidth: 180,
                 margin: '0 auto 24px',
+                justifyContent: 'center',
               }}>
                 <LockOpen size={14} color="#666" />
                 <span style={{ color: '#555', fontSize: 13 }}>Free Trial available [Test 3-days for free]</span>
