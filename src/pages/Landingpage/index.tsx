@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown, Zap, ShieldCheck } from 'lucide-react';
+import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp, Crown, Zap, ShieldCheck, PieChart, ArchiveRestore, BrainCircuit, Link2, Calculator } from 'lucide-react';
 import Logo from '@/assets/images/lg34.png';
 
 export default function LandingPage() {
@@ -571,12 +571,12 @@ export default function LandingPage() {
               {
                 title: 'Visual Analytics',
                 description: 'Track real performance across all business types with powerful visual analytics. Our platform delivers in-depth insights and detailed statistics, with specialized tools designed for prop trading—helping you identify inefficiencies, fix issues faster, and scale with confidence..',
-                Icon: BarChart3,
+                usePieChart: true,
               },
               {
                 title: 'Upload Files',
                 description: 'Upload all your files, invoices or certificates, label them, put notes and save them in our database. Easy filtering & finding documents.',
-                Icon: Receipt,
+                useArchiveRestore: true,
               },
               {
                 title: 'Secure Bank Connection',
@@ -586,17 +586,17 @@ export default function LandingPage() {
               {
                 title: 'Automated Sync',
                 description: 'Not only transacton history, also new transaction are automatically inputted into the dashboard.',
-                Icon: FileText,
+                useBrainCircuit: true,
               },
               {
                 title: 'Smart Categorization',
                 description: 'Categorize and track all business expenses & profits with smart labeling and filtering.',
-                Icon: CreditCard,
+                useLink2: true,
               },
               {
                 title: 'Tax Overview',
                 description: 'Overview of all your tax liabilities, potential deductions and taxable income. [IMPORTANT: This is not tax advice, always consult a tax professional, ONLY A OVERVIEW]',
-                Icon: TrendingUp,
+                useCalculator: true,
               }
             ].map((feature, index) => (
               <div key={index} style={{
@@ -630,7 +630,17 @@ export default function LandingPage() {
                           justifyContent: 'center',
                           boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
                         }}>
-                          {feature.useShieldCheck ? (
+                          {feature.usePieChart ? (
+                            <PieChart size={14} color="#e0ac69" />
+                          ) : feature.useArchiveRestore ? (
+                            <ArchiveRestore size={14} color="#e0ac69" />
+                          ) : feature.useBrainCircuit ? (
+                            <BrainCircuit size={14} color="#e0ac69" />
+                          ) : feature.useLink2 ? (
+                            <Link2 size={14} color="#e0ac69" />
+                          ) : feature.useCalculator ? (
+                            <Calculator size={14} color="#e0ac69" />
+                          ) : feature.useShieldCheck ? (
                             <ShieldCheck size={14} color="#e0ac69" />
                           ) : (
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
