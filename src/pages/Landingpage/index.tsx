@@ -470,35 +470,52 @@ export default function LandingPage() {
           padding: '80px 24px 100px',
         }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <button
-              style={{
-                background: 'transparent',
-                color: '#fff',
-                border: '1px solid #333',
-                padding: '9px 22px',
-                borderRadius: 7,
-                fontSize: 15,
-                fontWeight: 500,
-                cursor: 'pointer',
-                transition: 'border-color 0.15s',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#666'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = '#333'; }}
-            >
-              <Focus size={14} />
-              Features
-            </button>
-            <p style={{
-              fontSize: 18,
-              color: '#888',
-              maxWidth: 600,
-              margin: '0 auto',
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 8,
+              marginBottom: 56,
             }}>
-              Everything you need to manage your prop trading business efficiently
-            </p>
+              <input
+                type="text"
+                placeholder="Search features..."
+                style={{
+                  background: '#0a0a0a',
+                  border: '1px solid #333',
+                  borderRadius: 7,
+                  padding: '9px 16px',
+                  fontSize: 15,
+                  color: '#fff',
+                  width: '300px',
+                  outline: 'none',
+                  transition: 'border-color 0.15s',
+                }}
+                onFocus={e => { e.currentTarget.style.borderColor = '#666'; }}
+                onBlur={e => { e.currentTarget.style.borderColor = '#333'; }}
+              />
+              <button
+                style={{
+                  background: '#fff',
+                  color: '#000',
+                  border: '1px solid #333',
+                  padding: '9px 22px',
+                  borderRadius: 7,
+                  fontSize: 15,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'background 0.15s',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+              >
+                <Focus size={14} />
+                Features
+              </button>
+            </div>
           </div>
           
           <div style={{
