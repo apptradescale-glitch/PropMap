@@ -1204,7 +1204,6 @@ export default function LandingPage() {
                 lineHeight: 1.5,
                 marginBottom: 16,
               }}>For extracting Transactions [Expenses & Payouts]</p>
-              </div>
             </div>
 
             {/* Email Connections */}
@@ -1251,7 +1250,6 @@ export default function LandingPage() {
                 lineHeight: 1.5,
                 marginBottom: 16,
               }}>For extracting Invoices & more</p>
-              </div>
             </div>
 
             {/* Trading Connections */}
@@ -1428,7 +1426,7 @@ export default function LandingPage() {
             </div>
           </div>
         </footer>
-
+  
       </div>
     </>
   );
