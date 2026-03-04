@@ -326,6 +326,26 @@ export default function LandingPage() {
             position: 'relative',
             zIndex: 1,
           }}>
+            {/* Subtitle */}
+            <p style={{
+              fontSize: 18,
+              color: '#888',
+              maxWidth: 560,
+              margin: '0 auto 40px',
+              fontWeight: 400,
+            }}>
+             Designed for prop traders and business owners, PropMap enables{' '}
+              <strong style={{
+                color: '#fff',
+                fontWeight: 600,
+                textDecoration: 'underline',
+                textDecorationColor: 'rgba(255,255,255,0.4)',
+                textUnderlineOffset: '3px',
+                textDecorationThickness: '1px',
+              }}>deep financial analytics</strong>{' '}
+             across revenue, expenses, and performance.
+            </p>
+
             {/* CTA Buttons */}
             <div style={{
               display: 'flex',
