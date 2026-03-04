@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Box, AlignHorizontalDistributeCenter, Key, Eye } from 'lucide-react';
+import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus } from 'lucide-react';
 import Logo from '@/assets/images/lg34.png';
 
 export default function LandingPage() {
@@ -470,14 +470,27 @@ export default function LandingPage() {
           padding: '80px 24px 100px',
         }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <h2 style={{
-              fontSize: 32,
-              fontWeight: 700,
-              color: '#fff',
-              marginBottom: 16,
-            }}>
+            <button
+              style={{
+                background: 'transparent',
+                color: '#fff',
+                border: '1px solid #333',
+                padding: '9px 22px',
+                borderRadius: 7,
+                fontSize: 15,
+                fontWeight: 500,
+                cursor: 'pointer',
+                transition: 'border-color 0.15s',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = '#666'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = '#333'; }}
+            >
+              <Focus size={14} />
               Features
-            </h2>
+            </button>
             <p style={{
               fontSize: 18,
               color: '#888',
