@@ -1238,10 +1238,9 @@ export default function LandingPage() {
               }}>For extracting Transactions [Expenses & Payouts]</p>
               <div style={{
                 display: 'flex',
-                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 0,
+                gap: 16,
                 marginTop: -8,
               }}>
                 <img 
@@ -1375,7 +1374,7 @@ export default function LandingPage() {
                   </div>
                   <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>IMAP</span>
                 </div>
-                <span style={{ color: '#888', fontSize: 13, marginTop: 6 }}>[<span style={{ color: '#e0ac69', fontWeight: 700 }}>ALL</span> other emails connectable]</span>
+                <span style={{ color: '#888', fontSize: 13, marginTop: 12 }}>[<span style={{ color: '#e0ac69', fontWeight: 700 }}>ALL</span> other emails are <br />connectable thorugh IMAP ]</span>
               </div>
             </div>
 
@@ -1435,11 +1434,11 @@ export default function LandingPage() {
                   alt="Tradescale" 
                   style={{
                     width: 40,
-                    height: 40,
+                    height: 32,
                     objectFit: 'contain',
                   }}
                 />
-                <span style={{ color: '#fff', fontSize: 32, fontWeight: 500 }}>Tradescale</span>
+                <span style={{ color: '#fff', fontSize: 24, fontWeight: 500 }}>Tradescale</span>
               </div>
             </div>
           </div>
