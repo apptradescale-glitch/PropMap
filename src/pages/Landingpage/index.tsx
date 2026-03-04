@@ -556,7 +556,17 @@ export default function LandingPage() {
                 }}>
                   PROP<span style={{ fontSize: 13.75, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 2 }}>MAP</span>
                 </span>
-                <span style={{ fontSize: 22.5, color: '#e0ac69', marginLeft: 8 }}>Features</span>
+                <span style={{ 
+                  fontSize: 22.5, 
+                  color: '#e0ac69', 
+                  marginLeft: 8,
+                  fontWeight: 700,
+                  fontStyle: 'italic',
+                  letterSpacing: '-0.02em',
+                  textTransform: 'uppercase',
+                  fontFamily: '"Ethnocentric", "Eurostile Extended", "Impact", "Arial Black", sans-serif',
+                  fontStretch: 'condensed'
+                }}>Features</span>
               </span>
             </div>
           </div>
@@ -669,10 +679,15 @@ export default function LandingPage() {
                 }}>
                   {Array.isArray(feature.description) ? (
                     <>
-                      <div style={{ flex: 1 }}>
+                      <div style={{ flex: 1, textAlign: 'center' }}>
                         {feature.description[0]}
                       </div>
-                      <div style={{ flex: 1 }}>
+                      <div style={{
+                        width: '1px',
+                        background: 'rgba(255, 255, 255, 0.2)',
+                        alignSelf: 'stretch',
+                      }} />
+                      <div style={{ flex: 1, textAlign: 'center' }}>
                         {feature.description[1]}
                       </div>
                     </>
@@ -776,7 +791,7 @@ const styles = `
     100% { stroke-dashoffset: -560; }
   }
   .animate-addon-stroke-lg {
-    animation: addonStrokeLg 3.2s linear infinite;
+    animation: addonStrokeLg 2.8s linear infinite;
   }
 `;
 
