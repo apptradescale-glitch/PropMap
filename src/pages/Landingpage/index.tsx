@@ -853,8 +853,10 @@ export default function LandingPage() {
                   'Track your Expenses, Revenue and Profits',
                   'Label & Categorize your transactions',
                   'Connect your bank accounts securly',
-                  'Automated reporting & insights',
+                  'Automated insights & labeling',
+                  'File Upload + Email connection',
                   'Preview to potetnial tax exposure',
+                  'Automated Sync for Transactions & Trading Accounts',
                 ].map((feature, index) => (
                   <div key={index} style={{
                     display: 'flex',
@@ -996,8 +998,10 @@ export default function LandingPage() {
                   'Track your Expenses, Revenue and Profits',
                   'Label & Categorize your transactions',
                   'Connect your bank accounts securly',
-                  'Automated reporting & insights',
+                  'Automated insights & labeling',
+                  'File Upload + Email connection',
                   'Preview to potetnial tax exposure',
+                  'Automated Sync for Transactions & Trading Accounts',
                 ].map((feature, index) => (
                   <div key={index} style={{
                     display: 'flex',
