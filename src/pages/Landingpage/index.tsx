@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus } from 'lucide-react';
+import { Box, AlignHorizontalDistributeCenter, Key, Eye, Focus, BarChart3, Receipt, Shield, FileText, CreditCard, TrendingUp } from 'lucide-react';
 import Logo from '@/assets/images/lg34.png';
 
 export default function LandingPage() {
@@ -470,119 +470,100 @@ export default function LandingPage() {
           padding: '80px 24px 100px',
         }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: 8,
-              marginBottom: 56,
-            }}>
-              <input
-                type="text"
-                placeholder="Search features..."
-                style={{
-                  background: '#0a0a0a',
-                  border: '1px solid #333',
-                  borderRadius: 7,
-                  padding: '9px 16px',
-                  fontSize: 15,
-                  color: '#fff',
-                  width: '300px',
-                  outline: 'none',
-                  transition: 'border-color 0.15s',
-                }}
-                onFocus={e => { e.currentTarget.style.borderColor = '#666'; }}
-                onBlur={e => { e.currentTarget.style.borderColor = '#333'; }}
-              />
-              <button
-                style={{
-                  background: '#fff',
-                  color: '#000',
-                  border: '1px solid #333',
-                  padding: '9px 22px',
-                  borderRadius: 7,
-                  fontSize: 15,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  transition: 'background 0.15s',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6,
-                }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
-              >
-                <Focus size={14} />
-                Features
-              </button>
-            </div>
+            <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <button
+              style={{
+                background: '#fff',
+                color: '#000',
+                border: '1px solid #333',
+                padding: '9px 22px',
+                borderRadius: 7,
+                fontSize: 15,
+                fontWeight: 500,
+                cursor: 'pointer',
+                transition: 'background 0.15s',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+            >
+              <Focus size={14} />
+              Features
+            </button>
+          </div>
           </div>
           
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: 32,
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: 40,
             maxWidth: 1100,
             margin: '0 auto',
           }}>
             {[
               {
                 title: 'Real-time Analytics',
-                description: 'Track your performance with live data and instant insights',
-                icon: '📊'
+                description: 'Track your performance with live data and instant insights across all your accounts.',
+                Icon: BarChart3,
               },
               {
                 title: 'Tax Planning',
-                description: 'Preview potential tax exposure and plan accordingly',
-                icon: '📈'
+                description: 'Preview potential tax exposure and plan accordingly with automated calculations.',
+                Icon: Receipt,
               },
               {
                 title: 'Secure Banking',
-                description: 'Connect your bank accounts with bank-level security',
-                icon: '🔒'
+                description: 'Connect your bank accounts with bank-level security and encrypted data transfers.',
+                Icon: Shield,
               },
               {
                 title: 'Automated Reports',
-                description: 'Generate comprehensive reports automatically',
-                icon: '📋'
+                description: 'Generate comprehensive reports automatically with detailed breakdowns and exports.',
+                Icon: FileText,
               },
               {
                 title: 'Expense Tracking',
-                description: 'Categorize and track every business expense',
-                icon: '💳'
+                description: 'Categorize and track every business expense with smart labeling and filtering.',
+                Icon: CreditCard,
               },
               {
                 title: 'Revenue Monitoring',
-                description: 'Monitor revenue streams and growth patterns',
-                icon: '💰'
+                description: 'Monitor revenue streams and growth patterns across all your trading accounts.',
+                Icon: TrendingUp,
               }
             ].map((feature, index) => (
               <div key={index} style={{
-                background: '#0a0a0a',
-                border: '1px solid #1a1a1a',
-                borderRadius: 12,
-                padding: '24px',
-                textAlign: 'center',
-                transition: 'transform 0.2s, border-color 0.2s',
+                padding: '32px 0',
+                textAlign: 'left',
               }}>
                 <div style={{
-                  fontSize: 32,
-                  marginBottom: 16,
+                  width: 48,
+                  height: 48,
+                  borderRadius: 12,
+                  background: '#111',
+                  border: '1px solid #1a1a1a',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: 20,
                 }}>
-                  {feature.icon}
+                  <feature.Icon size={22} color="#e0ac69" />
                 </div>
                 <h3 style={{
-                  fontSize: 18,
-                  fontWeight: 600,
+                  fontSize: 17,
+                  fontWeight: 700,
                   color: '#fff',
-                  marginBottom: 8,
+                  marginBottom: 12,
                 }}>
                   {feature.title}
                 </h3>
                 <p style={{
                   fontSize: 14,
                   color: '#888',
-                  lineHeight: 1.5,
+                  lineHeight: 1.6,
+                  margin: 0,
                 }}>
                   {feature.description}
                 </p>
