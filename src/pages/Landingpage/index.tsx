@@ -74,7 +74,7 @@ export default function LandingPage() {
               </div>
               {/* Nav links */}
               <div style={{ display: 'flex', gap: 22 }}>
-                {['Home', 'Features', 'Pricing', 'Contact'].map(item => (
+                {['Home', 'Features', 'Pricing', 'Connections', 'Contact'].map(item => (
                   <span
                     key={item}
                     style={{
@@ -539,10 +539,10 @@ export default function LandingPage() {
                   fill="none"
                   stroke="rgba(224, 172, 105, 0.8)"
                   strokeWidth="1.5"
-                  strokeDasharray="50 510"
+                  strokeDasharray="50 460"
                   strokeDashoffset="0"
-                  rx="6"
                   className="animate-addon-stroke-lg"
+                  rx="6"
                 />
               </svg>
               <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -788,7 +788,7 @@ export default function LandingPage() {
 const styles = `
   @keyframes addonStrokeLg {
     0% { stroke-dashoffset: 0; }
-    100% { stroke-dashoffset: -560; }
+    100% { stroke-dashoffset: -510; }
   }
   .animate-addon-stroke-lg {
     animation: addonStrokeLg 2.8s linear infinite;
