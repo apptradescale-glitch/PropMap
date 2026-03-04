@@ -321,9 +321,9 @@ export default function LandingPage() {
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <div style={{ display: 'flex', gap: 4 }}>
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ff5f57' }} />
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ffbd2e' }} />
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#28c840' }} />
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e0ac69' }} />
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e0ac69', opacity: 0.8 }} />
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e0ac69', opacity: 0.6 }} />
                   </div>
                   <span style={{ color: '#666', fontSize: 12, fontFamily: 'monospace' }}>propmap.app</span>
                 </div>
@@ -341,16 +341,19 @@ export default function LandingPage() {
                 alignItems: 'center',
                 gap: 40,
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 }}>
-                  <img src={Logo} alt='PropMap' style={{ height: 48, width: 56 }} />
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+                  <img src={Logo} alt='PropMap' style={{ height: 48, width: 56, marginBottom: 12 }} />
                   <h2 style={{
                     fontSize: 48,
                     fontWeight: 700,
-                    color: '#fff',
-                    letterSpacing: '-0.03em',
+                    fontStyle: 'italic',
+                    letterSpacing: '-0.02em',
                     margin: 0,
+                    fontFamily: '"Ethnocentric", "Eurostile Extended", "Impact", "Arial Black", sans-serif',
+                    fontStretch: 'condensed',
+                    textTransform: 'uppercase',
                   }}>
-                    PROP<span style={{ fontSize: 28, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 2, opacity: 0.7 }}>MAP</span>
+                    <span style={{ color: '#fff' }}>PROP</span><span style={{ color: '#888' }}>MAP</span>
                   </h2>
                 </div>
                 <p style={{
