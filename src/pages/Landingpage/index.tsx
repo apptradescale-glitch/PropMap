@@ -6,7 +6,7 @@ import Logo from '@/assets/images/lg34.png';
 import TradescaleLogo from '@/assets/images/a.png';
 import PlaidLogo from '@/assets/images/plaid.png';
 import GmailLogo from '@/assets/images/gmail.png';
-import OutlookLogo from '@/assets/images/outlook.jpg';
+import OutlookLogo from '@/assets/images/outlook.png';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -1246,8 +1246,8 @@ export default function LandingPage() {
                   src={PlaidLogo} 
                   alt="Plaid" 
                   style={{
-                    width: 64,
-                    height: 64,
+                    width: 128,
+                    height: 128,
                     objectFit: 'contain',
                   }}
                 />
@@ -1302,42 +1302,40 @@ export default function LandingPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 24,
+                gap: 48,
                 marginTop: 16,
               }}>
                 <div style={{
                   display: 'flex',
-                  flexDirection: 'column',
                   alignItems: 'center',
                   gap: 8,
                 }}>
+                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Gmail</span>
                   <img 
                     src={GmailLogo} 
                     alt="Gmail" 
                     style={{
-                      width: 64,
-                      height: 64,
+                      width: 32,
+                      height: 32,
                       objectFit: 'contain',
                     }}
                   />
-                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Gmail</span>
                 </div>
                 <div style={{
                   display: 'flex',
-                  flexDirection: 'column',
                   alignItems: 'center',
                   gap: 8,
                 }}>
+                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Outlook</span>
                   <img 
                     src={OutlookLogo} 
                     alt="Outlook" 
                     style={{
-                      width: 64,
-                      height: 64,
+                      width: 32,
+                      height: 32,
                       objectFit: 'contain',
                     }}
                   />
-                  <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>Outlook</span>
                 </div>
               </div>
               <div style={{
