@@ -598,7 +598,7 @@ export default function LandingPage() {
               },
               {
                 title: 'Automated Sync',
-                description: ['Not only transacton history, also new transaction are automatically inputted into the dashboard.', 'PropFirm Accounts are also connectable with our supported brokers to see payout eligibality or drawdown limitations'],
+                description: ['Not only transacton history, also new transaction are automatically inputted into the dashboard.', 'PropFirm Trading Accounts are also connectable with our supported brokers to see payout eligibality or drawdowns'],
                 useBrainCircuit: true,
               },
               {
