@@ -74,7 +74,7 @@ export default function LandingPage() {
                   letterSpacing: '-0.04em',
                   color: '#fff',
                 }}>
-                  PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 2 }}>MAP</span>
+                  PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 3 }}>MAP</span>
                 </span>
               </div>
               {/* Nav links */}
@@ -467,7 +467,7 @@ export default function LandingPage() {
               fontWeight: 700,
               letterSpacing: '-0.04em',
               color: '#ededed',
-            }}>PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 2 }}>MAP</span></span>?
+            }}>PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 3 }}>MAP</span></span>?
             </span>
             <span style={{
               color: '#979797ff',
