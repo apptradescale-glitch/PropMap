@@ -36,9 +36,7 @@ export default function Header() {
 <div className="flex-1 flex justify-center relative" style={{ bottom: '-2rem' }}>
 </div>
   <div className="flex items-center gap-2 -mb-10 mt-6 relative z-50 pointer-events-auto">
-    <LogTrades />
-    <Filter />
-    <Riskcalc />
+
     <ModeToggle />
     <UserNav />
   </div>

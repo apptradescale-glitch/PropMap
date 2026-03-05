@@ -46,8 +46,10 @@ export default function Sidebar({ className }: SidebarProps) {
               fontWeight: 700,
               letterSpacing: '-0.04em',
               color: '#fff',
+              position: 'relative',
+              top: 2
             }}>
-              PROP<span style={{ fontSize: 9, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative' as const, top: -6 }}>MAP</span>
+              PROP<span style={{ fontSize: 9, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative' as const, top: -10 }}>MAP</span>
             </span>
           )}
         </div>
@@ -66,7 +68,7 @@ export default function Sidebar({ className }: SidebarProps) {
       {/* Collapse toggle */}
       <ChevronLeft
         className={cn(
-          'absolute -right-3 top-[35px] z-50 cursor-pointer rounded-full border border-[#333] bg-[#0a0a0a] text-3xl text-[#888] duration-200 hover:text-white p-1',
+          'absolute -right-3 top-[20px] z-50 cursor-pointer rounded-full border border-[#333] bg-[#0a0a0a] text-3xl text-[#888] duration-200 hover:text-white p-1',
           isMinimized && 'rotate-180'
         )}
         onClick={handleToggle}
