@@ -1,18 +1,23 @@
 import UserAuthForm from './components/user-auth-form';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logoImage from '@/assets/images/lg34.png';
-import { ParticlesBackground } from '@/components/shared/ParticlesBackground';
 import { Card, CardContent } from '@/components/ui/card';
 
 export default function SignInPage() {
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+    document.body.style.backgroundColor = '#000';
+    document.body.style.margin = '0';
+    return () => {
+      document.documentElement.classList.remove('dark');
+      document.body.style.backgroundColor = '';
+      document.body.style.margin = '';
+    };
+  }, []);
+
   return (
     <div className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Particles in the background */}
-      <div className="absolute inset-0 z-0">
-        <ParticlesBackground />
-      </div>
-      
       {/* Card with login content */}
       <Card className="relative z-10 w-full max-w-[600px]">
         <CardContent className="flex flex-col items-center justify-center space-y-6 p-6">
