@@ -94,7 +94,9 @@ export default function LandingPage() {
                       const sectionId = item === 'Home' ? 'hero' : item.toLowerCase();
                       const element = document.getElementById(sectionId);
                       if (element) {
-                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // For sections with buttons, use center to show buttons
+                        const blockPosition = ['pricing', 'connections', 'faq'].includes(item.toLowerCase()) ? 'center' : 'start';
+                        element.scrollIntoView({ behavior: 'smooth', block: blockPosition });
                       }
                     }}
                   >
