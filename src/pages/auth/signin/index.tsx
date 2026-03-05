@@ -26,6 +26,7 @@ export default function SignInPage() {
               src={logoImage} 
               alt="Logo" 
               className="h-24 w-auto"
+              style={{ border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px' }}
             />
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-2xl font-semibold tracking-tight">
@@ -39,12 +40,13 @@ export default function SignInPage() {
 
        <UserAuthForm />
           
-          <div className="space-y-4 text-center text-sm text-muted-foreground">
+          <div className="space-y-4 text-center text-sm text-gray-400">
             <p>
               Sign up to Tradescale | {' '}
               <Link
                 to="/auth/signup"
                 className="underline underline-offset-4 hover:text-white"
+                style={{ color: '#e5e5e5' }}
               >
                 Create Account
               </Link>
@@ -55,6 +57,7 @@ export default function SignInPage() {
   <Link
     to="/terms"
     className="underline underline-offset-4 hover:text-white"
+    style={{ color: '#e5e5e5' }}
   >
     Terms of Service
   </Link>
@@ -62,11 +65,12 @@ export default function SignInPage() {
   <Link
     to="/policy"
     className="underline underline-offset-4 hover:text-white"
+    style={{ color: '#e5e5e5' }}
   >
     Privacy Policy
   </Link>
   .
-</p>
+    </p>
           </div>
         </CardContent>
       </Card>
