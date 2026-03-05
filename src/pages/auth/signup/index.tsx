@@ -1,18 +1,58 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logoImage from '@/assets/images/lg34.png';
-import { ParticlesBackground } from '@/components/shared/ParticlesBackground';
 import { Card, CardContent } from '@/components/ui/card';
 import SignUpForm from './components/user-register-form';
 
 export default function SignUpPage() {
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+    document.body.style.backgroundColor = '#000';
+    document.body.style.margin = '0';
+    
+    // Add custom styles to override greenish colors
+    const style = document.createElement('style');
+    style.textContent = `
+      /* Override button hover and focus colors */
+      button:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+      }
+      button:focus {
+        background-color: rgba(255, 255, 255, 0.15) !important;
+        border-color: rgba(255, 255, 255, 0.4) !important;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
+      }
+      
+      /* Override input focus colors */
+      input:focus {
+        border-color: rgba(255, 255, 255, 0.4) !important;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
+        outline: none !important;
+      }
+      
+      /* Override any green accent colors */
+      .ring-green-500,
+      .border-green-500,
+      .bg-green-500,
+      .text-green-500 {
+        border-color: rgba(255, 255, 255, 0.4) !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+        background-color: rgba(255, 255, 255, 0.1) !important;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.documentElement.classList.remove('dark');
+      document.body.style.backgroundColor = '';
+      document.body.style.margin = '';
+      document.head.removeChild(style);
+    };
+  }, []);
+
   return (
     <div className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Particles in the background */}
-      <div className="absolute inset-0 z-0">
-        <ParticlesBackground />
-      </div>
-      
       {/* Card with signup content */}
       <Card className="relative z-10 w-full max-w-[600px]">
         <CardContent className="flex flex-col items-center justify-center space-y-6 p-6">
@@ -21,10 +61,20 @@ export default function SignUpPage() {
               src={logoImage} 
               alt="Logo" 
               className="h-24 w-auto"
+              style={{ border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px' }}
             />
             <div className="flex flex-col space-y-2 text-center">
-              <h1 className="text-2xl font-semibold tracking-tight">
-                Tradescale
+              <h1 style={{
+                fontSize: 18,
+                fontWeight: 700,
+                letterSpacing: '-0.04em',
+                color: '#fff',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+              }}>
+                PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 2 }}>MAP</span>
               </h1>
               <p className="text-sm text-muted-foreground">
                 Create an account to get started
@@ -34,12 +84,13 @@ export default function SignUpPage() {
 
           <SignUpForm />
           
-          <div className="space-y-4 text-center text-sm text-muted-foreground">
+          <div className="space-y-4 text-center text-sm text-gray-400">
             <p>
               Already have an account?{' '}
               <Link
                 to="/auth/signin"
                 className="underline underline-offset-4 hover:text-white"
+                style={{ color: '#e5e5e5' }}
               >
                 Sign In
               </Link>
@@ -50,6 +101,7 @@ export default function SignUpPage() {
   <Link
     to="/terms"
     className="underline underline-offset-4 hover:text-white"
+    style={{ color: '#e5e5e5' }}
   >
     Terms of Service
   </Link>
@@ -57,11 +109,12 @@ export default function SignUpPage() {
   <Link
     to="/policy"
     className="underline underline-offset-4 hover:text-white"
+    style={{ color: '#e5e5e5' }}
   >
     Privacy Policy
   </Link>
   .
-</p>
+    </p>
           </div>
         </CardContent>
       </Card>

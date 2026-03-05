@@ -71,6 +71,8 @@ export default function SignInPage() {
                 color: '#fff',
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
               }}>
                 PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 2 }}>MAP</span>
               </h1>
