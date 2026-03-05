@@ -9,7 +9,7 @@ export default function OverViewPage() {
   // Ensure dark mode
   useEffect(() => {
     document.documentElement.classList.add('dark');
-    document.body.style.backgroundColor = '#000';
+    document.body.style.backgroundColor = '#0a0a0a';
     document.body.style.margin = '0';
     return () => {
       document.documentElement.classList.remove('dark');
