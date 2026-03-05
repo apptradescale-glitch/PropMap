@@ -453,7 +453,7 @@ export default function LandingPage() {
         <section style={{
           maxWidth: 1100,
           margin: '0 auto',
-          padding: '20px 24px 30px',
+          padding: '10px 24px 15px',
         }}>
           <div style={{ textAlign: 'center', marginBottom: 20 }}>
             <span style={{
