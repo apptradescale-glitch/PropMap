@@ -296,6 +296,7 @@ export default function LandingPage() {
                 }}
                 onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+                onClick={() => navigate('/auth/signup')}
               >
                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                   <Key size={14} />
@@ -1700,6 +1701,7 @@ export default function LandingPage() {
                 }}
                 onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+                onClick={() => navigate('/auth/signup')}
               >
                 Start Free Trial
               </button>
