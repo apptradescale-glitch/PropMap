@@ -90,6 +90,13 @@ export default function LandingPage() {
                     }}
                     onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
                     onMouseLeave={e => (e.currentTarget.style.color = '#888')}
+                    onClick={() => {
+                      const sectionId = item === 'Home' ? 'hero' : item.toLowerCase();
+                      const element = document.getElementById(sectionId);
+                      if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }}
                   >
                     {item}
                   </span>
@@ -154,7 +161,7 @@ export default function LandingPage() {
         </nav>
 
         {/* ═══════ HERO ═══════ */}
-        <section style={{ position: 'relative', overflow: 'hidden' }}>
+        <section id="hero" style={{ position: 'relative', overflow: 'hidden' }}>
           {/* Subtle radial glow */}
           <div style={{
             position: 'absolute',
@@ -450,7 +457,7 @@ export default function LandingPage() {
         </section>
 
         {/* ═══════ FEATURES ═══════ */}
-        <section style={{
+        <section id="features" style={{
           maxWidth: 1100,
           margin: '0 auto',
           padding: '10px 24px 10px',
@@ -783,7 +790,7 @@ export default function LandingPage() {
         </div>
 
         {/* ═══════ PRICING CARDS ═══════ */}
-        <div style={{
+        <div id="pricing" style={{
           maxWidth: 1100,
           margin: '40px auto 60px',
           padding: '0 24px',
@@ -1182,7 +1189,7 @@ export default function LandingPage() {
         </div>
 
         {/* ═══════ PLATFORM CONNECTIONS ═══════ */}
-        <div style={{
+        <div id="connections" style={{
           maxWidth: 1100,
           margin: '40px auto 60px',
           padding: '0 24px',
@@ -1523,7 +1530,7 @@ export default function LandingPage() {
         </div>
 
         {/* FAQ Content */}
-        <div style={{
+        <div id="faq" style={{
           maxWidth: 1100,
           margin: '0 auto 60px',
           padding: '0 24px',
@@ -1647,7 +1654,7 @@ export default function LandingPage() {
 
         
         {/* ═══════ FOOTER ═══════ */}
-        <footer style={{
+        <footer id="contact" style={{
           borderTop: '1px solid #1a1a1a',
           padding: '60px 24px 40px',
           textAlign: 'center',
