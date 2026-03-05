@@ -1444,6 +1444,197 @@ export default function LandingPage() {
           </div>
         </div>
 
+        {/* ═══════ FAQ ═══════ */}
+        <div style={{
+          borderTop: '1px solid #1a1a1a',
+          marginBottom: '40px',
+        }} />
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginTop: '60px',
+          marginBottom: '40px',
+        }}>
+          <div
+            style={{
+              position: 'relative',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 12,
+              fontSize: 22.5,
+              fontWeight: 500,
+              cursor: 'pointer',
+              padding: '12px 27px',
+              borderRadius: 9,
+              letterSpacing: '0.02em',
+              overflow: 'hidden',
+              border: '1px solid rgba(255,255,255,0.2)',
+            }}
+          >
+            <svg
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                pointerEvents: 'none',
+                filter: 'drop-shadow(0 0 3px rgba(224,172,105,0.8))'
+              }}
+            >
+              <rect
+                x="1.5"
+                y="1.5"
+                width="calc(100% - 3px)"
+                height="calc(100% - 3px)"
+                fill="none"
+                stroke="rgba(224, 172, 105, 0.8)"
+                strokeWidth="1.5"
+                strokeDasharray="60 740"
+                strokeDashoffset="0"
+                className="animate-addon-stroke-lg"
+                rx="8"
+              />
+            </svg>
+            <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{
+                fontSize: 22.5,
+                fontWeight: 700,
+                letterSpacing: '-0.04em',
+                color: '#ededed',
+                display: 'inline-flex',
+                alignItems: 'center',
+              }}>
+                PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 2 }}>MAP</span>
+              </span>
+              <span style={{ 
+                fontSize: 22.5, 
+                color: '#888', 
+                marginLeft: 8,
+                fontWeight: 700,
+                fontStyle: 'italic',
+                letterSpacing: '-0.02em',
+                textTransform: 'uppercase',
+                fontFamily: '"Ethnocentric", "Eurostile Extended", "Impact", "Arial Black", sans-serif',
+                fontStretch: 'condensed'
+              }}>FAQ</span>
+            </span>
+          </div>
+        </div>
+
+        {/* FAQ Content */}
+        <div style={{
+          maxWidth: 1100,
+          margin: '0 auto 60px',
+          padding: '0 24px',
+        }}>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 16,
+          }}>
+            {[1, 2, 3, 4, 5].map((index) => (
+              <div key={index} style={{
+                background: 'transparent',
+                border: '1px solid #1a1a1a',
+                borderRadius: 12,
+                overflow: 'hidden',
+              }}>
+                <div
+                  onClick={() => {
+                    const answer = document.getElementById(`faq-answer-${index}`);
+                    if (answer.style.display === 'none' || answer.style.display === '') {
+                      answer.style.display = 'block';
+                    } else {
+                      answer.style.display = 'none';
+                    }
+                  }}
+                  style={{
+                    padding: '20px 24px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    transition: 'background 0.2s',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = '#0a0a0a'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                >
+                  <span style={{ 
+                    color: '#fff', 
+                    fontSize: 16, 
+                    fontWeight: 500 
+                  }}>
+                    hello?
+                  </span>
+                  <span style={{ 
+                    color: '#e0ac69', 
+                    fontSize: 20,
+                    transition: 'transform 0.2s'
+                  }}>
+                    +
+                  </span>
+                </div>
+                <div
+                  id={`faq-answer-${index}`}
+                  style={{
+                    display: 'none',
+                    padding: '20px 24px',
+                    borderTop: '1px solid #1a1a1a',
+                    background: '#0a0a0a',
+                  }}
+                >
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 16,
+                  }}>
+                    <div style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: '50%',
+                      background: 'radial-gradient(circle, rgba(224,172,105,0.3) 0%, rgba(224,172,105,0.1) 50%, transparent 70%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 0 20px rgba(224,172,105,0.5), 0 0 40px rgba(224,172,105,0.3), 0 0 60px rgba(224,172,105,0.1)',
+                      animation: 'glow 2s ease-in-out infinite alternate',
+                    }}>
+                      <img 
+                        src={Logo} 
+                        alt='PropMap' 
+                        style={{ 
+                          height: 24, 
+                          width: 28,
+                          filter: 'drop-shadow(0 0 8px rgba(224,172,105,0.8))'
+                        }} 
+                      />
+                    </div>
+                    <span style={{ 
+                      color: '#888', 
+                      fontSize: 15,
+                      lineHeight: 1.5
+                    }}>
+                      goodbye
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <style>{`
+          @keyframes glow {
+            from {
+              box-shadow: 0 0 20px rgba(224,172,105,0.5), 0 0 40px rgba(224,172,105,0.3), 0 0 60px rgba(224,172,105,0.1);
+            }
+            to {
+              box-shadow: 0 0 30px rgba(224,172,105,0.7), 0 0 50px rgba(224,172,105,0.4), 0 0 70px rgba(224,172,105,0.2);
+            }
+          }
+        `}</style>
+
         
         {/* ═══════ FOOTER ═══════ */}
         <footer style={{
