@@ -32,7 +32,7 @@ export default function AppRouter() {
 
   function CenteredLogoLoader() {
     return (
-      <div className="flex items-center justify-center h-screen w-screen bg-transparent">
+      <div className="flex items-center justify-center h-screen w-screen bg-black">
         <img src={logoImage} alt="Loading..." className="h-20 w-auto" />
       </div>
     );
@@ -101,20 +101,20 @@ export default function AppRouter() {
     {
       path: 'dashboard',
       element: (
-        <ProtectedRoute>
+        // <ProtectedRoute>
           <Suspense fallback={<CenteredLogoLoader />}>
             <DashboardLayout>
               <Outlet />
             </DashboardLayout>
           </Suspense>
-        </ProtectedRoute>
+        // </ProtectedRoute>
       ),
       children: [
         {
           element: (
-            <ProtectedRouteForFeatures requiresSubscription={REQUIRES_NONE}>
+            // <ProtectedRouteForFeatures requiresSubscription={REQUIRES_NONE}>
               <DashboardPage />
-            </ProtectedRouteForFeatures>
+            // </ProtectedRouteForFeatures>
           ),
           index: true
         },
@@ -122,9 +122,9 @@ export default function AppRouter() {
         {
           path: 'ManageSubscription',
             element: (
-              <ProtectedRouteForFeatures requiresSubscription={REQUIRES_NONE}>
+              // <ProtectedRouteForFeatures requiresSubscription={REQUIRES_NONE}>
                 <ManageSubscriptionPage />
-              </ProtectedRouteForFeatures>
+              // </ProtectedRouteForFeatures>
             )
         },
         {
