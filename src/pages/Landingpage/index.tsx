@@ -1533,7 +1533,28 @@ export default function LandingPage() {
             flexDirection: 'column',
             gap: 16,
           }}>
-            {[1, 2, 3, 4, 5].map((index) => (
+            {[
+              {
+                question: "What is PropMap?",
+                answer: "PropMap is a financial tracking platform for prop traders and business owners. It helps you monitor revenue, expenses, profits, and trading performance in one dashboard."
+              },
+              {
+                question: "Can I connect my bank account safely",
+                answer: "Yes. PropMap uses secure providers like Plaid & Tink and encrypted data connections. Your banking credentials are never stored."
+              },
+              {
+                question: "What can I track with PropMap?",
+                answer: "You can track expenses, payouts, revenue, invoices (important for tax purposes) and docuemtns."
+              },
+              {
+                question: "Does PropMap calculate my taxes?",
+                answer: "PropMap provides a tax overview and estimates, to see what you potential exposure would be, but it does not replace a professional tax advisor."
+              },
+              {
+                question: "What does the email connection feature do?",
+                answer: "You can connect your email (like Gmail or Outlook), and PropMap will automatically detect important prop-trading or business emails. Attachments such as invoices, payout confirmations, or documents are shown directly in your dashboard so you can easily upload and organize everything in one place."
+              }
+            ].map((faq, index) => (
               <div key={index} style={{
                 background: 'transparent',
                 border: '1px solid #1a1a1a',
@@ -1565,14 +1586,14 @@ export default function LandingPage() {
                     fontSize: 16, 
                     fontWeight: 500 
                   }}>
-                    hello?
+                    {faq.question}
                   </span>
                   <span style={{ 
                     color: '#e0ac69', 
-                    fontSize: 20,
+                    fontSize: 10,
                     transition: 'transform 0.2s'
                   }}>
-                    ▼
+                    ▲
                   </span>
                 </div>
                 <div
@@ -1604,7 +1625,7 @@ export default function LandingPage() {
                       fontSize: 15,
                       lineHeight: 1.5
                     }}>
-                      goodbye
+                      {faq.answer}
                     </span>
                   </div>
                 </div>
