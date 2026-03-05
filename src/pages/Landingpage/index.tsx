@@ -74,7 +74,7 @@ export default function LandingPage() {
                   letterSpacing: '-0.04em',
                   color: '#fff',
                 }}>
-                  PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 1, opacity: 0.7 }}>MAP</span>
+                  PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 1 }}>MAP</span>
                 </span>
               </div>
               {/* Nav links */}
@@ -377,7 +377,7 @@ export default function LandingPage() {
                     margin: 0,
                     color: '#fff',
                   }}>
-                    PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 1, opacity: 0.7 }}>MAP</span>
+                    PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 1 }}>MAP</span>
                   </h2>
                 </div>
                 <p style={{
@@ -467,7 +467,7 @@ export default function LandingPage() {
               fontWeight: 700,
               letterSpacing: '-0.04em',
               color: '#ededed',
-            }}>PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 1, opacity: 0.7 }}>MAP</span></span>?
+            }}>PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 1 }}>MAP</span></span>?
             </span>
             <span style={{
               color: '#979797ff',
@@ -552,15 +552,15 @@ export default function LandingPage() {
                   fontSize: 22.5,
                   fontWeight: 700,
                   letterSpacing: '-0.04em',
-                  color: '#e0ac69',
-                  display: 'flex',
+                  color: '#ededed',
+                  display: 'inline-flex',
                   alignItems: 'center',
                 }}>
-                  PROP<span style={{ fontSize: 13.75, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 2 }}>MAP</span>
+                  PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 1 }}>MAP</span>
                 </span>
                 <span style={{ 
                   fontSize: 22.5, 
-                  color: '#e0ac69', 
+                  color: '#888', 
                   marginLeft: 8,
                   fontWeight: 700,
                   fontStyle: 'italic',
@@ -1133,11 +1133,11 @@ export default function LandingPage() {
                 display: 'inline-flex',
                 alignItems: 'center',
               }}>
-                PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'baseline', marginLeft: 1, opacity: 0.7 }}>MAP</span>
+                PROP<span style={{ fontSize: 11, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative', top: 1 }}>MAP</span>
               </span>
               <span style={{ 
                 fontSize: 22.5, 
-                color: '#e0ac69', 
+                color: '#888', 
                 marginLeft: 8,
                 fontWeight: 700,
                 fontStyle: 'italic',
