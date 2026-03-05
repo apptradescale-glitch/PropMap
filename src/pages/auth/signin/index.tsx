@@ -61,7 +61,7 @@ export default function SignInPage() {
               src={logoImage} 
               alt="Logo" 
               className="h-24 w-auto"
-              style={{ border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px' }}
+              style={{ border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px', marginBottom: '16px' }}
             />
             <div className="flex flex-col space-y-2 text-center">
               <h1 style={{
