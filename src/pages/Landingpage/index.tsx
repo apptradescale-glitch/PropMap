@@ -453,9 +453,9 @@ export default function LandingPage() {
         <section style={{
           maxWidth: 1100,
           margin: '0 auto',
-          padding: '80px 24px 100px',
+          padding: '20px 24px 30px',
         }}>
-          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+          <div style={{ textAlign: 'center', marginBottom: 20 }}>
             <span style={{
               fontSize: 24,
               fontWeight: 700,
@@ -475,7 +475,7 @@ export default function LandingPage() {
               marginLeft: 16,
               fontWeight: 400,
               display: 'block',
-              marginTop: 8,
+              marginTop: 4,
             }}>
               Everything you need to get the full control about your 
               <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
