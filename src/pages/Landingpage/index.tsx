@@ -140,6 +140,9 @@ export default function LandingPage() {
                   color: '#fff', fontSize: 13, cursor: 'pointer',
                   background: 'transparent', border: '1px solid #333',
                   padding: '5px 12px', borderRadius: 6,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
                 }}
                 onClick={() => navigate('/auth/signup')}
               >
