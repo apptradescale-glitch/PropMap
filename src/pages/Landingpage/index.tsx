@@ -6,6 +6,8 @@ import Logo from '@/assets/images/lg34.png';
 import TradescaleLogo from '@/assets/images/a.png';
 import PlaidLogo from '@/assets/images/plaid.png';
 import TinkLogo from '@/assets/images/tink.png';
+import GmailLogo from '@/assets/images/gmail.png';
+import OutlookLogo from '@/assets/images/outlook.png';
 
 export default function LandingPage() {
   const navigate = useNavigate();
