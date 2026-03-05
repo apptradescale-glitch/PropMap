@@ -1572,7 +1572,7 @@ export default function LandingPage() {
                     fontSize: 20,
                     transition: 'transform 0.2s'
                   }}>
-                    +
+                    ▼
                   </span>
                 </div>
                 <div
@@ -1589,27 +1589,16 @@ export default function LandingPage() {
                     alignItems: 'center',
                     gap: 16,
                   }}>
-                    <div style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: '50%',
-                      background: 'radial-gradient(circle, rgba(224,172,105,0.3) 0%, rgba(224,172,105,0.1) 50%, transparent 70%)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 0 20px rgba(224,172,105,0.5), 0 0 40px rgba(224,172,105,0.3), 0 0 60px rgba(224,172,105,0.1)',
-                      animation: 'glow 2s ease-in-out infinite alternate',
-                    }}>
-                      <img 
-                        src={Logo} 
-                        alt='PropMap' 
-                        style={{ 
-                          height: 24, 
-                          width: 28,
-                          filter: 'drop-shadow(0 0 8px rgba(224,172,105,0.8))'
-                        }} 
-                      />
-                    </div>
+                    <img 
+                      src={Logo} 
+                      alt='PropMap' 
+                      style={{ 
+                        height: 48, 
+                        width: 56,
+                        border: '1px solid rgba(255,255,255,0.3)',
+                        borderRadius: 8,
+                      }} 
+                    />
                     <span style={{ 
                       color: '#888', 
                       fontSize: 15,
