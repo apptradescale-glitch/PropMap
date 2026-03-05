@@ -1539,7 +1539,7 @@ export default function LandingPage() {
                 answer: "PropMap is a financial tracking platform for prop traders and business owners. It helps you monitor revenue, expenses, profits, and trading performance in one dashboard."
               },
               {
-                question: "Can I connect my bank account safely",
+                question: "Can I connect my bank account safely?",
                 answer: "Yes. PropMap uses secure providers like Plaid & Tink and encrypted data connections. Your banking credentials are never stored."
               },
               {
@@ -1688,18 +1688,12 @@ export default function LandingPage() {
               marginBottom: 40,
               flexWrap: 'wrap',
             }}>
-              <div>
-                <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8, color: '#888' }}>Product</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Features</span>
-                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Pricing</span>
-                </div>
-              </div>
+       
               <div>
                 <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8, color: '#888' }}>Support</h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Documentation</span>
-                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Contact</span>
+                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>Contact us here:</span>
+                  <span style={{ color: '#666', fontSize: 13, cursor: 'pointer' }}>propmap@gmail.com</span>
                 </div>
               </div>
             </div>
