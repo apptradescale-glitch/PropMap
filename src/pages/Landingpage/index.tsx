@@ -455,7 +455,7 @@ export default function LandingPage() {
           margin: '0 auto',
           padding: '10px 24px 15px',
         }}>
-          <div style={{ textAlign: 'center', marginBottom: 20 }}>
+          <div style={{ textAlign: 'center', marginBottom: 12 }}>
             <span style={{
               fontSize: 24,
               fontWeight: 700,
