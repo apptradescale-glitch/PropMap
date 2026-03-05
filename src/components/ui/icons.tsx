@@ -45,7 +45,11 @@ Eye,
 AlarmClockCheck,
 ChartCandlestick,
 Radio,
-
+Landmark,
+Mail,
+PiggyBank,
+Archive,
+Receipt,
 
 } from 'lucide-react';
 import { c } from 'nuqs/dist/serializer-DjSGvhZt';
@@ -56,6 +60,11 @@ export type Icon = React.ComponentType<any>;
 
 export const Icons = {
   dashboard: LayoutDashboardIcon,
+  landmark: Landmark,
+  mail: Mail,
+  archive: Archive,
+  receipt: Receipt,
+  piggybank: PiggyBank,
   crosshair: Crosshair,
   lockopen: AlarmClockCheck,
   chartcandlestick: ChartCandlestick,

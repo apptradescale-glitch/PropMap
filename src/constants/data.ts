@@ -8,19 +8,26 @@ export const navItems: NavItem[] = [
     label: 'Dashboard'
   },
   {
-    title: 'Trade Logbook',
-    href: '/dashboard/TradeLogbook',
-    icon: 'crosshair',
-    label: 'TradeLogbook'
+    title: 'Transactions',
+    href: '/dashboard/Transactions',
+    icon: 'receipt',
+    label: 'Transactions'
   },
 
 
 
   {
-    title: 'Operational',
-    href: '/dashboard/Operational',
-    icon: 'user',
-    label: 'Operational'
+    title: 'Storage',
+    href: '/dashboard/Storage',
+    icon: 'archive',
+    label: 'Storage'
+  },
+
+   {
+    title: 'Tax Overview',
+    href: '/dashboard/Tax',
+    icon: 'piggybank',
+    label: 'Tax'
   },
 
 
@@ -33,46 +40,37 @@ export const navItems: NavItem[] = [
   },
 
             {
-    title: 'Connect',
-    href: '/dashboard/AutoSync',
-    icon: 'braincircuit',
-    label: 'AutoSync',
+    title: 'Bank Connection',
+    href: '/dashboard/BankConnection',
+    icon: 'landmark',
+    label: 'BankConnection',
   
     
   },
 
         {
-    title: 'Trade Copier',
-    href: '/dashboard/TradeCopier',
-    icon: 'share2',
-    label: 'TradeCopier',
+    title: 'Email Connection',
+    href: '/dashboard/EmailConnection',
+    icon: 'mail',
+    label: 'EmailConnection',
    
     
   },
 
            {
-    title: 'Daily P&L Card',
-    href: '/dashboard/Card',
-    icon: 'gauge',
-    label: 'PnLCard',
+    title: 'PropFirm Connections',
+    href: '/dashboard/PropFirmConnections',
+    icon: 'braincircuit',
+    label: 'PropFirmConnections',
      
   },
 
 
 
 
-   {
-    divider: true
-  },
+ 
 
-             {
-    title: 'Backtesting',
-    href: '/dashboard/Test',
-    icon: 'chartcandlestick',
-    label: 'Test',
-    soon: true
-     
-  },
+   
 
   
 
