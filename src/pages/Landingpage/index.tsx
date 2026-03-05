@@ -67,7 +67,7 @@ export default function LandingPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
               {/* Logo: PropMap logo */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 7, cursor: 'default' }}>
-                <img src={Logo} alt='PropMap' style={{ height: 22, width: 26 }} />
+                <img src={Logo} alt='PropMap' style={{ height: 22, width: 26, border: '1px solid rgba(255,255,255,0.3)', borderRadius: '4px' }} />
                 <span style={{
                   fontSize: 18,
                   fontWeight: 700,
@@ -393,7 +393,7 @@ export default function LandingPage() {
                 gap: 40,
               }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
-                  <img src={Logo} alt='PropMap' style={{ height: 96, width: 112, marginBottom: 6 }} />
+                  <img src={Logo} alt='PropMap' style={{ height: 96, width: 112, marginBottom: 6, border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px' }} />
                   <h2 style={{
                     fontSize: 18,
                     fontWeight: 700,
@@ -1641,16 +1641,12 @@ export default function LandingPage() {
                       alt='PropMap' 
                       style={{ 
                         height: 48, 
-                        width: 56,
+                        width: 56, 
                         border: '1px solid rgba(255,255,255,0.3)',
-                        borderRadius: 8,
+                        borderRadius: '8px'
                       }} 
                     />
-                    <span style={{ 
-                      color: '#888', 
-                      fontSize: 15,
-                      lineHeight: 1.5
-                    }}>
+                    <span style={{ color: '#888', fontSize: 15, lineHeight: 1.6 }}>
                       {faq.answer}
                     </span>
                   </div>

@@ -61,6 +61,18 @@ export default function OverViewPage() {
   const trades = useTradeStore(state => state.trades);
   const finances = useFinanceStore(state => state.finances);
 
+  // Ensure dark mode
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+    document.body.style.backgroundColor = '#000';
+    document.body.style.margin = '0';
+    return () => {
+      document.documentElement.classList.remove('dark');
+      document.body.style.backgroundColor = '';
+      document.body.style.margin = '';
+    };
+  }, []);
+
   // --- Myfxbook Integration ---
   const [myfxbookTrades, setMyfxbookTrades] = useState<any[]>([]);
   const [connectedAccounts, setConnectedAccounts] = useState<any[]>([]);
@@ -261,30 +273,23 @@ export default function OverViewPage() {
 
   return (
     <PageContainer scrollable>
-        <PageHead title="Tradescale" />
+        <PageHead title="PROPMAP" />
       <div className="space-y-2 pb-8">
         <div className="flex items-center justify-between -mt-5 pb-4">
-          <h2 className="text-2xl font-bold tracking-tight">
+          <h2 className="text-2xl font-bold tracking-tight text-white">
             Dashboard
           </h2>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-          <Card className="h-auto">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-4">
-              <CardTitle className="text-sm font-medium">
-                Trading Profits
-              </CardTitle>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="h-4 w-4 text-muted-foreground"
-              >
-                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+        
+        {/* Empty dashboard content for now */}
+        <div className="flex items-center justify-center h-64">
+          <p className="text-gray-400 text-lg">Dashboard content coming soon...</p>
+        </div>
+        
+      </div>
+    </PageContainer>
+  );
+}
               </svg>
             </CardHeader>
             <CardContent className="pt-3 pb-1">
