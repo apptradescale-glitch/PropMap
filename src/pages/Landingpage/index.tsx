@@ -6,8 +6,6 @@ import Logo from '@/assets/images/lg34.png';
 import TradescaleLogo from '@/assets/images/a.png';
 import PlaidLogo from '@/assets/images/plaid.png';
 import TinkLogo from '@/assets/images/tink.png';
-import GmailLogo from '@/assets/images/gmail.png';
-import OutlookLogo from '@/assets/images/outlook.png';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -135,27 +133,32 @@ export default function LandingPage() {
                 </svg>
               </span>
               {/* Deploy button */}
-              <span style={{
-                display: 'flex', alignItems: 'center', gap: 5,
-                color: '#fff', fontSize: 13, cursor: 'pointer',
-                background: 'transparent', border: '1px solid #333',
-                padding: '5px 12px', borderRadius: 6,
-              }}>
+              <span 
+                style={{
+                  color: '#fff', fontSize: 13, cursor: 'pointer',
+                  background: 'transparent', border: '1px solid #333',
+                  padding: '5px 12px', borderRadius: 6,
+                }}
+                onClick={() => navigate('/auth/signup')}
+              >
                 <svg width="12" height="12" viewBox="0 0 76 65" fill="none">
                   <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#fff" />
                 </svg>
                 Sign Up
               </span>
               {/* Learn button */}
-              <span style={{
-                background: '#fff',
-                color: '#000',
-                fontSize: 13,
-                fontWeight: 500,
-                padding: '5px 14px',
-                borderRadius: 6,
-                cursor: 'pointer',
-              }}>
+              <span 
+                style={{
+                  background: '#fff',
+                  color: '#000',
+                  fontSize: 13,
+                  fontWeight: 500,
+                  padding: '5px 14px',
+                  borderRadius: 6,
+                  cursor: 'pointer',
+                }}
+                onClick={() => navigate('/auth/signin')}
+              >
                 Sign In
               </span>
             </div>
@@ -308,6 +311,12 @@ export default function LandingPage() {
                 }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = '#666'; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = '#333'; }}
+                onClick={() => {
+                  const element = document.getElementById('features');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
               >
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                   <Eye size={14} />
