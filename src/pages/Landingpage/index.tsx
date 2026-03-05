@@ -944,6 +944,7 @@ export default function LandingPage() {
                 }}
                 onMouseEnter={e => { e.currentTarget.style.background = '#e5e5e5'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+                onClick={() => navigate('/auth/signup')}
               >
                 Start 3-days free trial
               </button>
