@@ -49,7 +49,7 @@ export default function Sidebar({ className }: SidebarProps) {
               position: 'relative',
               top: 2
             }}>
-              PROP<span style={{ fontSize: 9, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative' as const, top: -2 }}>MAP</span>
+              PROP<span style={{ fontSize: 9, fontWeight: 400, verticalAlign: 'sub', marginLeft: 1, opacity: 0.7, position: 'relative' as const, top: -1 }}>MAP</span>
             </span>
           )}
         </div>

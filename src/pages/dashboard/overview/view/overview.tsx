@@ -24,13 +24,13 @@ export default function OverViewPage() {
       <div className="space-y-2 pb-8">
         <div className="flex items-center justify-between -mt-5 pb-4">
           <h2 className="text-2xl font-bold tracking-tight text-white">
-            Dashboard
+           
           </h2>
         </div>
         
         {/* Empty dashboard content for now */}
         <div className="flex items-center justify-center h-64">
-          <p className="text-gray-400 text-lg">Dashboard content coming soon...</p>
+          <p className="text-gray-400 text-lg"></p>
         </div>
         
       </div>
