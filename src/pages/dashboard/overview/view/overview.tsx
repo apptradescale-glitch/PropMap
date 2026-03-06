@@ -16,8 +16,15 @@ export default function OverViewPage() {
   const [businessInfo, setBusinessInfo] = useState({
     businessSector: '',
     customSector: '',
-    name: ''
+    name: '',
+    userName: ''
   });
+  const [addedBusinesses, setAddedBusinesses] = useState<Array<{
+    businessSector: string;
+    customSector: string;
+    name: string;
+    userName: string;
+  }>>([]);
 
   // Ensure dark mode
   useEffect(() => {
@@ -42,13 +49,16 @@ export default function OverViewPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Business info submitted:', businessInfo);
+    // Add to businesses array
+    setAddedBusinesses(prev => [...prev, { ...businessInfo }]);
     // Here you would typically save to database
     setIsDialogOpen(false);
     // Reset form
     setBusinessInfo({
       businessSector: '',
       customSector: '',
-      name: ''
+      name: '',
+      userName: ''
     });
   };
 
@@ -62,8 +72,9 @@ export default function OverViewPage() {
           </h2>
         </div>
         
-        {/* Business Card */}
-        <div className="flex items-start justify-start h-64 ml-8 mt-32">
+        {/* Business Cards Container */}
+        <div className="flex items-start justify-start h-64 ml-8 mt-32 gap-4">
+          {/* Add Business Card */}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Card className="w-80 h-48 cursor-pointer hover:bg-[#1a1a1a] transition-colors border-[#2a2a2a] bg-[#0a0a0a]">
@@ -122,8 +133,23 @@ export default function OverViewPage() {
                         required
                       />
                     </div>
+                  </>
+                )}
 
-                                      </>
+                {businessInfo.businessSector === 'proptrading' && (
+                  <div className="space-y-2">
+                    <Label htmlFor="userName" className="text-[#888] text-sm">Your Name</Label>
+                    <Input
+                      id="userName"
+                      name="userName"
+                      type="text"
+                      value={businessInfo.userName}
+                      onChange={handleInputChange}
+                      className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
+                      placeholder="Enter your name"
+                      required
+                    />
+                  </div>
                 )}
 
                 <div className="flex gap-2 pt-4">
@@ -138,7 +164,9 @@ export default function OverViewPage() {
                   <Button
                     type="submit"
                     className="flex-1 bg-white text-black hover:bg-gray-200"
-                    disabled={!businessInfo.businessSector || (businessInfo.businessSector === 'other' && !businessInfo.customSector)}
+                    disabled={!businessInfo.businessSector || 
+                    (businessInfo.businessSector === 'other' && !businessInfo.customSector) ||
+                    (businessInfo.businessSector === 'proptrading' && !businessInfo.userName)}
                   >
                     Add Business
                   </Button>
@@ -146,6 +174,46 @@ export default function OverViewPage() {
               </form>
             </DialogContent>
           </Dialog>
+
+          {/* Added Business Cards */}
+          {addedBusinesses.map((business, index) => (
+            <Card key={index} className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a]">
+              <CardContent className="flex flex-col h-full p-6">
+                <div className="flex items-start gap-4 mb-4">
+                  {/* Circle with first letter */}
+                  <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
+                    <span className="text-white font-semibold text-lg">
+                      {business.businessSector === 'proptrading' 
+                        ? business.userName?.charAt(0)?.toUpperCase() || 'U'
+                        : business.name?.charAt(0)?.toUpperCase() || 'B'
+                      }
+                    </span>
+                  </div>
+                  
+                  {/* Business info */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-white font-semibold text-lg truncate">
+                      {business.businessSector === 'proptrading' ? 'PropTrading' : business.customSector}
+                    </h3>
+                    <p className="text-[#666] text-sm truncate">
+                      {business.businessSector === 'proptrading' 
+                        ? business.userName 
+                        : business.name
+                      }
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Status indicator */}
+                <div className="mt-auto">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <span className="text-[#666] text-xs">Active</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
         
       </div>
