@@ -17,13 +17,17 @@ export default function OverViewPage() {
     businessSector: '',
     customSector: '',
     name: '',
-    userName: ''
+    userName: '',
+    country: '',
+    currency: ''
   });
   const [addedBusinesses, setAddedBusinesses] = useState<Array<{
     businessSector: string;
     customSector: string;
     name: string;
     userName: string;
+    country: string;
+    currency: string;
   }>>([]);
 
   // Ensure dark mode
@@ -46,6 +50,51 @@ export default function OverViewPage() {
     }));
   };
 
+  const countryCurrencyMap: { [key: string]: { flag: string; currency: string; symbol: string } } = {
+    'US': { flag: '🇺🇸', currency: 'USD', symbol: '$' },
+    'DE': { flag: '🇩🇪', currency: 'EUR', symbol: '€' },
+    'GB': { flag: '🇬🇧', currency: 'GBP', symbol: '£' },
+    'FR': { flag: '🇫🇷', currency: 'EUR', symbol: '€' },
+    'IT': { flag: '🇮🇹', currency: 'EUR', symbol: '€' },
+    'ES': { flag: '🇪🇸', currency: 'EUR', symbol: '€' },
+    'NL': { flag: '🇳🇱', currency: 'EUR', symbol: '€' },
+    'BE': { flag: '🇧🇪', currency: 'EUR', symbol: '€' },
+    'AT': { flag: '🇦🇹', currency: 'EUR', symbol: '€' },
+    'CA': { flag: '🇨🇦', currency: 'CAD', symbol: 'C$' },
+    'AU': { flag: '🇦🇺', currency: 'AUD', symbol: 'A$' },
+    'JP': { flag: '🇯🇵', currency: 'JPY', symbol: '¥' },
+    'CH': { flag: '🇨🇭', currency: 'CHF', symbol: 'CHF' },
+    'SE': { flag: '🇸🇪', currency: 'SEK', symbol: 'kr' },
+    'NO': { flag: '🇳🇴', currency: 'NOK', symbol: 'kr' },
+    'DK': { flag: '🇩🇰', currency: 'DKK', symbol: 'kr' },
+    'PL': { flag: '🇵🇱', currency: 'PLN', symbol: 'zł' },
+    'CZ': { flag: '🇨🇿', currency: 'CZK', symbol: 'Kč' },
+    'HU': { flag: '🇭🇺', currency: 'HUF', symbol: 'Ft' },
+    'RO': { flag: '🇷🇴', currency: 'RON', symbol: 'lei' },
+    'BG': { flag: '🇧🇬', currency: 'BGN', symbol: 'лв' },
+    'HR': { flag: '🇭🇷', currency: 'HRK', symbol: 'kn' },
+    'GR': { flag: '🇬🇷', currency: 'EUR', symbol: '€' },
+    'PT': { flag: '🇵🇹', currency: 'EUR', symbol: '€' },
+    'FI': { flag: '🇫🇮', currency: 'EUR', symbol: '€' },
+    'IE': { flag: '🇮🇪', currency: 'EUR', symbol: '€' },
+    'LU': { flag: '🇱🇺', currency: 'EUR', symbol: '€' },
+    'SK': { flag: '🇸🇰', currency: 'EUR', symbol: '€' },
+    'SI': { flag: '🇸🇮', currency: 'EUR', symbol: '€' },
+    'EE': { flag: '🇪🇪', currency: 'EUR', symbol: '€' },
+    'LV': { flag: '🇱🇻', currency: 'EUR', symbol: '€' },
+    'LT': { flag: '🇱🇹', currency: 'EUR', symbol: '€' },
+    'CY': { flag: '🇨🇾', currency: 'EUR', symbol: '€' },
+    'MT': { flag: '🇲🇹', currency: 'EUR', symbol: '€' }
+  };
+
+  const handleCountryChange = (country: string) => {
+    setBusinessInfo(prev => ({
+      ...prev,
+      country,
+      currency: countryCurrencyMap[country]?.currency || ''
+    }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Business info submitted:', businessInfo);
@@ -58,7 +107,9 @@ export default function OverViewPage() {
       businessSector: '',
       customSector: '',
       name: '',
-      userName: ''
+      userName: '',
+      country: '',
+      currency: ''
     });
   };
 
@@ -133,23 +184,91 @@ export default function OverViewPage() {
                         required
                       />
                     </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="country" className="text-[#888] text-sm">Country</Label>
+                      <Select value={businessInfo.country} onValueChange={handleCountryChange}>
+                        <SelectTrigger className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
+                          <SelectValue placeholder="Select your country" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a] max-h-60">
+                          {Object.entries(countryCurrencyMap).map(([code, data]) => (
+                            <SelectItem key={code} value={code} className="text-white hover:bg-[#2a2a2a]">
+                              <span className="flex items-center gap-2">
+                                <span>{data.flag}</span>
+                                <span>{code}</span>
+                              </span>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="currency" className="text-[#888] text-sm">Currency</Label>
+                      <Input
+                        id="currency"
+                        name="currency"
+                        type="text"
+                        value={businessInfo.currency ? `${countryCurrencyMap[businessInfo.country]?.symbol || ''} ${businessInfo.currency}` : ''}
+                        className="bg-[#1a1a1a] border-[#2a2a2a] text-[#666] placeholder-[#555]"
+                        placeholder="Currency auto-filled"
+                        readOnly
+                        disabled
+                      />
+                    </div>
                   </>
                 )}
 
                 {businessInfo.businessSector === 'proptrading' && (
-                  <div className="space-y-2">
-                    <Label htmlFor="userName" className="text-[#888] text-sm">Your Name</Label>
-                    <Input
-                      id="userName"
-                      name="userName"
-                      type="text"
-                      value={businessInfo.userName}
-                      onChange={handleInputChange}
-                      className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                      placeholder="Enter your name"
-                      required
-                    />
-                  </div>
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="userName" className="text-[#888] text-sm">Your Name</Label>
+                      <Input
+                        id="userName"
+                        name="userName"
+                        type="text"
+                        value={businessInfo.userName}
+                        onChange={handleInputChange}
+                        className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
+                        placeholder="Enter your name"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="country" className="text-[#888] text-sm">Country</Label>
+                      <Select value={businessInfo.country} onValueChange={handleCountryChange}>
+                        <SelectTrigger className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
+                          <SelectValue placeholder="Select your country" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a] max-h-60">
+                          {Object.entries(countryCurrencyMap).map(([code, data]) => (
+                            <SelectItem key={code} value={code} className="text-white hover:bg-[#2a2a2a]">
+                              <span className="flex items-center gap-2">
+                                <span>{data.flag}</span>
+                                <span>{code}</span>
+                              </span>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="currency" className="text-[#888] text-sm">Currency</Label>
+                      <Input
+                        id="currency"
+                        name="currency"
+                        type="text"
+                        value={businessInfo.currency ? `${countryCurrencyMap[businessInfo.country]?.symbol || ''} ${businessInfo.currency}` : ''}
+                        className="bg-[#1a1a1a] border-[#2a2a2a] text-[#666] placeholder-[#555]"
+                        placeholder="Currency auto-filled"
+                        readOnly
+                        disabled
+                      />
+                    </div>
+                  </>
                 )}
 
                 <div className="flex gap-2 pt-4">
@@ -165,8 +284,9 @@ export default function OverViewPage() {
                     type="submit"
                     className="flex-1 bg-white text-black hover:bg-gray-200"
                     disabled={!businessInfo.businessSector || 
-                    (businessInfo.businessSector === 'other' && !businessInfo.customSector) ||
-                    (businessInfo.businessSector === 'proptrading' && !businessInfo.userName)}
+                    (businessInfo.businessSector === 'other' && (!businessInfo.customSector || !businessInfo.name)) ||
+                    (businessInfo.businessSector === 'proptrading' && !businessInfo.userName) ||
+                    !businessInfo.country}
                   >
                     Add Business
                   </Button>
