@@ -50,6 +50,7 @@ Mail,
 PiggyBank,
 Archive,
 Receipt,
+House,
 
 } from 'lucide-react';
 import { c } from 'nuqs/dist/serializer-DjSGvhZt';
@@ -62,6 +63,7 @@ export const Icons = {
   dashboard: LayoutDashboardIcon,
   landmark: Landmark,
   mail: Mail,
+  house: House,
   archive: Archive,
   receipt: Receipt,
   piggybank: PiggyBank,
