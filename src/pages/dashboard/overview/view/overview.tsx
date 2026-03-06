@@ -50,41 +50,41 @@ export default function OverViewPage() {
     }));
   };
 
-  const countryCurrencyMap: { [key: string]: { flag: string; currency: string; symbol: string } } = {
-    'US': { flag: '🇺🇸', currency: 'USD', symbol: '$' },
-    'DE': { flag: '🇩🇪', currency: 'EUR', symbol: '€' },
-    'GB': { flag: '🇬🇧', currency: 'GBP', symbol: '£' },
-    'FR': { flag: '🇫🇷', currency: 'EUR', symbol: '€' },
-    'IT': { flag: '🇮🇹', currency: 'EUR', symbol: '€' },
-    'ES': { flag: '🇪🇸', currency: 'EUR', symbol: '€' },
-    'NL': { flag: '🇳🇱', currency: 'EUR', symbol: '€' },
-    'BE': { flag: '🇧🇪', currency: 'EUR', symbol: '€' },
-    'AT': { flag: '🇦🇹', currency: 'EUR', symbol: '€' },
-    'CA': { flag: '🇨🇦', currency: 'CAD', symbol: 'C$' },
-    'AU': { flag: '🇦🇺', currency: 'AUD', symbol: 'A$' },
-    'JP': { flag: '🇯🇵', currency: 'JPY', symbol: '¥' },
-    'CH': { flag: '🇨🇭', currency: 'CHF', symbol: 'CHF' },
-    'SE': { flag: '🇸🇪', currency: 'SEK', symbol: 'kr' },
-    'NO': { flag: '🇳🇴', currency: 'NOK', symbol: 'kr' },
-    'DK': { flag: '🇩🇰', currency: 'DKK', symbol: 'kr' },
-    'PL': { flag: '🇵🇱', currency: 'PLN', symbol: 'zł' },
-    'CZ': { flag: '🇨🇿', currency: 'CZK', symbol: 'Kč' },
-    'HU': { flag: '🇭🇺', currency: 'HUF', symbol: 'Ft' },
-    'RO': { flag: '🇷🇴', currency: 'RON', symbol: 'lei' },
-    'BG': { flag: '🇧🇬', currency: 'BGN', symbol: 'лв' },
-    'HR': { flag: '🇭🇷', currency: 'HRK', symbol: 'kn' },
-    'GR': { flag: '🇬🇷', currency: 'EUR', symbol: '€' },
-    'PT': { flag: '🇵🇹', currency: 'EUR', symbol: '€' },
-    'FI': { flag: '🇫🇮', currency: 'EUR', symbol: '€' },
-    'IE': { flag: '🇮🇪', currency: 'EUR', symbol: '€' },
-    'LU': { flag: '🇱🇺', currency: 'EUR', symbol: '€' },
-    'SK': { flag: '🇸🇰', currency: 'EUR', symbol: '€' },
-    'SI': { flag: '🇸🇮', currency: 'EUR', symbol: '€' },
-    'EE': { flag: '🇪🇪', currency: 'EUR', symbol: '€' },
-    'LV': { flag: '🇱🇻', currency: 'EUR', symbol: '€' },
-    'LT': { flag: '🇱🇹', currency: 'EUR', symbol: '€' },
-    'CY': { flag: '🇨🇾', currency: 'EUR', symbol: '€' },
-    'MT': { flag: '🇲🇹', currency: 'EUR', symbol: '€' }
+  const countryCurrencyMap: { [key: string]: { name: string; flag: string; currency: string; symbol: string } } = {
+    'US': { name: 'United States', flag: 'US', currency: 'USD', symbol: '$' },
+    'DE': { name: 'Germany', flag: 'DE', currency: 'EUR', symbol: '€' },
+    'GB': { name: 'United Kingdom', flag: 'GB', currency: 'GBP', symbol: '£' },
+    'FR': { name: 'France', flag: 'FR', currency: 'EUR', symbol: '€' },
+    'IT': { name: 'Italy', flag: 'IT', currency: 'EUR', symbol: '€' },
+    'ES': { name: 'Spain', flag: 'ES', currency: 'EUR', symbol: '€' },
+    'NL': { name: 'Netherlands', flag: 'NL', currency: 'EUR', symbol: '€' },
+    'BE': { name: 'Belgium', flag: 'BE', currency: 'EUR', symbol: '€' },
+    'AT': { name: 'Austria', flag: 'AT', currency: 'EUR', symbol: '€' },
+    'CA': { name: 'Canada', flag: 'CA', currency: 'CAD', symbol: 'C$' },
+    'AU': { name: 'Australia', flag: 'AU', currency: 'AUD', symbol: 'A$' },
+    'JP': { name: 'Japan', flag: 'JP', currency: 'JPY', symbol: '¥' },
+    'CH': { name: 'Switzerland', flag: 'CH', currency: 'CHF', symbol: 'CHF' },
+    'SE': { name: 'Sweden', flag: 'SE', currency: 'SEK', symbol: 'kr' },
+    'NO': { name: 'Norway', flag: 'NO', currency: 'NOK', symbol: 'kr' },
+    'DK': { name: 'Denmark', flag: 'DK', currency: 'DKK', symbol: 'kr' },
+    'PL': { name: 'Poland', flag: 'PL', currency: 'PLN', symbol: 'zł' },
+    'CZ': { name: 'Czech Republic', flag: 'CZ', currency: 'CZK', symbol: 'Kč' },
+    'HU': { name: 'Hungary', flag: 'HU', currency: 'HUF', symbol: 'Ft' },
+    'RO': { name: 'Romania', flag: 'RO', currency: 'RON', symbol: 'lei' },
+    'BG': { name: 'Bulgaria', flag: 'BG', currency: 'BGN', symbol: 'лв' },
+    'HR': { name: 'Croatia', flag: 'HR', currency: 'HRK', symbol: 'kn' },
+    'GR': { name: 'Greece', flag: 'GR', currency: 'EUR', symbol: '€' },
+    'PT': { name: 'Portugal', flag: 'PT', currency: 'EUR', symbol: '€' },
+    'FI': { name: 'Finland', flag: 'FI', currency: 'EUR', symbol: '€' },
+    'IE': { name: 'Ireland', flag: 'IE', currency: 'EUR', symbol: '€' },
+    'LU': { name: 'Luxembourg', flag: 'LU', currency: 'EUR', symbol: '€' },
+    'SK': { name: 'Slovakia', flag: 'SK', currency: 'EUR', symbol: '€' },
+    'SI': { name: 'Slovenia', flag: 'SI', currency: 'EUR', symbol: '€' },
+    'EE': { name: 'Estonia', flag: 'EE', currency: 'EUR', symbol: '€' },
+    'LV': { name: 'Latvia', flag: 'LV', currency: 'EUR', symbol: '€' },
+    'LT': { name: 'Lithuania', flag: 'LT', currency: 'EUR', symbol: '€' },
+    'CY': { name: 'Cyprus', flag: 'CY', currency: 'EUR', symbol: '€' },
+    'MT': { name: 'Malta', flag: 'MT', currency: 'EUR', symbol: '€' }
   };
 
   const handleCountryChange = (country: string) => {
@@ -195,8 +195,10 @@ export default function OverViewPage() {
                           {Object.entries(countryCurrencyMap).map(([code, data]) => (
                             <SelectItem key={code} value={code} className="text-white hover:bg-[#2a2a2a]">
                               <span className="flex items-center gap-2">
-                                <span>{data.flag}</span>
-                                <span>{code}</span>
+                                <span className="text-[#666] text-xs font-mono bg-[#2a2a2a] px-1 py-0.5 rounded">
+                                  {data.flag}
+                                </span>
+                                <span>{data.name}</span>
                               </span>
                             </SelectItem>
                           ))}
@@ -246,8 +248,10 @@ export default function OverViewPage() {
                           {Object.entries(countryCurrencyMap).map(([code, data]) => (
                             <SelectItem key={code} value={code} className="text-white hover:bg-[#2a2a2a]">
                               <span className="flex items-center gap-2">
-                                <span>{data.flag}</span>
-                                <span>{code}</span>
+                                <span className="text-[#666] text-xs font-mono bg-[#2a2a2a] px-1 py-0.5 rounded">
+                                  {data.flag}
+                                </span>
+                                <span>{data.name}</span>
                               </span>
                             </SelectItem>
                           ))}
