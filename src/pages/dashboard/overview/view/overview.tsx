@@ -70,7 +70,7 @@ export default function OverViewPage() {
         </div>
         
         {/* Business Card */}
-        <div className="flex items-start justify-start h-64 ml-8 mt-16">
+        <div className="flex items-start justify-start h-64 ml-8 mt-32">
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Card className="w-80 h-48 cursor-pointer hover:bg-[#1a1a1a] transition-colors border-[#2a2a2a] bg-[#0a0a0a]">
