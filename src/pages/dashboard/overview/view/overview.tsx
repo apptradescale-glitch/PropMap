@@ -193,7 +193,7 @@ export default function OverViewPage() {
                         </SelectTrigger>
                         <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a] max-h-60">
                           {Object.entries(countryCurrencyMap).map(([code, data]) => (
-                            <SelectItem key={code} value={code} className="text-white hover:bg-[#2a2a2a]">
+                            <SelectItem key={code} value={code} className="text-white hover:bg-white/10">
                               <span className="flex items-center gap-2">
                                 <span className="text-[#666] text-xs font-mono bg-[#2a2a2a] px-1 py-0.5 rounded">
                                   {data.flag}
@@ -246,7 +246,7 @@ export default function OverViewPage() {
                         </SelectTrigger>
                         <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a] max-h-60">
                           {Object.entries(countryCurrencyMap).map(([code, data]) => (
-                            <SelectItem key={code} value={code} className="text-white hover:bg-[#2a2a2a]">
+                            <SelectItem key={code} value={code} className="text-white hover:bg-white/10">
                               <span className="flex items-center gap-2">
                                 <span className="text-[#666] text-xs font-mono bg-[#2a2a2a] px-1 py-0.5 rounded">
                                   {data.flag}
@@ -326,7 +326,7 @@ export default function OverViewPage() {
                 </div>
                 
                 {/* Sector centered in card */}
-                <div className="flex-1 flex items-center justify-center">
+                <div className="flex items-center justify-center">
                   <p className="text-[#888] text-sm font-medium">
                     {business.businessSector === 'proptrading' ? 'PropTrading' : business.customSector}
                   </p>
