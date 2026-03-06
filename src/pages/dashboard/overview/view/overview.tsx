@@ -7,19 +7,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus } from 'lucide-react';
 
 export default function OverViewPage() {
   const { currentUser } = useAuth();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [businessInfo, setBusinessInfo] = useState({
-    name: '',
-    industry: '',
-    location: '',
-    description: '',
-    website: '',
-    email: '',
-    phone: ''
+    businessSector: '',
+    customSector: '',
+    name: ''
   });
 
   // Ensure dark mode
@@ -49,13 +46,9 @@ export default function OverViewPage() {
     setIsDialogOpen(false);
     // Reset form
     setBusinessInfo({
-      name: '',
-      industry: '',
-      location: '',
-      description: '',
-      website: '',
-      email: '',
-      phone: ''
+      businessSector: '',
+      customSector: '',
+      name: ''
     });
   };
 
@@ -88,94 +81,51 @@ export default function OverViewPage() {
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-[#888] text-sm">Business Name</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    value={businessInfo.name}
-                    onChange={handleInputChange}
-                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                    placeholder="Enter business name"
-                    required
-                  />
+                  <Label htmlFor="businessSector" className="text-[#888] text-sm">Business Sector</Label>
+                  <Select value={businessInfo.businessSector} onValueChange={(value) => setBusinessInfo(prev => ({ ...prev, businessSector: value }))}>
+                    <SelectTrigger className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
+                      <SelectValue placeholder="Select business sector" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
+                      <SelectItem value="proptrading" className="text-white hover:bg-[#2a2a2a]">PropTrading</SelectItem>
+                      <SelectItem value="other" className="text-white hover:bg-[#2a2a2a]">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="industry" className="text-[#888] text-sm">Industry</Label>
-                  <Input
-                    id="industry"
-                    name="industry"
-                    type="text"
-                    value={businessInfo.industry}
-                    onChange={handleInputChange}
-                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                    placeholder="e.g., Technology, Retail, Services"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="location" className="text-[#888] text-sm">Location</Label>
-                  <Input
-                    id="location"
-                    name="location"
-                    type="text"
-                    value={businessInfo.location}
-                    onChange={handleInputChange}
-                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                    placeholder="City, State/Country"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="description" className="text-[#888] text-sm">Description</Label>
-                  <Input
-                    id="description"
-                    name="description"
-                    type="text"
-                    value={businessInfo.description}
-                    onChange={handleInputChange}
-                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                    placeholder="Brief description of your business"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="website" className="text-[#888] text-sm">Website</Label>
-                  <Input
-                    id="website"
-                    name="website"
-                    type="url"
-                    value={businessInfo.website}
-                    onChange={handleInputChange}
-                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                    placeholder="https://example.com"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-[#888] text-sm">Email</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={businessInfo.email}
-                    onChange={handleInputChange}
-                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                    placeholder="business@example.com"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-[#888] text-sm">Phone</Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={businessInfo.phone}
-                    onChange={handleInputChange}
-                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                    placeholder="+1 (555) 123-4567"
-                  />
-                </div>
+
+                {businessInfo.businessSector === 'other' && (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="customSector" className="text-[#888] text-sm">Type your Sector</Label>
+                      <Input
+                        id="customSector"
+                        name="customSector"
+                        type="text"
+                        value={businessInfo.customSector}
+                        onChange={handleInputChange}
+                        className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
+                        placeholder="Enter your business sector"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="name" className="text-[#888] text-sm">Business Name</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        type="text"
+                        value={businessInfo.name}
+                        onChange={handleInputChange}
+                        className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
+                        placeholder="Enter business name"
+                        required
+                      />
+                    </div>
+
+                                      </>
+                )}
+
                 <div className="flex gap-2 pt-4">
                   <Button
                     type="button"
@@ -188,6 +138,7 @@ export default function OverViewPage() {
                   <Button
                     type="submit"
                     className="flex-1 bg-white text-black hover:bg-gray-200"
+                    disabled={!businessInfo.businessSector || (businessInfo.businessSector === 'other' && !businessInfo.customSector)}
                   >
                     Add Business
                   </Button>
