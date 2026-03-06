@@ -8,18 +8,23 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus } from 'lucide-react';
+import { Plus, MoreHorizontal, Trash2, Edit } from 'lucide-react';
 
 export default function OverViewPage() {
   const { currentUser } = useAuth();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
   const [businessInfo, setBusinessInfo] = useState({
     businessSector: '',
     customSector: '',
     name: '',
     userName: '',
     country: '',
-    currency: ''
+    currency: '',
+    propTradingType: '',
+    businessType: '',
+    customBusinessType: ''
   });
   const [addedBusinesses, setAddedBusinesses] = useState<Array<{
     businessSector: string;
@@ -28,6 +33,9 @@ export default function OverViewPage() {
     userName: string;
     country: string;
     currency: string;
+    propTradingType: string;
+    businessType: string;
+    customBusinessType: string;
   }>>([]);
 
   // Ensure dark mode
@@ -98,8 +106,20 @@ export default function OverViewPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Business info submitted:', businessInfo);
-    // Add to businesses array
-    setAddedBusinesses(prev => [...prev, { ...businessInfo }]);
+    
+    if (editingIndex !== null) {
+      // Update existing business
+      setAddedBusinesses(prev => 
+        prev.map((business, index) => 
+          index === editingIndex ? { ...businessInfo } : business
+        )
+      );
+      setEditingIndex(null);
+    } else {
+      // Add new business
+      setAddedBusinesses(prev => [...prev, { ...businessInfo }]);
+    }
+    
     // Here you would typically save to database
     setIsDialogOpen(false);
     // Reset form
@@ -109,8 +129,34 @@ export default function OverViewPage() {
       name: '',
       userName: '',
       country: '',
-      currency: ''
+      currency: '',
+      propTradingType: '',
+      businessType: '',
+      customBusinessType: ''
     });
+  };
+
+  const handleDelete = (index: number) => {
+    setAddedBusinesses(prev => prev.filter((_, i) => i !== index));
+    setActiveMenuIndex(null);
+  };
+
+  const handleEdit = (index: number) => {
+    const business = addedBusinesses[index];
+    setBusinessInfo({
+      businessSector: business.businessSector,
+      customSector: business.customSector,
+      name: business.name,
+      userName: business.userName,
+      country: business.country,
+      currency: business.currency,
+      propTradingType: business.propTradingType,
+      businessType: business.businessType,
+      customBusinessType: business.customBusinessType
+    });
+    setEditingIndex(index);
+    setActiveMenuIndex(null);
+    setIsDialogOpen(true);
   };
 
   return (
@@ -139,7 +185,7 @@ export default function OverViewPage() {
             </DialogTrigger>
             <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white max-w-md">
               <DialogHeader>
-                <DialogTitle className="text-white">Add your business</DialogTitle>
+                <DialogTitle className="text-white">{editingIndex !== null ? 'Edit yourpreneur' : 'Add yourpreneur'}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
@@ -184,6 +230,37 @@ export default function OverViewPage() {
                         required
                       />
                     </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="businessType" className="text-[#888] text-sm">Business Type</Label>
+                      <Select value={businessInfo.businessType} onValueChange={(value) => setBusinessInfo(prev => ({ ...prev, businessType: value }))}>
+                        <SelectTrigger className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
+                          <SelectValue placeholder="Select business type" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
+                          <SelectItem value="sole-proprietor" className="text-white hover:bg-white/10">Sole Proprietor</SelectItem>
+                          <SelectItem value="partnership" className="text-white hover:bg-white/10">Partnership</SelectItem>
+                          <SelectItem value="llc" className="text-white hover:bg-white/10">LLC</SelectItem>
+                          <SelectItem value="corporation" className="text-white hover:bg-white/10">Corporation</SelectItem>
+                          <SelectItem value="other" className="text-white hover:bg-white/10">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {businessInfo.businessType === 'other' && (
+                      <div className="space-y-2">
+                        <Label htmlFor="customBusinessType" className="text-[#888] text-sm">Type Business Type</Label>
+                        <Input
+                          id="customBusinessType"
+                          name="customBusinessType"
+                          type="text"
+                          value={businessInfo.customBusinessType || ''}
+                          onChange={handleInputChange}
+                          className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
+                          placeholder="Enter business type"
+                        />
+                      </div>
+                    )}
 
                     <div className="space-y-2">
                       <Label htmlFor="country" className="text-[#888] text-sm">Country</Label>
@@ -237,6 +314,52 @@ export default function OverViewPage() {
                         required
                       />
                     </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="propTradingType" className="text-[#888] text-sm">As a</Label>
+                      <Select value={businessInfo.propTradingType} onValueChange={(value) => setBusinessInfo(prev => ({ ...prev, propTradingType: value }))}>
+                        <SelectTrigger className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
+                          <SelectValue placeholder="Select option" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
+                          <SelectItem value="business" className="text-white hover:bg-white/10">Business</SelectItem>
+                          <SelectItem value="personal" className="text-white hover:bg-white/10">Personal</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {businessInfo.propTradingType === 'business' && (
+                      <div className="space-y-2">
+                        <Label htmlFor="businessType" className="text-[#888] text-sm">Business Type</Label>
+                        <Select value={businessInfo.businessType} onValueChange={(value) => setBusinessInfo(prev => ({ ...prev, businessType: value }))}>
+                          <SelectTrigger className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
+                            <SelectValue placeholder="Select business type" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
+                            <SelectItem value="sole-proprietor" className="text-white hover:bg-white/10">Sole Proprietor</SelectItem>
+                            <SelectItem value="partnership" className="text-white hover:bg-white/10">Partnership</SelectItem>
+                            <SelectItem value="llc" className="text-white hover:bg-white/10">LLC</SelectItem>
+                            <SelectItem value="corporation" className="text-white hover:bg-white/10">Corporation</SelectItem>
+                            <SelectItem value="other" className="text-white hover:bg-white/10">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
+
+                    {businessInfo.businessType === 'other' && (
+                      <div className="space-y-2">
+                        <Label htmlFor="customBusinessType" className="text-[#888] text-sm">Type Business Type</Label>
+                        <Input
+                          id="customBusinessType"
+                          name="customBusinessType"
+                          type="text"
+                          value={businessInfo.customBusinessType || ''}
+                          onChange={handleInputChange}
+                          className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
+                          placeholder="Enter business type"
+                        />
+                      </div>
+                    )}
 
                     <div className="space-y-2">
                       <Label htmlFor="country" className="text-[#888] text-sm">Country</Label>
@@ -332,11 +455,58 @@ export default function OverViewPage() {
                   </p>
                 </div>
                 
-                {/* Active status at bottom */}
-                <div className="mt-auto">
+                {/* Business type below sector */}
+                {(business.businessType || business.customBusinessType) && (
+                  <div className="flex items-center justify-center mt-1">
+                    <p className="text-[#666] text-xs">
+                      {business.businessType === 'sole-proprietor' && 'Sole Proprietor'}
+                      {business.businessType === 'partnership' && 'Partnership'}
+                      {business.businessType === 'llc' && 'LLC'}
+                      {business.businessType === 'corporation' && 'Corporation'}
+                      {business.businessType === 'other' && business.customBusinessType}
+                    </p>
+                  </div>
+                )}
+                
+                {/* Active status and menu at bottom */}
+                <div className="mt-auto flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
                     <span className="text-[#666] text-xs">Active</span>
+                  </div>
+                  
+                  {/* Three-dot menu */}
+                  <div className="relative">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setActiveMenuIndex(activeMenuIndex === index ? null : index)}
+                      className="text-[#666] hover:text-white hover:bg-[#1a1a1a] p-1 h-8 w-8"
+                    >
+                      <MoreHorizontal className="w-4 h-4" />
+                    </Button>
+                    
+                    {activeMenuIndex === index && (
+                      <div className="absolute right-0 bottom-full mb-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md shadow-lg z-10 min-w-[120px]">
+                        <button
+                          type="button"
+                          onClick={() => handleEdit(index)}
+                          className="flex items-center gap-2 w-full px-3 py-2 text-left text-white hover:bg-[#2a2a2a] text-sm"
+                        >
+                          <Edit className="w-4 h-4" />
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(index)}
+                          className="flex items-center gap-2 w-full px-3 py-2 text-left text-red-400 hover:bg-[#2a2a2a] text-sm"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          Delete
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </CardContent>
