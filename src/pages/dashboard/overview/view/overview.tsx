@@ -181,8 +181,8 @@ export default function OverViewPage() {
               <CardContent className="flex flex-col h-full p-6">
                 <div className="flex items-start gap-4 mb-4">
                   {/* Circle with first letter */}
-                  <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
-                    <span className="text-white font-semibold text-lg">
+                  <div className="w-12 h-12 rounded-full bg-[#222] border border-[#333] flex items-center justify-center flex-shrink-0">
+                    <span className="text-[#888] font-medium" style={{ fontSize: '10px' }}>
                       {business.businessSector === 'proptrading' 
                         ? business.userName?.charAt(0)?.toUpperCase() || 'U'
                         : business.name?.charAt(0)?.toUpperCase() || 'B'
@@ -193,20 +193,20 @@ export default function OverViewPage() {
                   {/* Business info */}
                   <div className="flex-1 min-w-0">
                     <h3 className="text-white font-semibold text-lg truncate">
-                      {business.businessSector === 'proptrading' ? 'PropTrading' : business.customSector}
-                    </h3>
-                    <p className="text-[#666] text-sm truncate">
                       {business.businessSector === 'proptrading' 
                         ? business.userName 
                         : business.name
                       }
-                    </p>
+                    </h3>
                   </div>
                 </div>
                 
-                {/* Status indicator */}
+                {/* Sector below circle */}
                 <div className="mt-auto">
-                  <div className="flex items-center gap-2">
+                  <p className="text-[#888] text-xs truncate">
+                    {business.businessSector === 'proptrading' ? 'PropTrading' : business.customSector}
+                  </p>
+                  <div className="flex items-center gap-2 mt-2">
                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
                     <span className="text-[#666] text-xs">Active</span>
                   </div>
