@@ -505,7 +505,7 @@ export default function OverViewPage() {
                 </div>
                 
                 {/* Active status at bottom */}
-                <div className="mt-auto flex items-center">
+                <div className="flex items-center">
                   <div className="w-2 h-2 rounded-full bg-green-500"></div>
                   <span className="text-[#666] text-xs ml-2">Active</span>
                 </div>
