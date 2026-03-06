@@ -194,7 +194,7 @@ export default function OverViewPage() {
                     <SelectTrigger className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
                       <SelectValue placeholder="Select business sector" />
                     </SelectTrigger>
-                    <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
+                    <SelectContent className="!bg-[#1a1a1a] border-[#2a2a2a]">
                       <SelectItem value="proptrading" className="text-white hover:!bg-white/10">PropTrading</SelectItem>
                       <SelectItem value="other" className="text-white hover:!bg-white/10">Other</SelectItem>
                     </SelectContent>
@@ -237,7 +237,7 @@ export default function OverViewPage() {
                         <SelectTrigger className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
                           <SelectValue placeholder="Select business type" />
                         </SelectTrigger>
-                        <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
+                        <SelectContent className="!bg-[#1a1a1a] border-[#2a2a2a]">
                           <SelectItem value="sole-proprietor" className="text-white hover:!bg-white/10">Sole Proprietor</SelectItem>
                           <SelectItem value="partnership" className="text-white hover:!bg-white/10">Partnership</SelectItem>
                           <SelectItem value="llc" className="text-white hover:!bg-white/10">LLC</SelectItem>
@@ -321,7 +321,7 @@ export default function OverViewPage() {
                         <SelectTrigger className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
                           <SelectValue placeholder="Select option" />
                         </SelectTrigger>
-                        <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
+                        <SelectContent className="!bg-[#1a1a1a] border-[#2a2a2a]">
                           <SelectItem value="business" className="text-white hover:!bg-white/10">Business</SelectItem>
                           <SelectItem value="personal" className="text-white hover:!bg-white/10">Personal</SelectItem>
                         </SelectContent>
@@ -335,7 +335,7 @@ export default function OverViewPage() {
                           <SelectTrigger className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
                             <SelectValue placeholder="Select business type" />
                           </SelectTrigger>
-                          <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
+                          <SelectContent className="!bg-[#1a1a1a] border-[#2a2a2a]">
                             <SelectItem value="sole-proprietor" className="text-white hover:!bg-white/10">Sole Proprietor</SelectItem>
                             <SelectItem value="partnership" className="text-white hover:!bg-white/10">Partnership</SelectItem>
                             <SelectItem value="llc" className="text-white hover:!bg-white/10">LLC</SelectItem>
@@ -468,16 +468,8 @@ export default function OverViewPage() {
                   </div>
                 )}
                 
-                {/* Active status at bottom */}
-                <div className="mt-auto flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                    <span className="text-[#666] text-xs">Active</span>
-                  </div>
-                </div>
-                
-                {/* Three-dot menu - positioned lower */}
-                <div className="mt-4 flex justify-end">
+                {/* Three-dot menu - positioned higher */}
+                <div className="mt-2 flex justify-end">
                   <div className="relative">
                     <Button
                       type="button"
@@ -510,6 +502,12 @@ export default function OverViewPage() {
                       </div>
                     )}
                   </div>
+                </div>
+                
+                {/* Active status at bottom */}
+                <div className="mt-auto flex items-center">
+                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                  <span className="text-[#666] text-xs ml-2">Active</span>
                 </div>
               </CardContent>
             </Card>
