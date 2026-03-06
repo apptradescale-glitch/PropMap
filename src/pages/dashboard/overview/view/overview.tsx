@@ -195,8 +195,8 @@ export default function OverViewPage() {
                       <SelectValue placeholder="Select business sector" />
                     </SelectTrigger>
                     <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
-                      <SelectItem value="proptrading" className="text-white hover:bg-[#2a2a2a]">PropTrading</SelectItem>
-                      <SelectItem value="other" className="text-white hover:bg-[#2a2a2a]">Other</SelectItem>
+                      <SelectItem value="proptrading" className="text-white hover:!bg-white/10">PropTrading</SelectItem>
+                      <SelectItem value="other" className="text-white hover:!bg-white/10">Other</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -238,11 +238,11 @@ export default function OverViewPage() {
                           <SelectValue placeholder="Select business type" />
                         </SelectTrigger>
                         <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
-                          <SelectItem value="sole-proprietor" className="text-white hover:bg-white/10">Sole Proprietor</SelectItem>
-                          <SelectItem value="partnership" className="text-white hover:bg-white/10">Partnership</SelectItem>
-                          <SelectItem value="llc" className="text-white hover:bg-white/10">LLC</SelectItem>
-                          <SelectItem value="corporation" className="text-white hover:bg-white/10">Corporation</SelectItem>
-                          <SelectItem value="other" className="text-white hover:bg-white/10">Other</SelectItem>
+                          <SelectItem value="sole-proprietor" className="text-white hover:!bg-white/10">Sole Proprietor</SelectItem>
+                          <SelectItem value="partnership" className="text-white hover:!bg-white/10">Partnership</SelectItem>
+                          <SelectItem value="llc" className="text-white hover:!bg-white/10">LLC</SelectItem>
+                          <SelectItem value="corporation" className="text-white hover:!bg-white/10">Corporation</SelectItem>
+                          <SelectItem value="other" className="text-white hover:!bg-white/10">Other</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -270,7 +270,7 @@ export default function OverViewPage() {
                         </SelectTrigger>
                         <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a] max-h-60">
                           {Object.entries(countryCurrencyMap).map(([code, data]) => (
-                            <SelectItem key={code} value={code} className="text-white hover:bg-white/10">
+                            <SelectItem key={code} value={code} className="text-white hover:!bg-white/10">
                               <span className="flex items-center gap-2">
                                 <span className="text-[#666] text-xs font-mono bg-[#2a2a2a] px-1 py-0.5 rounded">
                                   {data.flag}
@@ -322,8 +322,8 @@ export default function OverViewPage() {
                           <SelectValue placeholder="Select option" />
                         </SelectTrigger>
                         <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
-                          <SelectItem value="business" className="text-white hover:bg-white/10">Business</SelectItem>
-                          <SelectItem value="personal" className="text-white hover:bg-white/10">Personal</SelectItem>
+                          <SelectItem value="business" className="text-white hover:!bg-white/10">Business</SelectItem>
+                          <SelectItem value="personal" className="text-white hover:!bg-white/10">Personal</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -336,11 +336,11 @@ export default function OverViewPage() {
                             <SelectValue placeholder="Select business type" />
                           </SelectTrigger>
                           <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
-                            <SelectItem value="sole-proprietor" className="text-white hover:bg-white/10">Sole Proprietor</SelectItem>
-                            <SelectItem value="partnership" className="text-white hover:bg-white/10">Partnership</SelectItem>
-                            <SelectItem value="llc" className="text-white hover:bg-white/10">LLC</SelectItem>
-                            <SelectItem value="corporation" className="text-white hover:bg-white/10">Corporation</SelectItem>
-                            <SelectItem value="other" className="text-white hover:bg-white/10">Other</SelectItem>
+                            <SelectItem value="sole-proprietor" className="text-white hover:!bg-white/10">Sole Proprietor</SelectItem>
+                            <SelectItem value="partnership" className="text-white hover:!bg-white/10">Partnership</SelectItem>
+                            <SelectItem value="llc" className="text-white hover:!bg-white/10">LLC</SelectItem>
+                            <SelectItem value="corporation" className="text-white hover:!bg-white/10">Corporation</SelectItem>
+                            <SelectItem value="other" className="text-white hover:!bg-white/10">Other</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -369,7 +369,7 @@ export default function OverViewPage() {
                         </SelectTrigger>
                         <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a] max-h-60">
                           {Object.entries(countryCurrencyMap).map(([code, data]) => (
-                            <SelectItem key={code} value={code} className="text-white hover:bg-white/10">
+                            <SelectItem key={code} value={code} className="text-white hover:!bg-white/10">
                               <span className="flex items-center gap-2">
                                 <span className="text-[#666] text-xs font-mono bg-[#2a2a2a] px-1 py-0.5 rounded">
                                   {data.flag}
@@ -468,21 +468,23 @@ export default function OverViewPage() {
                   </div>
                 )}
                 
-                {/* Active status and menu at bottom */}
+                {/* Active status at bottom */}
                 <div className="mt-auto flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
                     <span className="text-[#666] text-xs">Active</span>
                   </div>
-                  
-                  {/* Three-dot menu */}
+                </div>
+                
+                {/* Three-dot menu - positioned lower */}
+                <div className="mt-4 flex justify-end">
                   <div className="relative">
                     <Button
                       type="button"
-                      variant="ghost"
+                      variant="outline"
                       size="sm"
                       onClick={() => setActiveMenuIndex(activeMenuIndex === index ? null : index)}
-                      className="text-[#666] hover:text-white hover:bg-[#1a1a1a] p-1 h-8 w-8"
+                      className="text-[#666] border-[#2a2a2a] hover:text-white hover:border-[#444] hover:bg-[#1a1a1a] p-1 h-8 w-8"
                     >
                       <MoreHorizontal className="w-4 h-4" />
                     </Button>
