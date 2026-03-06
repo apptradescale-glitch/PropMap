@@ -306,31 +306,35 @@ export default function OverViewPage() {
                 <div className="flex items-start gap-4 mb-4">
                   {/* Circle with first letter */}
                   <div className="w-12 h-12 rounded-full bg-[#222] border border-[#333] flex items-center justify-center flex-shrink-0">
-                    <span className="text-[#888] font-medium" style={{ fontSize: '10px' }}>
+                    <span className="text-[#888] font-medium" style={{ fontSize: '20px' }}>
                       {business.businessSector === 'proptrading' 
                         ? business.userName?.charAt(0)?.toUpperCase() || 'U'
                         : business.name?.charAt(0)?.toUpperCase() || 'B'
                       }
                     </span>
                   </div>
-                  
-                  {/* Business info */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-semibold text-lg truncate">
-                      {business.businessSector === 'proptrading' 
-                        ? business.userName 
-                        : business.name
-                      }
-                    </h3>
-                  </div>
                 </div>
                 
-                {/* Sector below circle */}
-                <div className="mt-auto">
+                {/* Business info - positioned lower */}
+                <div className="flex-1 min-w-0 mt-8">
+                  <h3 className="text-white font-semibold text-lg truncate">
+                    {business.businessSector === 'proptrading' 
+                      ? business.userName 
+                      : business.name
+                    }
+                  </h3>
+                </div>
+                
+                {/* Sector right beneath circle */}
+                <div className="mt-2">
                   <p className="text-[#888] text-xs truncate">
                     {business.businessSector === 'proptrading' ? 'PropTrading' : business.customSector}
                   </p>
-                  <div className="flex items-center gap-2 mt-2">
+                </div>
+                
+                {/* Active status at bottom */}
+                <div className="mt-auto">
+                  <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
                     <span className="text-[#666] text-xs">Active</span>
                   </div>
