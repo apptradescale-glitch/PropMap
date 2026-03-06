@@ -468,8 +468,12 @@ export default function OverViewPage() {
                   </div>
                 )}
                 
-                {/* Three-dot menu - positioned higher */}
-                <div className="mt-2 flex justify-end">
+                {/* Active status + Three-dot menu on same row */}
+                <div className="mt-auto flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <span className="text-[#666] text-xs ml-2">Active</span>
+                  </div>
                   <div className="relative">
                     <Button
                       type="button"
@@ -502,12 +506,6 @@ export default function OverViewPage() {
                       </div>
                     )}
                   </div>
-                </div>
-                
-                {/* Active status at bottom */}
-                <div className="flex items-center mb-4">
-                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                  <span className="text-[#666] text-xs ml-2">Active</span>
                 </div>
               </CardContent>
             </Card>
