@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowLeft, Calendar, LineChart, Globe, DollarSign, Upload, X, Building2, Pen, Timer, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Calendar, LineChart, Globe, DollarSign, Upload, X, Building2, Pen, Timer, TrendingUp, ArrowBigUp, ArrowBigDown, FileText } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db } from '@/config/firestore';
@@ -123,6 +123,10 @@ export default function BusinessDetailPage() {
   const totalExpenses = expenses.reduce((sum, item) => sum + Number(item.amount), 0);
   const totalRevenue = totalPayouts + totalExpenses;
 
+  // Combine and sort financial data for Revenue History
+  const combinedFinancialData = [...payouts, ...expenses]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
   // Save financial data to Firestore
   const saveFinancialData = async (type: 'payouts' | 'expenses', data: any) => {
     if (!currentUser) return;
@@ -137,6 +141,7 @@ export default function BusinessDetailPage() {
       
       const newItem = {
         id: crypto.randomUUID(),
+        type: type, // 'payouts' or 'expenses'
         businessId: businessId,
         businessName: businessName,
         amount: Number(data.amount),
@@ -598,8 +603,57 @@ export default function BusinessDetailPage() {
               <Timer className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="flex items-center justify-center h-full min-h-[280px]">
-                <p className="text-[#666] text-sm">Payouts & Expenses History</p>
+              <div className="h-full min-h-[280px] overflow-y-auto">
+                {combinedFinancialData.length === 0 ? (
+                  <div className="flex items-center justify-center h-full">
+                    <p className="text-[#666] text-sm">No payouts or expenses yet</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {combinedFinancialData.map((item) => (
+                      <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a]">
+                        {/* Arrow Icon */}
+                        <div className="flex-shrink-0">
+                          {item.type === 'payouts' ? (
+                            <div className="p-2 rounded-full bg-green-500/20 border border-green-500 shadow-lg shadow-green-500/50">
+                              <ArrowBigUp className="w-5 h-5 text-green-400" />
+                            </div>
+                          ) : (
+                            <div className="p-2 rounded-full bg-red-500/20 border border-red-500 shadow-lg shadow-red-500/50">
+                              <ArrowBigDown className="w-5 h-5 text-red-400" />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Description and File */}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white text-sm font-medium truncate">
+                            {item.description}
+                          </p>
+                          {item.fileName && (
+                            <div className="flex items-center gap-1 mt-1">
+                              <FileText className="w-3 h-3 text-[#666]" />
+                              <p className="text-[#666] text-xs truncate">{item.fileName}</p>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Amount */}
+                        <div className="flex-shrink-0 text-right">
+                          <p className={`text-sm font-bold ${
+                            item.type === 'payouts' ? 'text-green-400' : 'text-red-400'
+                          }`}>
+                            {business.currency ? getCurrencySymbol(business.currency || 'USD') : '$'}
+                            {Math.abs(item.amount).toFixed(2)}
+                          </p>
+                          <p className="text-[#666] text-xs">
+                            {new Date(item.date).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
