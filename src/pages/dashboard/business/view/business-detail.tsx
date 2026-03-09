@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowLeft, Building2, Globe, DollarSign, Briefcase, LineChart, Calendar, ChevronDown, Upload, X, Pen } from 'lucide-react';
+import { ArrowLeft, Calendar, LineChart, Globe, DollarSign, Upload, X, Building2, Pen, Timer, TrendingUp } from 'lucide-react';
 
 const getCurrencySymbol = (currency: string) => {
   const symbols: { [key: string]: string } = {
@@ -217,17 +217,37 @@ export default function BusinessDetailPage() {
 
         {/* Performance + Location/Analytics row */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Performance Card - Left */}
+          {/* Performance Chart Card - Left */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardHeader>
-              <CardTitle className="text-white">Performance</CardTitle>
-              <CardDescription className="text-[#666]">
-                Business performance metrics
-              </CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <div className="flex flex-col gap-1">
+                <CardTitle className="text-sm font-medium text-white">Performance Chart</CardTitle>
+                <CardDescription className="text-[#666]">
+                  Business performance metrics
+                </CardDescription>
+              </div>
+              <TrendingUp className="h-4 w-4 text-[#666]" />
             </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-center h-32">
-                <p className="text-[#666] text-lg">Performance data coming soon</p>
+            <CardContent className="pt-2 pb-4">
+              <div className="h-32">
+                <svg viewBox="0 0 400 128" className="w-full h-full">
+                  <defs>
+                    <linearGradient id="performanceGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#e0ac69" stopOpacity={0.3}/>
+                      <stop offset="100%" stopColor="#e0ac69" stopOpacity={0.05}/>
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M 0 100 L 50 90 L 100 95 L 150 70 L 200 75 L 250 60 L 300 65 L 350 50 L 400 55"
+                    fill="none"
+                    stroke="#e0ac69"
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M 0 100 L 50 90 L 100 95 L 150 70 L 200 75 L 250 60 L 300 65 L 350 50 L 400 55 L 400 128 L 0 128 Z"
+                    fill="url(#performanceGradient)"
+                  />
+                </svg>
               </div>
             </CardContent>
           </Card>
@@ -379,17 +399,17 @@ export default function BusinessDetailPage() {
 
         {/* Bottom Row - Full height Analytics only */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Full Height Analytics Card - Left */}
+          {/* Full Height Revenue History Card - Left */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardHeader>
-              <CardTitle className="text-white">Analytics</CardTitle>
-              <CardDescription className="text-[#666]">
-                Business analytics and insights
-              </CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <CardTitle className="text-sm font-medium text-white">
+                Revenue History
+              </CardTitle>
+              <Timer className="h-4 w-4 text-[#666]" />
             </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-center h-64">
-                <p className="text-[#666] text-lg">Analytics data coming soon</p>
+            <CardContent className="pt-2 pb-4">
+              <div className="flex items-center justify-center h-full min-h-[280px]">
+                <p className="text-[#666] text-sm">Payouts & Expenses History</p>
               </div>
             </CardContent>
           </Card>
