@@ -2,9 +2,9 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PageContainer from '@/components/layout/page-container';
 import PageHead from '@/components/shared/page-head';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Building2, Globe, DollarSign, Briefcase } from 'lucide-react';
 
 export default function BusinessDetailPage() {
   const location = useLocation();
@@ -50,83 +50,132 @@ export default function BusinessDetailPage() {
           </Button>
         </div>
         
-        {/* Business Card - styled like overview cards */}
-        <div className="flex items-start justify-start h-64 ml-8 mt-32 gap-4">
-          <Card className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardContent className="flex flex-col h-full p-6">
-              <div className="flex items-center gap-4 mb-4">
-                {/* Circle with first letter */}
-                <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
-                  <span className="text-[#888] font-medium" style={{ fontSize: '10px' }}>
-                    {business.businessSector === 'proptrading' 
-                      ? business.userName?.charAt(0)?.toUpperCase() || 'U'
-                      : business.name?.charAt(0)?.toUpperCase() || 'B'
-                    }
+        {/* Top 4 Cards */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {/* Business Information Card */}
+          <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <CardTitle className="text-sm font-medium text-white">
+                Business Information
+              </CardTitle>
+              <Building2 className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  {/* Circle with first letter */}
+                  <div className="w-10 h-10 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
+                    <span className="text-[#888] font-medium" style={{ fontSize: '8px' }}>
+                      {business.businessSector === 'proptrading' 
+                        ? business.userName?.charAt(0)?.toUpperCase() || 'U'
+                        : business.name?.charAt(0)?.toUpperCase() || 'B'
+                      }
+                    </span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-white font-semibold text-sm truncate">
+                      {businessName}
+                    </h4>
+                    <p className="text-[#888] text-xs">
+                      {business.businessSector === 'proptrading' ? 'PropTrading' : business.customSector}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className={`w-2 h-2 rounded-full ${business.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                  <span className="text-xs text-[#666]">
+                    {business.isActive ? 'Active' : 'Inactive'}
                   </span>
                 </div>
-                
-                {/* Name next to circle */}
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-white font-semibold text-lg truncate">
-                    {businessName}
-                  </h3>
-                </div>
-              </div>
-              
-              {/* Sector centered in card */}
-              <div className="flex items-center justify-center">
-                <p className="text-[#888] text-sm font-medium">
-                  {business.businessSector === 'proptrading' ? 'PropTrading' : business.customSector}
-                </p>
-              </div>
-              
-              {/* Business type below sector */}
-              {(business.businessType || business.customBusinessType) && (
-                <div className="flex items-center justify-center mt-1">
-                  <p className="text-[#666] text-xs">
+                {(business.businessType || business.customBusinessType) && (
+                  <div className="text-xs text-[#666]">
                     {business.businessType === 'sole-proprietor' && 'Sole Proprietor'}
                     {business.businessType === 'partnership' && 'Partnership'}
                     {business.businessType === 'llc' && 'LLC'}
                     {business.businessType === 'corporation' && 'Corporation'}
                     {business.businessType === 'other' && business.customBusinessType}
-                  </p>
-                </div>
-              )}
-              
-              {/* Active status at bottom */}
-              <div className="mt-auto flex items-center justify-between pt-4">
-                <div className="flex items-center">
-                  <div className={`w-2 h-2 rounded-full ${business.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                  <span className="text-xs ml-2 text-[#666]">
-                    {business.isActive ? 'Active' : 'Inactive'}
-                  </span>
-                </div>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
+
+          {/* Empty Card 2 */}
+          <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <CardTitle className="text-sm font-medium text-white">
+                Revenue
+              </CardTitle>
+              <DollarSign className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div className="text-2xl font-bold text-white">$0</div>
+              <p className="text-xs text-[#666] mt-1">Total Revenue</p>
+            </CardContent>
+          </Card>
+
+          {/* Empty Card 3 */}
+          <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <CardTitle className="text-sm font-medium text-white">
+                Location
+              </CardTitle>
+              <Globe className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div className="text-lg font-semibold text-white">{business.country || 'N/A'}</div>
+              <p className="text-xs text-[#666] mt-1">{business.currency || 'N/A'}</p>
+            </CardContent>
+          </Card>
+
+          {/* Empty Card 4 */}
+          <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <CardTitle className="text-sm font-medium text-white">
+                Type
+              </CardTitle>
+              <Briefcase className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div className="text-lg font-semibold text-white capitalize">
+                {business.propTradingType || 'N/A'}
+              </div>
+              <p className="text-xs text-[#666] mt-1">Business Type</p>
+            </CardContent>
+          </Card>
         </div>
-        
-        {/* Additional content area for future development */}
-        <div className="ml-8 mt-8">
-          <div className="bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg p-6">
-            <h3 className="text-white text-lg font-semibold mb-4">Business Information</h3>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-[#666] text-sm">Country:</span>
-                <span className="text-white text-sm">{business.country}</span>
+
+        {/* Bottom 2 Cards (2 in a row, bigger) */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {/* Empty Card 5 */}
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader>
+              <CardTitle className="text-white">Performance</CardTitle>
+              <CardDescription className="text-[#666]">
+                Business performance metrics
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-center h-32">
+                <p className="text-[#666] text-lg">Performance data coming soon</p>
               </div>
-              <div className="flex justify-between">
-                <span className="text-[#666] text-sm">Currency:</span>
-                <span className="text-white text-sm">{business.currency}</span>
+            </CardContent>
+          </Card>
+
+          {/* Empty Card 6 */}
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader>
+              <CardTitle className="text-white">Analytics</CardTitle>
+              <CardDescription className="text-[#666]">
+                Business analytics and insights
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-center h-32">
+                <p className="text-[#666] text-lg">Analytics data coming soon</p>
               </div>
-              {business.propTradingType && (
-                <div className="flex justify-between">
-                  <span className="text-[#666] text-sm">Type:</span>
-                  <span className="text-white text-sm capitalize">{business.propTradingType}</span>
-                </div>
-              )}
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </PageContainer>
