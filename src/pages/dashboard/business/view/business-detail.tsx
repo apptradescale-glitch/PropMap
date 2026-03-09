@@ -152,45 +152,9 @@ export default function BusinessDetailPage() {
           </Card>
         </div>
 
-        {/* Location Cards - Two cards side by side */}
+        {/* Performance + Location/Analytics row */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Location Card - Left */}
-          <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white">
-                Location
-              </CardTitle>
-              <Globe className="h-4 w-4 text-[#666]" />
-            </CardHeader>
-            <CardContent className="pt-2 pb-4">
-              <div className="space-y-2">
-                <div className="text-lg font-semibold text-white">{business.country || 'N/A'}</div>
-                <div className="text-xs text-[#666]">
-                  Currency: {business.currency || 'N/A'}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Empty Card - Right */}
-          <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white">
-                Analytics
-              </CardTitle>
-              <LineChart className="h-4 w-4 text-[#666]" />
-            </CardHeader>
-            <CardContent className="pt-2 pb-4">
-              <div className="flex items-center justify-center h-16">
-                <p className="text-[#666] text-sm">Analytics data coming soon</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Bottom 2 Cards (2 in a row, bigger) */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Empty Card 5 */}
+          {/* Performance Card - Left */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader>
               <CardTitle className="text-white">Performance</CardTitle>
@@ -205,20 +169,41 @@ export default function BusinessDetailPage() {
             </CardContent>
           </Card>
 
-          {/* Empty Card 6 */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardHeader>
-              <CardTitle className="text-white">Analytics</CardTitle>
-              <CardDescription className="text-[#666]">
-                Business analytics and insights
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-center h-32">
-                <p className="text-[#666] text-lg">Analytics data coming soon</p>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Right side - Location + Analytics split */}
+          <div className="grid grid-cols-2 gap-4">
+            {/* Location Card */}
+            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+                <CardTitle className="text-sm font-medium text-white">
+                  Location
+                </CardTitle>
+                <Globe className="h-4 w-4 text-[#666]" />
+              </CardHeader>
+              <CardContent className="pt-2 pb-4">
+                <div className="space-y-2">
+                  <div className="text-lg font-semibold text-white">{business.country || 'N/A'}</div>
+                  <div className="text-xs text-[#666]">
+                    Currency: {business.currency || 'N/A'}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Analytics Card */}
+            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+                <CardTitle className="text-sm font-medium text-white">
+                  Analytics
+                </CardTitle>
+                <LineChart className="h-4 w-4 text-[#666]" />
+              </CardHeader>
+              <CardContent className="pt-2 pb-4">
+                <div className="flex items-center justify-center h-32">
+                  <p className="text-[#666] text-sm">Analytics data coming soon</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Additional 2 Cards (2 in a row, bigger) */}
