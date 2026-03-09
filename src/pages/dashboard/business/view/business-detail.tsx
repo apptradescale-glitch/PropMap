@@ -90,7 +90,7 @@ export default function BusinessDetailPage() {
     if (!currentUser) return;
 
     const loadFinancialData = async () => {
-      // Use business name as ID if business.id is not available
+      // Use business ID as primary identifier, fallback to name if no ID
       const businessId = business?.id || business?.name || 'default';
       console.log('Loading from Firestore:', { userId: currentUser.uid, businessId, business });
 
@@ -127,7 +127,7 @@ export default function BusinessDetailPage() {
   const saveFinancialData = async (type: 'payouts' | 'expenses', data: any) => {
     if (!currentUser) return;
 
-    // Use business name as ID if business.id is not available
+    // Use business ID as primary identifier, fallback to name if no ID
     const businessId = business?.id || business?.name || 'default';
     console.log('Saving to Firestore:', { userId: currentUser.uid, type, businessId, business });
 

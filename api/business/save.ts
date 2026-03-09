@@ -60,9 +60,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     businesses = data?.businesses || [];
   }
 
-  // Add timestamp to business
+  // Add timestamp and unique ID to business
   const businessWithTimestamp = {
     ...business,
+    id: crypto.randomUUID(),
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
