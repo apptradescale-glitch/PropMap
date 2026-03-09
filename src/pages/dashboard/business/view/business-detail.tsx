@@ -637,12 +637,12 @@ export default function BusinessDetailPage() {
                         {/* Arrow Icon */}
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
-                            <div className="p-2 rounded-lg bg-white/20 border border-white/30">
-                              <ArrowBigUp className="w-5 h-5 text-white" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-green-500/50">
+                              <ArrowBigUp className="w-5 h-5 text-green-400" />
                             </div>
                           ) : (
-                            <div className="p-2 rounded-lg bg-white/20 border border-white/30">
-                              <ArrowBigDown className="w-5 h-5 text-white" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-red-500/50">
+                              <ArrowBigDown className="w-5 h-5 text-red-400" />
                             </div>
                           )}
                         </div>
