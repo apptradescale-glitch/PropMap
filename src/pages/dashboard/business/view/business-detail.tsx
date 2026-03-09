@@ -333,7 +333,7 @@ export default function BusinessDetailPage() {
               <TrendingUp className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div style={{ width: '100%', height: 200 }}>
+              <div style={{ width: '100%', height: 350 }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
                     data={[

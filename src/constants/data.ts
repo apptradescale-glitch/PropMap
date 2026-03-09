@@ -41,10 +41,10 @@ export const navItems: NavItem[] = [
   },
 
           {
-    title: 'PropFirm Connections',
-    href: '/dashboard/PropFirmConnections',
+    title: 'PropFirms',
+    href: '/dashboard/PropFirm',
     icon: 'chartcandlestick',
-    label: 'PropFirmConnections',
+    label: 'PropFirm',
      
   },
 
