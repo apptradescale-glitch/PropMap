@@ -36,6 +36,7 @@ export default function OverViewPage() {
     propTradingType: string;
     businessType: string;
     customBusinessType: string;
+    isActive: boolean;
   }>>([]);
 
   // Ensure dark mode
@@ -111,13 +112,13 @@ export default function OverViewPage() {
       // Update existing business
       setAddedBusinesses(prev => 
         prev.map((business, index) => 
-          index === editingIndex ? { ...businessInfo } : business
+          index === editingIndex ? { ...businessInfo, isActive: business.isActive } : business
         )
       );
       setEditingIndex(null);
     } else {
       // Add new business
-      setAddedBusinesses(prev => [...prev, { ...businessInfo }]);
+      setAddedBusinesses(prev => [...prev, { ...businessInfo, isActive: true }]);
     }
     
     // Here you would typically save to database
@@ -157,6 +158,15 @@ export default function OverViewPage() {
     setEditingIndex(index);
     setActiveMenuIndex(null);
     setIsDialogOpen(true);
+  };
+
+  const handleToggleActive = (index: number) => {
+    setAddedBusinesses(prev => 
+      prev.map((business, i) => 
+        i === index ? { ...business, isActive: !business.isActive } : business
+      )
+    );
+    setActiveMenuIndex(null);
   };
 
   return (
@@ -469,10 +479,12 @@ export default function OverViewPage() {
                 )}
                 
                 {/* Active status + Three-dot menu on same row */}
-                <div className="mt-auto flex items-center justify-between pt-6">
+                <div className="mt-auto flex items-center justify-between pt-4">
                   <div className="flex items-center">
-                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                    <span className="text-[#666] text-xs ml-2">Active</span>
+                    <div className={`w-2 h-2 rounded-full ${business.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                    <span className={`text-xs ml-2 ${business.isActive ? 'text-[#666]' : 'text-red-400'}`}>
+                      {business.isActive ? 'Active' : 'Inactive'}
+                    </span>
                   </div>
                   <div className="relative">
                     <Button
@@ -494,6 +506,14 @@ export default function OverViewPage() {
                         >
                           <Edit className="w-4 h-4" />
                           Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleToggleActive(index)}
+                          className={`flex items-center gap-2 w-full px-3 py-2 text-left ${business.isActive ? 'text-red-400' : 'text-green-400'} hover:bg-[#2a2a2a] text-sm`}
+                        >
+                          <div className={`w-3 h-3 rounded-full ${business.isActive ? 'bg-red-400' : 'bg-green-400'}`}></div>
+                          {business.isActive ? 'Make inactive' : 'Make active'}
                         </button>
                         <button
                           type="button"
