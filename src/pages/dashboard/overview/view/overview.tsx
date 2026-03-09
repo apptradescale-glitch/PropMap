@@ -172,8 +172,8 @@ export default function OverViewPage() {
   };
 
   const handleCardClick = (business: any, index: number) => {
-    // Navigate to business detail page
-    navigate(`/dashboard/business/${index}`);
+    // Navigate to business detail page with business data
+    navigate(`/dashboard/business/${index}`, { state: { business } });
   };
 
   return (
