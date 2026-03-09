@@ -183,106 +183,100 @@ export default function BusinessDetailPage() {
   const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
   const totalRevenue = totalPayouts - totalExpenses;
 
-  // Calculate totals for Business Overview card (all businesses combined)
-  const [businessTotals, setBusinessTotals] = useState({
-    totalRevenue: 0,
-    totalExpenses: 0,
-    totalPayouts: 0,
-    currency: 'USD'
-  });
+  // Calculate individual business totals for Business Overview card
+  const [businessDataWithTotals, setBusinessDataWithTotals] = useState<any[]>([]);
 
   useEffect(() => {
     const calculateBusinessTotals = async () => {
       if (business?.isCombinedView && business?.businesses) {
-        let allRevenue = 0;
-        let allExpenses = 0;
-        let allPayouts = 0;
-        let firstCurrency = 'USD';
+        const businessesWithTotals = [];
 
         for (const biz of business.businesses) {
-          // Use the first business's currency
-          if (firstCurrency === 'USD' && biz.currency) {
-            firstCurrency = biz.currency;
+          let bizTotalPayouts = 0;
+          let bizTotalExpenses = 0;
+
+          try {
+            // Load payouts for this business
+            const payoutsQuery = query(
+              collection(db, 'payouts'),
+              where('userId', '==', currentUser?.uid),
+              where('businessId', '==', biz.id || ''),
+              orderBy('date', 'desc')
+            );
+            const payoutsSnapshot = await getDocs(payoutsQuery);
+            const bizPayouts = payoutsSnapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+            }));
+
+            // Load expenses for this business
+            const expensesQuery = query(
+              collection(db, 'expenses'),
+              where('userId', '==', currentUser?.uid),
+              where('businessId', '==', biz.id || ''),
+              orderBy('date', 'desc')
+            );
+            const expensesSnapshot = await getDocs(expensesQuery);
+            const bizExpenses = expensesSnapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+            }));
+
+            // Also check by business name for backward compatibility
+            const payoutsByNameQuery = query(
+              collection(db, 'payouts'),
+              where('userId', '==', currentUser?.uid),
+              where('businessName', '==', biz.businessSector === 'proptrading' ? biz.userName : biz.name),
+              orderBy('date', 'desc')
+            );
+            const payoutsByNameSnapshot = await getDocs(payoutsByNameQuery);
+            const bizPayoutsByName = payoutsByNameSnapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+            }));
+
+            const expensesByNameQuery = query(
+              collection(db, 'expenses'),
+              where('userId', '==', currentUser?.uid),
+              where('businessName', '==', biz.businessSector === 'proptrading' ? biz.userName : biz.name),
+              orderBy('date', 'desc')
+            );
+            const expensesByNameSnapshot = await getDocs(expensesByNameQuery);
+            const bizExpensesByName = expensesByNameSnapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+            }));
+
+            // Combine and deduplicate
+            const allBizPayouts = [...bizPayouts, ...bizPayoutsByName];
+            const allBizExpenses = [...bizExpenses, ...bizExpensesByName];
+            
+            const uniquePayouts = allBizPayouts.filter((payout, index, self) => 
+              index === self.findIndex((p) => p.id === payout.id)
+            );
+            const uniqueExpenses = allBizExpenses.filter((expense, index, self) => 
+              index === self.findIndex((e) => e.id === expense.id)
+            );
+
+            // Calculate totals for this business
+            bizTotalPayouts = uniquePayouts.reduce((sum, payout) => sum + (payout.amount || 0), 0);
+            bizTotalExpenses = uniqueExpenses.reduce((sum, expense) => sum + (expense.amount || 0), 0);
+          } catch (error) {
+            console.error(`Error loading data for business ${biz.name}:`, error);
           }
 
-          // Load payouts for this business
-          const payoutsQuery = query(
-            collection(db, 'payouts'),
-            where('userId', '==', currentUser?.uid),
-            where('businessId', '==', biz.id || ''),
-            orderBy('date', 'desc')
-          );
-          const payoutsSnapshot = await getDocs(payoutsQuery);
-          const bizPayouts = payoutsSnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }));
+          const bizTotalRevenue = bizTotalPayouts - bizTotalExpenses;
 
-          // Load expenses for this business
-          const expensesQuery = query(
-            collection(db, 'expenses'),
-            where('userId', '==', currentUser?.uid),
-            where('businessId', '==', biz.id || ''),
-            orderBy('date', 'desc')
-          );
-          const expensesSnapshot = await getDocs(expensesQuery);
-          const bizExpenses = expensesSnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }));
-
-          // Also check by business name for backward compatibility
-          const payoutsByNameQuery = query(
-            collection(db, 'payouts'),
-            where('userId', '==', currentUser?.uid),
-            where('businessName', '==', biz.businessSector === 'proptrading' ? biz.userName : biz.name),
-            orderBy('date', 'desc')
-          );
-          const payoutsByNameSnapshot = await getDocs(payoutsByNameQuery);
-          const bizPayoutsByName = payoutsByNameSnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }));
-
-          const expensesByNameQuery = query(
-            collection(db, 'expenses'),
-            where('userId', '==', currentUser?.uid),
-            where('businessName', '==', biz.businessSector === 'proptrading' ? biz.userName : biz.name),
-            orderBy('date', 'desc')
-          );
-          const expensesByNameSnapshot = await getDocs(expensesByNameQuery);
-          const bizExpensesByName = expensesByNameSnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }));
-
-          // Combine and deduplicate
-          const allBizPayouts = [...bizPayouts, ...bizPayoutsByName];
-          const allBizExpenses = [...bizExpenses, ...bizExpensesByName];
-          
-          const uniquePayouts = allBizPayouts.filter((payout, index, self) => 
-            index === self.findIndex((p) => p.id === payout.id)
-          );
-          const uniqueExpenses = allBizExpenses.filter((expense, index, self) => 
-            index === self.findIndex((e) => e.id === expense.id)
-          );
-
-          // Calculate totals for this business
-          const bizTotalPayouts = uniquePayouts.reduce((sum, payout) => sum + (payout.amount || 0), 0);
-          const bizTotalExpenses = uniqueExpenses.reduce((sum, expense) => sum + (expense.amount || 0), 0);
-
-          allPayouts += bizTotalPayouts;
-          allExpenses += bizTotalExpenses;
+          businessesWithTotals.push({
+            ...biz,
+            totalRevenue: bizTotalRevenue,
+            totalExpenses: bizTotalExpenses,
+            totalPayouts: bizTotalPayouts,
+            currency: biz.currency || 'USD'
+          });
         }
 
-        allRevenue = allPayouts - allExpenses;
-
-        setBusinessTotals({
-          totalRevenue: allRevenue,
-          totalExpenses: allExpenses,
-          totalPayouts: allPayouts,
-          currency: firstCurrency
-        });
+        setBusinessDataWithTotals(businessesWithTotals);
       }
     };
 
@@ -488,7 +482,6 @@ export default function BusinessDetailPage() {
                         {businessName}
                       </h4>
                       <div className="text-lg font-bold text-white">
-                        {business?.isCombinedView ? 'Combined View | ' : ''}
                         {business.businessSector === 'proptrading' ? business.userName : business.name}
                       </div>
                       <div className="text-sm text-[#888] mb-4">
@@ -669,32 +662,10 @@ export default function BusinessDetailPage() {
               </CardHeader>
               <CardContent className="pt-2 pb-4">
                 <div className="h-full min-h-[280px] overflow-y-auto">
-                  {/* Summary Numbers */}
-                  <div className="grid grid-cols-3 gap-4 mb-6">
-                    <div className="text-center">
-                      <div className="text-lg font-bold text-white">
-                        {getCurrencySymbol(businessTotals.currency)}{businessTotals.totalRevenue.toFixed(2)}
-                      </div>
-                      <p className="text-xs text-[#666] mt-1">Revenue</p>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-lg font-bold text-white">
-                        {getCurrencySymbol(businessTotals.currency)}{businessTotals.totalExpenses.toFixed(2)}
-                      </div>
-                      <p className="text-xs text-[#666] mt-1">Expenses</p>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-lg font-bold text-white">
-                        {getCurrencySymbol(businessTotals.currency)}{businessTotals.totalPayouts.toFixed(2)}
-                      </div>
-                      <p className="text-xs text-[#666] mt-1">Payouts</p>
-                    </div>
-                  </div>
-
                   {/* Business List */}
-                  {business?.businesses && business.businesses.length > 0 ? (
+                  {businessDataWithTotals && businessDataWithTotals.length > 0 ? (
                     <div className="space-y-3">
-                      {business.businesses.map((biz: any, index: number) => (
+                      {businessDataWithTotals.map((biz: any, index: number) => (
                         <div key={biz.id || index} className="p-4 rounded-lg bg-transparent border border-[#2a2a2a] hover:border-[#e0ac69]/50 transition-all duration-200">
                           <div className="flex items-start gap-3">
                             <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
@@ -713,12 +684,29 @@ export default function BusinessDetailPage() {
                                 <div className={`w-2 h-2 rounded-full ${biz.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
                               </div>
                               <div className="text-xs mt-1">
-                                <span className="text-[#666]">
-                                  {biz.businessSector === 'proptrading' 
-                                    ? 'PropTrading' 
-                                    : biz.customSector || biz.businessSector
-                                  }
-                                </span>
+                                <span>{biz.businessSector === 'proptrading' ? 'PropTrading' : biz.customSector}</span>
+                              </div>
+                              
+                              {/* Financial Numbers */}
+                              <div className="flex items-center gap-4 mt-3">
+                                <div className="text-right">
+                                  <div className="text-sm font-bold text-white">
+                                    {getCurrencySymbol(biz.currency)}{biz.totalRevenue.toFixed(2)}
+                                  </div>
+                                  <p className="text-xs text-[#666]">Revenue</p>
+                                </div>
+                                <div className="text-right">
+                                  <div className="text-sm font-bold text-white">
+                                    {getCurrencySymbol(biz.currency)}{biz.totalPayouts.toFixed(2)}
+                                  </div>
+                                  <p className="text-xs text-[#666]">Payouts</p>
+                                </div>
+                                <div className="text-right">
+                                  <div className="text-sm font-bold text-white">
+                                    {getCurrencySymbol(biz.currency)}{biz.totalExpenses.toFixed(2)}
+                                  </div>
+                                  <p className="text-xs text-[#666]">Expenses</p>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -726,7 +714,7 @@ export default function BusinessDetailPage() {
                       ))}
                     </div>
                   ) : (
-                    <div className="flex items-center justify-center h-full">
+                    <div className="flex items-center justify-center h-full min-h-[200px]">
                       <p className="text-[#666] text-sm">No businesses found</p>
                     </div>
                   )}
@@ -1020,19 +1008,20 @@ export default function BusinessDetailPage() {
 
                         {/* Description and File */}
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <p className="text-white text-sm font-medium truncate">
-                              {item.description}
-                            </p>
-                            {business?.isCombinedView && item.businessName && (
-                              <>
-                                <span className="text-[#666] text-xs">|</span>
-                                <span className="text-[#e0ac69] text-xs truncate">
-                                  {item.businessName}
-                                </span>
-                              </>
-                            )}
-                          </div>
+                          <p className="text-white text-sm font-medium truncate">
+                            {item.description}
+                          </p>
+                          {business?.isCombinedView && item.businessName && (
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-white text-xs truncate">
+                                {item.businessName}
+                              </span>
+                              <span className="text-[#666] text-xs">|</span>
+                              <span className="text-[#666] text-xs truncate">
+                                {item.businessSector === 'proptrading' ? 'PropTrading' : item.customSector || 'Business'}
+                              </span>
+                            </div>
+                          )}
                           {item.fileName && (
                             <div className="flex items-center gap-1 mt-1">
                               <FileText className="w-3 h-3 text-[#666]" />
