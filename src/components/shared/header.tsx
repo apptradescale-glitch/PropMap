@@ -50,7 +50,7 @@ export default function Header() {
 
   {/* Back button - only on business detail page */}
   {isBusinessDetail && (
-    <div className="absolute left-4 top-1/2 -translate-y-1/2 z-50 pointer-events-auto flex items-center mt-3">
+    <div className="flex items-center gap-2 -mb-10 mt-6 relative z-50 pointer-events-auto">
       <Button
         variant="outline"
         size="icon"
@@ -59,13 +59,8 @@ export default function Header() {
       >
         <ArrowLeft className="w-4 h-4" />
       </Button>
-    </div>
-  )}
 
-<div className="flex-1 flex justify-center relative" style={{ bottom: '-2rem' }}>
-  {/* Date Range button - only on business detail page */}
-  {isBusinessDetail && (
-    <div className="pointer-events-auto mt-12">
+      {/* Date Range button - only on business detail page */}
       <Button
         variant="outline"
         size="sm"
@@ -133,7 +128,9 @@ export default function Header() {
       </Dialog>
     </div>
   )}
-</div>
+
+  <div className="flex-1 flex justify-center relative" style={{ bottom: '-2rem' }}>
+  </div>
   <div className="flex items-center gap-2 -mb-10 mt-6 relative z-50 pointer-events-auto">
 
     <ModeToggle />

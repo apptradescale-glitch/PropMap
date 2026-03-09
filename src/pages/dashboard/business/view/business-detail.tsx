@@ -235,7 +235,7 @@ export default function BusinessDetailPage() {
           {/* Right side - Analytics + Location stacked */}
           <div className="grid grid-cols-2 gap-4">
             {/* Add Your Numbers Card */}
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            <Card className="border-[#2a2a2a2a] bg-[#0a0a0a] hover:border-white/35 hover:shadow-lg hover:shadow-white/20 transition-all duration-200">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
                 <CardTitle className="text-sm font-medium text-white">
                   Add your numbers
