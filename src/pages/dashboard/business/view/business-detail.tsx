@@ -84,9 +84,12 @@ export default function BusinessDetailPage() {
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-white font-semibold text-sm truncate">
-                      {businessName}
-                    </h4>
+                    <div className="flex items-center gap-2">
+                      <h4 className="text-white font-semibold text-sm truncate">
+                        {businessName}
+                      </h4>
+                      <div className={`w-2 h-2 rounded-full ${business.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                    </div>
                     <p className="text-[#888] text-xs">
                       {business.businessSector === 'proptrading' ? 'PropTrading' : business.customSector}
                       {(business.businessType || business.customBusinessType) && (
@@ -101,12 +104,6 @@ export default function BusinessDetailPage() {
                       )}
                     </p>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${business.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                  <span className="text-xs text-[#666]">
-                    {business.isActive ? 'Active' : 'Inactive'}
-                  </span>
                 </div>
               </div>
             </CardContent>
