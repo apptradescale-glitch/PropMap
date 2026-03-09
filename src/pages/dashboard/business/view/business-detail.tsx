@@ -27,7 +27,8 @@ import {
   orderBy,
   getDocs,
   addDoc,
-  deleteDoc
+  deleteDoc,
+  arrayUnion
 } from 'firebase/firestore';
 import { db } from '@/config/firestore';
 import { useAuth } from '@/context/FAuth';
