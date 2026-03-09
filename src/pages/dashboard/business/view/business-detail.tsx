@@ -539,7 +539,7 @@ export default function BusinessDetailPage() {
                   {business?.businesses && business.businesses.length > 0 ? (
                     <div className="space-y-3">
                       {business.businesses.map((biz: any, index: number) => (
-                        <div key={biz.id || index} className="p-4 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] hover:border-[#e0ac69]/50 transition-all duration-200">
+                        <div key={biz.id || index} className="p-4 rounded-lg bg-transparent border border-[#2a2a2a] hover:border-[#e0ac69]/50 transition-all duration-200">
                           <div className="flex items-start gap-3">
                             <div className="w-10 h-10 rounded-full bg-[#e0ac69]/20 border border-[#e0ac69]/50 flex items-center justify-center flex-shrink-0">
                               <span className="text-[#e0ac69] font-medium text-sm">
@@ -550,37 +550,19 @@ export default function BusinessDetailPage() {
                               </span>
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-2">
+                              <div className="flex items-center gap-2">
                                 <h4 className="text-white font-semibold text-sm truncate">
                                   {biz.businessSector === 'proptrading' ? biz.userName : biz.name}
                                 </h4>
                                 <div className={`w-2 h-2 rounded-full ${biz.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
                               </div>
-                              <div className="space-y-1 text-xs">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-[#666]">Sector:</span>
-                                  <span className="text-white">{biz.businessSector === 'proptrading' ? 'PropTrading' : biz.customSector || biz.businessSector}</span>
-                                </div>
-                                {(biz.businessType || biz.customBusinessType) && (
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-[#666]">Type:</span>
-                                    <span className="text-white">
-                                      {biz.businessType === 'sole-proprietor' && 'Sole Proprietor'}
-                                      {biz.businessType === 'partnership' && 'Partnership'}
-                                      {biz.businessType === 'llc' && 'LLC'}
-                                      {biz.businessType === 'corporation' && 'Corporation'}
-                                      {biz.businessType === 'other' && biz.customBusinessType}
-                                    </span>
-                                  </div>
-                                )}
-                                <div className="flex items-center gap-2">
-                                  <span className="text-[#666]">Location:</span>
-                                  <span className="text-white">{biz.country || 'N/A'}</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-[#666]">Currency:</span>
-                                  <span className="text-white">{biz.currency || 'N/A'}</span>
-                                </div>
+                              <div className="text-xs mt-1">
+                                <span className="text-[#666]">
+                                  {biz.businessSector === 'proptrading' 
+                                    ? 'PropTrading' 
+                                    : biz.customSector || biz.businessSector
+                                  }
+                                </span>
                               </div>
                             </div>
                           </div>
