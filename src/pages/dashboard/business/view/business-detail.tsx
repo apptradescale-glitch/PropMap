@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ArrowLeft, Calendar, LineChart, Globe, DollarSign, Upload, X, Building2, Pen, Timer, TrendingUp } from 'lucide-react';
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
 const getCurrencySymbol = (currency: string) => {
   const symbols: { [key: string]: string } = {
@@ -230,24 +231,79 @@ export default function BusinessDetailPage() {
             </CardHeader>
             <CardContent className="pt-2 pb-4">
               <div className="h-32">
-                <svg viewBox="0 0 400 128" className="w-full h-full">
-                  <defs>
-                    <linearGradient id="performanceGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#e0ac69" stopOpacity={0.3}/>
-                      <stop offset="100%" stopColor="#e0ac69" stopOpacity={0.05}/>
-                    </linearGradient>
-                  </defs>
-                  <path
-                    d="M 0 100 L 50 90 L 100 95 L 150 70 L 200 75 L 250 60 L 300 65 L 350 50 L 400 55"
-                    fill="none"
-                    stroke="#e0ac69"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M 0 100 L 50 90 L 100 95 L 150 70 L 200 75 L 250 60 L 300 65 L 350 50 L 400 55 L 400 128 L 0 128 Z"
-                    fill="url(#performanceGradient)"
-                  />
-                </svg>
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart
+                    data={[{ date: '', pnl: 0 }]}
+                    margin={{
+                      top: 10,
+                      right: 10,
+                      left: 10,
+                      bottom: 10
+                    }}
+                  >
+                    <defs>
+                      <linearGradient id="performanceGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#e0ac69" stopOpacity={0.3}/>
+                        <stop offset="40%" stopColor="#e0ac69" stopOpacity={0.2}/>
+                        <stop offset="100%" stopColor="#e0ac69" stopOpacity={0.1}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid 
+                      strokeDasharray="3 3"
+                      vertical={true}
+                      stroke="#6b7280"
+                      opacity={0.4}
+                    />
+                    <XAxis
+                      dataKey="date"
+                      tickLine={true}
+                      axisLine={true}
+                      tickMargin={8}
+                      minTickGap={32}
+                      tick={{ fontSize: 12, fill: 'white' }}
+                    />
+                    <YAxis
+                      tickLine={true}
+                      axisLine={true}
+                      tick={{ fontSize: 12, fill: 'white' }}
+                      tickFormatter={(value) => {
+                        const formattedNumber = Math.abs(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        return value < 0 ? `-$${formattedNumber}` : `$${formattedNumber}`;
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="pnl"
+                      stroke="#e0ac69"
+                      strokeWidth={2}
+                      fill="url(#performanceGradient)"
+                      connectNulls={true}
+                      isAnimationActive={true}
+                      animationDuration={750}
+                    />
+                    <Tooltip
+                      cursor={{ stroke: '#e0ac6933' }}
+                      content={({ active, payload }) => {
+                        if (!active || !payload?.length) return null;
+                        const value = Number(payload[0].value);
+                        const formattedValue = Math.abs(value).toLocaleString('en-US', {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2
+                        });
+                        return (
+                          <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
+                            <div className="text-sm text-stone-400">
+                              {payload[0].payload.date || 'Start'}
+                            </div>
+                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                              {value < 0 ? `-$${formattedValue}` : `$${formattedValue}`}
+                            </div>
+                          </div>
+                        );
+                      }}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
@@ -402,9 +458,14 @@ export default function BusinessDetailPage() {
           {/* Full Height Revenue History Card - Left */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white">
-                Revenue History
-              </CardTitle>
+              <div className="flex flex-col gap-1">
+                <CardTitle className="text-sm font-medium text-white">
+                  Revenue History
+                </CardTitle>
+                <CardDescription className="text-[#666]">
+                  Payouts & Expenses History
+                </CardDescription>
+              </div>
               <Timer className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
