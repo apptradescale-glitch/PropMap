@@ -187,7 +187,7 @@ export default function BusinessDetailPage() {
             </Card>
 
             {/* Right - Location + Coming Soon stacked */}
-            <div className="grid grid-rows-2 gap-4">
+            <div className="grid grid-rows-2 gap-2">
               {/* Location Card - Top */}
               <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3">
