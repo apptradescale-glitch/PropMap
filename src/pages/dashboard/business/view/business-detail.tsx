@@ -113,9 +113,20 @@ export default function BusinessDetailPage() {
           if (business?.isCombinedView) {
             // Combined view: load all payouts from all businesses
             const allBusinessIds = business?.businesses?.map((b: any) => b.id || b.name) || [];
-            const combinedPayouts = allPayouts.filter((item: any) => 
-              allBusinessIds.includes(item.businessId)
-            );
+            const combinedPayouts = allPayouts
+              .filter((item: any) => allBusinessIds.includes(item.businessId))
+              .map((item: any) => {
+                // Enrich with sector data from business list if not already set
+                if (!item.businessSector || !item.customSector) {
+                  const matchedBiz = business?.businesses?.find((b: any) => 
+                    (b.id && b.id === item.businessId) || (b.name === item.businessId) || (b.name === item.businessName) || (b.userName === item.businessName)
+                  );
+                  if (matchedBiz) {
+                    return { ...item, businessSector: matchedBiz.businessSector, customSector: matchedBiz.customSector };
+                  }
+                }
+                return item;
+              });
             setPayouts(combinedPayouts);
           } else {
             // Single business view - handle both new ID system and legacy name system
@@ -146,9 +157,20 @@ export default function BusinessDetailPage() {
           if (business?.isCombinedView) {
             // Combined view: load all expenses from all businesses
             const allBusinessIds = business?.businesses?.map((b: any) => b.id || b.name) || [];
-            const combinedExpenses = allExpenses.filter((item: any) => 
-              allBusinessIds.includes(item.businessId)
-            );
+            const combinedExpenses = allExpenses
+              .filter((item: any) => allBusinessIds.includes(item.businessId))
+              .map((item: any) => {
+                // Enrich with sector data from business list if not already set
+                if (!item.businessSector || !item.customSector) {
+                  const matchedBiz = business?.businesses?.find((b: any) => 
+                    (b.id && b.id === item.businessId) || (b.name === item.businessId) || (b.name === item.businessName) || (b.userName === item.businessName)
+                  );
+                  if (matchedBiz) {
+                    return { ...item, businessSector: matchedBiz.businessSector, customSector: matchedBiz.customSector };
+                  }
+                }
+                return item;
+              });
             setExpenses(combinedExpenses);
           } else {
             // Single business view - handle both new ID system and legacy name system
@@ -483,7 +505,7 @@ export default function BusinessDetailPage() {
                       <div className="text-lg font-bold text-white">
                         {business.businessSector === 'proptrading' ? business.userName : business.name}
                       </div>
-                      <div className="text-sm text-[#888] mb-4">
+                      <div className="text-sm text-[#888]">
                         {business.businessSector === 'proptrading' ? 'PropTrading' : business.customSector}
                         {(business.businessType || business.customBusinessType) && (
                           <span className="ml-1">
