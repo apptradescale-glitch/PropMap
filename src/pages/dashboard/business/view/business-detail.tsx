@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PageContainer from '@/components/layout/page-container';
 import PageHead from '@/components/shared/page-head';
@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowLeft, Calendar, LineChart, Globe, DollarSign, Upload, X, Building2, Pen, Timer, TrendingUp, ArrowBigUp, ArrowBigDown, FileText, PieChart as PieChartIcon } from 'lucide-react';
+import { ArrowLeft, Calendar, LineChart, Globe, DollarSign, Upload, X, Building2, Pen, Timer, TrendingUp, ArrowBigUp, ArrowBigDown, FileText, PieChart as PieChartIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip, PieChart as RechartsPieChart, Pie, Cell } from 'recharts';
 import { 
   doc, 
@@ -99,6 +99,10 @@ export default function BusinessDetailPage() {
   // Financial data state
   const [payouts, setPayouts] = useState<any[]>([]);
   const [expenses, setExpenses] = useState<any[]>([]);
+
+  // Calendar state
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+  const [selectedCalendarDay, setSelectedCalendarDay] = useState<string | null>(null);
 
   // Load financial data from Firestore
   useEffect(() => {
@@ -205,6 +209,51 @@ export default function BusinessDetailPage() {
   const totalPayouts = payouts.reduce((sum, payout) => sum + payout.amount, 0);
   const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
   const totalRevenue = totalPayouts - totalExpenses;
+
+  // Calendar data for individual business view
+  const calendarDays = useMemo(() => {
+    if (business?.isCombinedView) return [];
+    const firstDay = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
+    const lastDay = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0);
+    const firstDayOffset = (firstDay.getDay() + 6) % 7;
+    const days: any[] = [];
+    for (let i = 0; i < firstDayOffset; i++) {
+      days.push({ isEmpty: true });
+    }
+    for (let day = 1; day <= lastDay.getDate(); day++) {
+      const yyyy = firstDay.getFullYear();
+      const mm = String(firstDay.getMonth() + 1).padStart(2, '0');
+      const dd = String(day).padStart(2, '0');
+      const dateString = `${yyyy}-${mm}-${dd}`;
+      const dayOfWeek = (new Date(yyyy, parseInt(mm) - 1, day).getDay() + 6) % 7;
+      const dayPayouts = payouts.filter(p => p.date === dateString);
+      const dayExpenses = expenses.filter(e => e.date === dateString);
+      const totalIn = dayPayouts.reduce((sum: number, p: any) => sum + p.amount, 0);
+      const totalOut = dayExpenses.reduce((sum: number, e: any) => sum + e.amount, 0);
+      const net = totalIn - totalOut;
+      const items = [
+        ...dayPayouts.map((p: any) => ({ ...p, itemType: 'payout' })),
+        ...dayExpenses.map((e: any) => ({ ...e, itemType: 'expense' }))
+      ];
+      days.push({ day, date: dateString, dayOfWeek, net, totalIn, totalOut, items, hasData: items.length > 0 });
+    }
+    return days;
+  }, [calendarMonth, payouts, expenses, business?.isCombinedView]);
+
+  const calendarNumRows = useMemo(() => {
+    const firstDay = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
+    const lastDay = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0);
+    const firstDayOffset = (firstDay.getDay() + 6) % 7;
+    return Math.ceil((firstDayOffset + lastDay.getDate()) / 7);
+  }, [calendarMonth]);
+
+  // Selected day items for calendar dialog
+  const selectedDayItems = useMemo(() => {
+    if (!selectedCalendarDay) return [];
+    const dayPayouts = payouts.filter(p => p.date === selectedCalendarDay).map((p: any) => ({ ...p, itemType: 'payout' }));
+    const dayExpenses = expenses.filter(e => e.date === selectedCalendarDay).map((e: any) => ({ ...e, itemType: 'expense' }));
+    return [...dayPayouts, ...dayExpenses];
+  }, [selectedCalendarDay, payouts, expenses]);
 
   // Calculate individual business totals for Business Overview card
   const [businessDataWithTotals, setBusinessDataWithTotals] = useState<any[]>([]);
@@ -523,7 +572,8 @@ export default function BusinessDetailPage() {
         
         {/* Performance + Location/Analytics row */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Performance Chart Card - Left */}
+          {/* Performance Chart (combined) or Calendar (individual) - Left */}
+          {business?.isCombinedView ? (
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
@@ -541,12 +591,7 @@ export default function BusinessDetailPage() {
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
                     data={chartData}
-                    margin={{
-                      top: 10,
-                      right: 30,
-                      left: 10,
-                      bottom: 10
-                    }}
+                    margin={{ top: 10, right: 30, left: 10, bottom: 10 }}
                   >
                     <defs>
                       <linearGradient id="performanceGradient" x1="0" y1="0" x2="0" y2="1">
@@ -555,57 +600,28 @@ export default function BusinessDetailPage() {
                         <stop offset="100%" stopColor="#e0ac69" stopOpacity={0.1}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid 
-                      strokeDasharray="3 3"
-                      vertical={!business?.isCombinedView}
-                      stroke="#6b7280"
-                      opacity={0.4}
-                    />
-                    <XAxis
-                      dataKey="date"
-                      tickLine={true}
-                      axisLine={true}
-                      tickMargin={8}
-                      minTickGap={32}
-                      tick={{ fontSize: 12, fill: 'white' }}
-                    />
-                    <YAxis
-                      tickLine={true}
-                      axisLine={true}
-                      tick={{ fontSize: 12, fill: 'white' }}
+                    <CartesianGrid strokeDasharray="3 3" stroke="#6b7280" opacity={0.4} />
+                    <XAxis dataKey="date" tickLine={true} axisLine={true} tickMargin={8} minTickGap={32} tick={{ fontSize: 12, fill: 'white' }} />
+                    <YAxis tickLine={true} axisLine={true} tick={{ fontSize: 12, fill: 'white' }}
                       tickFormatter={(value) => {
                         const formattedNumber = Math.abs(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
-                        return value < 0 ? `-${currencySymbol}${formattedNumber}` : `${currencySymbol}${formattedNumber}`;
+                        const cs = business ? getCurrencySymbol(business.currency || 'USD') : '$';
+                        return value < 0 ? `-${cs}${formattedNumber}` : `${cs}${formattedNumber}`;
                       }}
                     />
-                    <Area
-                      type="monotone"
-                      dataKey="pnl"
-                      stroke="#e0ac69"
-                      strokeWidth={2}
-                      fill="url(#performanceGradient)"
-                      connectNulls={true}
-                      isAnimationActive={true}
-                      animationDuration={750}
-                    />
+                    <Area type="monotone" dataKey="pnl" stroke="#e0ac69" strokeWidth={2} fill="url(#performanceGradient)" connectNulls={true} isAnimationActive={true} animationDuration={750} />
                     <Tooltip
                       cursor={{ stroke: '#e0ac6933' }}
                       content={({ active, payload }) => {
                         if (!active || !payload?.length) return null;
                         const value = Number(payload[0].value);
-                        const formattedValue = Math.abs(value).toLocaleString('en-US', {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2
-                        });
-                        const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
+                        const formattedValue = Math.abs(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        const cs = business ? getCurrencySymbol(business.currency || 'USD') : '$';
                         return (
                           <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
-                            <div className="text-sm text-stone-400">
-                              {payload[0].payload.date || 'Start'}
-                            </div>
+                            <div className="text-sm text-stone-400">{payload[0].payload.date || 'Start'}</div>
                             <div className={`text-lg font-semibold ${value >= 0 ? 'text-[#e0ac69]' : 'text-red-500'}`}>
-                              {value < 0 ? `-${currencySymbol}${formattedValue}` : `${currencySymbol}${formattedValue}`}
+                              {value < 0 ? `-${cs}${formattedValue}` : `${cs}${formattedValue}`}
                             </div>
                           </div>
                         );
@@ -616,6 +632,123 @@ export default function BusinessDetailPage() {
               </div>
             </CardContent>
           </Card>
+          ) : (
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <div className="flex flex-col gap-1">
+                <CardTitle className="text-sm font-medium text-white">
+                  Calendar
+                </CardTitle>
+                <CardDescription className="text-[#666]">
+                  Payouts & Expenses Timeline
+                </CardDescription>
+              </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => {
+                    const d = new Date(calendarMonth);
+                    d.setMonth(d.getMonth() - 1);
+                    setCalendarMonth(d);
+                  }}
+                  className="p-1.5 hover:bg-white/5 rounded-md"
+                >
+                  <ChevronLeft className="h-4 w-4 text-[#666]" />
+                </button>
+                <span className="text-xs font-medium text-white">
+                  {calendarMonth.toLocaleDateString('default', { month: 'long', year: 'numeric' })}
+                </span>
+                <button
+                  onClick={() => {
+                    const d = new Date(calendarMonth);
+                    d.setMonth(d.getMonth() + 1);
+                    setCalendarMonth(d);
+                  }}
+                  className="p-1.5 hover:bg-white/5 rounded-md"
+                >
+                  <ChevronRight className="h-4 w-4 text-[#666]" />
+                </button>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div className="grid grid-cols-7 gap-1">
+                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
+                  <div key={d} className="p-1 rounded border border-[#2a2a2a] bg-[#0a0a0a]">
+                    <div className="flex items-center justify-center h-[18px]">
+                      <span className="text-[10px] font-medium text-[#666]">{d}</span>
+                    </div>
+                  </div>
+                ))}
+                {calendarDays.map((day: any, index: number) => {
+                  if (day.isEmpty) {
+                    return <div key={`empty-${index}`} className="p-1 h-[50px] rounded border border-[#2a2a2a] bg-[#0a0a0a]" />;
+                  }
+                  const cs = business ? getCurrencySymbol(business.currency || 'USD') : '$';
+                  const net = day.net;
+                  const textCls = net > 0 ? 'text-green-400' : net < 0 ? 'text-red-400' : 'text-[#666]';
+                  const borderCls = net > 0 ? 'border-green-500/15' : net < 0 ? 'border-red-500/15' : 'border-[#2a2a2a]';
+                  const shadowCls = net > 0 ? 'shadow-[inset_0_0_8px_0px_rgba(16,185,129,0.2)]' : net < 0 ? 'shadow-[inset_0_0_8px_0px_rgba(239,68,68,0.2)]' : '';
+                  return (
+                    <div
+                      key={`day-${index}`}
+                      className={`p-1 h-[50px] rounded border ${borderCls} bg-[#0a0a0a] hover:border-white/30 transition-all duration-200 ${shadowCls}`}
+                      onClick={() => day.hasData && setSelectedCalendarDay(day.date)}
+                      style={{ cursor: day.hasData ? 'pointer' : 'default' }}
+                    >
+                      <div className="flex flex-col h-full">
+                        <span className="text-[9px] text-[#666]">{day.day}</span>
+                        <div className="flex-1 flex items-center justify-center">
+                          <span className={`text-[10px] font-medium ${textCls}`}>
+                            {day.hasData ? `${net < 0 ? '-' : ''}${cs}${Math.abs(net).toFixed(0)}` : ''}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+          )}
+
+          {/* Calendar Day Detail Dialog */}
+          <Dialog open={!!selectedCalendarDay} onOpenChange={() => setSelectedCalendarDay(null)}>
+            <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-white">
+                  {selectedCalendarDay ? new Date(selectedCalendarDay + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : ''}
+                </DialogTitle>
+              </DialogHeader>
+              <div className="space-y-3 max-h-[350px] overflow-y-auto">
+                {selectedDayItems.length === 0 ? (
+                  <p className="text-[#666] text-sm text-center py-4">No transactions on this day</p>
+                ) : (
+                  selectedDayItems.map((item: any, idx: number) => (
+                    <div key={idx} className="flex items-center gap-3 p-3 rounded-lg border border-[#2a2a2a]">
+                      <div className="flex-shrink-0">
+                        {item.itemType === 'payout' ? (
+                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-green-500/50">
+                            <ArrowBigUp className="w-4 h-4 text-green-400" />
+                          </div>
+                        ) : (
+                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-red-500/50">
+                            <ArrowBigDown className="w-4 h-4 text-red-400" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white text-sm font-medium truncate">{item.description}</p>
+                      </div>
+                      <div className="flex-shrink-0 text-right">
+                        <p className={`text-sm font-bold ${item.itemType === 'payout' ? 'text-green-400' : 'text-red-400'}`}>
+                          {business ? getCurrencySymbol(business.currency || 'USD') : '$'}{Math.abs(item.amount).toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </DialogContent>
+          </Dialog>
 
           {/* Right side - Analytics + Location stacked */}
           <div className="grid grid-cols-2 gap-4">
