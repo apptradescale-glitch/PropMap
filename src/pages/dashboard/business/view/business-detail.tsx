@@ -32,6 +32,8 @@ interface Business {
   isActive?: boolean;
   customSector?: string;
   customBusinessType?: string;
+  isCombinedView?: boolean;
+  businesses?: any[];
 }
 
 interface FormData {
@@ -90,25 +92,45 @@ export default function BusinessDetailPage() {
     if (!currentUser) return;
 
     const loadFinancialData = async () => {
-      // Use business ID as primary identifier, fallback to name if no ID
-      const businessId = business?.id || business?.name || 'default';
-      console.log('Loading from Firestore:', { userId: currentUser.uid, businessId, business });
-
       try {
-        // Load payouts for this business
+        // Load payouts for this business or all businesses
         const payoutsQuery = await getDoc(doc(db, 'payouts', currentUser.uid));
         if (payoutsQuery.exists()) {
           const allPayouts = payoutsQuery.data().items || [];
-          const businessPayouts = allPayouts.filter((item: any) => item.businessId === businessId);
-          setPayouts(businessPayouts);
+          
+          if (business?.isCombinedView) {
+            // Combined view: load all payouts from all businesses
+            const allBusinessIds = business?.businesses?.map((b: any) => b.id || b.name) || [];
+            const combinedPayouts = allPayouts.filter((item: any) => 
+              allBusinessIds.includes(item.businessId)
+            );
+            setPayouts(combinedPayouts);
+          } else {
+            // Single business view
+            const businessId = business?.id || business?.name || 'default';
+            const businessPayouts = allPayouts.filter((item: any) => item.businessId === businessId);
+            setPayouts(businessPayouts);
+          }
         }
 
-        // Load expenses for this business
+        // Load expenses for this business or all businesses
         const expensesQuery = await getDoc(doc(db, 'expenses', currentUser.uid));
         if (expensesQuery.exists()) {
           const allExpenses = expensesQuery.data().items || [];
-          const businessExpenses = allExpenses.filter((item: any) => item.businessId === businessId);
-          setExpenses(businessExpenses);
+          
+          if (business?.isCombinedView) {
+            // Combined view: load all expenses from all businesses
+            const allBusinessIds = business?.businesses?.map((b: any) => b.id || b.name) || [];
+            const combinedExpenses = allExpenses.filter((item: any) => 
+              allBusinessIds.includes(item.businessId)
+            );
+            setExpenses(combinedExpenses);
+          } else {
+            // Single business view
+            const businessId = business?.id || business?.name || 'default';
+            const businessExpenses = allExpenses.filter((item: any) => item.businessId === businessId);
+            setExpenses(businessExpenses);
+          }
         }
       } catch (error) {
         console.error('Error loading financial data:', error);
@@ -116,7 +138,7 @@ export default function BusinessDetailPage() {
     };
 
     loadFinancialData();
-  }, [currentUser, business?.id, business?.name]);
+  }, [currentUser, business?.id, business?.name, business?.isCombinedView, business?.businesses]);
 
   // Calculate totals
   const totalPayouts = payouts.reduce((sum, item) => sum + Number(item.amount), 0);
@@ -161,7 +183,10 @@ export default function BusinessDetailPage() {
 
   // Save financial data to Firestore
   const saveFinancialData = async (type: 'payouts' | 'expenses', data: any) => {
-    if (!currentUser) return;
+    if (!currentUser || business?.isCombinedView) {
+      alert('Cannot add financial data in combined view. Please select a specific business.');
+      return;
+    }
 
     // Use business ID as primary identifier, fallback to name if no ID
     const businessId = business?.id || business?.name || 'default';
@@ -466,7 +491,8 @@ export default function BusinessDetailPage() {
 
           {/* Right side - Analytics + Location stacked */}
           <div className="grid grid-cols-2 gap-4">
-            {/* Add Your Numbers Card */}
+            {/* Add Your Numbers Card - Hidden in combined view */}
+            {!business?.isCombinedView && (
             <Card className="border-[#2a2a2a] bg-[#0a0a0a] shadow-lg shadow-white/20 transition-all duration-200">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
                 <div className="relative inline-block">
@@ -544,8 +570,10 @@ export default function BusinessDetailPage() {
                 </div>
               </CardContent>
             </Card>
+            )}
 
-            {/* PropFirm Breakdown Card - tall to align with bottom Analytics */}
+            {/* PropFirm Breakdown Card - Hidden in combined view */}
+            {!business?.isCombinedView && (
             <Card className="border-[#2a2a2a] bg-[#0a0a0a] row-span-2">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
                 <CardTitle className="text-sm font-medium text-white">
@@ -559,8 +587,10 @@ export default function BusinessDetailPage() {
                 </div>
               </CardContent>
             </Card>
+            )}
 
-            {/* Right - Location + Coming Soon + Coming Soon stacked */}
+            {/* Right - Location + Coming Soon + Coming Soon stacked - Hidden in combined view */}
+            {!business?.isCombinedView && (
             <div className="grid grid-rows-3 gap-2">
               {/* Location Card - Top */}
               <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
@@ -606,6 +636,7 @@ export default function BusinessDetailPage() {
                 </CardContent>
               </Card>
             </div>
+            )}
           </div>
         </div>
 
