@@ -867,7 +867,7 @@ export default function BusinessDetailPage() {
                 onClick={() => setShowPieAsMoney(!showPieAsMoney)}
                 className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-2"
               >
-                {showPieAsMoney ? 'Show %' : 'Show Revenue'}
+                {showPieAsMoney ? 'Show %' : `Show Revenue in ${getCurrencySymbol(business?.businesses?.[0]?.currency || business?.currency || 'USD')}`}
               </Button>
             </CardHeader>
             <CardContent className="pt-2 pb-4">
@@ -925,15 +925,17 @@ export default function BusinessDetailPage() {
                         {pieData.map((entry: any, index: number) => {
                           const percentage = totalValue > 0 ? ((entry.value / totalValue) * 100).toFixed(1) : '0';
                           return (
-                            <div key={index} className="flex items-center gap-2">
-                              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[index % PIE_COLORS.length] }}></div>
-                              <span className="text-white text-xs">{entry.name}</span>
-                              <span className="text-white text-xs font-semibold">
-                                {showPieAsMoney 
-                                  ? `${entry.revenue < 0 ? '-' : ''}${getCurrencySymbol(entry.currency)}${Math.abs(entry.revenue).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                                  : `${percentage}%`
-                                }
-                              </span>
+                            <div key={index} className="flex flex-col items-center gap-0.5">
+                              <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[index % PIE_COLORS.length] }}></div>
+                                <span className="text-white text-xs">{entry.name}</span>
+                                <span className="text-white text-xs font-semibold">
+                                  {showPieAsMoney 
+                                    ? `${entry.revenue < 0 ? '-' : ''}${getCurrencySymbol(entry.currency)}${Math.abs(entry.revenue).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                                    : `${percentage}%`
+                                  }
+                                </span>
+                              </div>
                               <span className="text-[#666] text-xs">{entry.sector}</span>
                             </div>
                           );
