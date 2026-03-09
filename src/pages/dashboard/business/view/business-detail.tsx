@@ -233,7 +233,17 @@ export default function BusinessDetailPage() {
               <div className="h-32">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
-                    data={[{ date: '', pnl: 0 }]}
+                    data={[
+                      { date: '01/01', pnl: 2 },
+                      { date: '01/02', pnl: 4 },
+                      { date: '01/03', pnl: 3 },
+                      { date: '01/04', pnl: 7 },
+                      { date: '01/05', pnl: 9 },
+                      { date: '01/06', pnl: 12 },
+                      { date: '01/07', pnl: 11 },
+                      { date: '01/08', pnl: 14 },
+                      { date: '01/09', pnl: 16 },
+                    ]}
                     margin={{
                       top: 10,
                       right: 10,
@@ -268,7 +278,8 @@ export default function BusinessDetailPage() {
                       tick={{ fontSize: 12, fill: 'white' }}
                       tickFormatter={(value) => {
                         const formattedNumber = Math.abs(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        return value < 0 ? `-$${formattedNumber}` : `$${formattedNumber}`;
+                        const currencySymbol = business ? getCurrencySymbol(business.currency) : '$';
+                        return value < 0 ? `-${currencySymbol}${formattedNumber}` : `${currencySymbol}${formattedNumber}`;
                       }}
                     />
                     <Area
@@ -290,13 +301,14 @@ export default function BusinessDetailPage() {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2
                         });
+                        const currencySymbol = business ? getCurrencySymbol(business.currency) : '$';
                         return (
                           <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
                             <div className="text-sm text-stone-400">
                               {payload[0].payload.date || 'Start'}
                             </div>
                             <div className={`text-lg font-semibold ${value >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
-                              {value < 0 ? `-$${formattedValue}` : `$${formattedValue}`}
+                              {value < 0 ? `-${currencySymbol}${formattedValue}` : `${currencySymbol}${formattedValue}`}
                             </div>
                           </div>
                         );
