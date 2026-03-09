@@ -16,6 +16,29 @@ import {
 } from "@/components/ui/dialog";
 import { ArrowLeft, Calendar, LineChart, Globe, DollarSign, Upload, X, Building2, Pen, Timer, TrendingUp } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
+import { doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { db } from '@/config/firestore';
+import { useAuth } from '@/context/FAuth';
+
+interface Business {
+  id?: string;
+  name?: string;
+  userName?: string;
+  businessSector?: string;
+  businessType?: string;
+  country?: string;
+  currency?: string;
+  status?: string;
+  isActive?: boolean;
+  customSector?: string;
+  customBusinessType?: string;
+}
+
+interface FormData {
+  amount: string;
+  description: string;
+  file: File | null;
+}
 
 const getCurrencySymbol = (currency: string) => {
   const symbols: { [key: string]: string } = {
@@ -47,19 +70,89 @@ const getCurrencySymbol = (currency: string) => {
 };
 
 export default function BusinessDetailPage() {
-  const location = useLocation();
+  const { state } = useLocation();
   const navigate = useNavigate();
-  const business = location.state?.business;
-  
-  // Dialog state for adding numbers
+  const { currentUser } = useAuth();
+  const business = state?.business as Business;
+
+  // Dialog state
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<'payouts' | 'expenses'>('payouts');
   const [dialogMode, setDialogMode] = useState<'manual' | 'automatic'>('manual');
-  const [formData, setFormData] = useState({
-    amount: '',
-    description: '',
-    file: null as File | null
-  });
+  const [formData, setFormData] = useState<FormData>({ amount: '', description: '', file: null });
+
+  // Financial data state
+  const [payouts, setPayouts] = useState<any[]>([]);
+  const [expenses, setExpenses] = useState<any[]>([]);
+
+  // Load financial data from Firestore
+  useEffect(() => {
+    if (!currentUser || !business?.id) return;
+
+    const loadFinancialData = async () => {
+      try {
+        // Load payouts
+        const payoutsDoc = await getDoc(doc(db, 'businesses', currentUser.uid, 'payouts', business.id!));
+        if (payoutsDoc.exists()) {
+          setPayouts(payoutsDoc.data().items || []);
+        }
+
+        // Load expenses
+        const expensesDoc = await getDoc(doc(db, 'businesses', currentUser.uid, 'expenses', business.id!));
+        if (expensesDoc.exists()) {
+          setExpenses(expensesDoc.data().items || []);
+        }
+      } catch (error) {
+        console.error('Error loading financial data:', error);
+      }
+    };
+
+    loadFinancialData();
+  }, [currentUser, business?.id]);
+
+  // Calculate totals
+  const totalPayouts = payouts.reduce((sum, item) => sum + Number(item.amount), 0);
+  const totalExpenses = expenses.reduce((sum, item) => sum + Number(item.amount), 0);
+  const totalRevenue = totalPayouts + totalExpenses;
+
+  // Save financial data to Firestore
+  const saveFinancialData = async (type: 'payouts' | 'expenses', data: any) => {
+    if (!currentUser || !business?.id) return;
+
+    try {
+      const collectionRef = doc(db, 'businesses', currentUser.uid, type, business.id!);
+      const docSnap = await getDoc(collectionRef);
+      
+      const newItem = {
+        id: crypto.randomUUID(),
+        amount: Number(data.amount),
+        description: data.description,
+        fileName: data.file?.name || null,
+        timestamp: new Date().toISOString(),
+        date: new Date().toISOString().split('T')[0], // YYYY-MM-DD
+      };
+
+      if (docSnap.exists()) {
+        await updateDoc(collectionRef, {
+          items: arrayUnion(newItem)
+        });
+      } else {
+        await setDoc(collectionRef, {
+          items: [newItem]
+        });
+      }
+
+      // Update local state
+      if (type === 'payouts') {
+        setPayouts(prev => [...prev, newItem]);
+      } else {
+        setExpenses(prev => [...prev, newItem]);
+      }
+    } catch (error) {
+      console.error('Error saving financial data:', error);
+      throw error;
+    }
+  };
 
   // Ensure dark mode
   useEffect(() => {
@@ -92,9 +185,19 @@ export default function BusinessDetailPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Save to Firestore
-    console.log('Submitting:', { dialogType, dialogMode, formData });
-    handleCloseDialog();
+    
+    if (!formData.amount || !formData.description) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    try {
+      await saveFinancialData(dialogType, formData);
+      handleCloseDialog();
+    } catch (error) {
+      alert('Error saving data. Please try again.');
+      console.error('Submit error:', error);
+    }
   };
 
   if (!business) {
@@ -182,7 +285,7 @@ export default function BusinessDetailPage() {
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white">{business.currency ? getCurrencySymbol(business.currency) + '0' : '$0'}</div>
+              <div className="text-2xl font-bold text-white">{business.currency ? getCurrencySymbol(business.currency) + totalRevenue.toFixed(2) : '$' + totalRevenue.toFixed(2)}</div>
               <p className="text-xs text-[#666] mt-1">Total Revenue</p>
             </CardContent>
           </Card>
@@ -196,7 +299,7 @@ export default function BusinessDetailPage() {
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white">{business.currency ? getCurrencySymbol(business.currency) + '0' : '$0'}</div>
+              <div className="text-2xl font-bold text-white">{business.currency ? getCurrencySymbol(business.currency) + totalPayouts.toFixed(2) : '$' + totalPayouts.toFixed(2)}</div>
               <p className="text-xs text-[#666] mt-1">Total Payouts</p>
             </CardContent>
           </Card>
@@ -210,7 +313,7 @@ export default function BusinessDetailPage() {
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white">{business.currency ? getCurrencySymbol(business.currency) + '0' : '$0'}</div>
+              <div className="text-2xl font-bold text-white">{business.currency ? getCurrencySymbol(business.currency) + totalExpenses.toFixed(2) : '$' + totalExpenses.toFixed(2)}</div>
               <p className="text-xs text-[#666] mt-1">Total Expenses</p>
             </CardContent>
           </Card>
@@ -229,8 +332,8 @@ export default function BusinessDetailPage() {
               </div>
               <TrendingUp className="h-4 w-4 text-[#666]" />
             </CardHeader>
-            <CardContent className="pt-2 pb-4">
-              <div className="h-32">
+            <CardContent className="pt-2 pb-4 flex-1">
+              <div className="h-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
                     data={[
@@ -278,7 +381,7 @@ export default function BusinessDetailPage() {
                       tick={{ fontSize: 12, fill: 'white' }}
                       tickFormatter={(value) => {
                         const formattedNumber = Math.abs(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        const currencySymbol = business ? getCurrencySymbol(business.currency) : '$';
+                        const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
                         return value < 0 ? `-${currencySymbol}${formattedNumber}` : `${currencySymbol}${formattedNumber}`;
                       }}
                     />
@@ -301,7 +404,7 @@ export default function BusinessDetailPage() {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2
                         });
-                        const currencySymbol = business ? getCurrencySymbol(business.currency) : '$';
+                        const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
                         return (
                           <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
                             <div className="text-sm text-stone-400">
@@ -562,7 +665,7 @@ export default function BusinessDetailPage() {
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-[#94bba3] hover:bg-[#7da392] text-white"
+                    className="bg-white hover:bg-gray-100 text-black"
                   >
                     Save
                   </Button>
