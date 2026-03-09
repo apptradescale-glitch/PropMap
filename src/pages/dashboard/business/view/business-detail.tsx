@@ -6,6 +6,35 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Building2, Globe, DollarSign, Briefcase, LineChart } from 'lucide-react';
 
+const getCurrencySymbol = (currency: string) => {
+  const symbols: { [key: string]: string } = {
+    'USD': '$',
+    'EUR': '€',
+    'GBP': '£',
+    'JPY': '¥',
+    'CNY': '¥',
+    'INR': '₹',
+    'CAD': 'C$',
+    'AUD': 'A$',
+    'CHF': 'CHF',
+    'SEK': 'kr',
+    'NOK': 'kr',
+    'DKK': 'kr',
+    'PLN': 'zł',
+    'RUB': '₽',
+    'BRL': 'R$',
+    'MXN': '$',
+    'ZAR': 'R',
+    'KRW': '₩',
+    'SGD': 'S$',
+    'HKD': 'HK$',
+    'NZD': 'NZ$',
+    'TRY': '₺',
+    'ILS': '₪'
+  };
+  return symbols[currency] || '$';
+};
+
 export default function BusinessDetailPage() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -118,7 +147,7 @@ export default function BusinessDetailPage() {
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white">$0</div>
+              <div className="text-2xl font-bold text-white">{business.currency ? getCurrencySymbol(business.currency) + '0' : '$0'}</div>
               <p className="text-xs text-[#666] mt-1">Total Revenue</p>
             </CardContent>
           </Card>
@@ -132,7 +161,7 @@ export default function BusinessDetailPage() {
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-lg font-semibold text-white">$0</div>
+              <div className="text-lg font-semibold text-white">{business.currency ? getCurrencySymbol(business.currency) + '0' : '$0'}</div>
               <p className="text-xs text-[#666] mt-1">Total Payouts</p>
             </CardContent>
           </Card>
@@ -146,7 +175,7 @@ export default function BusinessDetailPage() {
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-lg font-semibold text-white">$0</div>
+              <div className="text-lg font-semibold text-white">{business.currency ? getCurrencySymbol(business.currency) + '0' : '$0'}</div>
               <p className="text-xs text-[#666] mt-1">Total Expenses</p>
             </CardContent>
           </Card>
@@ -197,7 +226,7 @@ export default function BusinessDetailPage() {
                   <Globe className="h-4 w-4 text-[#666]" />
                 </CardHeader>
                 <CardContent className="pt-1 pb-3">
-                  <div className="text-sm font-semibold text-white">{business.country || 'N/A'}</div>
+                  <div className="text-sm font-semibold text-white mt-1">{business.country || 'N/A'}</div>
                   <div className="text-xs text-[#666]">
                     Currency: {business.currency || 'N/A'}
                   </div>
