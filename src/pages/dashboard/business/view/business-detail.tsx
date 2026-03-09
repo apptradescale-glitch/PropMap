@@ -208,6 +208,7 @@ export default function BusinessDetailPage() {
 
   // Calculate individual business totals for Business Overview card
   const [businessDataWithTotals, setBusinessDataWithTotals] = useState<any[]>([]);
+  const [showPieAsMoney, setShowPieAsMoney] = useState(false);
 
   useEffect(() => {
     const calculateBusinessTotals = async () => {
@@ -860,7 +861,14 @@ export default function BusinessDetailPage() {
                   See how your businesses compare in revenue
                 </CardDescription>
               </div>
-              <PieChartIcon className="h-4 w-4 text-[#666]" />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowPieAsMoney(!showPieAsMoney)}
+                className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-2"
+              >
+                {showPieAsMoney ? 'Show %' : 'Show Revenue'}
+              </Button>
             </CardHeader>
             <CardContent className="pt-2 pb-4">
               <div style={{ width: '100%', height: 350, marginTop: '10px' }}>
@@ -869,6 +877,8 @@ export default function BusinessDetailPage() {
                   const pieData = (businessDataWithTotals || []).map((biz: any) => ({
                     name: biz.businessSector === 'proptrading' ? biz.userName : biz.name,
                     value: Math.max(biz.totalPayouts || 0, 0),
+                    revenue: biz.totalRevenue || 0,
+                    currency: biz.currency || 'USD',
                     sector: biz.businessSector === 'proptrading' ? 'PropTrading' : biz.customSector || 'Business'
                   }));
                   const totalValue = pieData.reduce((sum: number, d: any) => sum + d.value, 0);
@@ -918,7 +928,13 @@ export default function BusinessDetailPage() {
                             <div key={index} className="flex items-center gap-2">
                               <div className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[index % PIE_COLORS.length] }}></div>
                               <span className="text-white text-xs">{entry.name}</span>
-                              <span className="text-[#666] text-xs">{percentage}%</span>
+                              <span className="text-white text-xs font-semibold">
+                                {showPieAsMoney 
+                                  ? `${entry.revenue < 0 ? '-' : ''}${getCurrencySymbol(entry.currency)}${Math.abs(entry.revenue).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                                  : `${percentage}%`
+                                }
+                              </span>
+                              <span className="text-[#666] text-xs">{entry.sector}</span>
                             </div>
                           );
                         })}
