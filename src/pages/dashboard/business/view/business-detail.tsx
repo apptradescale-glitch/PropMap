@@ -95,16 +95,20 @@ export default function BusinessDetailPage() {
       console.log('Loading from Firestore:', { userId: currentUser.uid, businessId, business });
 
       try {
-        // Load payouts
-        const payoutsDoc = await getDoc(doc(db, 'businesses', currentUser.uid, 'payouts', businessId));
-        if (payoutsDoc.exists()) {
-          setPayouts(payoutsDoc.data().items || []);
+        // Load payouts for this business
+        const payoutsQuery = await getDoc(doc(db, 'payouts', currentUser.uid));
+        if (payoutsQuery.exists()) {
+          const allPayouts = payoutsQuery.data().items || [];
+          const businessPayouts = allPayouts.filter((item: any) => item.businessId === businessId);
+          setPayouts(businessPayouts);
         }
 
-        // Load expenses
-        const expensesDoc = await getDoc(doc(db, 'businesses', currentUser.uid, 'expenses', businessId));
-        if (expensesDoc.exists()) {
-          setExpenses(expensesDoc.data().items || []);
+        // Load expenses for this business
+        const expensesQuery = await getDoc(doc(db, 'expenses', currentUser.uid));
+        if (expensesQuery.exists()) {
+          const allExpenses = expensesQuery.data().items || [];
+          const businessExpenses = allExpenses.filter((item: any) => item.businessId === businessId);
+          setExpenses(businessExpenses);
         }
       } catch (error) {
         console.error('Error loading financial data:', error);
@@ -128,11 +132,13 @@ export default function BusinessDetailPage() {
     console.log('Saving to Firestore:', { userId: currentUser.uid, type, businessId, business });
 
     try {
-      const collectionRef = doc(db, 'businesses', currentUser.uid, type, businessId);
+      const collectionRef = doc(db, type, currentUser.uid);
       const docSnap = await getDoc(collectionRef);
       
       const newItem = {
         id: crypto.randomUUID(),
+        businessId: businessId,
+        businessName: businessName,
         amount: Number(data.amount),
         description: data.description,
         fileName: data.file?.name || null,
@@ -341,7 +347,7 @@ export default function BusinessDetailPage() {
               <TrendingUp className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div style={{ width: '100%', height: 350, marginRight: '20px', marginTop: '10px' }}>
+              <div style={{ width: '100%', height: 350, marginTop: '10px' }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
                     data={[
@@ -357,7 +363,7 @@ export default function BusinessDetailPage() {
                     ]}
                     margin={{
                       top: 10,
-                      right: 10,
+                      right: 30,
                       left: 10,
                       bottom: 10
                     }}
