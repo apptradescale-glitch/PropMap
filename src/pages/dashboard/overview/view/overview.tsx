@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/context/FAuth';
 import { useNavigate } from 'react-router-dom';
+import { doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { db } from '@/config/firestore';
 import PageContainer from '@/components/layout/page-container';
 import PageHead from '@/components/shared/page-head';
-import { useAuth } from '@/context/FAuth';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, MoreHorizontal, Trash2, Edit } from 'lucide-react';
+import { Plus, MoreHorizontal, Trash2, Edit, Building2 } from 'lucide-react';
 
 export default function OverViewPage() {
   const { currentUser } = useAuth();
@@ -78,15 +80,14 @@ export default function OverViewPage() {
   const loadBusinessesFromFirestore = async () => {
     if (!currentUser) return;
     try {
-      const token = await currentUser.getIdToken();
-      const response = await fetch('/api/business/load', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const result = await response.json();
-      if (result.success && result.businesses) {
-        setAddedBusinesses(result.businesses);
+      const businessesRef = doc(db, 'businesses', currentUser.uid);
+      const businessesSnap = await getDoc(businessesRef);
+      
+      if (businessesSnap.exists()) {
+        const data = businessesSnap.data();
+        setAddedBusinesses(data?.businesses || []);
+      } else {
+        setAddedBusinesses([]);
       }
     } catch (error) {
       console.error('Error loading businesses:', error);
@@ -290,6 +291,29 @@ export default function OverViewPage() {
   const handleCardClick = (business: any, index: number) => {
     // Navigate to business detail page with business data
     navigate(`/dashboard/business/${index}`, { state: { business } });
+  };
+
+  const handleViewBusiness = (business: any, index: number) => {
+    navigate('/dashboard/business/view', { state: { business } });
+  };
+
+  const handleViewAllBusinesses = () => {
+    // Create a combined business object that represents all businesses
+    const allBusinessesCombined = {
+      id: 'all-businesses',
+      name: 'All Businesses',
+      userName: 'All Businesses',
+      businessSector: 'combined',
+      customSector: 'Combined View',
+      businessType: 'combined',
+      customBusinessType: 'Combined',
+      country: 'Multiple',
+      currency: 'USD', // Default currency, could be enhanced
+      isActive: true,
+      isCombinedView: true,
+      businesses: addedBusinesses // Pass all businesses data
+    };
+    navigate('/dashboard/business/view', { state: { business: allBusinessesCombined } });
   };
 
   return (
@@ -658,6 +682,47 @@ export default function OverViewPage() {
               </CardContent>
             </Card>
           ))}
+
+          {/* All Businesses Combined Card - Only show if 2+ businesses */}
+          {addedBusinesses.length >= 2 && (
+            <Card 
+              className="w-80 h-48 border-[#e0ac69] bg-[#0a0a0a] hover:border-[#e0ac69]/60 hover:shadow-lg hover:shadow-[#e0ac69]/20 transition-all duration-200 hover:scale-105 cursor-pointer" 
+              onClick={handleViewAllBusinesses}
+            >
+              <CardContent className="flex flex-col h-full p-6">
+                <div className="flex items-center gap-4 mb-4">
+                  {/* Circle with Building2 icon */}
+                  <div className="w-12 h-12 rounded-full bg-[#e0ac69]/20 border border-[#e0ac69]/50 flex items-center justify-center flex-shrink-0">
+                    <Building2 className="w-6 h-6 text-[#e0ac69]" />
+                  </div>
+                  
+                  {/* Name next to circle */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-white font-semibold text-lg truncate">
+                      All Businesses
+                    </h3>
+                    <p className="text-[#e0ac69] text-sm">
+                      Combined View
+                    </p>
+                  </div>
+                </div>
+
+                {/* Business count */}
+                <div className="flex items-center justify-center mt-4">
+                  <p className="text-[#666] text-sm">
+                    {addedBusinesses.length} Businesses
+                  </p>
+                </div>
+                
+                {/* View All Businesses text */}
+                <div className="mt-auto flex items-center justify-center pt-4">
+                  <p className="text-[#e0ac69] text-sm font-medium">
+                    View Combined Analytics
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
         
       </div>
