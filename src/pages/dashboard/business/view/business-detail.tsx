@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowLeft, Building2, Globe, DollarSign, Briefcase, LineChart, Calendar, ChevronDown, Upload, X } from 'lucide-react';
+import { ArrowLeft, Building2, Globe, DollarSign, Briefcase, LineChart, Calendar, ChevronDown, Upload, X, Pen } from 'lucide-react';
 
 const getCurrencySymbol = (currency: string) => {
   const symbols: { [key: string]: string } = {
@@ -240,7 +240,7 @@ export default function BusinessDetailPage() {
                 <CardTitle className="text-sm font-medium text-white">
                   Add your numbers
                 </CardTitle>
-                <LineChart className="h-4 w-4 text-[#666]" />
+                <Pen className="h-4 w-4 text-[#666]" />
               </CardHeader>
               <CardContent className="pt-2 pb-4">
                 <div className="space-y-4">
@@ -296,17 +296,17 @@ export default function BusinessDetailPage() {
               </CardContent>
             </Card>
 
-            {/* Analytics Card - tall to align with bottom Analytics */}
+            {/* PropFirm Breakdown Card - tall to align with bottom Analytics */}
             <Card className="border-[#2a2a2a] bg-[#0a0a0a] row-span-2">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
                 <CardTitle className="text-sm font-medium text-white">
-                  Analytics
+                  PropFirm Breakdown
                 </CardTitle>
                 <LineChart className="h-4 w-4 text-[#666]" />
               </CardHeader>
               <CardContent className="pt-2 pb-4">
                 <div className="flex items-center justify-center h-full min-h-[280px]">
-                  <p className="text-[#666] text-sm">Analytics data coming soon</p>
+                  <p className="text-[#666] text-sm">PropFirm breakdown coming soon</p>
                 </div>
               </CardContent>
             </Card>
