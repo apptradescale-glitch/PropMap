@@ -335,6 +335,8 @@ export default function BusinessDetailPage() {
       type: type, // 'payouts' or 'expenses'
       businessId: businessId,
       businessName: businessName,
+      businessSector: business?.businessSector,
+      customSector: business?.customSector,
       amount: Number(data.amount),
       description: data.description,
       fileName: data.file?.name || null,
@@ -467,9 +469,14 @@ export default function BusinessDetailPage() {
             <CardContent className="pt-2 pb-4">
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  {/* Rectangle icon for combined view */}
-                  <div className="w-10 h-10 rounded-lg bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
-                    <Building2 className="w-5 h-5 text-[#888]" />
+                  {/* Circle with first letter */}
+                  <div className="w-10 h-10 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
+                    <span className="text-[#888] font-medium" style={{ fontSize: '8px' }}>
+                      {business.businessSector === 'proptrading' 
+                        ? business.userName?.charAt(0)?.toUpperCase() || 'U'
+                        : business.name?.charAt(0)?.toUpperCase() || 'B'
+                      }
+                    </span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col">
