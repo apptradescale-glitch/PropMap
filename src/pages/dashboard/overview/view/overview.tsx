@@ -686,7 +686,7 @@ export default function OverViewPage() {
           {/* All Businesses Combined Card - Only show if 2+ businesses */}
           {addedBusinesses.length >= 2 && (
             <Card 
-              className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a] hover:border-white/35 shadow-lg shadow-[#e0ac69]/30 transition-all duration-200 hover:scale-105 cursor-pointer" 
+              className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a] hover:border-[#e0ac69]/60 shadow-lg shadow-[#e0ac69]/30 transition-all duration-200 hover:scale-105 cursor-pointer" 
               onClick={handleViewAllBusinesses}
             >
               <CardContent className="flex flex-col h-full p-6">
