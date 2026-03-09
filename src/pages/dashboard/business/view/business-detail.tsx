@@ -16,7 +16,19 @@ import {
 } from "@/components/ui/dialog";
 import { ArrowLeft, Calendar, LineChart, Globe, DollarSign, Upload, X, Building2, Pen, Timer, TrendingUp, ArrowBigUp, ArrowBigDown, FileText } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
-import { doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { 
+  doc, 
+  getDoc, 
+  setDoc, 
+  updateDoc,
+  collection,
+  query,
+  where,
+  orderBy,
+  getDocs,
+  addDoc,
+  deleteDoc
+} from 'firebase/firestore';
 import { db } from '@/config/firestore';
 import { useAuth } from '@/context/FAuth';
 
@@ -166,10 +178,116 @@ export default function BusinessDetailPage() {
     loadFinancialData();
   }, [currentUser, business?.id, business?.name, business?.isCombinedView, business?.businesses]);
 
-  // Calculate totals
-  const totalPayouts = payouts.reduce((sum, item) => sum + Number(item.amount), 0);
-  const totalExpenses = expenses.reduce((sum, item) => sum + Number(item.amount), 0);
-  const totalRevenue = totalPayouts + totalExpenses;
+  // Calculate total payouts and expenses
+  const totalPayouts = payouts.reduce((sum, payout) => sum + payout.amount, 0);
+  const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+  const totalRevenue = totalPayouts - totalExpenses;
+
+  // Calculate totals for Business Overview card (all businesses combined)
+  const [businessTotals, setBusinessTotals] = useState({
+    totalRevenue: 0,
+    totalExpenses: 0,
+    totalPayouts: 0,
+    currency: 'USD'
+  });
+
+  useEffect(() => {
+    const calculateBusinessTotals = async () => {
+      if (business?.isCombinedView && business?.businesses) {
+        let allRevenue = 0;
+        let allExpenses = 0;
+        let allPayouts = 0;
+        let firstCurrency = 'USD';
+
+        for (const biz of business.businesses) {
+          // Use the first business's currency
+          if (firstCurrency === 'USD' && biz.currency) {
+            firstCurrency = biz.currency;
+          }
+
+          // Load payouts for this business
+          const payoutsQuery = query(
+            collection(db, 'payouts'),
+            where('userId', '==', currentUser?.uid),
+            where('businessId', '==', biz.id || ''),
+            orderBy('date', 'desc')
+          );
+          const payoutsSnapshot = await getDocs(payoutsQuery);
+          const bizPayouts = payoutsSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+
+          // Load expenses for this business
+          const expensesQuery = query(
+            collection(db, 'expenses'),
+            where('userId', '==', currentUser?.uid),
+            where('businessId', '==', biz.id || ''),
+            orderBy('date', 'desc')
+          );
+          const expensesSnapshot = await getDocs(expensesQuery);
+          const bizExpenses = expensesSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+
+          // Also check by business name for backward compatibility
+          const payoutsByNameQuery = query(
+            collection(db, 'payouts'),
+            where('userId', '==', currentUser?.uid),
+            where('businessName', '==', biz.businessSector === 'proptrading' ? biz.userName : biz.name),
+            orderBy('date', 'desc')
+          );
+          const payoutsByNameSnapshot = await getDocs(payoutsByNameQuery);
+          const bizPayoutsByName = payoutsByNameSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+
+          const expensesByNameQuery = query(
+            collection(db, 'expenses'),
+            where('userId', '==', currentUser?.uid),
+            where('businessName', '==', biz.businessSector === 'proptrading' ? biz.userName : biz.name),
+            orderBy('date', 'desc')
+          );
+          const expensesByNameSnapshot = await getDocs(expensesByNameQuery);
+          const bizExpensesByName = expensesByNameSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+
+          // Combine and deduplicate
+          const allBizPayouts = [...bizPayouts, ...bizPayoutsByName];
+          const allBizExpenses = [...bizExpenses, ...bizExpensesByName];
+          
+          const uniquePayouts = allBizPayouts.filter((payout, index, self) => 
+            index === self.findIndex((p) => p.id === payout.id)
+          );
+          const uniqueExpenses = allBizExpenses.filter((expense, index, self) => 
+            index === self.findIndex((e) => e.id === expense.id)
+          );
+
+          // Calculate totals for this business
+          const bizTotalPayouts = uniquePayouts.reduce((sum, payout) => sum + (payout.amount || 0), 0);
+          const bizTotalExpenses = uniqueExpenses.reduce((sum, expense) => sum + (expense.amount || 0), 0);
+
+          allPayouts += bizTotalPayouts;
+          allExpenses += bizTotalExpenses;
+        }
+
+        allRevenue = allPayouts - allExpenses;
+
+        setBusinessTotals({
+          totalRevenue: allRevenue,
+          totalExpenses: allExpenses,
+          totalPayouts: allPayouts,
+          currency: firstCurrency
+        });
+      }
+    };
+
+    calculateBusinessTotals();
+  }, [business, currentUser]);
 
   // Combine and sort financial data for Revenue History
   const combinedFinancialData = [...payouts, ...expenses]
@@ -207,7 +325,7 @@ export default function BusinessDetailPage() {
     return [{ date: '', pnl: 0 }, ...sortedData];
   }, [combinedFinancialData]);
 
-  // Save financial data to Firestore
+  // Save financial data to Firestore with optimistic updates
   const saveFinancialData = async (type: 'payouts' | 'expenses', data: any) => {
     if (!currentUser || business?.isCombinedView) {
       alert('Cannot add financial data in combined view. Please select a specific business.');
@@ -216,23 +334,31 @@ export default function BusinessDetailPage() {
 
     // Use business ID as primary identifier, fallback to name if no ID
     const businessId = business?.id || business?.name || 'default';
-    console.log('Saving to Firestore:', { userId: currentUser.uid, type, businessId, business });
 
+    // Create the new item immediately
+    const newItem = {
+      id: crypto.randomUUID(),
+      type: type, // 'payouts' or 'expenses'
+      businessId: businessId,
+      businessName: businessName,
+      amount: Number(data.amount),
+      description: data.description,
+      fileName: data.file?.name || null,
+      timestamp: new Date().toISOString(),
+      date: new Date().toISOString().split('T')[0], // YYYY-MM-DD
+    };
+
+    // Optimistic update - update local state immediately
+    if (type === 'payouts') {
+      setPayouts(prev => [...prev, newItem]);
+    } else {
+      setExpenses(prev => [...prev, newItem]);
+    }
+
+    // Save to Firestore in the background
     try {
       const collectionRef = doc(db, type, currentUser.uid);
       const docSnap = await getDoc(collectionRef);
-      
-      const newItem = {
-        id: crypto.randomUUID(),
-        type: type, // 'payouts' or 'expenses'
-        businessId: businessId,
-        businessName: businessName,
-        amount: Number(data.amount),
-        description: data.description,
-        fileName: data.file?.name || null,
-        timestamp: new Date().toISOString(),
-        date: new Date().toISOString().split('T')[0], // YYYY-MM-DD
-      };
 
       if (docSnap.exists()) {
         await updateDoc(collectionRef, {
@@ -243,15 +369,19 @@ export default function BusinessDetailPage() {
           items: [newItem]
         });
       }
-
-      // Update local state
-      if (type === 'payouts') {
-        setPayouts(prev => [...prev, newItem]);
-      } else {
-        setExpenses(prev => [...prev, newItem]);
-      }
     } catch (error) {
+      // If Firestore save fails, revert the optimistic update
       console.error('Error saving financial data:', error);
+      
+      // Remove the item from local state
+      if (type === 'payouts') {
+        setPayouts(prev => prev.filter(item => item.id !== newItem.id));
+      } else {
+        setExpenses(prev => prev.filter(item => item.id !== newItem.id));
+      }
+      
+      // Show error to user
+      alert('Failed to save data. Please try again.');
       throw error;
     }
   };
@@ -357,21 +487,24 @@ export default function BusinessDetailPage() {
                       <h4 className="text-white font-semibold text-sm truncate">
                         {businessName}
                       </h4>
-                      <div className={`w-1 h-1 rounded-full ${business.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                      <div className="text-lg font-bold text-white">
+                        {business?.isCombinedView ? 'Combined View | ' : ''}
+                        {business.businessSector === 'proptrading' ? business.userName : business.name}
+                      </div>
+                      <div className="text-sm text-[#888] mb-4">
+                        {business.businessSector === 'proptrading' ? 'PropTrading' : business.customSector}
+                        {(business.businessType || business.customBusinessType) && (
+                          <span className="ml-1">
+                            {' | '}
+                            {business.businessType === 'sole-proprietor' && 'Sole Proprietor'}
+                            {business.businessType === 'partnership' && 'Partnership'}
+                            {business.businessType === 'llc' && 'LLC'}
+                            {business.businessType === 'corporation' && 'Corporation'}
+                            {business.businessType === 'other' && business.customBusinessType}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <p className="text-[#888] text-xs">
-                      {business.businessSector === 'proptrading' ? 'PropTrading' : business.customSector}
-                      {(business.businessType || business.customBusinessType) && (
-                        <span className="ml-1">
-                          {' | '}
-                          {business.businessType === 'sole-proprietor' && 'Sole Proprietor'}
-                          {business.businessType === 'partnership' && 'Partnership'}
-                          {business.businessType === 'llc' && 'LLC'}
-                          {business.businessType === 'corporation' && 'Corporation'}
-                          {business.businessType === 'other' && business.customBusinessType}
-                        </span>
-                      )}
-                    </p>
                   </div>
                 </div>
               </div>
@@ -536,15 +669,38 @@ export default function BusinessDetailPage() {
               </CardHeader>
               <CardContent className="pt-2 pb-4">
                 <div className="h-full min-h-[280px] overflow-y-auto">
+                  {/* Summary Numbers */}
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-white">
+                        {getCurrencySymbol(businessTotals.currency)}{businessTotals.totalRevenue.toFixed(2)}
+                      </div>
+                      <p className="text-xs text-[#666] mt-1">Revenue</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-white">
+                        {getCurrencySymbol(businessTotals.currency)}{businessTotals.totalExpenses.toFixed(2)}
+                      </div>
+                      <p className="text-xs text-[#666] mt-1">Expenses</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-white">
+                        {getCurrencySymbol(businessTotals.currency)}{businessTotals.totalPayouts.toFixed(2)}
+                      </div>
+                      <p className="text-xs text-[#666] mt-1">Payouts</p>
+                    </div>
+                  </div>
+
+                  {/* Business List */}
                   {business?.businesses && business.businesses.length > 0 ? (
                     <div className="space-y-3">
                       {business.businesses.map((biz: any, index: number) => (
                         <div key={biz.id || index} className="p-4 rounded-lg bg-transparent border border-[#2a2a2a] hover:border-[#e0ac69]/50 transition-all duration-200">
                           <div className="flex items-start gap-3">
-                            <div className="w-10 h-10 rounded-full bg-[#e0ac69]/20 border border-[#e0ac69]/50 flex items-center justify-center flex-shrink-0">
-                              <span className="text-[#e0ac69] font-medium text-sm">
+                            <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
+                              <span className="text-[#888] font-medium" style={{ fontSize: '10px' }}>
                                 {biz.businessSector === 'proptrading' 
-                                  ? biz.userName?.charAt(0)?.toUpperCase() || 'P'
+                                  ? biz.userName?.charAt(0)?.toUpperCase() || 'U'
                                   : biz.name?.charAt(0)?.toUpperCase() || 'B'
                                 }
                               </span>
@@ -864,9 +1020,19 @@ export default function BusinessDetailPage() {
 
                         {/* Description and File */}
                         <div className="flex-1 min-w-0">
-                          <p className="text-white text-sm font-medium truncate">
-                            {item.description}
-                          </p>
+                          <div className="flex items-center gap-2">
+                            <p className="text-white text-sm font-medium truncate">
+                              {item.description}
+                            </p>
+                            {business?.isCombinedView && item.businessName && (
+                              <>
+                                <span className="text-[#666] text-xs">|</span>
+                                <span className="text-[#e0ac69] text-xs truncate">
+                                  {item.businessName}
+                                </span>
+                              </>
+                            )}
+                          </div>
                           {item.fileName && (
                             <div className="flex items-center gap-1 mt-1">
                               <FileText className="w-3 h-3 text-[#666]" />
