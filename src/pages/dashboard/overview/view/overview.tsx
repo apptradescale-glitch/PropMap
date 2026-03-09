@@ -173,7 +173,7 @@ export default function OverViewPage() {
 
   const handleCardClick = (business: any, index: number) => {
     // Navigate to business detail page
-    navigate(`/business/${index}`);
+    navigate(`/dashboard/business/${index}`);
   };
 
   return (
@@ -441,7 +441,7 @@ export default function OverViewPage() {
 
           {/* Added Business Cards */}
           {addedBusinesses.map((business, index) => (
-            <Card key={index} className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a] hover:border-white/60 hover:shadow-lg hover:shadow-white/20 transition-all duration-200 hover:scale-105 cursor-pointer" onClick={(e) => {
+            <Card key={index} className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a] hover:border-white/35 hover:shadow-lg hover:shadow-white/20 transition-all duration-200 hover:scale-105 cursor-pointer" onClick={(e) => {
                 const target = e.target as HTMLElement;
                 if (!target.closest('button')) {
                   handleCardClick(business, index);

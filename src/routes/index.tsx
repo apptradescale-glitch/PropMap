@@ -23,6 +23,8 @@ const TestPage = lazy(() => import('@/pages/Test'));
 
 const ManageSubscriptionPage = lazy(() => import('@/pages/ManageSubscription'));
 
+const BusinessDetailPage = lazy(() => import('@/pages/dashboard/business/view/business-detail'));
+
 
 const REQUIRES_BASIC = ['basic'] as const;
 const REQUIRES_PRO = ['pro'] as const;
@@ -133,6 +135,14 @@ export default function AppRouter() {
             <ProtectedRouteForFeatures requiresSubscription={REQUIRES_BASIC}>
               <FormPage />
             </ProtectedRouteForFeatures>
+          )
+        },
+        {
+          path: 'business/:id',
+          element: (
+            <Suspense fallback={<CenteredLogoLoader />}>
+              <BusinessDetailPage />
+            </Suspense>
           )
         }
       ]
