@@ -1149,7 +1149,7 @@ export default function BusinessDetailPage() {
                   <Input
                     id="amount"
                     type="number"
-                    placeholder="Enter amount"
+                    placeholder=""
                     value={formData.amount}
                     onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
                     className="bg-[#1a1a1a] border-[#2a2a2a] text-white"
@@ -1162,7 +1162,7 @@ export default function BusinessDetailPage() {
                   <Label htmlFor="description" className="text-[#666]">Description</Label>
                   <Textarea
                     id="description"
-                    placeholder="Enter description"
+                    placeholder=""
                     value={formData.description}
                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                     className="bg-[#1a1a1a] border-[#2a2a2a] text-white min-h-[100px] resize-none"
