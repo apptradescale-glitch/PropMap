@@ -40,13 +40,7 @@ export const navItems: NavItem[] = [
     label: 'Tax'
   },
 
-          {
-    title: 'PropFirms',
-    href: '/dashboard/PropFirm',
-    icon: 'chartcandlestick',
-    label: 'PropFirm',
-     
-  },
+ 
 
 
 
@@ -83,6 +77,19 @@ export const navItems: NavItem[] = [
    
 
   
+
+   {
+    divider: true
+  },
+
+
+           {
+    title: 'PropFirms',
+    href: '/dashboard/PropFirm',
+    icon: 'chartcandlestick',
+    label: 'PropFirm',
+     
+  },
 
    {
     divider: true
