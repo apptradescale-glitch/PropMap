@@ -14,8 +14,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowLeft, Calendar, LineChart, Globe, DollarSign, Upload, X, Building2, Pen, Timer, TrendingUp, ArrowBigUp, ArrowBigDown, FileText } from 'lucide-react';
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
+import { ArrowLeft, Calendar, LineChart, Globe, DollarSign, Upload, X, Building2, Pen, Timer, TrendingUp, ArrowBigUp, ArrowBigDown, FileText, PieChart as PieChartIcon } from 'lucide-react';
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip, PieChart as RechartsPieChart, Pie, Cell } from 'recharts';
 import { 
   doc, 
   getDoc, 
@@ -847,7 +847,93 @@ export default function BusinessDetailPage() {
 
         {/* Bottom Row - Revenue History */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Performance Chart Card - Left */}
+          {/* Cashflow Allocation Pie Chart - Only in combined view */}
+          {business?.isCombinedView ? (
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <div className="flex flex-col gap-1">
+                <CardTitle className="text-sm font-medium text-white">
+                  Cashflow Allocation
+                </CardTitle>
+                <CardDescription className="text-[#666]">
+                  See how your businesses compare in revenue
+                </CardDescription>
+              </div>
+              <PieChartIcon className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div style={{ width: '100%', height: 350, marginTop: '10px' }}>
+                {(() => {
+                  const PIE_COLORS = ['#e0ac69', '#6366f1', '#22c55e', '#ef4444', '#3b82f6', '#f59e0b', '#ec4899', '#14b8a6'];
+                  const pieData = (businessDataWithTotals || []).map((biz: any) => ({
+                    name: biz.businessSector === 'proptrading' ? biz.userName : biz.name,
+                    value: Math.max(biz.totalPayouts || 0, 0),
+                    sector: biz.businessSector === 'proptrading' ? 'PropTrading' : biz.customSector || 'Business'
+                  }));
+                  const totalValue = pieData.reduce((sum: number, d: any) => sum + d.value, 0);
+                  
+                  return totalValue > 0 ? (
+                    <div className="flex flex-col items-center gap-4 h-full">
+                      <ResponsiveContainer width="100%" height={250}>
+                        <RechartsPieChart>
+                          <Pie
+                            data={pieData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={60}
+                            outerRadius={100}
+                            paddingAngle={pieData.length > 1 ? 3 : 0}
+                            dataKey="value"
+                            animationDuration={750}
+                          >
+                            {pieData.map((_: any, index: number) => (
+                              <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <Tooltip
+                            content={({ active, payload }) => {
+                              if (!active || !payload?.length) return null;
+                              const data = payload[0].payload;
+                              const percentage = totalValue > 0 ? ((data.value / totalValue) * 100).toFixed(1) : '0';
+                              const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
+                              return (
+                                <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
+                                  <div className="text-sm text-white font-medium">{data.name}</div>
+                                  <div className="text-xs text-[#666]">{data.sector}</div>
+                                  <div className="text-sm font-semibold text-[#e0ac69] mt-1">
+                                    {currencySymbol}{data.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({percentage}%)
+                                  </div>
+                                </div>
+                              );
+                            }}
+                          />
+                        </RechartsPieChart>
+                      </ResponsiveContainer>
+                      {/* Legend */}
+                      <div className="flex flex-wrap justify-center gap-4">
+                        {pieData.map((entry: any, index: number) => {
+                          const percentage = totalValue > 0 ? ((entry.value / totalValue) * 100).toFixed(1) : '0';
+                          return (
+                            <div key={index} className="flex items-center gap-2">
+                              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[index % PIE_COLORS.length] }}></div>
+                              <span className="text-white text-xs">{entry.name}</span>
+                              <span className="text-[#666] text-xs">{percentage}%</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <p className="text-[#666] text-sm">No revenue data yet</p>
+                    </div>
+                  );
+                })()}
+              </div>
+            </CardContent>
+          </Card>
+          ) : (
+          /* Performance Chart Card - Only in individual view */
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
@@ -873,7 +959,7 @@ export default function BusinessDetailPage() {
                     }}
                   >
                     <defs>
-                      <linearGradient id="performanceGradient" x1="0" y1="0" x2="0" y2="1">
+                      <linearGradient id="performanceGradient2" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="#e0ac69" stopOpacity={0.3}/>
                         <stop offset="40%" stopColor="#e0ac69" stopOpacity={0.2}/>
                         <stop offset="100%" stopColor="#e0ac69" stopOpacity={0.1}/>
@@ -881,7 +967,6 @@ export default function BusinessDetailPage() {
                     </defs>
                     <CartesianGrid 
                       strokeDasharray="3 3"
-                      vertical={!business?.isCombinedView}
                       stroke="#6b7280"
                       opacity={0.4}
                     />
@@ -908,7 +993,7 @@ export default function BusinessDetailPage() {
                       dataKey="pnl"
                       stroke="#e0ac69"
                       strokeWidth={2}
-                      fill="url(#performanceGradient)"
+                      fill="url(#performanceGradient2)"
                       connectNulls={true}
                       isAnimationActive={true}
                       animationDuration={750}
@@ -940,6 +1025,7 @@ export default function BusinessDetailPage() {
               </div>
             </CardContent>
           </Card>
+          )}
 
           {/* Revenue History Card */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
