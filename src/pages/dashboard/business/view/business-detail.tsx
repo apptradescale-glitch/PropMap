@@ -50,13 +50,6 @@ export default function BusinessDetailPage() {
   const navigate = useNavigate();
   const business = location.state?.business;
   
-  // Date range state
-  const [dateRange, setDateRange] = useState({
-    startDate: '',
-    endDate: ''
-  });
-  const [dateRangeText, setDateRangeText] = useState('All');
-
   // Dialog state for adding numbers
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<'payouts' | 'expenses'>('payouts');
@@ -128,87 +121,7 @@ export default function BusinessDetailPage() {
     <PageContainer scrollable>
       <PageHead title={businessName || 'Business'} />
       <div className="space-y-2 pb-8">
-        <div className="flex items-center justify-between -mt-5 pb-4 relative z-10">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => navigate(-1)}
-            className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white relative z-20"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="sr-only">Back</span>
-          </Button>
-          
-          {/* Centered Date Range Button */}
-          <div className="absolute left-1/2 transform -translate-x-1/2">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white min-w-[120px]"
-                >
-                  {dateRangeText}
-                  <Calendar className="w-4 h-4 ml-2" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white">
-                <DialogHeader>
-                  <DialogTitle className="text-white">Select Date Range</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4 py-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="start-date" className="text-[#666]">Start Date</Label>
-                    <Input
-                      id="start-date"
-                      type="date"
-                      value={dateRange.startDate}
-                      onChange={(e) => setDateRange(prev => ({ ...prev, startDate: e.target.value }))}
-                      className="bg-[#1a1a1a] border-[#2a2a2a] text-white"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="end-date" className="text-[#666]">End Date</Label>
-                    <Input
-                      id="end-date"
-                      type="date"
-                      value={dateRange.endDate}
-                      onChange={(e) => setDateRange(prev => ({ ...prev, endDate: e.target.value }))}
-                      className="bg-[#1a1a1a] border-[#2a2a2a] text-white"
-                    />
-                  </div>
-                  <div className="flex justify-end space-x-2 pt-4">
-                    <Button
-                      variant="ghost"
-                      onClick={() => {
-                        setDateRange({ startDate: '', endDate: '' });
-                        setDateRangeText('All');
-                      }}
-                      className="text-[#666] hover:text-white hover:bg-[#1a1a1a]"
-                    >
-                      Clear
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        if (dateRange.startDate && dateRange.endDate) {
-                          const start = new Date(dateRange.startDate).toLocaleDateString();
-                          const end = new Date(dateRange.endDate).toLocaleDateString();
-                          setDateRangeText(`${start} - ${end}`);
-                        }
-                      }}
-                      className="bg-[#94bba3] hover:bg-[#7da392] text-white"
-                    >
-                      Apply
-                    </Button>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-          
-          <h2 className="text-2xl font-bold tracking-tight text-white">
-           
-          </h2>
+        <div className="flex items-center justify-between -mt-5 pb-4">
         </div>
         
         {/* Top 4 Cards */}
