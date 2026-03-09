@@ -332,8 +332,8 @@ export default function BusinessDetailPage() {
               </div>
               <TrendingUp className="h-4 w-4 text-[#666]" />
             </CardHeader>
-            <CardContent className="pt-2 pb-4 flex-1">
-              <div className="h-full">
+            <CardContent className="pt-2 pb-4">
+              <div className="min-h-[200px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
                     data={[
