@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PageContainer from '@/components/layout/page-container';
 import PageHead from '@/components/shared/page-head';
 import { useAuth } from '@/context/FAuth';
@@ -12,6 +13,7 @@ import { Plus, MoreHorizontal, Trash2, Edit } from 'lucide-react';
 
 export default function OverViewPage() {
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
@@ -169,6 +171,11 @@ export default function OverViewPage() {
     setActiveMenuIndex(null);
   };
 
+  const handleCardClick = (business: any, index: number) => {
+    // Navigate to business detail page
+    navigate(`/business/${index}`);
+  };
+
   return (
     <PageContainer scrollable>
       <PageHead title="PROPMAP" />
@@ -184,7 +191,7 @@ export default function OverViewPage() {
           {/* Add Business Card */}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Card className="w-80 h-48 cursor-pointer hover:bg-[#1a1a1a] transition-colors border-[#2a2a2a] bg-[#0a0a0a]">
+              <Card className="bg-[#0a0a0a] border-[#1a1a1a] hover:border-white hover:shadow-lg hover:shadow-white/20 transition-all duration-200 hover:scale-105 w-64 h-48 flex flex-col cursor-pointer">
                 <CardContent className="flex flex-col items-center justify-center h-full p-6">
                   <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center mb-4">
                     <Plus className="w-6 h-6 text-[#888]" />
@@ -434,7 +441,12 @@ export default function OverViewPage() {
 
           {/* Added Business Cards */}
           {addedBusinesses.map((business, index) => (
-            <Card key={index} className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a]">
+            <Card key={index} className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a] hover:border-white hover:shadow-lg hover:shadow-white/20 transition-all duration-200 hover:scale-105 cursor-pointer" onClick={(e) => {
+                const target = e.target as HTMLElement;
+                if (!target.closest('button')) {
+                  handleCardClick(business, index);
+                }
+              }}>
               <CardContent className="flex flex-col h-full p-6">
                 <div className="flex items-center gap-4 mb-4">
                   {/* Circle with first letter - styled like Add Business button */}
