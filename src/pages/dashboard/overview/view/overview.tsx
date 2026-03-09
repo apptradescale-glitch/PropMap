@@ -191,7 +191,7 @@ export default function OverViewPage() {
           {/* Add Business Card */}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Card className="bg-[#0a0a0a] border-[#1a1a1a] hover:border-white hover:shadow-lg hover:shadow-white/20 transition-all duration-200 hover:scale-105 w-64 h-48 flex flex-col cursor-pointer">
+              <Card className="bg-[#0a0a0a] border-[#1a1a1a] hover:border-[#2a2a2a] transition-all duration-200 w-64 h-48 flex flex-col cursor-pointer">
                 <CardContent className="flex flex-col items-center justify-center h-full p-6">
                   <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center mb-4">
                     <Plus className="w-6 h-6 text-[#888]" />
@@ -441,7 +441,7 @@ export default function OverViewPage() {
 
           {/* Added Business Cards */}
           {addedBusinesses.map((business, index) => (
-            <Card key={index} className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a] hover:border-white hover:shadow-lg hover:shadow-white/20 transition-all duration-200 hover:scale-105 cursor-pointer" onClick={(e) => {
+            <Card key={index} className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a] hover:border-white/60 hover:shadow-lg hover:shadow-white/20 transition-all duration-200 hover:scale-105 cursor-pointer" onClick={(e) => {
                 const target = e.target as HTMLElement;
                 if (!target.closest('button')) {
                   handleCardClick(business, index);
