@@ -17,6 +17,13 @@ export const navItems: NavItem[] = [
     divider: true
   },
 
+    {
+    title: 'Storage',
+    href: '/dashboard/Storage',
+    icon: 'archive',
+    label: 'Storage'
+  },
+
   {
     title: 'Transactions',
     href: '/dashboard/Transactions',
@@ -26,13 +33,6 @@ export const navItems: NavItem[] = [
 
 
 
-  {
-    title: 'Storage',
-    href: '/dashboard/Storage',
-    icon: 'archive',
-    label: 'Storage'
-  },
-
    {
     title: 'Tax Overview',
     href: '/dashboard/Tax',
@@ -40,7 +40,13 @@ export const navItems: NavItem[] = [
     label: 'Tax'
   },
 
-
+          {
+    title: 'PropFirm Connections',
+    href: '/dashboard/PropFirmConnections',
+    icon: 'chartcandlestick',
+    label: 'PropFirmConnections',
+     
+  },
 
 
 
@@ -67,13 +73,7 @@ export const navItems: NavItem[] = [
     
   },
 
-           {
-    title: 'PropFirm Connections',
-    href: '/dashboard/PropFirmConnections',
-    icon: 'braincircuit',
-    label: 'PropFirmConnections',
-     
-  },
+ 
 
 
 
