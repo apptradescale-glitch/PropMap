@@ -7,6 +7,11 @@ export const navItems: NavItem[] = [
     icon: 'house',
     label: 'Home'
   },
+
+      {
+    divider: true
+  },
+  
   {
     title: 'Transactions',
     href: '/dashboard/Transactions',
