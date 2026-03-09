@@ -212,7 +212,7 @@ export default function OverViewPage() {
                         value={businessInfo.customSector}
                         onChange={handleInputChange}
                         className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                        placeholder="Enter your business sector"
+                        placeholder=""
                         required
                       />
                     </div>
@@ -226,7 +226,7 @@ export default function OverViewPage() {
                         value={businessInfo.name}
                         onChange={handleInputChange}
                         className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                        placeholder="Enter business name"
+                        placeholder=""
                         required
                       />
                     </div>
@@ -291,7 +291,7 @@ export default function OverViewPage() {
                         type="text"
                         value={businessInfo.currency ? `${countryCurrencyMap[businessInfo.country]?.symbol || ''} ${businessInfo.currency}` : ''}
                         className="bg-[#1a1a1a] border-[#2a2a2a] text-[#666] placeholder-[#555]"
-                        placeholder="Currency auto-filled"
+                        placeholder=""
                         readOnly
                         disabled
                       />
@@ -310,7 +310,7 @@ export default function OverViewPage() {
                         value={businessInfo.userName}
                         onChange={handleInputChange}
                         className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                        placeholder="Enter your name"
+                        placeholder=""
                         required
                       />
                     </div>
