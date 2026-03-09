@@ -50,12 +50,12 @@ export default function Header() {
 
   {/* Back button - only on business detail page */}
   {isBusinessDetail && (
-    <div className="flex items-center gap-2 -mb-10 mt-6 relative z-50 pointer-events-auto">
+    <div className="flex items-center gap-2 -mb-16 mt-6 relative z-50 pointer-events-auto">
       <Button
         variant="outline"
         size="icon"
         onClick={() => navigate('/dashboard')}
-        className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white h-8 w-8"
+        className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#888] hover:text-white h-8 w-8"
       >
         <ArrowLeft className="w-4 h-4" />
       </Button>
@@ -65,7 +65,7 @@ export default function Header() {
         variant="outline"
         size="sm"
         onClick={() => setIsDateDialogOpen(true)}
-        className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white min-w-[120px]"
+        className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-white hover:bg-[#1a1a1a] min-w-[120px]"
       >
         {dateRangeText}
         <Calendar className="w-4 h-4 ml-2" />
@@ -131,7 +131,7 @@ export default function Header() {
 
   <div className="flex-1 flex justify-center relative" style={{ bottom: '-2rem' }}>
   </div>
-  <div className="flex items-center gap-2 -mb-10 mt-6 relative z-50 pointer-events-auto">
+  <div className="flex items-center gap-2 -mb-16 mt-6 relative z-50 pointer-events-auto">
 
     <ModeToggle />
     <UserNav />
