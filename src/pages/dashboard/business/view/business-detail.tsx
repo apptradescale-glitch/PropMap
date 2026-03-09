@@ -639,7 +639,7 @@ export default function BusinessDetailPage() {
                 <CardTitle className="text-sm font-medium text-white">
                   Calendar
                 </CardTitle>
-                <CardDescription className="text-[#666] mb-6">
+                <CardDescription className="text-[#666] mb-12">
                   Payouts & Expenses Timeline
                 </CardDescription>
               </div>
