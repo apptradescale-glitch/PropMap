@@ -127,6 +127,38 @@ export default function BusinessDetailPage() {
   const combinedFinancialData = [...payouts, ...expenses]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+  // Prepare chart data from financial data
+  const chartData = React.useMemo(() => {
+    if (combinedFinancialData.length === 0) {
+      return [{ date: '', pnl: 0 }];
+    }
+
+    // Group financial data by date and calculate daily P&L
+    const dailyData = combinedFinancialData.reduce((acc, item) => {
+      const date = item.date;
+      if (!acc[date]) {
+        acc[date] = 0;
+      }
+      // Payouts are positive, expenses are negative for P&L calculation
+      acc[date] += item.type === 'payouts' ? Number(item.amount) : -Number(item.amount);
+      return acc;
+    }, {} as Record<string, number>);
+
+    // Convert to chart format and sort by date
+    let cumulativeSum = 0;
+    const sortedData = Object.entries(dailyData)
+      .sort(([dateA], [dateB]) => new Date(dateA).getTime() - new Date(dateB).getTime())
+      .map(([date, pnl]) => {
+        cumulativeSum += pnl;
+        return {
+          date: new Date(date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }),
+          pnl: Number(cumulativeSum.toFixed(2))
+        };
+      });
+
+    return [{ date: '', pnl: 0 }, ...sortedData];
+  }, [combinedFinancialData]);
+
   // Save financial data to Firestore
   const saveFinancialData = async (type: 'payouts' | 'expenses', data: any) => {
     if (!currentUser) return;
@@ -355,17 +387,7 @@ export default function BusinessDetailPage() {
               <div style={{ width: '100%', height: 350, marginTop: '10px' }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
-                    data={[
-                      { date: '01/01', pnl: 2 },
-                      { date: '01/02', pnl: 4 },
-                      { date: '01/03', pnl: 3 },
-                      { date: '01/04', pnl: 7 },
-                      { date: '01/05', pnl: 9 },
-                      { date: '01/06', pnl: 12 },
-                      { date: '01/07', pnl: 11 },
-                      { date: '01/08', pnl: 14 },
-                      { date: '01/09', pnl: 16 },
-                    ]}
+                    data={chartData}
                     margin={{
                       top: 10,
                       right: 30,
@@ -429,7 +451,7 @@ export default function BusinessDetailPage() {
                             <div className="text-sm text-stone-400">
                               {payload[0].payload.date || 'Start'}
                             </div>
-                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-[#e0ac69]' : 'text-red-500'}`}>
                               {value < 0 ? `-${currencySymbol}${formattedValue}` : `${currencySymbol}${formattedValue}`}
                             </div>
                           </div>
@@ -611,7 +633,7 @@ export default function BusinessDetailPage() {
                 ) : (
                   <div className="space-y-3">
                     {combinedFinancialData.map((item) => (
-                      <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a]">
+                      <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#2a2a2a]">
                         {/* Arrow Icon */}
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
