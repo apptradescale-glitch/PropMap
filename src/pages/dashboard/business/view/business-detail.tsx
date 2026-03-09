@@ -779,14 +779,14 @@ export default function BusinessDetailPage() {
 
             {/* PropFirm Breakdown / Income Expenses Flow Card - Hidden in combined view */}
             {!business?.isCombinedView && (
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a] row-span-2">
+            <Card className="border-[#2a2a2a] bg-[#0a0a0a] row-span-2 h-full">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
                 <CardTitle className="text-sm font-medium text-white">
                   {business?.businessSector === 'proptrading' ? 'PropFirm Breakdown' : 'Income / Expenses Flow'}
                 </CardTitle>
                 <LineChart className="h-4 w-4 text-[#666]" />
               </CardHeader>
-              <CardContent className="pt-2 pb-4">
+              <CardContent className="pt-2 pb-4 h-full">
                 <div className="flex items-center justify-center h-full min-h-[280px]">
                   <p className="text-[#666] text-sm">
                     {business?.businessSector === 'proptrading' ? 'PropFirm breakdown coming soon' : 'Income / Expenses flow coming soon'}
@@ -865,12 +865,25 @@ export default function BusinessDetailPage() {
                                 <div className="flex items-center gap-2">
                                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS_MID[index] }}></div>
                                   <span className="text-white text-xs">{entry.label}</span>
-                                  <span className="text-white text-xs font-semibold">{percentage}%</span>
+                                  <span className="text-white text-xs font-semibold">
+                                    {showPieAsMoney 
+                                      ? `${currencySymbol}${entry.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                                      : `${percentage}%`
+                                    }
+                                  </span>
                                 </div>
                               </div>
                             );
                           })}
                         </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setShowPieAsMoney(!showPieAsMoney)}
+                          className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-3 mt-1"
+                        >
+                          {showPieAsMoney ? 'Show %' : `Show in ${currencySymbol}`}
+                        </Button>
                       </div>
                     ) : (
                       <div className="flex items-center justify-center h-full">
