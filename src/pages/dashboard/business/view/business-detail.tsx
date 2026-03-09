@@ -798,7 +798,7 @@ export default function BusinessDetailPage() {
 
             {/* Right - Cashflow Allocation Pie Chart - Hidden in combined view */}
             {!business?.isCombinedView && (
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a] row-span-2">
+            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
                 <div className="flex flex-col gap-1">
                   <CardTitle className="text-sm font-medium text-white">
@@ -1003,99 +1003,95 @@ export default function BusinessDetailPage() {
             </CardContent>
           </Card>
           ) : (
-          /* Cashflow Allocation Pie Chart - Individual business: Income vs Expenses */
+          /* Performance Chart Duplicate - Individual business */
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
                 <CardTitle className="text-sm font-medium text-white">
-                  Cashflow Allocation
+                  Performance
                 </CardTitle>
                 <CardDescription className="text-[#666]">
-                  Income vs Expenses breakdown
+                  Business performance metrics
                 </CardDescription>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowPieAsMoney(!showPieAsMoney)}
-                className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-2"
-              >
-                {showPieAsMoney ? 'Show in %' : `Show in ${getCurrencySymbol(business?.currency || 'USD')}`}
-              </Button>
+              <TrendingUp className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
               <div style={{ width: '100%', height: 350, marginTop: '10px' }}>
-                {(() => {
-                  const PIE_COLORS_SINGLE = ['#22c55e', '#ef4444'];
-                  const singlePieData = [
-                    { name: 'Payouts / Income', value: Math.max(totalPayouts, 0), label: 'Profit' },
-                    { name: 'Expenses', value: Math.max(totalExpenses, 0), label: 'Expenses' }
-                  ];
-                  const singleTotal = singlePieData.reduce((sum, d) => sum + d.value, 0);
-                  const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
-                  
-                  return singleTotal > 0 ? (
-                    <div className="flex flex-col items-center gap-4 h-full">
-                      <ResponsiveContainer width="100%" height={250}>
-                        <RechartsPieChart>
-                          <Pie
-                            data={singlePieData}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={60}
-                            outerRadius={100}
-                            paddingAngle={singlePieData.filter(d => d.value > 0).length > 1 ? 3 : 0}
-                            dataKey="value"
-                            animationDuration={750}
-                          >
-                            {singlePieData.map((_: any, index: number) => (
-                              <Cell key={`cell-single-${index}`} fill={PIE_COLORS_SINGLE[index]} />
-                            ))}
-                          </Pie>
-                          <Tooltip
-                            content={({ active, payload }) => {
-                              if (!active || !payload?.length) return null;
-                              const data = payload[0].payload;
-                              const percentage = singleTotal > 0 ? ((data.value / singleTotal) * 100).toFixed(1) : '0';
-                              return (
-                                <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
-                                  <div className="text-sm text-white font-medium">{data.name}</div>
-                                  <div className="text-sm font-semibold text-[#e0ac69] mt-1">
-                                    {currencySymbol}{data.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({percentage}%)
-                                  </div>
-                                </div>
-                              );
-                            }}
-                          />
-                        </RechartsPieChart>
-                      </ResponsiveContainer>
-                      {/* Legend */}
-                      <div className="flex flex-wrap justify-center gap-6">
-                        {singlePieData.map((entry, index) => {
-                          const percentage = singleTotal > 0 ? ((entry.value / singleTotal) * 100).toFixed(1) : '0';
-                          return (
-                            <div key={index} className="flex flex-col items-center gap-0.5">
-                              <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS_SINGLE[index] }}></div>
-                                <span className="text-white text-xs">{entry.label}</span>
-                                <span className="text-white text-xs font-semibold">
-                                  {showPieAsMoney 
-                                    ? `${currencySymbol}${entry.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                                    : `${percentage}%`
-                                  }
-                                </span>
-                              </div>
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart
+                    data={chartData}
+                    margin={{
+                      top: 10,
+                      right: 30,
+                      left: 10,
+                      bottom: 10
+                    }}
+                  >
+                    <defs>
+                      <linearGradient id="performanceGradient2" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#e0ac69" stopOpacity={0.3}/>
+                        <stop offset="40%" stopColor="#e0ac69" stopOpacity={0.2}/>
+                        <stop offset="100%" stopColor="#e0ac69" stopOpacity={0.1}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid 
+                      strokeDasharray="3 3"
+                      stroke="#6b7280"
+                      opacity={0.4}
+                    />
+                    <XAxis
+                      dataKey="date"
+                      tickLine={true}
+                      axisLine={true}
+                      tickMargin={8}
+                      minTickGap={32}
+                      tick={{ fontSize: 12, fill: 'white' }}
+                    />
+                    <YAxis
+                      tickLine={true}
+                      axisLine={true}
+                      tick={{ fontSize: 12, fill: 'white' }}
+                      tickFormatter={(value) => {
+                        const formattedNumber = Math.abs(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
+                        return value < 0 ? `-${currencySymbol}${formattedNumber}` : `${currencySymbol}${formattedNumber}`;
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="pnl"
+                      stroke="#e0ac69"
+                      strokeWidth={2}
+                      fill="url(#performanceGradient2)"
+                      connectNulls={true}
+                      isAnimationActive={true}
+                      animationDuration={750}
+                    />
+                    <Tooltip
+                      cursor={{ stroke: '#e0ac6933' }}
+                      content={({ active, payload }) => {
+                        if (!active || !payload?.length) return null;
+                        const value = Number(payload[0].value);
+                        const formattedValue = Math.abs(value).toLocaleString('en-US', {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2
+                        });
+                        const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
+                        return (
+                          <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
+                            <div className="text-sm text-stone-400">
+                              {payload[0].payload.date || 'Start'}
                             </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-center h-full">
-                      <p className="text-[#666] text-sm">No financial data yet</p>
-                    </div>
-                  );
-                })()}
+                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-[#e0ac69]' : 'text-red-500'}`}>
+                              {value < 0 ? `-${currencySymbol}${formattedValue}` : `${currencySymbol}${formattedValue}`}
+                            </div>
+                          </div>
+                        );
+                      }}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
