@@ -185,7 +185,7 @@ export default function OverViewPage() {
             </DialogTrigger>
             <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white max-w-md">
               <DialogHeader>
-                <DialogTitle className="text-white">{editingIndex !== null ? 'Edit your preneur' : 'Add your preneur'}</DialogTitle>
+                <DialogTitle className="text-white">{editingIndex !== null ? 'Edit your Business' : 'Add your Business'}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
