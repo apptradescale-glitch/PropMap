@@ -210,95 +210,45 @@ export default function BusinessDetailPage() {
 
   useEffect(() => {
     const calculateBusinessTotals = async () => {
-      if (business?.isCombinedView && business?.businesses) {
-        const businessesWithTotals = [];
+      if (business?.isCombinedView && business?.businesses && currentUser) {
+        try {
+          // Load all payouts and expenses once (same structure as main data loading)
+          const payoutsDoc = await getDoc(doc(db, 'payouts', currentUser.uid));
+          const expensesDoc = await getDoc(doc(db, 'expenses', currentUser.uid));
+          const allPayouts = payoutsDoc.exists() ? (payoutsDoc.data().items || []) : [];
+          const allExpenses = expensesDoc.exists() ? (expensesDoc.data().items || []) : [];
 
-        for (const biz of business.businesses) {
-          let bizTotalPayouts = 0;
-          let bizTotalExpenses = 0;
+          const businessesWithTotals = business.businesses.map((biz: any) => {
+            const bizId = biz.id || '';
+            const bizName = biz.businessSector === 'proptrading' ? biz.userName : biz.name;
 
-          try {
-            // Load payouts for this business
-            const payoutsQuery = query(
-              collection(db, 'payouts'),
-              where('userId', '==', currentUser?.uid),
-              where('businessId', '==', biz.id || ''),
-              orderBy('date', 'desc')
-            );
-            const payoutsSnapshot = await getDocs(payoutsQuery);
-            const bizPayouts = payoutsSnapshot.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data()
-            }));
-
-            // Load expenses for this business
-            const expensesQuery = query(
-              collection(db, 'expenses'),
-              where('userId', '==', currentUser?.uid),
-              where('businessId', '==', biz.id || ''),
-              orderBy('date', 'desc')
-            );
-            const expensesSnapshot = await getDocs(expensesQuery);
-            const bizExpenses = expensesSnapshot.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data()
-            }));
-
-            // Also check by business name for backward compatibility
-            const payoutsByNameQuery = query(
-              collection(db, 'payouts'),
-              where('userId', '==', currentUser?.uid),
-              where('businessName', '==', biz.businessSector === 'proptrading' ? biz.userName : biz.name),
-              orderBy('date', 'desc')
-            );
-            const payoutsByNameSnapshot = await getDocs(payoutsByNameQuery);
-            const bizPayoutsByName = payoutsByNameSnapshot.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data()
-            }));
-
-            const expensesByNameQuery = query(
-              collection(db, 'expenses'),
-              where('userId', '==', currentUser?.uid),
-              where('businessName', '==', biz.businessSector === 'proptrading' ? biz.userName : biz.name),
-              orderBy('date', 'desc')
-            );
-            const expensesByNameSnapshot = await getDocs(expensesByNameQuery);
-            const bizExpensesByName = expensesByNameSnapshot.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data()
-            }));
-
-            // Combine and deduplicate
-            const allBizPayouts = [...bizPayouts, ...bizPayoutsByName];
-            const allBizExpenses = [...bizExpenses, ...bizExpensesByName];
-            
-            const uniquePayouts = allBizPayouts.filter((payout, index, self) => 
-              index === self.findIndex((p) => p.id === payout.id)
-            );
-            const uniqueExpenses = allBizExpenses.filter((expense, index, self) => 
-              index === self.findIndex((e) => e.id === expense.id)
+            // Filter payouts for this business by ID or name
+            const bizPayouts = allPayouts.filter((item: any) => 
+              item.businessId === bizId || item.businessId === bizName || item.businessName === bizName
             );
 
-            // Calculate totals for this business
-            bizTotalPayouts = uniquePayouts.reduce((sum, payout) => sum + (payout.amount || 0), 0);
-            bizTotalExpenses = uniqueExpenses.reduce((sum, expense) => sum + (expense.amount || 0), 0);
-          } catch (error) {
-            console.error(`Error loading data for business ${biz.name}:`, error);
-          }
+            // Filter expenses for this business by ID or name
+            const bizExpenses = allExpenses.filter((item: any) => 
+              item.businessId === bizId || item.businessId === bizName || item.businessName === bizName
+            );
 
-          const bizTotalRevenue = bizTotalPayouts - bizTotalExpenses;
+            const bizTotalPayouts = bizPayouts.reduce((sum: number, item: any) => sum + (item.amount || 0), 0);
+            const bizTotalExpenses = bizExpenses.reduce((sum: number, item: any) => sum + (item.amount || 0), 0);
+            const bizTotalRevenue = bizTotalPayouts - bizTotalExpenses;
 
-          businessesWithTotals.push({
-            ...biz,
-            totalRevenue: bizTotalRevenue,
-            totalExpenses: bizTotalExpenses,
-            totalPayouts: bizTotalPayouts,
-            currency: biz.currency || 'USD'
+            return {
+              ...biz,
+              totalRevenue: bizTotalRevenue,
+              totalExpenses: bizTotalExpenses,
+              totalPayouts: bizTotalPayouts,
+              currency: biz.currency || 'USD'
+            };
           });
-        }
 
-        setBusinessDataWithTotals(businessesWithTotals);
+          setBusinessDataWithTotals(businessesWithTotals);
+        } catch (error) {
+          console.error('Error loading business totals:', error);
+        }
       }
     };
 
