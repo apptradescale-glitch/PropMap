@@ -796,53 +796,91 @@ export default function BusinessDetailPage() {
             </Card>
             )}
 
-            {/* Right - Location + Coming Soon + Coming Soon stacked - Hidden in combined view */}
+            {/* Right - Cashflow Allocation Pie Chart - Hidden in combined view */}
             {!business?.isCombinedView && (
-            <div className="grid grid-rows-3 gap-2">
-              {/* Location Card - Top */}
-              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3">
+            <Card className="border-[#2a2a2a] bg-[#0a0a0a] row-span-2">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+                <div className="flex flex-col gap-1">
                   <CardTitle className="text-sm font-medium text-white">
-                    Location
+                    Cashflow Allocation
                   </CardTitle>
-                  <Globe className="h-4 w-4 text-[#666]" />
-                </CardHeader>
-                <CardContent className="pt-1 pb-3">
-                  <div className="text-sm font-semibold text-white mt-1">{business.country || 'N/A'}</div>
-                  <div className="text-xs text-[#666]">
-                    Currency: {business.currency || 'N/A'}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Coming Soon Card - Middle */}
-              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3">
-                  <CardTitle className="text-sm font-medium text-white">
-                    Coming Soon
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-1 pb-3">
-                  <div className="flex items-center justify-center">
-                    <p className="text-[#666] text-xs">Coming soon</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Coming Soon Card 2 - Bottom */}
-              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3">
-                  <CardTitle className="text-sm font-medium text-white">
-                    Coming Soon
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-1 pb-3">
-                  <div className="flex items-center justify-center">
-                    <p className="text-[#666] text-xs">Coming soon</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                  <CardDescription className="text-[#666]">
+                    Income vs Expenses breakdown
+                  </CardDescription>
+                </div>
+                <PieChartIcon className="h-4 w-4 text-[#666]" />
+              </CardHeader>
+              <CardContent className="pt-2 pb-4">
+                <div style={{ width: '100%', height: 280 }}>
+                  {(() => {
+                    const PIE_COLORS_MID = ['#22c55e', '#ef4444'];
+                    const midPieData = [
+                      { name: 'Payouts / Income', value: Math.max(totalPayouts, 0), label: 'Payouts / Income' },
+                      { name: 'Expenses', value: Math.max(totalExpenses, 0), label: 'Expenses' }
+                    ];
+                    const midTotal = midPieData.reduce((sum, d) => sum + d.value, 0);
+                    const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
+                    
+                    return midTotal > 0 ? (
+                      <div className="flex flex-col items-center gap-4 h-full">
+                        <ResponsiveContainer width="100%" height={200}>
+                          <RechartsPieChart>
+                            <Pie
+                              data={midPieData}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={50}
+                              outerRadius={80}
+                              paddingAngle={midPieData.filter(d => d.value > 0).length > 1 ? 3 : 0}
+                              dataKey="value"
+                              animationDuration={750}
+                            >
+                              {midPieData.map((_: any, index: number) => (
+                                <Cell key={`cell-mid-${index}`} fill={PIE_COLORS_MID[index]} />
+                              ))}
+                            </Pie>
+                            <Tooltip
+                              content={({ active, payload }) => {
+                                if (!active || !payload?.length) return null;
+                                const data = payload[0].payload;
+                                const percentage = midTotal > 0 ? ((data.value / midTotal) * 100).toFixed(1) : '0';
+                                return (
+                                  <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
+                                    <div className="text-sm text-white font-medium">{data.name}</div>
+                                    <div className="text-sm font-semibold text-[#e0ac69] mt-1">
+                                      {currencySymbol}{data.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({percentage}%)
+                                    </div>
+                                  </div>
+                                );
+                              }}
+                            />
+                          </RechartsPieChart>
+                        </ResponsiveContainer>
+                        {/* Legend */}
+                        <div className="flex flex-wrap justify-center gap-4">
+                          {midPieData.map((entry, index) => {
+                            const percentage = midTotal > 0 ? ((entry.value / midTotal) * 100).toFixed(1) : '0';
+                            return (
+                              <div key={index} className="flex flex-col items-center gap-0.5">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS_MID[index] }}></div>
+                                  <span className="text-white text-xs">{entry.label}</span>
+                                  <span className="text-white text-xs font-semibold">{percentage}%</span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center h-full">
+                        <p className="text-[#666] text-sm">No financial data yet</p>
+                      </div>
+                    );
+                  })()}
+                </div>
+              </CardContent>
+            </Card>
             )}
           </div>
         </div>
