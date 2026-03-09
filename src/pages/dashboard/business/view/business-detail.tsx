@@ -467,20 +467,12 @@ export default function BusinessDetailPage() {
             <CardContent className="pt-2 pb-4">
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  {/* Circle with first letter */}
-                  <div className="w-10 h-10 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
-                    <span className="text-[#888] font-medium" style={{ fontSize: '8px' }}>
-                      {business.businessSector === 'proptrading' 
-                        ? business.userName?.charAt(0)?.toUpperCase() || 'U'
-                        : business.name?.charAt(0)?.toUpperCase() || 'B'
-                      }
-                    </span>
+                  {/* Rectangle icon for combined view */}
+                  <div className="w-10 h-10 rounded-lg bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
+                    <Building2 className="w-5 h-5 text-[#888]" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <h4 className="text-white font-semibold text-sm truncate">
-                        {businessName}
-                      </h4>
+                    <div className="flex flex-col">
                       <div className="text-lg font-bold text-white">
                         {business.businessSector === 'proptrading' ? business.userName : business.name}
                       </div>
@@ -667,7 +659,7 @@ export default function BusinessDetailPage() {
                     <div className="space-y-3">
                       {businessDataWithTotals.map((biz: any, index: number) => (
                         <div key={biz.id || index} className="p-4 rounded-lg bg-transparent border border-[#2a2a2a] hover:border-[#e0ac69]/50 transition-all duration-200">
-                          <div className="flex items-start gap-3">
+                          <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
                               <span className="text-[#888] font-medium" style={{ fontSize: '10px' }}>
                                 {biz.businessSector === 'proptrading' 
@@ -686,27 +678,27 @@ export default function BusinessDetailPage() {
                               <div className="text-xs mt-1">
                                 <span>{biz.businessSector === 'proptrading' ? 'PropTrading' : biz.customSector}</span>
                               </div>
-                              
-                              {/* Financial Numbers */}
-                              <div className="flex items-center gap-4 mt-3">
-                                <div className="text-right">
-                                  <div className="text-sm font-bold text-white">
-                                    {getCurrencySymbol(biz.currency)}{biz.totalRevenue.toFixed(2)}
-                                  </div>
-                                  <p className="text-xs text-[#666]">Revenue</p>
+                            </div>
+                            
+                            {/* Financial Numbers - Right Side */}
+                            <div className="flex items-center gap-4 flex-shrink-0">
+                              <div className="text-right">
+                                <div className="text-sm font-bold text-white">
+                                  {getCurrencySymbol(biz.currency)}{biz.totalRevenue.toFixed(2)}
                                 </div>
-                                <div className="text-right">
-                                  <div className="text-sm font-bold text-white">
-                                    {getCurrencySymbol(biz.currency)}{biz.totalPayouts.toFixed(2)}
-                                  </div>
-                                  <p className="text-xs text-[#666]">Payouts</p>
+                                <p className="text-xs text-[#666]">Revenue</p>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-sm font-bold text-white">
+                                  {getCurrencySymbol(biz.currency)}{biz.totalPayouts.toFixed(2)}
                                 </div>
-                                <div className="text-right">
-                                  <div className="text-sm font-bold text-white">
-                                    {getCurrencySymbol(biz.currency)}{biz.totalExpenses.toFixed(2)}
-                                  </div>
-                                  <p className="text-xs text-[#666]">Expenses</p>
+                                <p className="text-xs text-[#666]">Payouts</p>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-sm font-bold text-white">
+                                  {getCurrencySymbol(biz.currency)}{biz.totalExpenses.toFixed(2)}
                                 </div>
+                                <p className="text-xs text-[#666]">Expenses</p>
                               </div>
                             </div>
                           </div>
@@ -1018,7 +1010,7 @@ export default function BusinessDetailPage() {
                               </span>
                               <span className="text-[#666] text-xs">|</span>
                               <span className="text-[#666] text-xs truncate">
-                                {item.businessSector === 'proptrading' ? 'PropTrading' : item.customSector || 'Business'}
+                                {item.businessSector === 'proptrading' ? 'PropTrading' : item.businessSector === 'trade-copier-software' ? 'Trade Copier Software' : item.customSector || 'Business'}
                               </span>
                             </div>
                           )}
