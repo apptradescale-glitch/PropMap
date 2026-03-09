@@ -199,52 +199,65 @@ export default function OverViewPage() {
     e.preventDefault();
     console.log('Business info submitted:', businessInfo);
     
-    try {
-      if (editingIndex !== null) {
-        // Update existing business
-        const updatedBusiness = { ...businessInfo, isActive: addedBusinesses[editingIndex].isActive };
-        await updateBusinessInFirestore(editingIndex, updatedBusiness);
-        setAddedBusinesses(prev => 
-          prev.map((business, index) => 
-            index === editingIndex ? updatedBusiness : business
-          )
-        );
-        setEditingIndex(null);
-      } else {
-        // Add new business
-        const newBusiness = { ...businessInfo, isActive: true };
-        await saveBusinessToFirestore(newBusiness);
-        setAddedBusinesses(prev => [...prev, newBusiness]);
-      }
+    if (editingIndex !== null) {
+      // Update existing business - optimistic update
+      const updatedBusiness = { ...businessInfo, isActive: addedBusinesses[editingIndex].isActive };
+      setAddedBusinesses(prev => 
+        prev.map((business, index) => 
+          index === editingIndex ? updatedBusiness : business
+        )
+      );
+      setEditingIndex(null);
       
-      setIsDialogOpen(false);
-      // Reset form
-      setBusinessInfo({
-        businessSector: '',
-        customSector: '',
-        name: '',
-        userName: '',
-        country: '',
-        currency: '',
-        propTradingType: '',
-        businessType: '',
-        customBusinessType: ''
+      // Save to Firestore in background
+      updateBusinessInFirestore(editingIndex, updatedBusiness).catch(error => {
+        console.error('Error updating business:', error);
+        // Optionally revert the optimistic update on error
       });
-    } catch (error) {
-      console.error('Error saving business:', error);
-      // You could show an error message to the user here
+    } else {
+      // Add new business - optimistic update
+      const newBusiness = { ...businessInfo, isActive: true };
+      setAddedBusinesses(prev => [...prev, newBusiness]);
+      
+      // Save to Firestore in background
+      saveBusinessToFirestore(newBusiness).catch(error => {
+        console.error('Error saving business:', error);
+        // Optionally remove the optimistic addition on error
+        setAddedBusinesses(prev => prev.slice(0, -1)); // Remove last added item
+      });
     }
+    
+    setIsDialogOpen(false);
+    // Reset form
+    setBusinessInfo({
+      businessSector: '',
+      customSector: '',
+      name: '',
+      userName: '',
+      country: '',
+      currency: '',
+      propTradingType: '',
+      businessType: '',
+      customBusinessType: ''
+    });
   };
 
   const handleDelete = async (index: number) => {
-    try {
-      await deleteBusinessFromFirestore(index);
-      setAddedBusinesses(prev => prev.filter((_, i) => i !== index));
-      setActiveMenuIndex(null);
-    } catch (error) {
+    // Optimistic delete - remove immediately
+    const deletedBusiness = addedBusinesses[index];
+    setAddedBusinesses(prev => prev.filter((_, i) => i !== index));
+    setActiveMenuIndex(null);
+    
+    // Delete from Firestore in background
+    deleteBusinessFromFirestore(index).catch(error => {
       console.error('Error deleting business:', error);
-      // You could show an error message to the user here
-    }
+      // Optionally restore the deleted business on error
+      setAddedBusinesses(prev => {
+        const newBusinesses = [...prev];
+        newBusinesses.splice(index, 0, deletedBusiness);
+        return newBusinesses;
+      });
+    });
   };
 
   const handleEdit = (index: number) => {
