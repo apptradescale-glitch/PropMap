@@ -1,6 +1,11 @@
 import { NavItem } from '@/types';
 
 export const navItems: NavItem[] = [
+
+        {
+    divider: true
+  },
+
   {
     title: 'Dahsboard',
     href: '/dashboard',
@@ -11,7 +16,7 @@ export const navItems: NavItem[] = [
       {
     divider: true
   },
-  
+
   {
     title: 'Transactions',
     href: '/dashboard/Transactions',

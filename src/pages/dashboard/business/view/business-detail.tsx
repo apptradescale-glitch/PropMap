@@ -383,8 +383,8 @@ export default function BusinessDetailPage() {
               </CardContent>
             </Card>
 
-            {/* Analytics Card - Left */}
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            {/* Analytics Card - tall to align with bottom Analytics */}
+            <Card className="border-[#2a2a2a] bg-[#0a0a0a] row-span-2">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
                 <CardTitle className="text-sm font-medium text-white">
                   Analytics
@@ -392,14 +392,14 @@ export default function BusinessDetailPage() {
                 <LineChart className="h-4 w-4 text-[#666]" />
               </CardHeader>
               <CardContent className="pt-2 pb-4">
-                <div className="flex items-center justify-center h-32">
+                <div className="flex items-center justify-center h-full min-h-[280px]">
                   <p className="text-[#666] text-sm">Analytics data coming soon</p>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Right - Location + Coming Soon stacked */}
-            <div className="grid grid-rows-2 gap-2">
+            {/* Right - Location + Coming Soon + Coming Soon stacked */}
+            <div className="grid grid-rows-3 gap-2">
               {/* Location Card - Top */}
               <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3">
@@ -416,7 +416,21 @@ export default function BusinessDetailPage() {
                 </CardContent>
               </Card>
 
-              {/* Coming Soon Card - Bottom */}
+              {/* Coming Soon Card - Middle */}
+              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3">
+                  <CardTitle className="text-sm font-medium text-white">
+                    Coming Soon
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-1 pb-3">
+                  <div className="flex items-center justify-center">
+                    <p className="text-[#666] text-xs">Coming soon</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Coming Soon Card 2 - Bottom */}
               <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3">
                   <CardTitle className="text-sm font-medium text-white">
@@ -433,7 +447,7 @@ export default function BusinessDetailPage() {
           </div>
         </div>
 
-        {/* Bottom Row - Full height Analytics + Half Analytics */}
+        {/* Bottom Row - Full height Analytics only */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Full Height Analytics Card - Left */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
@@ -449,38 +463,6 @@ export default function BusinessDetailPage() {
               </div>
             </CardContent>
           </Card>
-
-          {/* Right Side - Half Analytics + Coming Soon stacked */}
-          <div className="grid grid-rows-2 gap-4">
-            {/* Half Analytics Card - Top */}
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3">
-                <CardTitle className="text-sm font-medium text-white">
-                  Analytics
-                </CardTitle>
-                <LineChart className="h-4 w-4 text-[#666]" />
-              </CardHeader>
-              <CardContent className="pt-1 pb-3">
-                <div className="flex items-center justify-center">
-                  <p className="text-[#666] text-sm">Analytics data coming soon</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Coming Soon Card - Bottom */}
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3">
-                <CardTitle className="text-sm font-medium text-white">
-                  Coming Soon
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-1 pb-3">
-                <div className="flex items-center justify-center">
-                  <p className="text-[#666] text-xs">Coming soon</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </div>
 
