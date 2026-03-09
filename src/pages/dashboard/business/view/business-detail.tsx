@@ -120,7 +120,7 @@ export default function BusinessDetailPage() {
   return (
     <PageContainer scrollable>
       <PageHead title={businessName || 'Business'} />
-      <div className="space-y-2 pb-8 pt-6">
+      <div className="space-y-2 pb-8 pt-5">
         <div className="flex items-center justify-between -mt-5 pb-4">
         </div>
         
@@ -235,11 +235,13 @@ export default function BusinessDetailPage() {
           {/* Right side - Analytics + Location stacked */}
           <div className="grid grid-cols-2 gap-4">
             {/* Add Your Numbers Card */}
-            <Card className="border-[#2a2a2a2a] bg-[#0a0a0a] hover:border-white/35 hover:shadow-lg hover:shadow-white/20 transition-all duration-200">
+            <Card className="border-white/35 bg-[#0a0a0a] shadow-lg shadow-white/20 transition-all duration-200">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-                <CardTitle className="text-sm font-medium text-white">
-                  Add your numbers
-                </CardTitle>
+                <div className="bg-[#e0ac69] px-2 py-1 rounded">
+                  <CardTitle className="text-sm font-medium text-white">
+                    Add your numbers
+                  </CardTitle>
+                </div>
                 <Pen className="h-4 w-4 text-[#666]" />
               </CardHeader>
               <CardContent className="pt-2 pb-4">
