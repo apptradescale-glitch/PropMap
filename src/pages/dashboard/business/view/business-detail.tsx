@@ -106,9 +106,22 @@ export default function BusinessDetailPage() {
             );
             setPayouts(combinedPayouts);
           } else {
-            // Single business view
-            const businessId = business?.id || business?.name || 'default';
-            const businessPayouts = allPayouts.filter((item: any) => item.businessId === businessId);
+            // Single business view - handle both new ID system and legacy name system
+            const businessId = business?.id || 'default';
+            const businessName = business?.name || business?.userName || 'default';
+            
+            // Filter by ID (new system) OR by businessName (legacy system)
+            const businessPayouts = allPayouts.filter((item: any) => {
+              // Check if payout's businessId matches the current business's ID
+              const matchesById = item.businessId === businessId;
+              // Check if payout's businessId matches the current business's name (legacy)
+              const matchesByName = item.businessId === businessName;
+              // Also check if payout's businessName field matches current business name
+              const matchesByBusinessName = item.businessName === businessName;
+              
+              return matchesById || matchesByName || matchesByBusinessName;
+            });
+            
             setPayouts(businessPayouts);
           }
         }
@@ -126,9 +139,22 @@ export default function BusinessDetailPage() {
             );
             setExpenses(combinedExpenses);
           } else {
-            // Single business view
-            const businessId = business?.id || business?.name || 'default';
-            const businessExpenses = allExpenses.filter((item: any) => item.businessId === businessId);
+            // Single business view - handle both new ID system and legacy name system
+            const businessId = business?.id || 'default';
+            const businessName = business?.name || business?.userName || 'default';
+            
+            // Filter by ID (new system) OR by businessName (legacy system)
+            const businessExpenses = allExpenses.filter((item: any) => {
+              // Check if expense's businessId matches the current business's ID
+              const matchesById = item.businessId === businessId;
+              // Check if expense's businessId matches the current business's name (legacy)
+              const matchesByName = item.businessId === businessName;
+              // Also check if expense's businessName field matches current business name
+              const matchesByBusinessName = item.businessName === businessName;
+              
+              return matchesById || matchesByName || matchesByBusinessName;
+            });
+            
             setExpenses(businessExpenses);
           }
         }
