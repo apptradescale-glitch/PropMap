@@ -185,7 +185,7 @@ export default function OverViewPage() {
             </DialogTrigger>
             <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white max-w-md">
               <DialogHeader>
-                <DialogTitle className="text-white">{editingIndex !== null ? 'Edit yourpreneur' : 'Add yourpreneur'}</DialogTitle>
+                <DialogTitle className="text-white">{editingIndex !== null ? 'Edit your preneur' : 'Add your preneur'}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
@@ -291,7 +291,7 @@ export default function OverViewPage() {
                         type="text"
                         value={businessInfo.currency ? `${countryCurrencyMap[businessInfo.country]?.symbol || ''} ${businessInfo.currency}` : ''}
                         className="bg-[#1a1a1a] border-[#2a2a2a] text-[#666] placeholder-[#555]"
-                        placeholder=""
+                        placeholder="Currency auto-filled"
                         readOnly
                         disabled
                       />
@@ -356,7 +356,7 @@ export default function OverViewPage() {
                           value={businessInfo.customBusinessType || ''}
                           onChange={handleInputChange}
                           className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                          placeholder="Enter business type"
+                          placeholder=""
                         />
                       </div>
                     )}
