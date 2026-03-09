@@ -235,12 +235,27 @@ export default function BusinessDetailPage() {
           {/* Right side - Analytics + Location stacked */}
           <div className="grid grid-cols-2 gap-4">
             {/* Add Your Numbers Card */}
-            <Card className="border-white/35 bg-[#0a0a0a] shadow-lg shadow-white/20 transition-all duration-200">
+            <Card className="border-[#2a2a2a] bg-[#0a0a0a] shadow-lg shadow-white/20 transition-all duration-200">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-                <div className="bg-[#e0ac69] px-2 py-1 rounded">
-                  <CardTitle className="text-sm font-medium text-white">
-                    Add your numbers
-                  </CardTitle>
+                <div className="relative inline-block">
+                  <div 
+                    className="absolute inset-0 bg-[#e0ac69]/50 transform -rotate-1 rounded"
+                    style={{
+                      filter: 'blur(0.5px)',
+                      clipPath: 'polygon(0 5%, 95% 0%, 100% 95%, 5% 100%)'
+                    }}
+                  ></div>
+                  <div 
+                    className="relative bg-[#e0ac69]/50 px-2 py-1 rounded"
+                    style={{
+                      transform: 'rotate(0.5deg)',
+                      filter: 'blur(0.3px)'
+                    }}
+                  >
+                    <CardTitle className="text-sm font-medium text-white">
+                      Add your numbers
+                    </CardTitle>
+                  </div>
                 </div>
                 <Pen className="h-4 w-4 text-[#666]" />
               </CardHeader>
