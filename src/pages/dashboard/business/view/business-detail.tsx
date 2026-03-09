@@ -169,27 +169,9 @@ export default function BusinessDetailPage() {
             </CardContent>
           </Card>
 
-          {/* Right side - Location + Analytics split */}
+          {/* Right side - Analytics + Location stacked */}
           <div className="grid grid-cols-2 gap-4">
-            {/* Location Card */}
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-                <CardTitle className="text-sm font-medium text-white">
-                  Location
-                </CardTitle>
-                <Globe className="h-4 w-4 text-[#666]" />
-              </CardHeader>
-              <CardContent className="pt-2 pb-4">
-                <div className="space-y-2">
-                  <div className="text-lg font-semibold text-white">{business.country || 'N/A'}</div>
-                  <div className="text-xs text-[#666]">
-                    Currency: {business.currency || 'N/A'}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Analytics Card */}
+            {/* Analytics Card - Left */}
             <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
                 <CardTitle className="text-sm font-medium text-white">
@@ -203,6 +185,39 @@ export default function BusinessDetailPage() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Right - Location + Coming Soon stacked */}
+            <div className="grid grid-rows-2 gap-4">
+              {/* Location Card - Top */}
+              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3">
+                  <CardTitle className="text-sm font-medium text-white">
+                    Location
+                  </CardTitle>
+                  <Globe className="h-4 w-4 text-[#666]" />
+                </CardHeader>
+                <CardContent className="pt-1 pb-3">
+                  <div className="text-sm font-semibold text-white">{business.country || 'N/A'}</div>
+                  <div className="text-xs text-[#666]">
+                    Currency: {business.currency || 'N/A'}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Coming Soon Card - Bottom */}
+              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-3">
+                  <CardTitle className="text-sm font-medium text-white">
+                    Coming Soon
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-1 pb-3">
+                  <div className="flex items-center justify-center">
+                    <p className="text-[#666] text-xs">Coming soon</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
 
