@@ -87,18 +87,22 @@ export default function BusinessDetailPage() {
 
   // Load financial data from Firestore
   useEffect(() => {
-    if (!currentUser || !business?.id) return;
+    if (!currentUser) return;
 
     const loadFinancialData = async () => {
+      // Use business name as ID if business.id is not available
+      const businessId = business?.id || business?.name || 'default';
+      console.log('Loading from Firestore:', { userId: currentUser.uid, businessId, business });
+
       try {
         // Load payouts
-        const payoutsDoc = await getDoc(doc(db, 'businesses', currentUser.uid, 'payouts', business.id!));
+        const payoutsDoc = await getDoc(doc(db, 'businesses', currentUser.uid, 'payouts', businessId));
         if (payoutsDoc.exists()) {
           setPayouts(payoutsDoc.data().items || []);
         }
 
         // Load expenses
-        const expensesDoc = await getDoc(doc(db, 'businesses', currentUser.uid, 'expenses', business.id!));
+        const expensesDoc = await getDoc(doc(db, 'businesses', currentUser.uid, 'expenses', businessId));
         if (expensesDoc.exists()) {
           setExpenses(expensesDoc.data().items || []);
         }
@@ -108,7 +112,7 @@ export default function BusinessDetailPage() {
     };
 
     loadFinancialData();
-  }, [currentUser, business?.id]);
+  }, [currentUser, business?.id, business?.name]);
 
   // Calculate totals
   const totalPayouts = payouts.reduce((sum, item) => sum + Number(item.amount), 0);
@@ -117,10 +121,14 @@ export default function BusinessDetailPage() {
 
   // Save financial data to Firestore
   const saveFinancialData = async (type: 'payouts' | 'expenses', data: any) => {
-    if (!currentUser || !business?.id) return;
+    if (!currentUser) return;
+
+    // Use business name as ID if business.id is not available
+    const businessId = business?.id || business?.name || 'default';
+    console.log('Saving to Firestore:', { userId: currentUser.uid, type, businessId, business });
 
     try {
-      const collectionRef = doc(db, 'businesses', currentUser.uid, type, business.id!);
+      const collectionRef = doc(db, 'businesses', currentUser.uid, type, businessId);
       const docSnap = await getDoc(collectionRef);
       
       const newItem = {
