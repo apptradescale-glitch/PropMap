@@ -867,7 +867,7 @@ export default function BusinessDetailPage() {
                 onClick={() => setShowPieAsMoney(!showPieAsMoney)}
                 className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-2"
               >
-                {showPieAsMoney ? 'Show %' : `Show Revenue in ${getCurrencySymbol(business?.businesses?.[0]?.currency || business?.currency || 'USD')}`}
+                {showPieAsMoney ? 'Show in %' : `Show Revenue in ${getCurrencySymbol(business?.businesses?.[0]?.currency || business?.currency || 'USD')}`}
               </Button>
             </CardHeader>
             <CardContent className="pt-2 pb-4">
@@ -969,15 +969,15 @@ export default function BusinessDetailPage() {
                 onClick={() => setShowPieAsMoney(!showPieAsMoney)}
                 className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-2"
               >
-                {showPieAsMoney ? 'Show %' : `Show in ${getCurrencySymbol(business?.currency || 'USD')}`}
+                {showPieAsMoney ? 'Show in %' : `Show in ${getCurrencySymbol(business?.currency || 'USD')}`}
               </Button>
             </CardHeader>
             <CardContent className="pt-2 pb-4">
               <div style={{ width: '100%', height: 350, marginTop: '10px' }}>
                 {(() => {
-                  const PIE_COLORS_SINGLE = ['#e0ac69', '#ef4444'];
+                  const PIE_COLORS_SINGLE = ['#22c55e', '#ef4444'];
                   const singlePieData = [
-                    { name: 'Income / Payouts', value: Math.max(totalPayouts, 0), label: 'Income' },
+                    { name: 'Payouts / Income', value: Math.max(totalPayouts, 0), label: 'Profit' },
                     { name: 'Expenses', value: Math.max(totalExpenses, 0), label: 'Expenses' }
                   ];
                   const singleTotal = singlePieData.reduce((sum, d) => sum + d.value, 0);
