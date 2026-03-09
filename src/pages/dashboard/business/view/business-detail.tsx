@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PageContainer from '@/components/layout/page-container';
 import PageHead from '@/components/shared/page-head';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Building2, Globe, DollarSign, Briefcase } from 'lucide-react';
+import { ArrowLeft, Building2, Globe, DollarSign, Briefcase, LineChart } from 'lucide-react';
 
 export default function BusinessDetailPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const business = location.state?.business;
+
+  // Ensure dark mode
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+    document.body.style.backgroundColor = '#0a0a0a';
+    document.body.style.margin = '0';
+    return () => {
+      document.documentElement.classList.remove('dark');
+      document.body.style.backgroundColor = '';
+    };
+  }, []);
 
   if (!business) {
     return (
@@ -78,6 +89,16 @@ export default function BusinessDetailPage() {
                     </h4>
                     <p className="text-[#888] text-xs">
                       {business.businessSector === 'proptrading' ? 'PropTrading' : business.customSector}
+                      {(business.businessType || business.customBusinessType) && (
+                        <span className="ml-1">
+                          {' | '}
+                          {business.businessType === 'sole-proprietor' && 'Sole Proprietor'}
+                          {business.businessType === 'partnership' && 'Partnership'}
+                          {business.businessType === 'llc' && 'LLC'}
+                          {business.businessType === 'corporation' && 'Corporation'}
+                          {business.businessType === 'other' && business.customBusinessType}
+                        </span>
+                      )}
                     </p>
                   </div>
                 </div>
@@ -87,15 +108,6 @@ export default function BusinessDetailPage() {
                     {business.isActive ? 'Active' : 'Inactive'}
                   </span>
                 </div>
-                {(business.businessType || business.customBusinessType) && (
-                  <div className="text-xs text-[#666]">
-                    {business.businessType === 'sole-proprietor' && 'Sole Proprietor'}
-                    {business.businessType === 'partnership' && 'Partnership'}
-                    {business.businessType === 'llc' && 'LLC'}
-                    {business.businessType === 'corporation' && 'Corporation'}
-                    {business.businessType === 'other' && business.customBusinessType}
-                  </div>
-                )}
               </div>
             </CardContent>
           </Card>
@@ -106,7 +118,7 @@ export default function BusinessDetailPage() {
               <CardTitle className="text-sm font-medium text-white">
                 Revenue
               </CardTitle>
-              <DollarSign className="h-4 w-4 text-[#666]" />
+              <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
               <div className="text-2xl font-bold text-white">$0</div>
@@ -118,13 +130,13 @@ export default function BusinessDetailPage() {
           <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <CardTitle className="text-sm font-medium text-white">
-                Location
+                Payouts / Income
               </CardTitle>
-              <Globe className="h-4 w-4 text-[#666]" />
+              <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-lg font-semibold text-white">{business.country || 'N/A'}</div>
-              <p className="text-xs text-[#666] mt-1">{business.currency || 'N/A'}</p>
+              <div className="text-lg font-semibold text-white">$0</div>
+              <p className="text-xs text-[#666] mt-1">Total Payouts</p>
             </CardContent>
           </Card>
 
@@ -132,15 +144,13 @@ export default function BusinessDetailPage() {
           <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <CardTitle className="text-sm font-medium text-white">
-                Type
+                Expenses
               </CardTitle>
-              <Briefcase className="h-4 w-4 text-[#666]" />
+              <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-lg font-semibold text-white capitalize">
-                {business.propTradingType || 'N/A'}
-              </div>
-              <p className="text-xs text-[#666] mt-1">Business Type</p>
+              <div className="text-lg font-semibold text-white">$0</div>
+              <p className="text-xs text-[#666] mt-1">Total Expenses</p>
             </CardContent>
           </Card>
         </div>
@@ -163,6 +173,39 @@ export default function BusinessDetailPage() {
           </Card>
 
           {/* Empty Card 6 */}
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader>
+              <CardTitle className="text-white">Analytics</CardTitle>
+              <CardDescription className="text-[#666]">
+                Business analytics and insights
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-center h-32">
+                <p className="text-[#666] text-lg">Analytics data coming soon</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Additional 2 Cards (2 in a row, bigger) */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {/* Empty Card 7 */}
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader>
+              <CardTitle className="text-white">Performance</CardTitle>
+              <CardDescription className="text-[#666]">
+                Business performance metrics
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-center h-32">
+                <p className="text-[#666] text-lg">Performance data coming soon</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Empty Card 8 */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader>
               <CardTitle className="text-white">Analytics</CardTitle>
