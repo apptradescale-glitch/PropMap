@@ -53,6 +53,95 @@ export default function OverViewPage() {
     };
   }, []);
 
+  // Firestore functions
+  const saveBusinessToFirestore = async (business: any) => {
+    if (!currentUser) return;
+    try {
+      const token = await currentUser.getIdToken();
+      const response = await fetch('/api/business/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ business })
+      });
+      const result = await response.json();
+      if (!result.success) throw new Error(result.error || 'Failed to save business');
+      return result;
+    } catch (error) {
+      console.error('Error saving business:', error);
+      throw error;
+    }
+  };
+
+  const loadBusinessesFromFirestore = async () => {
+    if (!currentUser) return;
+    try {
+      const token = await currentUser.getIdToken();
+      const response = await fetch('/api/business/load', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const result = await response.json();
+      if (result.success && result.businesses) {
+        setAddedBusinesses(result.businesses);
+      }
+    } catch (error) {
+      console.error('Error loading businesses:', error);
+    }
+  };
+
+  const updateBusinessInFirestore = async (index: number, business: any) => {
+    if (!currentUser) return;
+    try {
+      const token = await currentUser.getIdToken();
+      const response = await fetch('/api/business/update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ index, business })
+      });
+      const result = await response.json();
+      if (!result.success) throw new Error(result.error || 'Failed to update business');
+      return result;
+    } catch (error) {
+      console.error('Error updating business:', error);
+      throw error;
+    }
+  };
+
+  const deleteBusinessFromFirestore = async (index: number) => {
+    if (!currentUser) return;
+    try {
+      const token = await currentUser.getIdToken();
+      const response = await fetch('/api/business/delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ index })
+      });
+      const result = await response.json();
+      if (!result.success) throw new Error(result.error || 'Failed to delete business');
+      return result;
+    } catch (error) {
+      console.error('Error deleting business:', error);
+      throw error;
+    }
+  };
+
+  // Load businesses on component mount
+  useEffect(() => {
+    if (currentUser) {
+      loadBusinessesFromFirestore();
+    }
+  }, [currentUser]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setBusinessInfo(prev => ({
@@ -106,42 +195,56 @@ export default function OverViewPage() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Business info submitted:', businessInfo);
     
-    if (editingIndex !== null) {
-      // Update existing business
-      setAddedBusinesses(prev => 
-        prev.map((business, index) => 
-          index === editingIndex ? { ...businessInfo, isActive: business.isActive } : business
-        )
-      );
-      setEditingIndex(null);
-    } else {
-      // Add new business
-      setAddedBusinesses(prev => [...prev, { ...businessInfo, isActive: true }]);
+    try {
+      if (editingIndex !== null) {
+        // Update existing business
+        const updatedBusiness = { ...businessInfo, isActive: addedBusinesses[editingIndex].isActive };
+        await updateBusinessInFirestore(editingIndex, updatedBusiness);
+        setAddedBusinesses(prev => 
+          prev.map((business, index) => 
+            index === editingIndex ? updatedBusiness : business
+          )
+        );
+        setEditingIndex(null);
+      } else {
+        // Add new business
+        const newBusiness = { ...businessInfo, isActive: true };
+        await saveBusinessToFirestore(newBusiness);
+        setAddedBusinesses(prev => [...prev, newBusiness]);
+      }
+      
+      setIsDialogOpen(false);
+      // Reset form
+      setBusinessInfo({
+        businessSector: '',
+        customSector: '',
+        name: '',
+        userName: '',
+        country: '',
+        currency: '',
+        propTradingType: '',
+        businessType: '',
+        customBusinessType: ''
+      });
+    } catch (error) {
+      console.error('Error saving business:', error);
+      // You could show an error message to the user here
     }
-    
-    // Here you would typically save to database
-    setIsDialogOpen(false);
-    // Reset form
-    setBusinessInfo({
-      businessSector: '',
-      customSector: '',
-      name: '',
-      userName: '',
-      country: '',
-      currency: '',
-      propTradingType: '',
-      businessType: '',
-      customBusinessType: ''
-    });
   };
 
-  const handleDelete = (index: number) => {
-    setAddedBusinesses(prev => prev.filter((_, i) => i !== index));
-    setActiveMenuIndex(null);
+  const handleDelete = async (index: number) => {
+    try {
+      await deleteBusinessFromFirestore(index);
+      setAddedBusinesses(prev => prev.filter((_, i) => i !== index));
+      setActiveMenuIndex(null);
+    } catch (error) {
+      console.error('Error deleting business:', error);
+      // You could show an error message to the user here
+    }
   };
 
   const handleEdit = (index: number) => {
