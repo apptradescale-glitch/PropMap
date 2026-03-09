@@ -598,18 +598,20 @@ export default function BusinessDetailPage() {
             </Card>
             )}
 
-            {/* PropFirm Breakdown Card - Hidden in combined view */}
+            {/* PropFirm Breakdown / Income Expenses Flow Card - Hidden in combined view */}
             {!business?.isCombinedView && (
             <Card className="border-[#2a2a2a] bg-[#0a0a0a] row-span-2">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
                 <CardTitle className="text-sm font-medium text-white">
-                  PropFirm Breakdown
+                  {business?.businessSector === 'proptrading' ? 'PropFirm Breakdown' : 'Income / Expenses Flow'}
                 </CardTitle>
                 <LineChart className="h-4 w-4 text-[#666]" />
               </CardHeader>
               <CardContent className="pt-2 pb-4">
                 <div className="flex items-center justify-center h-full min-h-[280px]">
-                  <p className="text-[#666] text-sm">PropFirm breakdown coming soon</p>
+                  <p className="text-[#666] text-sm">
+                    {business?.businessSector === 'proptrading' ? 'PropFirm breakdown coming soon' : 'Income / Expenses flow coming soon'}
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -666,9 +668,91 @@ export default function BusinessDetailPage() {
           </div>
         </div>
 
-        {/* Bottom Row - Full height Analytics only */}
+        {/* Bottom Row - Performance Chart and Revenue History side by side */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Full Height Revenue History Card - Left */}
+          {/* Performance Chart Card - Left */}
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <div className="flex flex-col gap-1">
+                <CardTitle className="text-sm font-medium text-white">
+                  Performance
+                </CardTitle>
+                <CardDescription className="text-[#666]">
+                  Business performance metrics
+                </CardDescription>
+              </div>
+              <TrendingUp className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div style={{ width: '100%', height: 350, marginTop: '10px' }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart
+                    data={chartData}
+                    margin={{
+                      top: 10,
+                      right: 30,
+                      left: 10,
+                      bottom: 10
+                    }}
+                  >
+                    <defs>
+                      <linearGradient id="performanceGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#e0ac69" stopOpacity={0.3}/>
+                        <stop offset="100%" stopColor="#e0ac69" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                    <XAxis 
+                      dataKey="date" 
+                      stroke="#666" 
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis 
+                      stroke="#666" 
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={(value) => `${getCurrencySymbol(business?.currency || 'USD')}${value}`}
+                    />
+                    <Tooltip
+                      cursor={{ stroke: '#e0ac6933' }}
+                      content={({ active, payload }) => {
+                        if (!active || !payload?.length) return null;
+                        const value = Number(payload[0].value);
+                        const formattedValue = Math.abs(value).toLocaleString('en-US', {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2
+                        });
+                        const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
+                        return (
+                          <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
+                            <div className="text-sm text-stone-400">
+                              {payload[0].payload.date || 'Start'}
+                            </div>
+                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-[#e0ac69]' : 'text-red-500'}`}>
+                              {value < 0 ? `-${currencySymbol}${formattedValue}` : `${currencySymbol}${formattedValue}`}
+                            </div>
+                          </div>
+                        );
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="pnl"
+                      stroke="#e0ac69"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#performanceGradient)"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Revenue History Card - Right */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
@@ -682,7 +766,7 @@ export default function BusinessDetailPage() {
               <Timer className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="h-full min-h-[280px] overflow-y-auto">
+              <div className="h-full min-h-[350px] overflow-y-auto">
                 {combinedFinancialData.length === 0 ? (
                   <div className="flex items-center justify-center h-full">
                     <p className="text-[#666] text-sm">No payouts or expenses yet</p>

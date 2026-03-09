@@ -686,16 +686,14 @@ export default function OverViewPage() {
           {/* All Businesses Combined Card - Only show if 2+ businesses */}
           {addedBusinesses.length >= 2 && (
             <Card 
-              className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a] hover:border-white/35 hover:shadow-lg hover:shadow-[#e0ac69]/30 transition-all duration-200 hover:scale-105 cursor-pointer" 
+              className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a] hover:border-white/35 shadow-lg shadow-[#e0ac69]/30 transition-all duration-200 hover:scale-105 cursor-pointer" 
               onClick={handleViewAllBusinesses}
             >
               <CardContent className="flex flex-col h-full p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  {/* Circle with first letter - styled like other business cards */}
+                <div className="flex items-center gap-4 mb-2">
+                  {/* Circle with Building2 icon - styled like other business cards */}
                   <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
-                    <span className="text-[#888] font-medium" style={{ fontSize: '10px' }}>
-                      A
-                    </span>
+                    <Building2 className="w-6 h-6 text-[#888]" />
                   </div>
                   
                   {/* Name next to circle */}
@@ -707,7 +705,7 @@ export default function OverViewPage() {
                 </div>
 
                 {/* Business count */}
-                <div className="flex items-center justify-center mt-4">
+                <div className="flex items-center justify-center mt-2">
                   <p className="text-[#666] text-sm">
                     {addedBusinesses.length} Businesses
                   </p>
