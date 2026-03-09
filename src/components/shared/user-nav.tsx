@@ -269,7 +269,7 @@ export function UserNav() {
             {/* Hide Billing tab by wrapping in false && ... */}
             {false && (
               <DropdownMenuItem
-                className="hover:bg-[rgba(148,187,163,0.2)] focus:bg-[rgba(148,187,163,0.2)]"
+                className="hover:bg-[rgba(197, 197, 197, 0.2)] focus:bg-[rgba(197, 197, 197, 0.2)]"
                 onClick={handleOpenBilling}
               >
                 Billing
@@ -279,7 +279,7 @@ export function UserNav() {
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            className="hover:bg-[rgba(148,187,163,0.2)] focus:bg-[rgba(148,187,163,0.2)]"
+            className="hover:bg-[rgba(197, 197, 197, 0.2)] focus:bg-[rgba(197, 197, 197, 0.2)]"
             onClick={handleLogout}
           >
             Log out
@@ -287,7 +287,7 @@ export function UserNav() {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            className="hover:bg-[rgba(148,187,163,0.2)] focus:bg-[rgba(148,187,163,0.2)]"
+            className="hover:bg-[rgba(197, 197, 197, 0.2)] focus:bg-[rgba(197, 197, 197, 0.2)]"
             onClick={() => console.log('logout')}
           >
             Support: apptradescale@gmail.com

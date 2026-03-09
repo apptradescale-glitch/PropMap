@@ -22,15 +22,10 @@ export function ModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="bg-white dark:bg-black">
-        <DropdownMenuItem 
-          onClick={() => setTheme('light')}
-          className="hover:bg-[rgba(148,187,163,0.2)] focus:bg-[rgba(148,187,163,0.2)] dark:hover:bg-[rgba(148,187,163,0.2)] dark:focus:bg-[rgba(148,187,163,0.2)] dark:text-white"
-        >
-          Light
-        </DropdownMenuItem>
+
         <DropdownMenuItem 
           onClick={() => setTheme('dark')}
-          className="hover:bg-[rgba(148,187,163,0.2)] focus:bg-[rgba(148,187,163,0.2)] dark:hover:bg-[rgba(148,187,163,0.2)] dark:focus:bg-[rgba(148,187,163,0.2)] dark:text-white"
+          className="hover:bg-[rgba(197, 197, 197, 0.2)] focus:bg-[rgba(197, 197, 197, 0.2)] dark:hover:bg-[rgba(197, 197, 197, 0.2)] dark:focus:bg-[rgba(197, 197, 197, 0.2)] dark:text-white"
         >
           Dark
         </DropdownMenuItem>
