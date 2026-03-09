@@ -161,7 +161,7 @@ export default function BusinessDetailPage() {
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-lg font-semibold text-white">{business.currency ? getCurrencySymbol(business.currency) + '0' : '$0'}</div>
+              <div className="text-2xl font-bold text-white">{business.currency ? getCurrencySymbol(business.currency) + '0' : '$0'}</div>
               <p className="text-xs text-[#666] mt-1">Total Payouts</p>
             </CardContent>
           </Card>
@@ -175,7 +175,7 @@ export default function BusinessDetailPage() {
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-lg font-semibold text-white">{business.currency ? getCurrencySymbol(business.currency) + '0' : '$0'}</div>
+              <div className="text-2xl font-bold text-white">{business.currency ? getCurrencySymbol(business.currency) + '0' : '$0'}</div>
               <p className="text-xs text-[#666] mt-1">Total Expenses</p>
             </CardContent>
           </Card>
