@@ -428,7 +428,9 @@ export default function BusinessDetailPage() {
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white">Performance Chart</CardTitle>
+                <CardTitle className="text-sm font-medium text-white">
+                  Performance
+                </CardTitle>
                 <CardDescription className="text-[#666]">
                   Business performance metrics
                 </CardDescription>
@@ -456,7 +458,7 @@ export default function BusinessDetailPage() {
                     </defs>
                     <CartesianGrid 
                       strokeDasharray="3 3"
-                      vertical={true}
+                      vertical={!business?.isCombinedView}
                       stroke="#6b7280"
                       opacity={0.4}
                     />
@@ -669,8 +671,8 @@ export default function BusinessDetailPage() {
           </div>
         </div>
 
-        {/* Bottom Row - Performance Chart and Revenue History side by side */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {/* Bottom Row - Three column layout for combined view */}
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           {/* Performance Chart Card - Left */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
@@ -699,23 +701,43 @@ export default function BusinessDetailPage() {
                     <defs>
                       <linearGradient id="performanceGradient" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="#e0ac69" stopOpacity={0.3}/>
-                        <stop offset="100%" stopColor="#e0ac69" stopOpacity={0}/>
+                        <stop offset="40%" stopColor="#e0ac69" stopOpacity={0.2}/>
+                        <stop offset="100%" stopColor="#e0ac69" stopOpacity={0.1}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                    <XAxis 
-                      dataKey="date" 
-                      stroke="#666" 
-                      fontSize={12}
-                      tickLine={false}
-                      axisLine={false}
+                    <CartesianGrid 
+                      strokeDasharray="3 3"
+                      vertical={!business?.isCombinedView}
+                      stroke="#6b7280"
+                      opacity={0.4}
                     />
-                    <YAxis 
-                      stroke="#666" 
-                      fontSize={12}
-                      tickLine={false}
-                      axisLine={false}
-                      tickFormatter={(value) => `${getCurrencySymbol(business?.currency || 'USD')}${value}`}
+                    <XAxis
+                      dataKey="date"
+                      tickLine={true}
+                      axisLine={true}
+                      tickMargin={8}
+                      minTickGap={32}
+                      tick={{ fontSize: 12, fill: 'white' }}
+                    />
+                    <YAxis
+                      tickLine={true}
+                      axisLine={true}
+                      tick={{ fontSize: 12, fill: 'white' }}
+                      tickFormatter={(value) => {
+                        const formattedNumber = Math.abs(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
+                        return value < 0 ? `-${currencySymbol}${formattedNumber}` : `${currencySymbol}${formattedNumber}`;
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="pnl"
+                      stroke="#e0ac69"
+                      strokeWidth={2}
+                      fill="url(#performanceGradient)"
+                      connectNulls={true}
+                      isAnimationActive={true}
+                      animationDuration={750}
                     />
                     <Tooltip
                       cursor={{ stroke: '#e0ac6933' }}
@@ -739,19 +761,102 @@ export default function BusinessDetailPage() {
                         );
                       }}
                     />
-                    <Area
-                      type="monotone"
-                      dataKey="pnl"
-                      stroke="#e0ac69"
-                      strokeWidth={2}
-                      fillOpacity={1}
-                      fill="url(#performanceGradient)"
-                    />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
+
+          {/* Business Overview Card - Middle - Only in combined view */}
+          {business?.isCombinedView && (
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <div className="flex flex-col gap-1">
+                <CardTitle className="text-sm font-medium text-white">
+                  Business Overview
+                </CardTitle>
+                <CardDescription className="text-[#666]">
+                  View all your businesses
+                </CardDescription>
+              </div>
+              <Building2 className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div className="h-full min-h-[350px] overflow-y-auto">
+                {business?.businesses && business.businesses.length > 0 ? (
+                  <div className="space-y-3">
+                    {business.businesses.map((biz: any, index: number) => (
+                      <div key={biz.id || index} className="p-4 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] hover:border-[#e0ac69]/50 transition-all duration-200">
+                        <div className="flex items-start gap-3">
+                          {/* Business Icon */}
+                          <div className="w-10 h-10 rounded-full bg-[#e0ac69]/20 border border-[#e0ac69]/50 flex items-center justify-center flex-shrink-0">
+                            <span className="text-[#e0ac69] font-medium text-sm">
+                              {biz.businessSector === 'proptrading' 
+                                ? biz.userName?.charAt(0)?.toUpperCase() || 'P'
+                                : biz.name?.charAt(0)?.toUpperCase() || 'B'
+                              }
+                            </span>
+                          </div>
+                          
+                          {/* Business Details */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-2">
+                              <h4 className="text-white font-semibold text-sm truncate">
+                                {biz.businessSector === 'proptrading' ? biz.userName : biz.name}
+                              </h4>
+                              <div className={`w-2 h-2 rounded-full ${
+                                biz.isActive ? 'bg-green-500' : 'bg-red-500'
+                              }`}></div>
+                            </div>
+                            
+                            <div className="space-y-1 text-xs">
+                              <div className="flex items-center gap-2">
+                                <span className="text-[#666]">Sector:</span>
+                                <span className="text-white">
+                                  {biz.businessSector === 'proptrading' 
+                                    ? 'PropTrading' 
+                                    : biz.customSector || biz.businessSector
+                                  }
+                                </span>
+                              </div>
+                              
+                              {(biz.businessType || biz.customBusinessType) && (
+                                <div className="flex items-center gap-2">
+                                  <span className="text-[#666]">Type:</span>
+                                  <span className="text-white">
+                                    {biz.businessType === 'sole-proprietor' && 'Sole Proprietor'}
+                                    {biz.businessType === 'partnership' && 'Partnership'}
+                                    {biz.businessType === 'llc' && 'LLC'}
+                                    {biz.businessType === 'corporation' && 'Corporation'}
+                                    {biz.businessType === 'other' && biz.customBusinessType}
+                                  </span>
+                                </div>
+                              )}
+                              
+                              <div className="flex items-center gap-2">
+                                <span className="text-[#666]">Location:</span>
+                                <span className="text-white">{biz.country || 'N/A'}</span>
+                              </div>
+                              
+                              <div className="flex items-center gap-2">
+                                <span className="text-[#666]">Currency:</span>
+                                <span className="text-white">{biz.currency || 'N/A'}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <p className="text-[#666] text-sm">No businesses found</p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+          )}
 
           {/* Revenue History Card - Right */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
