@@ -154,22 +154,7 @@ export default function BusinessDetailPage() {
 
         {/* Location Cards - Two cards side by side */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Empty Card - Left */}
-          <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white">
-                Analytics
-              </CardTitle>
-              <LineChart className="h-4 w-4 text-[#666]" />
-            </CardHeader>
-            <CardContent className="pt-2 pb-4">
-              <div className="flex items-center justify-center h-16">
-                <p className="text-[#666] text-sm">Analytics data coming soon</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Location Card - Right */}
+          {/* Location Card - Left */}
           <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <CardTitle className="text-sm font-medium text-white">
@@ -183,6 +168,21 @@ export default function BusinessDetailPage() {
                 <div className="text-xs text-[#666]">
                   Currency: {business.currency || 'N/A'}
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Empty Card - Right */}
+          <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <CardTitle className="text-sm font-medium text-white">
+                Analytics
+              </CardTitle>
+              <LineChart className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div className="flex items-center justify-center h-16">
+                <p className="text-[#666] text-sm">Analytics data coming soon</p>
               </div>
             </CardContent>
           </Card>
