@@ -120,7 +120,7 @@ export default function BusinessDetailPage() {
   return (
     <PageContainer scrollable>
       <PageHead title={businessName || 'Business'} />
-      <div className="space-y-2 pb-8 pt-20">
+      <div className="space-y-2 pb-8 pt-6">
         <div className="flex items-center justify-between -mt-5 pb-4">
         </div>
         
