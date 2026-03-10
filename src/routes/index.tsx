@@ -24,6 +24,12 @@ const TestPage = lazy(() => import('@/pages/Test'));
 const ManageSubscriptionPage = lazy(() => import('@/pages/ManageSubscription'));
 
 const BusinessDetailPage = lazy(() => import('@/pages/dashboard/business/view/business-detail'));
+const StoragePage = lazy(() => import('@/pages/dashboard/storage'));
+const TransactionsPage = lazy(() => import('@/pages/dashboard/transactions'));
+const TaxPage = lazy(() => import('@/pages/dashboard/tax'));
+const BankConnectionPage = lazy(() => import('@/pages/dashboard/bank-connection'));
+const EmailConnectionPage = lazy(() => import('@/pages/dashboard/email-connection'));
+const PropFirmPage = lazy(() => import('@/pages/dashboard/propfirm'));
 
 
 const REQUIRES_BASIC = ['basic'] as const;
@@ -142,6 +148,54 @@ export default function AppRouter() {
           element: (
             <Suspense fallback={<CenteredLogoLoader />}>
               <BusinessDetailPage />
+            </Suspense>
+          )
+        },
+        {
+          path: 'Storage',
+          element: (
+            <Suspense fallback={<CenteredLogoLoader />}>
+              <StoragePage />
+            </Suspense>
+          )
+        },
+        {
+          path: 'Transactions',
+          element: (
+            <Suspense fallback={<CenteredLogoLoader />}>
+              <TransactionsPage />
+            </Suspense>
+          )
+        },
+        {
+          path: 'Tax',
+          element: (
+            <Suspense fallback={<CenteredLogoLoader />}>
+              <TaxPage />
+            </Suspense>
+          )
+        },
+        {
+          path: 'BankConnection',
+          element: (
+            <Suspense fallback={<CenteredLogoLoader />}>
+              <BankConnectionPage />
+            </Suspense>
+          )
+        },
+        {
+          path: 'EmailConnection',
+          element: (
+            <Suspense fallback={<CenteredLogoLoader />}>
+              <EmailConnectionPage />
+            </Suspense>
+          )
+        },
+        {
+          path: 'PropFirm',
+          element: (
+            <Suspense fallback={<CenteredLogoLoader />}>
+              <PropFirmPage />
             </Suspense>
           )
         }
