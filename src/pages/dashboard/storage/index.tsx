@@ -201,7 +201,7 @@ export default function StoragePage() {
   return (
     <PageContainer scrollable>
       <PageHead title="PROPMAP - Storage" />
-      <div className="space-y-4">
+      <div className="space-y-4 pt-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -304,7 +304,7 @@ export default function StoragePage() {
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-white">Documents</CardTitle>
             <CardDescription className="text-[#666]">
-              {filteredItems.length} document{filteredItems.length !== 1 ? 's' : ''}{filterCategory !== 'all' ? ` in ${filterCategory}` : ''}
+             
             </CardDescription>
           </CardHeader>
           <CardContent>
