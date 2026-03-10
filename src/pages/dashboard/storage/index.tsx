@@ -255,45 +255,33 @@ export default function StoragePage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardContent className="pt-4 pb-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-[#666]">Total Documents</p>
-                  <p className="text-2xl font-bold text-white">{items.length}</p>
-                </div>
-                <FileText className="h-8 w-8 text-[#e0ac69] opacity-50" />
+              <div>
+                <p className="text-xs text-[#666]">Total Documents</p>
+                <p className="text-2xl font-bold text-white">{items.length}</p>
               </div>
             </CardContent>
           </Card>
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardContent className="pt-4 pb-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-[#666]">Invoices</p>
-                  <p className="text-2xl font-bold text-white">{items.filter(i => i.category === 'Invoice').length}</p>
-                </div>
-                <FileText className="h-8 w-8 text-blue-400 opacity-50" />
+              <div>
+                <p className="text-xs text-[#666]">Invoices</p>
+                <p className="text-2xl font-bold text-white">{items.filter(i => i.category === 'Invoice').length}</p>
               </div>
             </CardContent>
           </Card>
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardContent className="pt-4 pb-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-[#666]">Certificates</p>
-                  <p className="text-2xl font-bold text-white">{items.filter(i => i.category === 'Certificate').length}</p>
-                </div>
-                <FileText className="h-8 w-8 text-green-400 opacity-50" />
+              <div>
+                <p className="text-xs text-[#666]">Certificates</p>
+                <p className="text-2xl font-bold text-white">{items.filter(i => i.category === 'Certificate').length}</p>
               </div>
             </CardContent>
           </Card>
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardContent className="pt-4 pb-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-[#666]">Total Size</p>
-                  <p className="text-2xl font-bold text-white">{formatFileSize(items.reduce((s, i) => s + i.fileSize, 0))}</p>
-                </div>
-                <Archive className="h-8 w-8 text-purple-400 opacity-50" />
+              <div>
+                <p className="text-xs text-[#666]">Other Documents</p>
+                <p className="text-2xl font-bold text-white">{items.filter(i => i.category !== 'Invoice' && i.category !== 'Certificate').length}</p>
               </div>
             </CardContent>
           </Card>
