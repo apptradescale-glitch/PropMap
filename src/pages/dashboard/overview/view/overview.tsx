@@ -308,7 +308,7 @@ export default function OverViewPage() {
       businessType: 'combined',
       customBusinessType: 'Combined',
       country: 'Multiple',
-      currency: 'USD', // Default currency, could be enhanced
+      currency: addedBusinesses?.[0]?.currency || 'USD',
       isActive: true,
       isCombinedView: true,
       businesses: addedBusinesses // Pass all businesses data
