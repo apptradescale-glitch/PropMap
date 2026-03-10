@@ -90,6 +90,12 @@ export default function BusinessDetailPage() {
   const { currentUser } = useAuth();
   const business = state?.business as Business;
 
+  // Derive correct currency: for combined view, use first business's currency
+  const effectiveCurrency = business?.isCombinedView
+    ? (business?.businesses?.[0]?.currency || business?.currency || 'USD')
+    : (business?.currency || 'USD');
+  const currencySymbol = getCurrencySymbol(effectiveCurrency);
+
   // Dialog state
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<'payouts' | 'expenses'>('payouts');
@@ -535,7 +541,7 @@ export default function BusinessDetailPage() {
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white">{business.currency ? getCurrencySymbol(business.currency) + totalRevenue.toFixed(2) : '$' + totalRevenue.toFixed(2)}</div>
+              <div className="text-2xl font-bold text-white">{currencySymbol}{totalRevenue.toFixed(2)}</div>
               <p className="text-xs text-[#666] mt-1">Total Revenue</p>
             </CardContent>
           </Card>
@@ -549,7 +555,7 @@ export default function BusinessDetailPage() {
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white">{business.currency ? getCurrencySymbol(business.currency) + totalPayouts.toFixed(2) : '$' + totalPayouts.toFixed(2)}</div>
+              <div className="text-2xl font-bold text-white">{currencySymbol}{totalPayouts.toFixed(2)}</div>
               <p className="text-xs text-[#666] mt-1">Total Payouts</p>
             </CardContent>
           </Card>
@@ -563,7 +569,7 @@ export default function BusinessDetailPage() {
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white">{business.currency ? getCurrencySymbol(business.currency) + totalExpenses.toFixed(2) : '$' + totalExpenses.toFixed(2)}</div>
+              <div className="text-2xl font-bold text-white">{currencySymbol}{totalExpenses.toFixed(2)}</div>
               <p className="text-xs text-[#666] mt-1">Total Expenses</p>
             </CardContent>
           </Card>
@@ -605,8 +611,7 @@ export default function BusinessDetailPage() {
                     <YAxis tickLine={true} axisLine={true} tick={{ fontSize: 12, fill: 'white' }}
                       tickFormatter={(value) => {
                         const formattedNumber = Math.abs(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        const cs = business ? getCurrencySymbol(business.currency || 'USD') : '$';
-                        return value < 0 ? `-${cs}${formattedNumber}` : `${cs}${formattedNumber}`;
+                        return value < 0 ? `-${currencySymbol}${formattedNumber}` : `${currencySymbol}${formattedNumber}`;
                       }}
                     />
                     <Area type="monotone" dataKey="pnl" stroke="#e0ac69" strokeWidth={2} fill="url(#performanceGradient)" connectNulls={true} isAnimationActive={true} animationDuration={750} />
@@ -616,12 +621,11 @@ export default function BusinessDetailPage() {
                         if (!active || !payload?.length) return null;
                         const value = Number(payload[0].value);
                         const formattedValue = Math.abs(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                        const cs = business ? getCurrencySymbol(business.currency || 'USD') : '$';
                         return (
                           <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
                             <div className="text-sm text-stone-400">{payload[0].payload.date || 'Start'}</div>
                             <div className={`text-lg font-semibold ${value >= 0 ? 'text-[#e0ac69]' : 'text-red-500'}`}>
-                              {value < 0 ? `-${cs}${formattedValue}` : `${cs}${formattedValue}`}
+                              {value < 0 ? `-${currencySymbol}${formattedValue}` : `${currencySymbol}${formattedValue}`}
                             </div>
                           </div>
                         );
@@ -682,7 +686,7 @@ export default function BusinessDetailPage() {
                   if (day.isEmpty) {
                     return <div key={`empty-${index}`} className="p-1 h-[50px] rounded border border-[#2a2a2a] bg-[#0a0a0a]" />;
                   }
-                  const cs = business ? getCurrencySymbol(business.currency || 'USD') : '$';
+                  const cs = currencySymbol;
                   const net = day.net;
                   const textCls = net > 0 ? 'text-green-400' : net < 0 ? 'text-red-400' : 'text-[#666]';
                   const borderCls = net > 0 ? 'border-green-500/15' : net < 0 ? 'border-red-500/15' : 'border-[#2a2a2a]';
@@ -740,7 +744,7 @@ export default function BusinessDetailPage() {
                       </div>
                       <div className="flex-shrink-0 text-right">
                         <p className={`text-sm font-bold ${item.itemType === 'payout' ? 'text-green-400' : 'text-red-400'}`}>
-                          {business ? getCurrencySymbol(business.currency || 'USD') : '$'}{Math.abs(item.amount).toFixed(2)}
+                          {currencySymbol}{Math.abs(item.amount).toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -952,7 +956,7 @@ export default function BusinessDetailPage() {
                       { name: 'Expenses', value: Math.max(totalExpenses, 0), label: 'Expenses' }
                     ];
                     const midTotal = midPieData.reduce((sum, d) => sum + d.value, 0);
-                    const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
+                    const cs = currencySymbol;
                     
                     return midTotal > 0 ? (
                       <div className="flex flex-col items-center gap-4 h-full">
@@ -1051,7 +1055,7 @@ export default function BusinessDetailPage() {
                 onClick={() => setShowPieAsMoney(!showPieAsMoney)}
                 className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-2"
               >
-                {showPieAsMoney ? 'Show in %' : `Show Revenue in ${getCurrencySymbol(business?.businesses?.[0]?.currency || business?.currency || 'USD')}`}
+                {showPieAsMoney ? 'Show in %' : `Show Revenue in ${currencySymbol}`}
               </Button>
             </CardHeader>
             <CardContent className="pt-2 pb-4">
@@ -1090,7 +1094,6 @@ export default function BusinessDetailPage() {
                               if (!active || !payload?.length) return null;
                               const data = payload[0].payload;
                               const percentage = totalValue > 0 ? ((data.value / totalValue) * 100).toFixed(1) : '0';
-                              const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
                               return (
                                 <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
                                   <div className="text-sm text-white font-medium">{data.name}</div>
@@ -1187,7 +1190,6 @@ export default function BusinessDetailPage() {
                       tick={{ fontSize: 12, fill: 'white' }}
                       tickFormatter={(value) => {
                         const formattedNumber = Math.abs(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
                         return value < 0 ? `-${currencySymbol}${formattedNumber}` : `${currencySymbol}${formattedNumber}`;
                       }}
                     />
@@ -1210,7 +1212,6 @@ export default function BusinessDetailPage() {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2
                         });
-                        const currencySymbol = business ? getCurrencySymbol(business.currency || 'USD') : '$';
                         return (
                           <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
                             <div className="text-sm text-stone-400">
@@ -1295,7 +1296,7 @@ export default function BusinessDetailPage() {
                           <p className={`text-sm font-bold ${
                             item.type === 'payouts' ? 'text-green-400' : 'text-red-400'
                           }`}>
-                            {business.currency ? getCurrencySymbol(business.currency || 'USD') : '$'}
+                            {currencySymbol}
                             {Math.abs(item.amount).toFixed(2)}
                           </p>
                           <p className="text-[#666] text-xs">
