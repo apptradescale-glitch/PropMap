@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db } from '@/config/firestore';
-import { storage } from '@/config/firebase';
 import { useAuth } from '@/context/FAuth';
 import PageContainer from '@/components/layout/page-container';
 import PageHead from '@/components/shared/page-head';
@@ -38,10 +36,9 @@ interface StorageItem {
   category: string;
   documentDate: string;
   uploadedAt: string;
-  fileUrl: string;
+  fileData: string;
   fileType: string;
   fileSize: number;
-  storagePath: string;
 }
 
 const CATEGORIES = [
@@ -129,16 +126,21 @@ export default function StoragePage() {
     setUploadDocDate('');
   };
 
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const handleUpload = async () => {
     if (!currentUser || !uploadFile || !uploadLabel) return;
     setUploading(true);
     try {
       const fileId = crypto.randomUUID();
-      const storagePath = `storage/${currentUser.uid}/${fileId}_${uploadFile.name}`;
-      const fileRef = ref(storage, storagePath);
-
-      await uploadBytes(fileRef, uploadFile);
-      const fileUrl = await getDownloadURL(fileRef);
+      const fileData = await fileToBase64(uploadFile);
 
       const newItem: StorageItem = {
         id: fileId,
@@ -148,10 +150,9 @@ export default function StoragePage() {
         category: uploadCategory || 'Other',
         documentDate: uploadDocDate || new Date().toISOString().split('T')[0],
         uploadedAt: new Date().toISOString(),
-        fileUrl,
+        fileData,
         fileType: uploadFile.type,
         fileSize: uploadFile.size,
-        storagePath
       };
 
       const updatedItems = [newItem, ...items];
@@ -169,15 +170,6 @@ export default function StoragePage() {
   const handleDelete = async (itemId: string) => {
     if (!currentUser) return;
     try {
-      const item = items.find(i => i.id === itemId);
-      if (item?.storagePath) {
-        try {
-          const fileRef = ref(storage, item.storagePath);
-          await deleteObject(fileRef);
-        } catch (e) {
-          console.warn('File may already be deleted from storage:', e);
-        }
-      }
       const updatedItems = items.filter(i => i.id !== itemId);
       await setDoc(doc(db, 'storage', currentUser.uid), { items: updatedItems }, { merge: true });
       setItems(updatedItems);
@@ -367,7 +359,7 @@ export default function StoragePage() {
                               <Eye className="h-3.5 w-3.5" /> View Details
                             </button>
                             <a
-                              href={item.fileUrl}
+                              href={item.fileData}
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={() => setActiveMenu(null)}
@@ -530,7 +522,7 @@ export default function StoragePage() {
               {/* Preview area */}
               {previewItem.fileType.startsWith('image/') ? (
                 <div className="rounded-lg overflow-hidden border border-[#2a2a2a] bg-[#111]">
-                  <img src={previewItem.fileUrl} alt={previewItem.label} className="w-full max-h-[300px] object-contain" />
+                  <img src={previewItem.fileData} alt={previewItem.label} className="w-full max-h-[300px] object-contain" />
                 </div>
               ) : (
                 <div className="flex items-center gap-3 p-4 rounded-lg border border-[#2a2a2a] bg-[#111]">
@@ -571,7 +563,7 @@ export default function StoragePage() {
               {/* Actions */}
               <div className="flex gap-2">
                 <a
-                  href={previewItem.fileUrl}
+                  href={previewItem.fileData}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1"
