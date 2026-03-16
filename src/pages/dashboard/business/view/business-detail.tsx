@@ -614,9 +614,9 @@ export default function BusinessDetailPage() {
                         return value < 0 ? `-${currencySymbol}${formattedNumber}` : `${currencySymbol}${formattedNumber}`;
                       }}
                     />
-                    <Area type="monotone" dataKey="pnl" stroke="#e0ac69" strokeWidth={2} fill="url(#performanceGradient)" connectNulls={true} isAnimationActive={true} animationDuration={750} />
+                    <Area type="monotone" dataKey="pnl" stroke="#ffffff" strokeWidth={2} fill="url(#performanceGradient)" connectNulls={true} isAnimationActive={true} animationDuration={750} />
                     <Tooltip
-                      cursor={{ stroke: '#e0ac6933' }}
+                      cursor={{ stroke: '#ffffff33' }}
                       content={({ active, payload }) => {
                         if (!active || !payload?.length) return null;
                         const value = Number(payload[0].value);
@@ -624,7 +624,7 @@ export default function BusinessDetailPage() {
                         return (
                           <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
                             <div className="text-sm text-stone-400">{payload[0].payload.date || 'Start'}</div>
-                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-[#e0ac69]' : 'text-red-500'}`}>
+                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-white' : 'text-red-500'}`}>
                               {value < 0 ? `-${currencySymbol}${formattedValue}` : `${currencySymbol}${formattedValue}`}
                             </div>
                           </div>
@@ -688,9 +688,9 @@ export default function BusinessDetailPage() {
                   }
                   const cs = currencySymbol;
                   const net = day.net;
-                  const textCls = net > 0 ? 'text-green-400' : net < 0 ? 'text-red-400' : 'text-[#666]';
-                  const borderCls = net > 0 ? 'border-green-500/15' : net < 0 ? 'border-red-500/15' : 'border-[#2a2a2a]';
-                  const shadowCls = net > 0 ? 'shadow-[inset_0_0_8px_0px_rgba(16,185,129,0.2)]' : net < 0 ? 'shadow-[inset_0_0_8px_0px_rgba(239,68,68,0.2)]' : '';
+                  const textCls = net > 0 ? 'text-white' : net < 0 ? 'text-[#555]' : 'text-[#666]';
+                  const borderCls = net > 0 ? 'border-white/15' : net < 0 ? 'border-[#555]/15' : 'border-[#2a2a2a]';
+                  const shadowCls = net > 0 ? 'shadow-[inset_0_0_8px_0px_rgba(255,255,255,0.15)]' : net < 0 ? 'shadow-[inset_0_0_8px_0px_rgba(85,85,85,0.2)]' : '';
                   return (
                     <div
                       key={`day-${index}`}
@@ -950,7 +950,7 @@ export default function BusinessDetailPage() {
               <CardContent className="pt-2 pb-4">
                 <div style={{ width: '100%', height: 280 }}>
                   {(() => {
-                    const PIE_COLORS_MID = ['#22c55e', '#ef4444'];
+                    const PIE_COLORS_MID = ['#b0b0b0', '#3a3a3a'];
                     const midPieData = [
                       { name: 'Payouts / Income', value: Math.max(totalPayouts, 0), label: 'Payouts / Income' },
                       { name: 'Expenses', value: Math.max(totalExpenses, 0), label: 'Expenses' }
@@ -1166,9 +1166,9 @@ export default function BusinessDetailPage() {
                   >
                     <defs>
                       <linearGradient id="performanceGradient2" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#e0ac69" stopOpacity={0.3}/>
-                        <stop offset="40%" stopColor="#e0ac69" stopOpacity={0.2}/>
-                        <stop offset="100%" stopColor="#e0ac69" stopOpacity={0.1}/>
+                        <stop offset="0%" stopColor="#ffffff" stopOpacity={0.3}/>
+                        <stop offset="40%" stopColor="#ffffff" stopOpacity={0.2}/>
+                        <stop offset="100%" stopColor="#ffffff" stopOpacity={0.1}/>
                       </linearGradient>
                     </defs>
                     <CartesianGrid 
@@ -1196,7 +1196,7 @@ export default function BusinessDetailPage() {
                     <Area
                       type="monotone"
                       dataKey="pnl"
-                      stroke="#e0ac69"
+                      stroke="#ffffff"
                       strokeWidth={2}
                       fill="url(#performanceGradient2)"
                       connectNulls={true}
@@ -1204,7 +1204,7 @@ export default function BusinessDetailPage() {
                       animationDuration={750}
                     />
                     <Tooltip
-                      cursor={{ stroke: '#e0ac6933' }}
+                      cursor={{ stroke: '#ffffff33' }}
                       content={({ active, payload }) => {
                         if (!active || !payload?.length) return null;
                         const value = Number(payload[0].value);
@@ -1217,7 +1217,7 @@ export default function BusinessDetailPage() {
                             <div className="text-sm text-stone-400">
                               {payload[0].payload.date || 'Start'}
                             </div>
-                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-[#e0ac69]' : 'text-red-500'}`}>
+                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-white' : 'text-red-500'}`}>
                               {value < 0 ? `-${currencySymbol}${formattedValue}` : `${currencySymbol}${formattedValue}`}
                             </div>
                           </div>
