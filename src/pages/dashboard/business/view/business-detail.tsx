@@ -351,6 +351,9 @@ export default function BusinessDetailPage() {
     return [{ date: '', pnl: 0 }, ...sortedData];
   }, [combinedFinancialData]);
 
+  const lastPnl = chartData.length > 0 ? Number(chartData[chartData.length - 1].pnl) : 0;
+  const isPositivePerf = lastPnl >= 0;
+
   // Save financial data to Firestore with optimistic updates
   const saveFinancialData = async (type: 'payouts' | 'expenses', data: any) => {
     if (!currentUser || business?.isCombinedView) {
@@ -687,24 +690,24 @@ export default function BusinessDetailPage() {
                 ))}
                 {calendarDays.map((day: any, index: number) => {
                   if (day.isEmpty) {
-                    return <div key={`empty-${index}`} className="p-1 h-[50px] rounded border border-[#2a2a2a] bg-[#0a0a0a]" />;
+                    return <div key={`empty-${index}`} className="p-1 h-[70px] rounded border border-[#2a2a2a] bg-[#0a0a0a]" />;
                   }
                   const cs = currencySymbol;
                   const net = day.net;
-                  const textCls = net > 0 ? 'text-white' : net < 0 ? 'text-[#555]' : 'text-[#666]';
-                  const borderCls = net > 0 ? 'border-white/15' : net < 0 ? 'border-[#555]/15' : 'border-[#2a2a2a]';
-                  const shadowCls = net > 0 ? 'shadow-[inset_0_0_8px_0px_rgba(255,255,255,0.15)]' : net < 0 ? 'shadow-[inset_0_0_8px_0px_rgba(85,85,85,0.2)]' : '';
+                  const textCls = net > 0 ? 'text-green-400' : net < 0 ? 'text-red-400' : 'text-[#666]';
+                  const borderCls = net > 0 ? 'border-green-500/30' : net < 0 ? 'border-red-500/30' : 'border-[#2a2a2a]';
+                  const shadowCls = net > 0 ? 'shadow-[inset_0_0_8px_0px_rgba(74,222,128,0.25)]' : net < 0 ? 'shadow-[inset_0_0_8px_0px_rgba(248,113,113,0.25)]' : '';
                   return (
                     <div
                       key={`day-${index}`}
-                      className={`p-1 h-[50px] rounded border ${borderCls} bg-[#0a0a0a] hover:border-white/30 transition-all duration-200 ${shadowCls}`}
+                      className={`p-1 h-[70px] rounded border ${borderCls} bg-[#0a0a0a] hover:border-white/30 transition-all duration-200 ${shadowCls}`}
                       onClick={() => day.hasData && setSelectedCalendarDay(day.date)}
                       style={{ cursor: day.hasData ? 'pointer' : 'default' }}
                     >
                       <div className="flex flex-col h-full">
                         <span className="text-[9px] text-[#666]">{day.day}</span>
                         <div className="flex-1 flex items-center justify-center">
-                          <span className={`text-[10px] font-medium ${textCls}`}>
+                          <span className={`text-[13px] font-semibold ${textCls}`}>
                             {day.hasData ? `${net < 0 ? '-' : ''}${cs}${fmtMoney(net, 0)}` : ''}
                           </span>
                         </div>
@@ -953,7 +956,7 @@ export default function BusinessDetailPage() {
               <CardContent className="pt-2 pb-4">
                 <div style={{ width: '100%', height: 280 }}>
                   {(() => {
-                    const PIE_COLORS_MID = ['#b0b0b0', '#3a3a3a'];
+                    const PIE_COLORS_MID = ['#4ade80', '#f87171'];
                     const midPieData = [
                       { name: 'Payouts / Income', value: Math.max(totalPayouts, 0), label: 'Payouts / Income' },
                       { name: 'Expenses', value: Math.max(totalExpenses, 0), label: 'Expenses' }
@@ -1168,10 +1171,15 @@ export default function BusinessDetailPage() {
                     }}
                   >
                     <defs>
-                      <linearGradient id="performanceGradient2" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#ffffff" stopOpacity={0.3}/>
-                        <stop offset="40%" stopColor="#ffffff" stopOpacity={0.2}/>
-                        <stop offset="100%" stopColor="#ffffff" stopOpacity={0.1}/>
+                      <linearGradient id="perfGradGreen" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#4ade80" stopOpacity={0.3}/>
+                        <stop offset="40%" stopColor="#4ade80" stopOpacity={0.15}/>
+                        <stop offset="100%" stopColor="#4ade80" stopOpacity={0.05}/>
+                      </linearGradient>
+                      <linearGradient id="perfGradRed" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#f87171" stopOpacity={0.3}/>
+                        <stop offset="40%" stopColor="#f87171" stopOpacity={0.15}/>
+                        <stop offset="100%" stopColor="#f87171" stopOpacity={0.05}/>
                       </linearGradient>
                     </defs>
                     <CartesianGrid 
@@ -1199,15 +1207,15 @@ export default function BusinessDetailPage() {
                     <Area
                       type="monotone"
                       dataKey="pnl"
-                      stroke="#ffffff"
+                      stroke={isPositivePerf ? '#4ade80' : '#f87171'}
                       strokeWidth={2}
-                      fill="url(#performanceGradient2)"
+                      fill={isPositivePerf ? 'url(#perfGradGreen)' : 'url(#perfGradRed)'}
                       connectNulls={true}
                       isAnimationActive={true}
                       animationDuration={750}
                     />
                     <Tooltip
-                      cursor={{ stroke: '#ffffff33' }}
+                      cursor={{ stroke: isPositivePerf ? '#4ade8033' : '#f8717133' }}
                       content={({ active, payload }) => {
                         if (!active || !payload?.length) return null;
                         const value = Number(payload[0].value);
@@ -1220,7 +1228,7 @@ export default function BusinessDetailPage() {
                             <div className="text-sm text-stone-400">
                               {payload[0].payload.date || 'Start'}
                             </div>
-                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-white' : 'text-red-500'}`}>
+                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                               {value < 0 ? `-${currencySymbol}${formattedValue}` : `${currencySymbol}${formattedValue}`}
                             </div>
                           </div>
