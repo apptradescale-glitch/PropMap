@@ -96,6 +96,9 @@ export default function BusinessDetailPage() {
     : (business?.currency || 'USD');
   const currencySymbol = getCurrencySymbol(effectiveCurrency);
 
+  const fmtMoney = (val: number, decimals = 2) =>
+    Math.abs(val).toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+
   // Dialog state
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<'payouts' | 'expenses'>('payouts');
@@ -541,7 +544,7 @@ export default function BusinessDetailPage() {
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white">{currencySymbol}{totalRevenue.toFixed(2)}</div>
+              <div className="text-2xl font-bold text-white">{currencySymbol}{fmtMoney(totalRevenue)}</div>
               <p className="text-xs text-[#666] mt-1">Total Revenue</p>
             </CardContent>
           </Card>
@@ -555,7 +558,7 @@ export default function BusinessDetailPage() {
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white">{currencySymbol}{totalPayouts.toFixed(2)}</div>
+              <div className="text-2xl font-bold text-white">{currencySymbol}{fmtMoney(totalPayouts)}</div>
               <p className="text-xs text-[#666] mt-1">Total Payouts</p>
             </CardContent>
           </Card>
@@ -569,7 +572,7 @@ export default function BusinessDetailPage() {
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white">{currencySymbol}{totalExpenses.toFixed(2)}</div>
+              <div className="text-2xl font-bold text-white">{currencySymbol}{fmtMoney(totalExpenses)}</div>
               <p className="text-xs text-[#666] mt-1">Total Expenses</p>
             </CardContent>
           </Card>
@@ -601,9 +604,9 @@ export default function BusinessDetailPage() {
                   >
                     <defs>
                       <linearGradient id="performanceGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#e0ac69" stopOpacity={0.3}/>
-                        <stop offset="40%" stopColor="#e0ac69" stopOpacity={0.2}/>
-                        <stop offset="100%" stopColor="#e0ac69" stopOpacity={0.1}/>
+                        <stop offset="0%" stopColor="#ffffff" stopOpacity={0.25}/>
+                        <stop offset="40%" stopColor="#ffffff" stopOpacity={0.15}/>
+                        <stop offset="100%" stopColor="#ffffff" stopOpacity={0.05}/>
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="#6b7280" opacity={0.4} />
@@ -702,7 +705,7 @@ export default function BusinessDetailPage() {
                         <span className="text-[9px] text-[#666]">{day.day}</span>
                         <div className="flex-1 flex items-center justify-center">
                           <span className={`text-[10px] font-medium ${textCls}`}>
-                            {day.hasData ? `${net < 0 ? '-' : ''}${cs}${Math.abs(net).toFixed(0)}` : ''}
+                            {day.hasData ? `${net < 0 ? '-' : ''}${cs}${fmtMoney(net, 0)}` : ''}
                           </span>
                         </div>
                       </div>
@@ -744,7 +747,7 @@ export default function BusinessDetailPage() {
                       </div>
                       <div className="flex-shrink-0 text-right">
                         <p className={`text-sm font-bold ${item.itemType === 'payout' ? 'text-green-400' : 'text-red-400'}`}>
-                          {currencySymbol}{Math.abs(item.amount).toFixed(2)}
+                          {currencySymbol}{fmtMoney(item.amount)}
                         </p>
                       </div>
                     </div>
@@ -802,19 +805,19 @@ export default function BusinessDetailPage() {
                             <div className="flex items-center gap-4 flex-shrink-0">
                               <div className="text-right">
                                 <div className="text-sm font-bold text-white">
-                                  {getCurrencySymbol(biz.currency)}{biz.totalRevenue.toFixed(2)}
+                                  {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalRevenue)}
                                 </div>
                                 <p className="text-xs text-[#666]">Revenue</p>
                               </div>
                               <div className="text-right">
                                 <div className="text-sm font-bold text-white">
-                                  {getCurrencySymbol(biz.currency)}{biz.totalPayouts.toFixed(2)}
+                                  {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalPayouts)}
                                 </div>
                                 <p className="text-xs text-[#666]">Payouts</p>
                               </div>
                               <div className="text-right">
                                 <div className="text-sm font-bold text-white">
-                                  {getCurrencySymbol(biz.currency)}{biz.totalExpenses.toFixed(2)}
+                                  {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalExpenses)}
                                 </div>
                                 <p className="text-xs text-[#666]">Expenses</p>
                               </div>
@@ -1061,7 +1064,7 @@ export default function BusinessDetailPage() {
             <CardContent className="pt-2 pb-4">
               <div style={{ width: '100%', height: 350, marginTop: '10px' }}>
                 {(() => {
-                  const PIE_COLORS = ['#e0ac69', '#6366f1', '#22c55e', '#ef4444', '#3b82f6', '#f59e0b', '#ec4899', '#14b8a6'];
+                  const PIE_COLORS = ['#d0d0d0', '#999999', '#666666', '#444444', '#888888', '#555555', '#777777', '#aaaaaa'];
                   const pieData = (businessDataWithTotals || []).map((biz: any) => ({
                     name: biz.businessSector === 'proptrading' ? biz.userName : biz.name,
                     value: Math.max(biz.totalPayouts || 0, 0),
@@ -1296,8 +1299,7 @@ export default function BusinessDetailPage() {
                           <p className={`text-sm font-bold ${
                             item.type === 'payouts' ? 'text-green-400' : 'text-red-400'
                           }`}>
-                            {currencySymbol}
-                            {Math.abs(item.amount).toFixed(2)}
+                            {currencySymbol}{fmtMoney(item.amount)}
                           </p>
                           <p className="text-[#666] text-xs">
                             {new Date(item.date).toLocaleDateString()}
