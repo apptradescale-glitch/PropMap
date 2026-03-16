@@ -956,7 +956,7 @@ export default function BusinessDetailPage() {
               <CardContent className="pt-2 pb-4">
                 <div style={{ width: '100%', height: 280 }}>
                   {(() => {
-                    const PIE_COLORS_MID = ['#4ade80', '#f87171'];
+                    const PIE_COLORS_MID = ['#22c55e', '#dc2626'];
                     const midPieData = [
                       { name: 'Payouts / Income', value: Math.max(totalPayouts, 0), label: 'Payouts / Income' },
                       { name: 'Expenses', value: Math.max(totalExpenses, 0), label: 'Expenses' }
@@ -1172,14 +1172,12 @@ export default function BusinessDetailPage() {
                   >
                     <defs>
                       <linearGradient id="perfGradGreen" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#4ade80" stopOpacity={0.3}/>
-                        <stop offset="40%" stopColor="#4ade80" stopOpacity={0.15}/>
-                        <stop offset="100%" stopColor="#4ade80" stopOpacity={0.05}/>
+                        <stop offset="0%" stopColor="#22c55e" stopOpacity={0.08}/>
+                        <stop offset="100%" stopColor="#22c55e" stopOpacity={0.0}/>
                       </linearGradient>
                       <linearGradient id="perfGradRed" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#f87171" stopOpacity={0.3}/>
-                        <stop offset="40%" stopColor="#f87171" stopOpacity={0.15}/>
-                        <stop offset="100%" stopColor="#f87171" stopOpacity={0.05}/>
+                        <stop offset="0%" stopColor="#dc2626" stopOpacity={0.08}/>
+                        <stop offset="100%" stopColor="#dc2626" stopOpacity={0.0}/>
                       </linearGradient>
                     </defs>
                     <CartesianGrid 
@@ -1207,7 +1205,7 @@ export default function BusinessDetailPage() {
                     <Area
                       type="monotone"
                       dataKey="pnl"
-                      stroke={isPositivePerf ? '#4ade80' : '#f87171'}
+                      stroke={isPositivePerf ? '#22c55e' : '#dc2626'}
                       strokeWidth={2}
                       fill={isPositivePerf ? 'url(#perfGradGreen)' : 'url(#perfGradRed)'}
                       connectNulls={true}
@@ -1215,7 +1213,7 @@ export default function BusinessDetailPage() {
                       animationDuration={750}
                     />
                     <Tooltip
-                      cursor={{ stroke: isPositivePerf ? '#4ade8033' : '#f8717133' }}
+                      cursor={{ stroke: isPositivePerf ? '#22c55e33' : '#dc262633' }}
                       content={({ active, payload }) => {
                         if (!active || !payload?.length) return null;
                         const value = Number(payload[0].value);
@@ -1228,7 +1226,7 @@ export default function BusinessDetailPage() {
                             <div className="text-sm text-stone-400">
                               {payload[0].payload.date || 'Start'}
                             </div>
-                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-green-500' : 'text-red-600'}`}>
                               {value < 0 ? `-${currencySymbol}${formattedValue}` : `${currencySymbol}${formattedValue}`}
                             </div>
                           </div>
