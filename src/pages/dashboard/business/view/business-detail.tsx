@@ -360,30 +360,54 @@ export default function BusinessDetailPage() {
 
   // Monthly history data for current month (payouts + expenses grouped by day)
   const monthlyHistoryData = useMemo(() => {
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
-    const dailyData: Record<number, { payout: number; expense: number }> = {};
-    payouts.forEach((p: any) => {
-      const d = new Date(p.date);
-      if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
-        const day = d.getDate();
-        if (!dailyData[day]) dailyData[day] = { payout: 0, expense: 0 };
-        dailyData[day].payout += Number(p.amount);
-      }
+    const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+    return Array.from({ length: daysInMonth }, (_, i) => {
+      const day = i + 1;
+      const dayPayouts = combinedFinancialData
+        .filter(item => item.type === 'payouts')
+        .filter(item => {
+          const itemDate = new Date(item.date);
+          return itemDate.getMonth() === new Date().getMonth() && 
+                 itemDate.getFullYear() === new Date().getFullYear() &&
+                 itemDate.getDate() === day;
+        })
+        .reduce((sum, item) => sum + item.amount, 0);
+      const dayExpenses = combinedFinancialData
+        .filter(item => item.type === 'expenses')
+        .filter(item => {
+          const itemDate = new Date(item.date);
+          return itemDate.getMonth() === new Date().getMonth() && 
+                 itemDate.getFullYear() === new Date().getFullYear() &&
+                 itemDate.getDate() === day;
+        })
+        .reduce((sum, item) => sum + item.amount, 0);
+      return { day, payout: dayPayouts, expense: dayExpenses };
     });
-    expenses.forEach((e: any) => {
-      const d = new Date(e.date);
-      if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
-        const day = d.getDate();
-        if (!dailyData[day]) dailyData[day] = { payout: 0, expense: 0 };
-        dailyData[day].expense += Number(e.amount);
-      }
+  }, [combinedFinancialData]);
+
+  const yearlyData = useMemo(() => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return months.map((month, index) => {
+      const monthPayouts = combinedFinancialData
+        .filter(item => item.type === 'payouts')
+        .filter(item => {
+          const itemDate = new Date(item.date);
+          return itemDate.getMonth() === index && 
+                 itemDate.getFullYear() === new Date().getFullYear();
+        })
+        .reduce((sum, item) => sum + item.amount, 0);
+      const monthExpenses = combinedFinancialData
+        .filter(item => item.type === 'expenses')
+        .filter(item => {
+          const itemDate = new Date(item.date);
+          return itemDate.getMonth() === index && 
+                 itemDate.getFullYear() === new Date().getFullYear();
+        })
+        .reduce((sum, item) => sum + item.amount, 0);
+      const netValue = monthPayouts - monthExpenses;
+      return { month, value: netValue, isPositive: netValue >= 0 };
     });
-    return Object.entries(dailyData)
-      .sort(([a], [b]) => Number(a) - Number(b))
-      .map(([, data]) => data);
-  }, [payouts, expenses]);
+  }, [combinedFinancialData]);
 
   const currentMonthLabel = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
@@ -395,13 +419,21 @@ export default function BusinessDetailPage() {
   ];
   const perfDataSecondary = [
     60, 70, 85, 75, 100, 120, 110, 150, 135, 180,
-    220, 200, 250, 270, 240, 300, 330, 360, 340, 310,
-    290, 270, 250, 230, 260, 290, 320, 300, 270, 250
+    200, 220, 190, 210, 230, 250, 240, 260, 280, 300,
+    290, 310, 330, 350, 340, 320, 300, 280, 260, 240
   ];
 
-  // Canvas bar chart drawing - paired bars (payouts light gray, expenses dark gray, both upward)
-  const drawBarChart = useCallback((canvas: HTMLCanvasElement, data: { payout: number; expense: number }[]) => {
-    if (!canvas || data.length === 0) return;
+  // Calendar helper
+  const calendarNumRows2 = useMemo(() => {
+    const firstDay = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
+    const lastDay = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0);
+    const firstDayOffset = (firstDay.getDay() + 6) % 7;
+    return Math.ceil((firstDayOffset + lastDay.getDate()) / 7);
+  }, [calendarMonth]);
+
+  // Canvas bar chart drawing for yearly data
+  const drawBarChart = useCallback((canvas: HTMLCanvasElement, data: { month: string; value: number; isPositive: boolean }[]) => {
+    if (!canvas || data.length < 1) return;
     const parent = canvas.parentElement;
     if (!parent) return;
     const dpr = window.devicePixelRatio || 1;
@@ -414,26 +446,26 @@ export default function BusinessDetailPage() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     ctx.scale(dpr, dpr);
-    const padLeft = 30, padRight = 10, padTop = 5, padBottom = 5;
+    const padLeft = 30, padRight = 10, padTop = 5, padBottom = 25;
     const chartW = w - padLeft - padRight;
     const chartH = h - padTop - padBottom;
-    const allValues = data.flatMap(d => [d.payout, d.expense]);
-    const maxVal = Math.max(...allValues) * 1.1 || 1;
-    const barWidth = 3;
-    const pairWidth = barWidth * 2 + 1;
-    const gap = data.length > 1 ? (chartW - data.length * pairWidth) / (data.length - 1) : 0;
+    const barWidth = chartW / data.length * 0.7;
+    const gap = chartW / data.length * 0.3;
+    const allVals = data.map(d => d.value);
+    const max = allVals.length > 0 ? Math.max(...allVals.map(Math.abs)) : 500;
+    const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
+    const range = niceMax || 1;
+    function drawBar(x: number, val: number, isPositive: boolean) {
+      ctx!.fillStyle = isPositive ? '#D1D5DB' : '#555555';
+      const barH = (Math.abs(val) / range) * chartH;
+      const barY = isPositive 
+        ? padTop + chartH - barH 
+        : padTop + chartH;
+      ctx!.fillRect(x, barY, barWidth, barH);
+    }
     data.forEach((d, i) => {
-      const groupX = padLeft + i * (pairWidth + gap);
-      if (d.payout > 0) {
-        const barH = (d.payout / maxVal) * chartH;
-        ctx.fillStyle = '#D1D5DB';
-        ctx.fillRect(groupX, padTop + chartH - barH, barWidth, barH);
-      }
-      if (d.expense > 0) {
-        const barH = (d.expense / maxVal) * chartH;
-        ctx.fillStyle = '#555555';
-        ctx.fillRect(groupX + barWidth + 1, padTop + chartH - barH, barWidth, barH);
-      }
+      const x = padLeft + i * (barWidth + gap) + gap / 2;
+      drawBar(x, d.value, d.isPositive);
     });
   }, []);
 
@@ -481,13 +513,13 @@ export default function BusinessDetailPage() {
 
   // Draw canvas charts on mount and data change
   useEffect(() => {
-    if (subscriptionCanvasRef.current && monthlyHistoryData.length > 0) {
-      drawBarChart(subscriptionCanvasRef.current, monthlyHistoryData);
+    if (subscriptionCanvasRef.current && yearlyData.length > 0) {
+      drawBarChart(subscriptionCanvasRef.current, yearlyData);
     }
     if (perfCanvasRef.current) {
       drawLineChart(perfCanvasRef.current, perfDataPrimary, perfDataSecondary);
     }
-  }, [monthlyHistoryData, drawBarChart, drawLineChart]);
+  }, [yearlyData, drawBarChart, drawLineChart]);
 
   // Resize handler for canvas charts
   useEffect(() => {
@@ -495,8 +527,8 @@ export default function BusinessDetailPage() {
     const handleResize = () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        if (subscriptionCanvasRef.current && monthlyHistoryData.length > 0) {
-          drawBarChart(subscriptionCanvasRef.current, monthlyHistoryData);
+        if (subscriptionCanvasRef.current && yearlyData.length > 0) {
+          drawBarChart(subscriptionCanvasRef.current, yearlyData);
         }
         if (perfCanvasRef.current) {
           drawLineChart(perfCanvasRef.current, perfDataPrimary, perfDataSecondary);
@@ -505,7 +537,7 @@ export default function BusinessDetailPage() {
     };
     window.addEventListener('resize', handleResize);
     return () => { window.removeEventListener('resize', handleResize); clearTimeout(timer); };
-  }, [monthlyHistoryData, drawBarChart, drawLineChart]);
+  }, [yearlyData, drawBarChart, drawLineChart]);
 
   // Save financial data to Firestore with optimistic updates
   const saveFinancialData = async (type: 'payouts' | 'expenses', data: any) => {
@@ -649,7 +681,7 @@ export default function BusinessDetailPage() {
           {/* Business Information Card */}
           <Card className="h-auto border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
                 Business Information
               </CardTitle>
               <Building2 className="h-4 w-4 text-[#666]" />
@@ -694,42 +726,42 @@ export default function BusinessDetailPage() {
           {/* Empty Card 2 */}
           <Card className="h-auto border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
                 Revenue
               </CardTitle>
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
               <div className="text-2xl font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(totalRevenue)}</div>
-              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'JetBrains Mono' }}>Total Revenue</p>
+              <p className="text-xs text-[#888] mt-1" style={{ fontFamily: 'Inter' }}>Total Revenue</p>
             </CardContent>
           </Card>
 
           {/* Empty Card 3 */}
           <Card className="h-auto border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
                 Payouts / Income
               </CardTitle>
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
               <div className="text-2xl font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(totalPayouts)}</div>
-              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'JetBrains Mono' }}>Total Payouts</p>
+              <p className="text-xs text-[#888] mt-1" style={{ fontFamily: 'Inter' }}>Total Payouts</p>
             </CardContent>
           </Card>
 
           {/* Empty Card 4 */}
           <Card className="h-auto border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
                 Expenses
               </CardTitle>
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
               <div className="text-2xl font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(totalExpenses)}</div>
-              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'JetBrains Mono' }}>Total Expenses</p>
+              <p className="text-xs text-[#888] mt-1" style={{ fontFamily: 'Inter' }}>Total Expenses</p>
             </CardContent>
           </Card>
         </div>
@@ -742,10 +774,10 @@ export default function BusinessDetailPage() {
           <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
                   Performance
                 </CardTitle>
-                <CardDescription className="text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
                   Business performance metrics
                 </CardDescription>
               </div>
@@ -801,10 +833,10 @@ export default function BusinessDetailPage() {
             <Card className="border-[#1a1a1a] bg-[#0a0a0a] col-span-2">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
                 <div className="flex flex-col gap-1">
-                  <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
+                  <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
                     Business Overview
                   </CardTitle>
-                  <CardDescription className="text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>
+                  <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
                     View all your businesses
                   </CardDescription>
                 </div>
@@ -827,12 +859,12 @@ export default function BusinessDetailPage() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
-                                <h4 className="text-white font-semibold text-sm truncate" style={{ fontFamily: 'JetBrains Mono' }}>
+                                <h4 className="text-white font-semibold text-sm truncate" style={{ fontFamily: 'Inter' }}>
                                   {biz.businessSector === 'proptrading' ? biz.userName : biz.name}
                                 </h4>
                                 <div className={`w-2 h-2 rounded-full ${biz.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
                               </div>
-                              <div className="text-xs mt-1" style={{ fontFamily: 'JetBrains Mono' }}>
+                              <div className="text-xs mt-1" style={{ fontFamily: 'Inter' }}>
                                 <span>{biz.businessSector === 'proptrading' ? 'PropTrading' : biz.customSector}</span>
                               </div>
                             </div>
@@ -841,19 +873,19 @@ export default function BusinessDetailPage() {
                                 <div className="text-sm font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                                   {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalRevenue)}
                                 </div>
-                                <p className="text-xs text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Revenue</p>
+                                <p className="text-xs text-[#666]" style={{ fontFamily: 'Inter' }}>Revenue</p>
                               </div>
                               <div className="text-right">
                                 <div className="text-sm font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                                   {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalPayouts)}
                                 </div>
-                                <p className="text-xs text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Payouts</p>
+                                <p className="text-xs text-[#666]" style={{ fontFamily: 'Inter' }}>Payouts</p>
                               </div>
                               <div className="text-right">
                                 <div className="text-sm font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                                   {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalExpenses)}
                                 </div>
-                                <p className="text-xs text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Expenses</p>
+                                <p className="text-xs text-[#666]" style={{ fontFamily: 'Inter' }}>Expenses</p>
                               </div>
                             </div>
                           </div>
@@ -862,7 +894,7 @@ export default function BusinessDetailPage() {
                     </div>
                   ) : (
                     <div className="flex items-center justify-center h-full min-h-[200px]">
-                      <p className="text-[#666] text-sm" style={{ fontFamily: 'JetBrains Mono' }}>No businesses found</p>
+                      <p className="text-[#666] text-sm" style={{ fontFamily: 'Inter' }}>No businesses found</p>
                     </div>
                   )}
                 </div>
@@ -882,27 +914,27 @@ export default function BusinessDetailPage() {
               </DialogHeader>
               <div className="space-y-3 max-h-[350px] overflow-y-auto">
                 {selectedDayItems.length === 0 ? (
-                  <p className="text-[#666] text-sm text-center py-4" style={{ fontFamily: 'JetBrains Mono' }}>No transactions on this day</p>
+                  <p className="text-[#666] text-sm text-center py-4" style={{ fontFamily: 'Inter' }}>No transactions on this day</p>
                 ) : (
                   selectedDayItems.map((item: any, idx: number) => (
                     <div key={idx} className="flex items-center gap-3 p-3 rounded-lg border border-[#1a1a1a]">
                       <div className="flex-shrink-0">
                         {item.itemType === 'payout' ? (
-                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#16A34A]/50">
-                            <ArrowBigUp className="w-4 h-4 text-[#16A34A]" />
+                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#15803D]/50">
+                            <ArrowBigUp className="w-4 h-4 text-[#15803D]" />
                           </div>
                         ) : (
-                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#DC2626]/50">
-                            <ArrowBigDown className="w-4 h-4 text-[#DC2626]" />
+                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#B91C1C]/50">
+                            <ArrowBigDown className="w-4 h-4 text-[#B91C1C]" />
                           </div>
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'JetBrains Mono' }}>{item.description}</p>
+                        <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'Inter' }}>{item.description}</p>
                       </div>
                       <div className="flex-shrink-0 text-right">
                         <p className={`text-sm font-bold ${
-                            item.itemType === 'payout' ? 'text-[#16A34A]' : 'text-[#DC2626]'
+                            item.itemType === 'payout' ? 'text-[#15803D]' : 'text-[#B91C1C]'
                           }`} style={{ fontFamily: 'JetBrains Mono' }}>
                           {currencySymbol}{fmtMoney(item.amount)}
                         </p>
@@ -942,33 +974,33 @@ export default function BusinessDetailPage() {
                       <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#1a1a1a]">
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#16A34A]/50">
-                              <ArrowBigUp className="w-5 h-5 text-[#16A34A]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#15803D]/50">
+                              <ArrowBigUp className="w-5 h-5 text-[#15803D]" />
                             </div>
                           ) : (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#DC2626]/50">
-                              <ArrowBigDown className="w-5 h-5 text-[#DC2626]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#B91C1C]/50">
+                              <ArrowBigDown className="w-5 h-5 text-[#B91C1C]" />
                             </div>
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'JetBrains Mono' }}>
+                          <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'Inter' }}>
                             {item.description}
                           </p>
                           {item.fileName && (
                             <div className="flex items-center gap-1 mt-1">
                               <FileText className="w-3 h-3 text-[#666]" />
-                              <p className="text-[#666] text-xs truncate" style={{ fontFamily: 'JetBrains Mono' }}>{item.fileName}</p>
+                              <p className="text-[#666] text-xs truncate" style={{ fontFamily: 'Inter' }}>{item.fileName}</p>
                             </div>
                           )}
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className={`text-sm font-bold ${
-                            item.type === 'payouts' ? 'text-[#16A34A]' : 'text-[#DC2626]'
+                            item.type === 'payouts' ? 'text-[#15803D]' : 'text-[#B91C1C]'
                           }`} style={{ fontFamily: 'JetBrains Mono' }}>
                             {currencySymbol}{fmtMoney(item.amount)}
                           </p>
-                          <p className="text-[#666] text-xs" style={{ fontFamily: 'JetBrains Mono' }}>
+                          <p className="text-[#666] text-xs" style={{ fontFamily: 'Inter' }}>
                             {new Date(item.date).toLocaleDateString()}
                           </p>
                         </div>
@@ -983,14 +1015,14 @@ export default function BusinessDetailPage() {
           {/* PropFirm Breakdown / Income Expenses Flow Card */}
           <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
                 {business?.businessSector === 'proptrading' ? 'PropFirm Breakdown' : 'Income / Expenses Flow'}
               </CardTitle>
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4 h-full">
               <div className="flex items-center justify-center h-full min-h-[350px]">
-                <p className="text-[#666] text-sm" style={{ fontFamily: 'JetBrains Mono' }}>
+                <p className="text-[#666] text-sm" style={{ fontFamily: 'Inter' }}>
                   {business?.businessSector === 'proptrading' ? 'PropFirm breakdown coming soon' : 'Income / Expenses flow coming soon'}
                 </p>
               </div>
@@ -1006,10 +1038,10 @@ export default function BusinessDetailPage() {
           <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
                   Revenue
                 </CardTitle>
-                <CardDescription className="text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
                   Business performance metrics
                 </CardDescription>
               </div>
@@ -1018,8 +1050,8 @@ export default function BusinessDetailPage() {
             <CardContent className="pt-2 pb-4">
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
                 <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>$19.3K</span>
-                <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'JetBrains Mono' }}>
-                  <span style={{ color: '#16A34A' }}>+15%</span>
+                <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inter' }}>
+                  <span style={{ color: '#15803D' }}>+15%</span>
                   <br />
                   <span style={{ color: '#8B949E' }}>($17,840)</span>
                 </span>
@@ -1043,29 +1075,19 @@ export default function BusinessDetailPage() {
           <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
                   Monthly History
                 </CardTitle>
-                <CardDescription className="text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>
-                  {currentMonthLabel}
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
+                  {new Date().getFullYear()} Overview
                 </CardDescription>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#D1D5DB' }} />
-                  <span className="text-[10px] text-[#888]" style={{ fontFamily: 'JetBrains Mono' }}>Payouts</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#555555' }} />
-                  <span className="text-[10px] text-[#888]" style={{ fontFamily: 'JetBrains Mono' }}>Expenses</span>
-                </div>
               </div>
             </CardHeader>
             <CardContent className="pt-2 pb-4">
               <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
                   {(() => {
-                    const allVals = monthlyHistoryData.flatMap(d => [d.payout, d.expense]);
+                    const allVals = yearlyData.map(d => d.value);
                     const max = allVals.length > 0 ? Math.max(...allVals) : 500;
                     const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
                     return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v, idx) => (
@@ -1075,8 +1097,18 @@ export default function BusinessDetailPage() {
                 </div>
                 <canvas ref={subscriptionCanvasRef} style={{ display: 'block', width: '100%' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>1st</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>{new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()}th</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Jan</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Feb</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Mar</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Apr</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>May</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Jun</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Jul</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Aug</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Sep</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Oct</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Nov</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Dec</span>
                 </div>
               </div>
             </CardContent>
@@ -1091,10 +1123,10 @@ export default function BusinessDetailPage() {
           <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
                   Cashflow Allocation
                 </CardTitle>
-                <CardDescription className="text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
                   See how your businesses compare in revenue
                 </CardDescription>
               </div>
@@ -1102,7 +1134,7 @@ export default function BusinessDetailPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => setShowPieAsMoney(!showPieAsMoney)}
-                className="bg-transparent border-[#1a1a1a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-2" style={{ fontFamily: 'JetBrains Mono' }}
+                className="bg-transparent border-[#1a1a1a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-2" style={{ fontFamily: 'Inter' }}
               >
                 {showPieAsMoney ? 'Show in %' : `Show Revenue in ${currencySymbol}`}
               </Button>
@@ -1145,8 +1177,8 @@ export default function BusinessDetailPage() {
                               const percentage = totalValue > 0 ? ((data.value / totalValue) * 100).toFixed(1) : '0';
                               return (
                                 <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
-                                  <div className="text-sm text-white font-medium" style={{ fontFamily: 'JetBrains Mono' }}>{data.name}</div>
-                                  <div className="text-xs text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>{data.sector}</div>
+                                  <div className="text-sm text-white font-medium" style={{ fontFamily: 'Inter' }}>{data.name}</div>
+                                  <div className="text-xs text-[#666]" style={{ fontFamily: 'Inter' }}>{data.sector}</div>
                                   <div className="text-sm font-semibold text-[#e0ac69] mt-1" style={{ fontFamily: 'JetBrains Mono' }}>
                                     {currencySymbol}{data.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({percentage}%)
                                   </div>
@@ -1163,7 +1195,7 @@ export default function BusinessDetailPage() {
                             <div key={index} className="flex flex-col items-center gap-0.5">
                               <div className="flex items-center gap-2">
                                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[index % PIE_COLORS.length] }}></div>
-                                <span className="text-white text-xs" style={{ fontFamily: 'JetBrains Mono' }}>{entry.name}</span>
+                                <span className="text-white text-xs" style={{ fontFamily: 'Inter' }}>{entry.name}</span>
                                 <span className="text-white text-xs font-semibold" style={{ fontFamily: 'JetBrains Mono' }}>
                                   {showPieAsMoney 
                                     ? `${entry.revenue < 0 ? '-' : ''}${getCurrencySymbol(entry.currency)}${Math.abs(entry.revenue).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
@@ -1171,7 +1203,7 @@ export default function BusinessDetailPage() {
                                   }
                                 </span>
                               </div>
-                              <span className="text-[#666] text-xs" style={{ fontFamily: 'JetBrains Mono' }}>{entry.sector}</span>
+                              <span className="text-[#666] text-xs" style={{ fontFamily: 'Inter' }}>{entry.sector}</span>
                             </div>
                           );
                         })}
@@ -1179,7 +1211,7 @@ export default function BusinessDetailPage() {
                     </div>
                   ) : (
                     <div className="flex items-center justify-center h-full">
-                      <p className="text-[#666] text-sm" style={{ fontFamily: 'JetBrains Mono' }}>No revenue data yet</p>
+                      <p className="text-[#666] text-sm" style={{ fontFamily: 'Inter' }}>No revenue data yet</p>
                     </div>
                   );
                 })()}
@@ -1212,26 +1244,26 @@ export default function BusinessDetailPage() {
                       <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#1a1a1a]">
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#16A34A]/50">
-                              <ArrowBigUp className="w-5 h-5 text-[#16A34A]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#15803D]/50">
+                              <ArrowBigUp className="w-5 h-5 text-[#15803D]" />
                             </div>
                           ) : (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#DC2626]/50">
-                              <ArrowBigDown className="w-5 h-5 text-[#DC2626]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#B91C1C]/50">
+                              <ArrowBigDown className="w-5 h-5 text-[#B91C1C]" />
                             </div>
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'JetBrains Mono' }}>
+                          <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'Inter' }}>
                             {item.description}
                           </p>
                           {business?.isCombinedView && item.businessName && (
                             <div className="flex items-center gap-2 mt-1">
-                              <span className="text-white text-xs truncate" style={{ fontFamily: 'JetBrains Mono' }}>
+                              <span className="text-white text-xs truncate" style={{ fontFamily: 'Inter' }}>
                                 {item.businessName}
                               </span>
-                              <span className="text-[#666] text-xs" style={{ fontFamily: 'JetBrains Mono' }}>|</span>
-                              <span className="text-[#666] text-xs truncate" style={{ fontFamily: 'JetBrains Mono' }}>
+                              <span className="text-[#666] text-xs" style={{ fontFamily: 'Inter' }}>|</span>
+                              <span className="text-[#666] text-xs truncate" style={{ fontFamily: 'Inter' }}>
                                 {item.businessSector === 'proptrading' ? 'PropTrading' : item.businessSector === 'trade-copier-software' ? 'Trade Copier Software' : item.customSector || 'Business'}
                               </span>
                             </div>
@@ -1239,17 +1271,17 @@ export default function BusinessDetailPage() {
                           {item.fileName && (
                             <div className="flex items-center gap-1 mt-1">
                               <FileText className="w-3 h-3 text-[#666]" />
-                              <p className="text-[#666] text-xs truncate" style={{ fontFamily: 'JetBrains Mono' }}>{item.fileName}</p>
+                              <p className="text-[#666] text-xs truncate" style={{ fontFamily: 'Inter' }}>{item.fileName}</p>
                             </div>
                           )}
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className={`text-sm font-bold ${
-                            item.type === 'payouts' ? 'text-[#16A34A]' : 'text-[#DC2626]'
+                            item.type === 'payouts' ? 'text-[#15803D]' : 'text-[#B91C1C]'
                           }`} style={{ fontFamily: 'JetBrains Mono' }}>
                             {currencySymbol}{fmtMoney(item.amount)}
                           </p>
-                          <p className="text-[#666] text-xs" style={{ fontFamily: 'JetBrains Mono' }}>
+                          <p className="text-[#666] text-xs" style={{ fontFamily: 'Inter' }}>
                             {new Date(item.date).toLocaleDateString()}
                           </p>
                         </div>
