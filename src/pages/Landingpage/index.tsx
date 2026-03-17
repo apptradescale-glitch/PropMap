@@ -457,7 +457,7 @@ export default function LandingPage() {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                          boxShadow: '0 0 8px rgba(21,128,61,0.15), 0 4px 6px rgba(21,128,61,0.5)',
                         }}>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#15803D" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                             <polyline points="20 6 9 17 4 12" />
@@ -554,7 +554,7 @@ export default function LandingPage() {
                   width: '100%',
                   height: '100%',
                   pointerEvents: 'none',
-                  filter: 'drop-shadow(0 0 3px rgba(224,172,105,0.8))'
+                  filter: 'drop-shadow(0 0 3px rgba(21,128,61,0.8))'
                 }}
               >
                 <rect
@@ -563,7 +563,7 @@ export default function LandingPage() {
                   width="calc(100% - 3px)"
                   height="calc(100% - 3px)"
                   fill="none"
-                  stroke="rgba(224, 172, 105, 0.8)"
+                  stroke="rgba(21, 128, 61, 0.8)"
                   strokeWidth="1.5"
                   strokeDasharray="60 740"
                   strokeDashoffset="0"
@@ -667,7 +667,7 @@ export default function LandingPage() {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                          boxShadow: '0 0 8px rgba(21,128,61,0.15), 0 4px 6px rgba(21,128,61,0.5)',
                         }}>
                           {feature.usePieChart ? (
                             <PieChart size={14} color="#15803D" />
@@ -763,7 +763,7 @@ export default function LandingPage() {
                 width: '100%',
                 height: '100%',
                 pointerEvents: 'none',
-                filter: 'drop-shadow(0 0 3px rgba(224,172,105,0.8))'
+                filter: 'drop-shadow(0 0 3px rgba(21,128,61,0.8))'
               }}
             >
               <rect
@@ -772,7 +772,7 @@ export default function LandingPage() {
                 width="calc(100% - 3px)"
                 height="calc(100% - 3px)"
                 fill="none"
-                stroke="rgba(224, 172, 105, 0.8)"
+                stroke="rgba(21, 128, 61, 0.8)"
                 strokeWidth="1.5"
                 strokeDasharray="60 740"
                 strokeDashoffset="0"
@@ -841,7 +841,7 @@ export default function LandingPage() {
                   height: 2,
                   background: 'linear-gradient(90deg, transparent, #15803D, transparent)',
                   filter: 'blur(1px)',
-                  boxShadow: '0 0 8px rgba(224, 172, 105, 0.6)',
+                  boxShadow: '0 0 8px rgba(21, 128, 61, 0.6)',
                 }} />
               </div>
               <div style={{
@@ -917,7 +917,7 @@ export default function LandingPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                        boxShadow: '0 0 8px rgba(21,128,61,0.15), 0 4px 6px rgba(21,128,61,0.5)',
                       }}>
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#15803D" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12" />
@@ -958,7 +958,7 @@ export default function LandingPage() {
               padding: '32px',
               textAlign: 'center',
               position: 'relative',
-              boxShadow: '0 0 20px 2px rgba(224, 172, 105, 0.5)',
+              boxShadow: '0 0 20px 2px rgba(21, 128, 61, 0.5)',
             }}>
               <div style={{
                 position: 'absolute',
@@ -987,7 +987,7 @@ export default function LandingPage() {
                   height: 2,
                   background: 'linear-gradient(90deg, transparent, #15803D, transparent)',
                   filter: 'blur(1px)',
-                  boxShadow: '0 0 8px rgba(224, 172, 105, 0.6)',
+                  boxShadow: '0 0 8px rgba(21, 128, 61, 0.6)',
                 }} />
               </div>
               <div style={{
@@ -1063,7 +1063,7 @@ export default function LandingPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                        boxShadow: '0 0 8px rgba(21,128,61,0.15), 0 4px 6px rgba(21,128,61,0.5)',
                       }}>
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#15803D" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12" />
@@ -1133,7 +1133,7 @@ export default function LandingPage() {
                 width: '100%',
                 height: '100%',
                 pointerEvents: 'none',
-                filter: 'drop-shadow(0 0 3px rgba(224,172,105,0.8))'
+                filter: 'drop-shadow(0 0 3px rgba(21,128,61,0.8))'
               }}
             >
               <rect
@@ -1142,7 +1142,7 @@ export default function LandingPage() {
                 width="calc(100% - 3px)"
                 height="calc(100% - 3px)"
                 fill="none"
-                stroke="rgba(224, 172, 105, 0.8)"
+                stroke="rgba(21, 128, 61, 0.8)"
                 strokeWidth="1.5"
                 strokeDasharray="60 740"
                 strokeDashoffset="0"
@@ -1245,7 +1245,7 @@ export default function LandingPage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                  boxShadow: '0 0 8px rgba(21,128,61,0.15), 0 4px 6px rgba(21,128,61,0.5)',
                 }}>
                   <Building2 size={14} color="#15803D" />
                 </div>
@@ -1317,7 +1317,7 @@ export default function LandingPage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                  boxShadow: '0 0 8px rgba(21,128,61,0.15), 0 4px 6px rgba(21,128,61,0.5)',
                 }}>
                   <Mail size={14} color="#15803D" />
                 </div>
@@ -1431,7 +1431,7 @@ export default function LandingPage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
+                  boxShadow: '0 0 8px rgba(21,128,61,0.15), 0 4px 6px rgba(21,128,61,0.5)',
                 }}>
                   <TradingIcon size={14} color="#15803D" />
                 </div>
@@ -1505,7 +1505,7 @@ export default function LandingPage() {
                 width: '100%',
                 height: '100%',
                 pointerEvents: 'none',
-                filter: 'drop-shadow(0 0 3px rgba(224,172,105,0.8))'
+                filter: 'drop-shadow(0 0 3px rgba(21,128,61,0.8))'
               }}
             >
               <rect
@@ -1514,7 +1514,7 @@ export default function LandingPage() {
                 width="calc(100% - 3px)"
                 height="calc(100% - 3px)"
                 fill="none"
-                stroke="rgba(224, 172, 105, 0.8)"
+                stroke="rgba(21, 128, 61, 0.8)"
                 strokeWidth="1.5"
                 strokeDasharray="60 740"
                 strokeDashoffset="0"
@@ -1659,10 +1659,10 @@ export default function LandingPage() {
         <style>{`
           @keyframes glow {
             from {
-              box-shadow: 0 0 20px rgba(224,172,105,0.5), 0 0 40px rgba(224,172,105,0.3), 0 0 60px rgba(224,172,105,0.1);
+              box-shadow: 0 0 20px rgba(21,128,61,0.5), 0 0 40px rgba(21,128,61,0.3), 0 0 60px rgba(21,128,61,0.1);
             }
             to {
-              box-shadow: 0 0 30px rgba(224,172,105,0.7), 0 0 50px rgba(224,172,105,0.4), 0 0 70px rgba(224,172,105,0.2);
+              box-shadow: 0 0 30px rgba(21,128,61,0.7), 0 0 50px rgba(21,128,61,0.4), 0 0 70px rgba(21,128,61,0.2);
             }
           }
         `}</style>
