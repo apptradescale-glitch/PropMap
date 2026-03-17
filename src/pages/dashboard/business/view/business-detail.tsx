@@ -1004,10 +1004,20 @@ export default function BusinessDetailPage() {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Revenue graph - nn style canvas line chart */}
           <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
-            <CardContent className="p-5">
-              <div style={{ fontSize: 13, color: '#8B949E', marginBottom: 8, fontFamily: 'JetBrains Mono' }}>Revenue</div>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <div className="flex flex-col gap-1">
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
+                  Revenue
+                </CardTitle>
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>
+                  Business performance metrics
+                </CardDescription>
+              </div>
+              <LineChart className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontSize: 28, fontWeight: 600, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>$19.3K</span>
+                <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>$19.3K</span>
                 <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'JetBrains Mono' }}>
                   <span style={{ color: '#16A34A' }}>+15%</span>
                   <br />
