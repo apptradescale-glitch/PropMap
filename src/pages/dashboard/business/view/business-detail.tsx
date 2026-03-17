@@ -649,7 +649,7 @@ export default function BusinessDetailPage() {
           {/* Business Information Card */}
           <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
                 Business Information
               </CardTitle>
               <Building2 className="h-4 w-4 text-[#666]" />
@@ -694,42 +694,42 @@ export default function BusinessDetailPage() {
           {/* Empty Card 2 */}
           <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
                 Revenue
               </CardTitle>
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white" style={{ fontFamily: 'monospace' }}>{currencySymbol}{fmtMoney(totalRevenue)}</div>
-              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'monospace' }}>Total Revenue</p>
+              <div className="text-2xl font-bold text-white" style={{ fontFamily: 'Inclusive Sans' }}>{currencySymbol}{fmtMoney(totalRevenue)}</div>
+              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'Inclusive Sans' }}>Total Revenue</p>
             </CardContent>
           </Card>
 
           {/* Empty Card 3 */}
           <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
                 Payouts / Income
               </CardTitle>
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white" style={{ fontFamily: 'monospace' }}>{currencySymbol}{fmtMoney(totalPayouts)}</div>
-              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'monospace' }}>Total Payouts</p>
+              <div className="text-2xl font-bold text-white" style={{ fontFamily: 'Inclusive Sans' }}>{currencySymbol}{fmtMoney(totalPayouts)}</div>
+              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'Inclusive Sans' }}>Total Payouts</p>
             </CardContent>
           </Card>
 
           {/* Empty Card 4 */}
           <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
                 Expenses
               </CardTitle>
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white" style={{ fontFamily: 'monospace' }}>{currencySymbol}{fmtMoney(totalExpenses)}</div>
-              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'monospace' }}>Total Expenses</p>
+              <div className="text-2xl font-bold text-white" style={{ fontFamily: 'Inclusive Sans' }}>{currencySymbol}{fmtMoney(totalExpenses)}</div>
+              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'Inclusive Sans' }}>Total Expenses</p>
             </CardContent>
           </Card>
         </div>
@@ -739,13 +739,13 @@ export default function BusinessDetailPage() {
         {business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Performance Chart (combined) */}
-          <Card className="border-white border-opacity-20 bg-transparent">
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
                   Performance
                 </CardTitle>
-                <CardDescription className="text-[#666]" style={{ fontFamily: 'monospace' }}>
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>
                   Business performance metrics
                 </CardDescription>
               </div>
@@ -801,10 +801,10 @@ export default function BusinessDetailPage() {
             <Card className="border-[#2a2a2a] bg-[#0a0a0a] col-span-2">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
                 <div className="flex flex-col gap-1">
-                  <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
+                  <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
                     Business Overview
                   </CardTitle>
-                  <CardDescription className="text-[#666]" style={{ fontFamily: 'monospace' }}>
+                  <CardDescription className="text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>
                     View all your businesses
                   </CardDescription>
                 </div>
@@ -827,33 +827,33 @@ export default function BusinessDetailPage() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
-                                <h4 className="text-white font-semibold text-sm truncate" style={{ fontFamily: 'monospace' }}>
+                                <h4 className="text-white font-semibold text-sm truncate" style={{ fontFamily: 'Inclusive Sans' }}>
                                   {biz.businessSector === 'proptrading' ? biz.userName : biz.name}
                                 </h4>
                                 <div className={`w-2 h-2 rounded-full ${biz.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
                               </div>
-                              <div className="text-xs mt-1" style={{ fontFamily: 'monospace' }}>
+                              <div className="text-xs mt-1" style={{ fontFamily: 'Inclusive Sans' }}>
                                 <span>{biz.businessSector === 'proptrading' ? 'PropTrading' : biz.customSector}</span>
                               </div>
                             </div>
                             <div className="flex items-center gap-4 flex-shrink-0">
                               <div className="text-right">
-                                <div className="text-sm font-bold text-white" style={{ fontFamily: 'monospace' }}>
+                                <div className="text-sm font-bold text-white" style={{ fontFamily: 'Inclusive Sans' }}>
                                   {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalRevenue)}
                                 </div>
-                                <p className="text-xs text-[#666]" style={{ fontFamily: 'monospace' }}>Revenue</p>
+                                <p className="text-xs text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>Revenue</p>
                               </div>
                               <div className="text-right">
-                                <div className="text-sm font-bold text-white" style={{ fontFamily: 'monospace' }}>
+                                <div className="text-sm font-bold text-white" style={{ fontFamily: 'Inclusive Sans' }}>
                                   {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalPayouts)}
                                 </div>
-                                <p className="text-xs text-[#666]" style={{ fontFamily: 'monospace' }}>Payouts</p>
+                                <p className="text-xs text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>Payouts</p>
                               </div>
                               <div className="text-right">
-                                <div className="text-sm font-bold text-white" style={{ fontFamily: 'monospace' }}>
+                                <div className="text-sm font-bold text-white" style={{ fontFamily: 'Inclusive Sans' }}>
                                   {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalExpenses)}
                                 </div>
-                                <p className="text-xs text-[#666]" style={{ fontFamily: 'monospace' }}>Expenses</p>
+                                <p className="text-xs text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>Expenses</p>
                               </div>
                             </div>
                           </div>
@@ -862,7 +862,7 @@ export default function BusinessDetailPage() {
                     </div>
                   ) : (
                     <div className="flex items-center justify-center h-full min-h-[200px]">
-                      <p className="text-[#666] text-sm" style={{ fontFamily: 'monospace' }}>No businesses found</p>
+                      <p className="text-[#666] text-sm" style={{ fontFamily: 'Inclusive Sans' }}>No businesses found</p>
                     </div>
                   )}
                 </div>
@@ -882,28 +882,28 @@ export default function BusinessDetailPage() {
               </DialogHeader>
               <div className="space-y-3 max-h-[350px] overflow-y-auto">
                 {selectedDayItems.length === 0 ? (
-                  <p className="text-[#666] text-sm text-center py-4" style={{ fontFamily: 'monospace' }}>No transactions on this day</p>
+                  <p className="text-[#666] text-sm text-center py-4" style={{ fontFamily: 'Inclusive Sans' }}>No transactions on this day</p>
                 ) : (
                   selectedDayItems.map((item: any, idx: number) => (
                     <div key={idx} className="flex items-center gap-3 p-3 rounded-lg border border-[#2a2a2a]">
                       <div className="flex-shrink-0">
                         {item.itemType === 'payout' ? (
-                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#22C55E]/50">
-                            <ArrowBigUp className="w-4 h-4 text-[#22C55E]" />
+                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#16A34A]/50">
+                            <ArrowBigUp className="w-4 h-4 text-[#16A34A]" />
                           </div>
                         ) : (
-                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#EF4444]/50">
-                            <ArrowBigDown className="w-4 h-4 text-[#EF4444]" />
+                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#DC2626]/50">
+                            <ArrowBigDown className="w-4 h-4 text-[#DC2626]" />
                           </div>
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'monospace' }}>{item.description}</p>
+                        <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'Inclusive Sans' }}>{item.description}</p>
                       </div>
                       <div className="flex-shrink-0 text-right">
                         <p className={`text-sm font-bold ${
-                            item.itemType === 'payout' ? 'text-[#22C55E]' : 'text-[#EF4444]'
-                          }`} style={{ fontFamily: 'monospace' }}>
+                            item.itemType === 'payout' ? 'text-[#16A34A]' : 'text-[#DC2626]'
+                          }`} style={{ fontFamily: 'Inclusive Sans' }}>
                           {currencySymbol}{fmtMoney(item.amount)}
                         </p>
                       </div>
@@ -918,7 +918,7 @@ export default function BusinessDetailPage() {
         {!business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Revenue History Card */}
-          <Card className="border-white border-opacity-20 bg-transparent">
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
                 <CardTitle className="text-sm font-medium text-white">
@@ -942,33 +942,33 @@ export default function BusinessDetailPage() {
                       <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#2a2a2a]">
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#22C55E]/50">
-                              <ArrowBigUp className="w-5 h-5 text-[#22C55E]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#16A34A]/50">
+                              <ArrowBigUp className="w-5 h-5 text-[#16A34A]" />
                             </div>
                           ) : (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#EF4444]/50">
-                              <ArrowBigDown className="w-5 h-5 text-[#EF4444]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#DC2626]/50">
+                              <ArrowBigDown className="w-5 h-5 text-[#DC2626]" />
                             </div>
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'monospace' }}>
+                          <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'Inclusive Sans' }}>
                             {item.description}
                           </p>
                           {item.fileName && (
                             <div className="flex items-center gap-1 mt-1">
                               <FileText className="w-3 h-3 text-[#666]" />
-                              <p className="text-[#666] text-xs truncate" style={{ fontFamily: 'monospace' }}>{item.fileName}</p>
+                              <p className="text-[#666] text-xs truncate" style={{ fontFamily: 'Inclusive Sans' }}>{item.fileName}</p>
                             </div>
                           )}
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className={`text-sm font-bold ${
-                            item.type === 'payouts' ? 'text-[#22C55E]' : 'text-[#EF4444]'
-                          }`} style={{ fontFamily: 'monospace' }}>
+                            item.type === 'payouts' ? 'text-[#16A34A]' : 'text-[#DC2626]'
+                          }`} style={{ fontFamily: 'Inclusive Sans' }}>
                             {currencySymbol}{fmtMoney(item.amount)}
                           </p>
-                          <p className="text-[#666] text-xs" style={{ fontFamily: 'monospace' }}>
+                          <p className="text-[#666] text-xs" style={{ fontFamily: 'Inclusive Sans' }}>
                             {new Date(item.date).toLocaleDateString()}
                           </p>
                         </div>
@@ -981,16 +981,16 @@ export default function BusinessDetailPage() {
           </Card>
 
           {/* PropFirm Breakdown / Income Expenses Flow Card */}
-          <Card className="border-white border-opacity-20 bg-transparent">
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
                 {business?.businessSector === 'proptrading' ? 'PropFirm Breakdown' : 'Income / Expenses Flow'}
               </CardTitle>
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4 h-full">
               <div className="flex items-center justify-center h-full min-h-[350px]">
-                <p className="text-[#666] text-sm" style={{ fontFamily: 'monospace' }}>
+                <p className="text-[#666] text-sm" style={{ fontFamily: 'Inclusive Sans' }}>
                   {business?.businessSector === 'proptrading' ? 'PropFirm breakdown coming soon' : 'Income / Expenses flow coming soon'}
                 </p>
               </div>
@@ -1003,13 +1003,13 @@ export default function BusinessDetailPage() {
         {!business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Revenue graph - nn style canvas line chart */}
-          <Card className="border-white border-opacity-20 bg-transparent">
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardContent className="p-5">
-              <div style={{ fontSize: 13, color: '#8B949E', marginBottom: 8, fontFamily: 'monospace' }}>Revenue</div>
+              <div style={{ fontSize: 13, color: '#8B949E', marginBottom: 8, fontFamily: 'Inclusive Sans' }}>Revenue</div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontSize: 28, fontWeight: 600, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'monospace' }}>$19.3K</span>
-                <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'monospace' }}>
-                  <span style={{ color: '#22C55E' }}>+15%</span>
+                <span style={{ fontSize: 28, fontWeight: 600, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'Inclusive Sans' }}>$19.3K</span>
+                <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inclusive Sans' }}>
+                  <span style={{ color: '#16A34A' }}>+15%</span>
                   <br />
                   <span style={{ color: '#8B949E' }}>($17,840)</span>
                 </span>
@@ -1017,37 +1017,37 @@ export default function BusinessDetailPage() {
               <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
                   {[500, 400, 300, 200, 100].map((v) => (
-                    <span key={v} style={{ fontSize: 10, color: '#3a3f47', fontFamily: 'monospace' }}>{v}</span>
+                    <span key={v} style={{ fontSize: 10, color: '#3a3f47', fontFamily: 'Inclusive Sans' }}>{v}</span>
                   ))}
                 </div>
                 <canvas ref={perfCanvasRef} style={{ display: 'block', width: '100%' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'monospace' }}>Jan 1, 2024</span>
-                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'monospace' }}>Jan 30, 2024</span>
+                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'Inclusive Sans' }}>Jan 1, 2024</span>
+                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'Inclusive Sans' }}>Jan 30, 2024</span>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           {/* Monthly History Bar Chart */}
-          <Card className="border-white border-opacity-20 bg-transparent">
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
                   Monthly History
                 </CardTitle>
-                <CardDescription className="text-[#666]" style={{ fontFamily: 'monospace' }}>
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>
                   {currentMonthLabel}
                 </CardDescription>
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#D1D5DB' }} />
-                  <span className="text-[10px] text-[#888]" style={{ fontFamily: 'monospace' }}>Payouts</span>
+                  <span className="text-[10px] text-[#888]" style={{ fontFamily: 'Inclusive Sans' }}>Payouts</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#555555' }} />
-                  <span className="text-[10px] text-[#888]" style={{ fontFamily: 'monospace' }}>Expenses</span>
+                  <span className="text-[10px] text-[#888]" style={{ fontFamily: 'Inclusive Sans' }}>Expenses</span>
                 </div>
               </div>
             </CardHeader>
@@ -1059,14 +1059,14 @@ export default function BusinessDetailPage() {
                     const max = allVals.length > 0 ? Math.max(...allVals) : 500;
                     const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
                     return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v, idx) => (
-                      <span key={idx} style={{ fontSize: 10, color: '#3a3f47', fontFamily: 'monospace' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
+                      <span key={idx} style={{ fontSize: 10, color: '#3a3f47', fontFamily: 'Inclusive Sans' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
                     ));
                   })()}
                 </div>
                 <canvas ref={subscriptionCanvasRef} style={{ display: 'block', width: '100%' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'monospace' }}>1st</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'monospace' }}>{new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()}th</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>1st</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>{new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()}th</span>
                 </div>
               </div>
             </CardContent>
@@ -1078,13 +1078,13 @@ export default function BusinessDetailPage() {
         {business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Cashflow Allocation Pie Chart */}
-          <Card className="border-white border-opacity-20 bg-transparent">
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
                   Cashflow Allocation
                 </CardTitle>
-                <CardDescription className="text-[#666]" style={{ fontFamily: 'monospace' }}>
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>
                   See how your businesses compare in revenue
                 </CardDescription>
               </div>
@@ -1092,7 +1092,7 @@ export default function BusinessDetailPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => setShowPieAsMoney(!showPieAsMoney)}
-                className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-2" style={{ fontFamily: 'monospace' }}
+                className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-2" style={{ fontFamily: 'Inclusive Sans' }}
               >
                 {showPieAsMoney ? 'Show in %' : `Show Revenue in ${currencySymbol}`}
               </Button>
@@ -1135,9 +1135,9 @@ export default function BusinessDetailPage() {
                               const percentage = totalValue > 0 ? ((data.value / totalValue) * 100).toFixed(1) : '0';
                               return (
                                 <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
-                                  <div className="text-sm text-white font-medium" style={{ fontFamily: 'monospace' }}>{data.name}</div>
-                                  <div className="text-xs text-[#666]" style={{ fontFamily: 'monospace' }}>{data.sector}</div>
-                                  <div className="text-sm font-semibold text-[#e0ac69] mt-1" style={{ fontFamily: 'monospace' }}>
+                                  <div className="text-sm text-white font-medium" style={{ fontFamily: 'Inclusive Sans' }}>{data.name}</div>
+                                  <div className="text-xs text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>{data.sector}</div>
+                                  <div className="text-sm font-semibold text-[#e0ac69] mt-1" style={{ fontFamily: 'Inclusive Sans' }}>
                                     {currencySymbol}{data.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({percentage}%)
                                   </div>
                                 </div>
@@ -1153,15 +1153,15 @@ export default function BusinessDetailPage() {
                             <div key={index} className="flex flex-col items-center gap-0.5">
                               <div className="flex items-center gap-2">
                                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[index % PIE_COLORS.length] }}></div>
-                                <span className="text-white text-xs" style={{ fontFamily: 'monospace' }}>{entry.name}</span>
-                                <span className="text-white text-xs font-semibold" style={{ fontFamily: 'monospace' }}>
+                                <span className="text-white text-xs" style={{ fontFamily: 'Inclusive Sans' }}>{entry.name}</span>
+                                <span className="text-white text-xs font-semibold" style={{ fontFamily: 'Inclusive Sans' }}>
                                   {showPieAsMoney 
                                     ? `${entry.revenue < 0 ? '-' : ''}${getCurrencySymbol(entry.currency)}${Math.abs(entry.revenue).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
                                     : `${percentage}%`
                                   }
                                 </span>
                               </div>
-                              <span className="text-[#666] text-xs" style={{ fontFamily: 'monospace' }}>{entry.sector}</span>
+                              <span className="text-[#666] text-xs" style={{ fontFamily: 'Inclusive Sans' }}>{entry.sector}</span>
                             </div>
                           );
                         })}
@@ -1169,7 +1169,7 @@ export default function BusinessDetailPage() {
                     </div>
                   ) : (
                     <div className="flex items-center justify-center h-full">
-                      <p className="text-[#666] text-sm" style={{ fontFamily: 'monospace' }}>No revenue data yet</p>
+                      <p className="text-[#666] text-sm" style={{ fontFamily: 'Inclusive Sans' }}>No revenue data yet</p>
                     </div>
                   );
                 })()}
@@ -1178,7 +1178,7 @@ export default function BusinessDetailPage() {
           </Card>
 
           {/* Revenue History Card */}
-          <Card className="border-white border-opacity-20 bg-transparent">
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
                 <CardTitle className="text-sm font-medium text-white">
@@ -1202,26 +1202,26 @@ export default function BusinessDetailPage() {
                       <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#2a2a2a]">
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#22C55E]/50">
-                              <ArrowBigUp className="w-5 h-5 text-[#22C55E]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#16A34A]/50">
+                              <ArrowBigUp className="w-5 h-5 text-[#16A34A]" />
                             </div>
                           ) : (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#EF4444]/50">
-                              <ArrowBigDown className="w-5 h-5 text-[#EF4444]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#DC2626]/50">
+                              <ArrowBigDown className="w-5 h-5 text-[#DC2626]" />
                             </div>
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'monospace' }}>
+                          <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'Inclusive Sans' }}>
                             {item.description}
                           </p>
                           {business?.isCombinedView && item.businessName && (
                             <div className="flex items-center gap-2 mt-1">
-                              <span className="text-white text-xs truncate" style={{ fontFamily: 'monospace' }}>
+                              <span className="text-white text-xs truncate" style={{ fontFamily: 'Inclusive Sans' }}>
                                 {item.businessName}
                               </span>
-                              <span className="text-[#666] text-xs" style={{ fontFamily: 'monospace' }}>|</span>
-                              <span className="text-[#666] text-xs truncate" style={{ fontFamily: 'monospace' }}>
+                              <span className="text-[#666] text-xs" style={{ fontFamily: 'Inclusive Sans' }}>|</span>
+                              <span className="text-[#666] text-xs truncate" style={{ fontFamily: 'Inclusive Sans' }}>
                                 {item.businessSector === 'proptrading' ? 'PropTrading' : item.businessSector === 'trade-copier-software' ? 'Trade Copier Software' : item.customSector || 'Business'}
                               </span>
                             </div>
@@ -1229,17 +1229,17 @@ export default function BusinessDetailPage() {
                           {item.fileName && (
                             <div className="flex items-center gap-1 mt-1">
                               <FileText className="w-3 h-3 text-[#666]" />
-                              <p className="text-[#666] text-xs truncate" style={{ fontFamily: 'monospace' }}>{item.fileName}</p>
+                              <p className="text-[#666] text-xs truncate" style={{ fontFamily: 'Inclusive Sans' }}>{item.fileName}</p>
                             </div>
                           )}
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className={`text-sm font-bold ${
-                            item.type === 'payouts' ? 'text-[#22C55E]' : 'text-[#EF4444]'
-                          }`} style={{ fontFamily: 'monospace' }}>
+                            item.type === 'payouts' ? 'text-[#16A34A]' : 'text-[#DC2626]'
+                          }`} style={{ fontFamily: 'Inclusive Sans' }}>
                             {currencySymbol}{fmtMoney(item.amount)}
                           </p>
-                          <p className="text-[#666] text-xs" style={{ fontFamily: 'monospace' }}>
+                          <p className="text-[#666] text-xs" style={{ fontFamily: 'Inclusive Sans' }}>
                             {new Date(item.date).toLocaleDateString()}
                           </p>
                         </div>
