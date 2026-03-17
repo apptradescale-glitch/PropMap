@@ -1022,9 +1022,10 @@ export default function BusinessDetailPage() {
                         <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'Inter' }}>{item.description}</p>
                       </div>
                       <div className="flex-shrink-0 text-right">
-                        <p className={`text-sm font-bold ${
-                            item.itemType === 'payout' ? 'text-[rgba(21, 128, 61, 0.7)]' : 'text-[rgba(185, 28, 28, 0.7)]'
-                          }`} style={{ fontFamily: 'JetBrains Mono' }}>
+                        <p className="text-sm font-bold" style={{ 
+                            color: item.itemType === 'payout' ? 'rgba(21, 128, 61, 0.7)' : 'rgba(185, 28, 28, 0.7)',
+                            fontFamily: 'JetBrains Mono' 
+                          }}>
                           {currencySymbol}{fmtMoney(item.amount)}
                         </p>
                       </div>
@@ -1084,9 +1085,10 @@ export default function BusinessDetailPage() {
                           )}
                         </div>
                         <div className="flex-shrink-0 text-right">
-                          <p className={`text-sm font-bold ${
-                            item.type === 'payouts' ? 'text-[rgba(21, 128, 61, 0.7)]' : 'text-[rgba(185, 28, 28, 0.7)]'
-                          }`} style={{ fontFamily: 'JetBrains Mono' }}>
+                          <p className="text-sm font-bold" style={{ 
+                            color: item.type === 'payouts' ? 'rgba(21, 128, 61, 0.7)' : 'rgba(185, 28, 28, 0.7)',
+                            fontFamily: 'JetBrains Mono' 
+                          }}>
                             {currencySymbol}{fmtMoney(item.amount)}
                           </p>
                           <p className="text-[#666] text-xs" style={{ fontFamily: 'Inter' }}>
@@ -1395,9 +1397,10 @@ export default function BusinessDetailPage() {
                           )}
                         </div>
                         <div className="flex-shrink-0 text-right">
-                          <p className={`text-sm font-bold ${
-                            item.type === 'payouts' ? 'text-[rgba(21, 128, 61, 0.7)]' : 'text-[rgba(185, 28, 28, 0.7)]'
-                          }`} style={{ fontFamily: 'JetBrains Mono' }}>
+                          <p className="text-sm font-bold" style={{ 
+                            color: item.type === 'payouts' ? 'rgba(21, 128, 61, 0.7)' : 'rgba(185, 28, 28, 0.7)',
+                            fontFamily: 'JetBrains Mono' 
+                          }}>
                             {currencySymbol}{fmtMoney(item.amount)}
                           </p>
                           <p className="text-[#666] text-xs" style={{ fontFamily: 'Inter' }}>
