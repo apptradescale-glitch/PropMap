@@ -1009,12 +1009,12 @@ export default function BusinessDetailPage() {
                     <div key={idx} className="flex items-center gap-3 p-3 rounded-lg border border-[#1a1a1a]">
                       <div className="flex-shrink-0">
                         {item.itemType === 'payout' ? (
-                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#6B8E7A]/50">
-                            <ArrowBigUp className="w-4 h-4 text-[#6B8E7A]" />
+                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[rgba(21, 128, 61, 0.7)]/50">
+                            <ArrowBigUp className="w-4 h-4 text-[rgba(21, 128, 61, 0.7)]" />
                           </div>
                         ) : (
-                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#D4A5A5]/50">
-                            <ArrowBigDown className="w-4 h-4 text-[#D4A5A5]" />
+                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[rgba(185, 28, 28, 0.7)]/50">
+                            <ArrowBigDown className="w-4 h-4 text-[rgba(185, 28, 28, 0.7)]" />
                           </div>
                         )}
                       </div>
@@ -1023,7 +1023,7 @@ export default function BusinessDetailPage() {
                       </div>
                       <div className="flex-shrink-0 text-right">
                         <p className={`text-sm font-bold ${
-                            item.itemType === 'payout' ? 'text-[#6B8E7A]' : 'text-[#D4A5A5]'
+                            item.itemType === 'payout' ? 'text-[rgba(21, 128, 61, 0.7)]' : 'text-[rgba(185, 28, 28, 0.7)]'
                           }`} style={{ fontFamily: 'JetBrains Mono' }}>
                           {currencySymbol}{fmtMoney(item.amount)}
                         </p>
@@ -1063,12 +1063,12 @@ export default function BusinessDetailPage() {
                       <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#1a1a1a]">
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#6B8E7A]/50">
-                              <ArrowBigUp className="w-5 h-5 text-[#6B8E7A]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[rgba(21, 128, 61, 0.7)]/50">
+                              <ArrowBigUp className="w-5 h-5 text-[rgba(21, 128, 61, 0.7)]" />
                             </div>
                           ) : (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#D4A5A5]/50">
-                              <ArrowBigDown className="w-5 h-5 text-[#D4A5A5]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[rgba(185, 28, 28, 0.7)]/50">
+                              <ArrowBigDown className="w-5 h-5 text-[rgba(185, 28, 28, 0.7)]" />
                             </div>
                           )}
                         </div>
@@ -1085,7 +1085,7 @@ export default function BusinessDetailPage() {
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className={`text-sm font-bold ${
-                            item.type === 'payouts' ? 'text-[#6B8E7A]' : 'text-[#D4A5A5]'
+                            item.type === 'payouts' ? 'text-[rgba(21, 128, 61, 0.7)]' : 'text-[rgba(185, 28, 28, 0.7)]'
                           }`} style={{ fontFamily: 'JetBrains Mono' }}>
                             {currencySymbol}{fmtMoney(item.amount)}
                           </p>
@@ -1140,7 +1140,7 @@ export default function BusinessDetailPage() {
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
                 <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>$19.3K</span>
                 <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inter' }}>
-                  <span style={{ color: '#6B8E7A' }}>+15%</span>
+                  <span style={{ color: 'rgba(21, 128, 61, 0.7)' }}>+15%</span>
                   <br />
                   <span style={{ color: '#8B949E' }}>($17,840)</span>
                 </span>
@@ -1210,7 +1210,7 @@ export default function BusinessDetailPage() {
                     }}
                   >
                     <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{hoveredBar.month}</div>
-                    <div style={{ color: hoveredBar.isPositive ? '#6B8E7A' : '#D4A5A5' }}>
+                    <div style={{ color: hoveredBar.isPositive ? 'rgba(21, 128, 61, 0.7)' : 'rgba(185, 28, 28, 0.7)' }}>
                       {hoveredBar.isPositive ? 'Profit' : 'Loss'}: {currencySymbol}{fmtMoney(Math.abs(hoveredBar.value))}
                     </div>
                   </div>
@@ -1363,12 +1363,12 @@ export default function BusinessDetailPage() {
                       <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#1a1a1a]">
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#6B8E7A]/50">
-                              <ArrowBigUp className="w-5 h-5 text-[#6B8E7A]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[rgba(21, 128, 61, 0.7)]/50">
+                              <ArrowBigUp className="w-5 h-5 text-[rgba(21, 128, 61, 0.7)]" />
                             </div>
                           ) : (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#D4A5A5]/50">
-                              <ArrowBigDown className="w-5 h-5 text-[#D4A5A5]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[rgba(185, 28, 28, 0.7)]/50">
+                              <ArrowBigDown className="w-5 h-5 text-[rgba(185, 28, 28, 0.7)]" />
                             </div>
                           )}
                         </div>
@@ -1396,7 +1396,7 @@ export default function BusinessDetailPage() {
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className={`text-sm font-bold ${
-                            item.type === 'payouts' ? 'text-[#6B8E7A]' : 'text-[#D4A5A5]'
+                            item.type === 'payouts' ? 'text-[rgba(21, 128, 61, 0.7)]' : 'text-[rgba(185, 28, 28, 0.7)]'
                           }`} style={{ fontFamily: 'JetBrains Mono' }}>
                             {currencySymbol}{fmtMoney(item.amount)}
                           </p>
