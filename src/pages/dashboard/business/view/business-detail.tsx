@@ -426,6 +426,26 @@ export default function BusinessDetailPage() {
     290, 310, 330, 350, 340, 320, 300, 280, 260, 240
   ];
 
+  // Calculate dynamic dates for Revenue chart
+  const revenueDateRange = useMemo(() => {
+    const allDates = combinedFinancialData.map(item => new Date(item.date));
+    if (allDates.length === 0) {
+      // Default to current month if no data
+      const now = new Date();
+      const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+      return {
+        startDate: firstDay,
+        endDate: now
+      };
+    }
+    
+    const sortedDates = allDates.sort((a, b) => a.getTime() - b.getTime());
+    return {
+      startDate: sortedDates[0],
+      endDate: sortedDates[sortedDates.length - 1]
+    };
+  }, [combinedFinancialData]);
+
   // Calendar helper
   const calendarNumRows2 = useMemo(() => {
     const firstDay = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
@@ -491,9 +511,9 @@ export default function BusinessDetailPage() {
     const barPositions: { x: number; y: number; width: number; height: number; data: typeof data[0] }[] = [];
     
     data.forEach((d, i) => {
-      // Position each bar centered above its month label
+      // Position each bar centered above its month label with adjustment
       const monthPosition = padLeft + (i + 0.5) * (chartW / totalBars);
-      const x = monthPosition - barWidth / 2;
+      const x = monthPosition - barWidth / 2 - 2; // Move 2px to the left for better alignment
       
       const barH = (Math.abs(d.value) / range) * chartH;
       const barY = d.isPositive ? zeroY - barH : zeroY;
@@ -1127,13 +1147,17 @@ export default function BusinessDetailPage() {
               <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
                   {[500, 400, 300, 200, 100].map((v) => (
-                    <span key={v} style={{ fontSize: 10, color: '#3a3f47', fontFamily: 'JetBrains Mono' }}>{v}</span>
+                    <span key={v} style={{ fontSize: 10, color: '#666', fontFamily: 'JetBrains Mono' }}>{v}</span>
                   ))}
                 </div>
                 <canvas ref={perfCanvasRef} style={{ display: 'block', width: '100%' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'JetBrains Mono' }}>Jan 1, 2024</span>
-                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'JetBrains Mono' }}>Jan 30, 2024</span>
+                  <span style={{ fontSize: 11, color: '#666', fontFamily: 'JetBrains Mono' }}>
+                    {revenueDateRange.startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </span>
+                  <span style={{ fontSize: 11, color: '#666', fontFamily: 'JetBrains Mono' }}>
+                    {revenueDateRange.endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </span>
                 </div>
               </div>
             </CardContent>
