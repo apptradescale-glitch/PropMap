@@ -358,27 +358,49 @@ export default function BusinessDetailPage() {
   const subscriptionCanvasRef = useRef<HTMLCanvasElement>(null);
   const perfCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Daily payout amounts for bar chart (grouped by date, sorted)
-  const dailyPayoutAmounts = useMemo(() => {
-    const grouped: Record<string, number> = {};
+  // Monthly history data for current month (payouts + expenses grouped by day)
+  const monthlyHistoryData = useMemo(() => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+    const dailyData: Record<number, { payout: number; expense: number }> = {};
     payouts.forEach((p: any) => {
-      grouped[p.date] = (grouped[p.date] || 0) + Number(p.amount);
+      const d = new Date(p.date);
+      if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
+        const day = d.getDate();
+        if (!dailyData[day]) dailyData[day] = { payout: 0, expense: 0 };
+        dailyData[day].payout += Number(p.amount);
+      }
     });
-    return Object.entries(grouped)
-      .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
-      .map(([, amt]) => amt);
-  }, [payouts]);
+    expenses.forEach((e: any) => {
+      const d = new Date(e.date);
+      if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
+        const day = d.getDate();
+        if (!dailyData[day]) dailyData[day] = { payout: 0, expense: 0 };
+        dailyData[day].expense += Number(e.amount);
+      }
+    });
+    return Object.entries(dailyData)
+      .sort(([a], [b]) => Number(a) - Number(b))
+      .map(([, data]) => data);
+  }, [payouts, expenses]);
 
-  // Sorted payout dates for x-axis labels
-  const sortedPayoutDates = useMemo(() => {
-    return [...new Set(payouts.map((p: any) => p.date))].sort();
-  }, [payouts]);
+  const currentMonthLabel = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
-  // Performance line data (pnl values from chartData)
-  const perfLineData = useMemo(() => chartData.map((d: any) => Number(d.pnl)), [chartData]);
+  // Performance line data - fake data matching nn/dashboard.ts Revenue chart
+  const perfDataPrimary = [
+    80, 95, 110, 90, 130, 160, 140, 200, 180, 250,
+    310, 280, 350, 390, 340, 420, 460, 500, 480, 440,
+    410, 380, 350, 320, 360, 400, 450, 420, 380, 350
+  ];
+  const perfDataSecondary = [
+    60, 70, 85, 75, 100, 120, 110, 150, 135, 180,
+    220, 200, 250, 270, 240, 300, 330, 360, 340, 310,
+    290, 270, 250, 230, 260, 290, 320, 300, 270, 250
+  ];
 
-  // Canvas bar chart drawing (matches nn/src/dashboard.ts drawBarChart)
-  const drawBarChart = useCallback((canvas: HTMLCanvasElement, data: number[]) => {
+  // Canvas bar chart drawing - paired bars (payouts light gray, expenses dark gray, both upward)
+  const drawBarChart = useCallback((canvas: HTMLCanvasElement, data: { payout: number; expense: number }[]) => {
     if (!canvas || data.length === 0) return;
     const parent = canvas.parentElement;
     if (!parent) return;
@@ -395,21 +417,29 @@ export default function BusinessDetailPage() {
     const padLeft = 30, padRight = 10, padTop = 5, padBottom = 5;
     const chartW = w - padLeft - padRight;
     const chartH = h - padTop - padBottom;
-    const maxVal = Math.max(...data) * 1.1;
+    const allValues = data.flatMap(d => [d.payout, d.expense]);
+    const maxVal = Math.max(...allValues) * 1.1 || 1;
     const barWidth = 3;
-    const gap = data.length > 1 ? (chartW - data.length * barWidth) / (data.length - 1) : 0;
-    data.forEach((val, i) => {
-      const barH = (val / maxVal) * chartH;
-      const x = padLeft + i * (barWidth + gap);
-      const y = padTop + chartH - barH;
-      ctx.fillStyle = '#D1D5DB';
-      ctx.fillRect(x, y, barWidth, barH);
+    const pairWidth = barWidth * 2 + 1;
+    const gap = data.length > 1 ? (chartW - data.length * pairWidth) / (data.length - 1) : 0;
+    data.forEach((d, i) => {
+      const groupX = padLeft + i * (pairWidth + gap);
+      if (d.payout > 0) {
+        const barH = (d.payout / maxVal) * chartH;
+        ctx.fillStyle = '#D1D5DB';
+        ctx.fillRect(groupX, padTop + chartH - barH, barWidth, barH);
+      }
+      if (d.expense > 0) {
+        const barH = (d.expense / maxVal) * chartH;
+        ctx.fillStyle = '#555555';
+        ctx.fillRect(groupX + barWidth + 1, padTop + chartH - barH, barWidth, barH);
+      }
     });
   }, []);
 
-  // Canvas line chart drawing (matches nn/src/dashboard.ts drawLineChart)
-  const drawLineChart = useCallback((canvas: HTMLCanvasElement, data: number[]) => {
-    if (!canvas || data.length < 2) return;
+  // Canvas line chart drawing (matches nn/src/dashboard.ts drawLineChart) - supports two lines
+  const drawLineChart = useCallback((canvas: HTMLCanvasElement, dataPrimary: number[], dataSecondary?: number[]) => {
+    if (!canvas || dataPrimary.length < 2) return;
     const parent = canvas.parentElement;
     if (!parent) return;
     const dpr = window.devicePixelRatio || 1;
@@ -425,32 +455,39 @@ export default function BusinessDetailPage() {
     const padLeft = 30, padRight = 10, padTop = 5, padBottom = 5;
     const chartW = w - padLeft - padRight;
     const chartH = h - padTop - padBottom;
-    const maxVal = Math.max(...data) * 1.1;
-    const minVal = Math.min(...data) < 0 ? Math.min(...data) * 1.1 : 0;
+    const allValues = [...dataPrimary, ...(dataSecondary || [])];
+    const maxVal = Math.max(...allValues) * 1.1;
+    const minVal = 0;
     const range = maxVal - minVal || 1;
-    ctx.beginPath();
-    ctx.strokeStyle = '#D1D5DB';
-    ctx.lineWidth = 1.5;
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-    data.forEach((val, i) => {
-      const x = padLeft + (i / (data.length - 1)) * chartW;
-      const y = padTop + chartH - ((val - minVal) / range) * chartH;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
+    function drawLine(data: number[], color: string, lw: number) {
+      ctx!.beginPath();
+      ctx!.strokeStyle = color;
+      ctx!.lineWidth = lw;
+      ctx!.lineJoin = 'round';
+      ctx!.lineCap = 'round';
+      data.forEach((val, i) => {
+        const x = padLeft + (i / (data.length - 1)) * chartW;
+        const y = padTop + chartH - ((val - minVal) / range) * chartH;
+        if (i === 0) ctx!.moveTo(x, y);
+        else ctx!.lineTo(x, y);
+      });
+      ctx!.stroke();
+    }
+    if (dataSecondary && dataSecondary.length >= 2) {
+      drawLine(dataSecondary, '#6B7280', 1);
+    }
+    drawLine(dataPrimary, '#D1D5DB', 1.5);
   }, []);
 
   // Draw canvas charts on mount and data change
   useEffect(() => {
-    if (subscriptionCanvasRef.current && dailyPayoutAmounts.length > 0) {
-      drawBarChart(subscriptionCanvasRef.current, dailyPayoutAmounts);
+    if (subscriptionCanvasRef.current && monthlyHistoryData.length > 0) {
+      drawBarChart(subscriptionCanvasRef.current, monthlyHistoryData);
     }
-    if (perfCanvasRef.current && perfLineData.length > 1) {
-      drawLineChart(perfCanvasRef.current, perfLineData);
+    if (perfCanvasRef.current) {
+      drawLineChart(perfCanvasRef.current, perfDataPrimary, perfDataSecondary);
     }
-  }, [dailyPayoutAmounts, perfLineData, drawBarChart, drawLineChart]);
+  }, [monthlyHistoryData, drawBarChart, drawLineChart]);
 
   // Resize handler for canvas charts
   useEffect(() => {
@@ -458,17 +495,17 @@ export default function BusinessDetailPage() {
     const handleResize = () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        if (subscriptionCanvasRef.current && dailyPayoutAmounts.length > 0) {
-          drawBarChart(subscriptionCanvasRef.current, dailyPayoutAmounts);
+        if (subscriptionCanvasRef.current && monthlyHistoryData.length > 0) {
+          drawBarChart(subscriptionCanvasRef.current, monthlyHistoryData);
         }
-        if (perfCanvasRef.current && perfLineData.length > 1) {
-          drawLineChart(perfCanvasRef.current, perfLineData);
+        if (perfCanvasRef.current) {
+          drawLineChart(perfCanvasRef.current, perfDataPrimary, perfDataSecondary);
         }
       }, 100);
     };
     window.addEventListener('resize', handleResize);
     return () => { window.removeEventListener('resize', handleResize); clearTimeout(timer); };
-  }, [dailyPayoutAmounts, perfLineData, drawBarChart, drawLineChart]);
+  }, [monthlyHistoryData, drawBarChart, drawLineChart]);
 
   // Save financial data to Firestore with optimistic updates
   const saveFinancialData = async (type: 'payouts' | 'expenses', data: any) => {
@@ -759,34 +796,48 @@ export default function BusinessDetailPage() {
             </CardContent>
           </Card>
           ) : (
-          /* New Subscriptions Bar Chart - nn style */
-          <div style={{ background: '#121417', border: '1px solid #1E2228', borderRadius: 12, padding: 20, display: 'flex', flexDirection: 'column' }}>
-            <div style={{ fontSize: 13, color: '#8B949E', marginBottom: 8 }}>New Subscriptions</div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-              <span style={{ fontSize: 28, fontWeight: 600, color: '#E7E9EA', lineHeight: 1.2 }}>{payouts.length}</span>
-              <span style={{ fontSize: 12, color: '#22C55E' }}>Payouts</span>
-            </div>
-            <div style={{ position: 'relative', flex: 1, minHeight: 160, marginTop: 8 }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
-                {(() => {
-                  const max = dailyPayoutAmounts.length > 0 ? Math.max(...dailyPayoutAmounts) : 500;
-                  const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
-                  return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v) => (
-                    <span key={v} style={{ fontSize: 10, color: '#3a3f47' }}>{v}</span>
-                  ));
-                })()}
+          /* Monthly History Bar Chart */
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <div className="flex flex-col gap-1">
+                <CardTitle className="text-sm font-medium text-white">
+                  Monthly History
+                </CardTitle>
+                <CardDescription className="text-[#666]">
+                  {currentMonthLabel}
+                </CardDescription>
               </div>
-              <canvas ref={subscriptionCanvasRef} style={{ display: 'block', width: '100%' }} />
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                <span style={{ fontSize: 11, color: '#8B949E' }}>
-                  {sortedPayoutDates.length > 0 ? new Date(sortedPayoutDates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''}
-                </span>
-                <span style={{ fontSize: 11, color: '#8B949E' }}>
-                  {sortedPayoutDates.length > 0 ? new Date(sortedPayoutDates[sortedPayoutDates.length - 1]).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''}
-                </span>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#D1D5DB' }} />
+                  <span className="text-[10px] text-[#888]">Payouts</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#555555' }} />
+                  <span className="text-[10px] text-[#888]">Expenses</span>
+                </div>
               </div>
-            </div>
-          </div>
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
+                  {(() => {
+                    const allVals = monthlyHistoryData.flatMap(d => [d.payout, d.expense]);
+                    const max = allVals.length > 0 ? Math.max(...allVals) : 500;
+                    const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
+                    return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v, idx) => (
+                      <span key={idx} style={{ fontSize: 10, color: '#3a3f47' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
+                    ));
+                  })()}
+                </div>
+                <canvas ref={subscriptionCanvasRef} style={{ display: 'block', width: '100%' }} />
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
+                  <span className="text-[11px] text-[#666]">1st</span>
+                  <span className="text-[11px] text-[#666]">{new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()}th</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
           )}
 
           {/* Calendar Day Detail Dialog */}
@@ -1214,42 +1265,32 @@ export default function BusinessDetailPage() {
             </CardContent>
           </Card>
           ) : (
-          /* Performance Chart - nn style canvas line chart */
-          <div style={{ background: '#121417', border: '1px solid #1E2228', borderRadius: 12, padding: 20, display: 'flex', flexDirection: 'column' }}>
-            <div style={{ fontSize: 13, color: '#8B949E', marginBottom: 8 }}>Performance</div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-              <span style={{ fontSize: 28, fontWeight: 600, color: '#E7E9EA', lineHeight: 1.2 }}>
-                {lastPnl < 0 ? '-' : ''}{currencySymbol}{fmtMoney(lastPnl)}
-              </span>
-              <span style={{ fontSize: 12, color: isPositivePerf ? '#22C55E' : '#EF4444' }}>
-                {isPositivePerf ? '+' : ''}{totalPayouts > 0 ? ((lastPnl / totalPayouts) * 100).toFixed(0) : 0}%
-              </span>
-            </div>
-            <div style={{ position: 'relative', flex: 1, minHeight: 160, marginTop: 8 }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
-                {(() => {
-                  const vals = perfLineData.filter(v => v !== 0 || perfLineData.length <= 2);
-                  const max = vals.length > 0 ? Math.max(...vals) : 500;
-                  const min = vals.length > 0 ? Math.min(...vals) : 0;
-                  const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
-                  const niceMin = min < 0 ? Math.floor(min * 1.1 / 100) * 100 : 0;
-                  const range = niceMax - niceMin || 500;
-                  return [niceMax, Math.round(niceMin + range * 0.75), Math.round(niceMin + range * 0.5), Math.round(niceMin + range * 0.25), niceMin].map((v, idx) => (
-                    <span key={idx} style={{ fontSize: 10, color: '#3a3f47' }}>{v < 0 ? '-' : ''}{currencySymbol}{fmtMoney(v, 0)}</span>
-                  ));
-                })()}
-              </div>
-              <canvas ref={perfCanvasRef} style={{ display: 'block', width: '100%' }} />
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                <span style={{ fontSize: 11, color: '#8B949E' }}>
-                  {chartData.length > 1 && chartData[1]?.date ? chartData[1].date : ''}
-                </span>
-                <span style={{ fontSize: 11, color: '#8B949E' }}>
-                  {chartData.length > 1 ? chartData[chartData.length - 1]?.date : ''}
+          /* Performance Chart - styled exactly as nn Revenue chart */
+          <Card className="border-[#1E2228] bg-[#121417]">
+            <CardContent className="p-5">
+              <div style={{ fontSize: 13, color: '#8B949E', marginBottom: 8 }}>Revenue</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+                <span style={{ fontSize: 28, fontWeight: 600, color: '#E7E9EA', lineHeight: 1.2 }}>$19.3K</span>
+                <span style={{ fontSize: 12, lineHeight: 1.3 }}>
+                  <span style={{ color: '#22C55E' }}>+15%</span>
+                  <br />
+                  <span style={{ color: '#8B949E' }}>($17,840)</span>
                 </span>
               </div>
-            </div>
-          </div>
+              <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
+                  {[500, 400, 300, 200, 100].map((v) => (
+                    <span key={v} style={{ fontSize: 10, color: '#3a3f47' }}>{v}</span>
+                  ))}
+                </div>
+                <canvas ref={perfCanvasRef} style={{ display: 'block', width: '100%' }} />
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
+                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'monospace' }}>Jan 1, 2024</span>
+                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'monospace' }}>Jan 30, 2024</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
           )}
 
           {/* Revenue History Card */}
