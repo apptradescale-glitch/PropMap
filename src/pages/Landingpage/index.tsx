@@ -372,9 +372,9 @@ export default function LandingPage() {
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <div style={{ display: 'flex', gap: 4 }}>
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e0ac69' }} />
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e0ac69', opacity: 0.8 }} />
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e0ac69', opacity: 0.6 }} />
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#15803D' }} />
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#15803D', opacity: 0.8 }} />
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#15803D', opacity: 0.6 }} />
                   </div>
                   <span style={{ color: '#666', fontSize: 12, fontFamily: 'monospace' }}>propmap.app</span>
                 </div>
@@ -451,7 +451,7 @@ export default function LandingPage() {
                           width: 28,
                           height: 28,
                           borderRadius: '50%',
-                          border: '2px solid #e0ac69',
+                          border: '2px solid #15803D',
                           borderTopColor: 'transparent',
                           background: '#141414',
                           display: 'flex',
@@ -459,7 +459,7 @@ export default function LandingPage() {
                           justifyContent: 'center',
                           boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
                         }}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#15803D" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                             <polyline points="20 6 9 17 4 12" />
                           </svg>
                         </div>
@@ -571,7 +571,7 @@ export default function LandingPage() {
                   rx="8"
                 />
               </svg>
-              <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{ color: '#15803D', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{
                   fontSize: 22.5,
                   fontWeight: 700,
@@ -661,7 +661,7 @@ export default function LandingPage() {
                           width: 28,
                           height: 28,
                           borderRadius: '50%',
-                          border: '2px solid #e0ac69',
+                          border: '2px solid #15803D',
                           borderTopColor: 'transparent',
                           background: '#141414',
                           display: 'flex',
@@ -670,19 +670,19 @@ export default function LandingPage() {
                           boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
                         }}>
                           {feature.usePieChart ? (
-                            <PieChart size={14} color="#e0ac69" />
+                            <PieChart size={14} color="#15803D" />
                           ) : feature.useArchiveRestore ? (
-                            <ArchiveRestore size={14} color="#e0ac69" />
+                            <ArchiveRestore size={14} color="#15803D" />
                           ) : feature.useBrainCircuit ? (
-                            <BrainCircuit size={14} color="#e0ac69" />
+                            <BrainCircuit size={14} color="#15803D" />
                           ) : feature.useLink2 ? (
-                            <Link2 size={14} color="#e0ac69" />
+                            <Link2 size={14} color="#15803D" />
                           ) : feature.useNotebookPen ? (
-                            <NotebookPen size={14} color="#e0ac69" />
+                            <NotebookPen size={14} color="#15803D" />
                           ) : feature.useShieldCheck ? (
-                            <ShieldCheck size={14} color="#e0ac69" />
+                            <ShieldCheck size={14} color="#15803D" />
                           ) : (
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#15803D" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                               <polyline points="20 6 9 17 4 12" />
                             </svg>
                           )}
@@ -780,7 +780,7 @@ export default function LandingPage() {
                 rx="8"
               />
             </svg>
-            <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ color: '#15803D', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{
                 fontSize: 22.5,
                 fontWeight: 700,
@@ -839,7 +839,7 @@ export default function LandingPage() {
                   left: 0,
                   right: 0,
                   height: 2,
-                  background: 'linear-gradient(90deg, transparent, #e0ac69, transparent)',
+                  background: 'linear-gradient(90deg, transparent, #15803D, transparent)',
                   filter: 'blur(1px)',
                   boxShadow: '0 0 8px rgba(224, 172, 105, 0.6)',
                 }} />
@@ -911,7 +911,7 @@ export default function LandingPage() {
                         width: 20,
                         height: 20,
                         borderRadius: '50%',
-                        border: '2px solid #e0ac69',
+                        border: '2px solid #15803D',
                         borderTopColor: 'transparent',
                         background: '#141414',
                         display: 'flex',
@@ -919,7 +919,7 @@ export default function LandingPage() {
                         justifyContent: 'center',
                         boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
                       }}>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#15803D" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
                       </div>
@@ -964,7 +964,7 @@ export default function LandingPage() {
                 position: 'absolute',
                 top: -12,
                 right: 24,
-                background: '#e0ac69',
+                background: '#15803D',
                 color: '#000',
                 padding: '4px 12px',
                 borderRadius: 12,
@@ -985,7 +985,7 @@ export default function LandingPage() {
                   left: 0,
                   right: 0,
                   height: 2,
-                  background: 'linear-gradient(90deg, transparent, #e0ac69, transparent)',
+                  background: 'linear-gradient(90deg, transparent, #15803D, transparent)',
                   filter: 'blur(1px)',
                   boxShadow: '0 0 8px rgba(224, 172, 105, 0.6)',
                 }} />
@@ -1057,7 +1057,7 @@ export default function LandingPage() {
                         width: 20,
                         height: 20,
                         borderRadius: '50%',
-                        border: '2px solid #e0ac69',
+                        border: '2px solid #15803D',
                         borderTopColor: 'transparent',
                         background: '#141414',
                         display: 'flex',
@@ -1065,7 +1065,7 @@ export default function LandingPage() {
                         justifyContent: 'center',
                         boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
                       }}>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e0ac69" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#15803D" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
                       </div>
@@ -1150,7 +1150,7 @@ export default function LandingPage() {
                 rx="8"
               />
             </svg>
-            <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ color: '#15803D', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{
                 fontSize: 22.5,
                 fontWeight: 700,
@@ -1239,7 +1239,7 @@ export default function LandingPage() {
                   width: 28,
                   height: 28,
                   borderRadius: '50%',
-                  border: '2px solid #e0ac69',
+                  border: '2px solid #15803D',
                   borderTopColor: 'transparent',
                   background: '#141414',
                   display: 'flex',
@@ -1247,7 +1247,7 @@ export default function LandingPage() {
                   justifyContent: 'center',
                   boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
                 }}>
-                  <Building2 size={14} color="#e0ac69" />
+                  <Building2 size={14} color="#15803D" />
                 </div>
               </div>
               <h3 style={{
@@ -1311,7 +1311,7 @@ export default function LandingPage() {
                   width: 28,
                   height: 28,
                   borderRadius: '50%',
-                  border: '2px solid #e0ac69',
+                  border: '2px solid #15803D',
                   borderTopColor: 'transparent',
                   background: '#141414',
                   display: 'flex',
@@ -1319,7 +1319,7 @@ export default function LandingPage() {
                   justifyContent: 'center',
                   boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
                 }}>
-                  <Mail size={14} color="#e0ac69" />
+                  <Mail size={14} color="#15803D" />
                 </div>
               </div>
               <h3 style={{
@@ -1400,7 +1400,7 @@ export default function LandingPage() {
                   </div>
                   <span style={{ color: '#fff', fontSize: 16, fontWeight: 500 }}>IMAP</span>
                 </div>
-                <span style={{ color: '#888', fontSize: 13, marginTop: 12 }}>[<span style={{ color: '#e0ac69', fontWeight: 700 }}>ALL</span> other emails are <br />connectable thorugh IMAP ]</span>
+                <span style={{ color: '#888', fontSize: 13, marginTop: 12 }}>[<span style={{ color: '#15803D', fontWeight: 700 }}>ALL</span> other emails are <br />connectable thorugh IMAP ]</span>
               </div>
             </div>
 
@@ -1425,7 +1425,7 @@ export default function LandingPage() {
                   width: 28,
                   height: 28,
                   borderRadius: '50%',
-                  border: '2px solid #e0ac69',
+                  border: '2px solid #15803D',
                   borderTopColor: 'transparent',
                   background: '#141414',
                   display: 'flex',
@@ -1433,7 +1433,7 @@ export default function LandingPage() {
                   justifyContent: 'center',
                   boxShadow: '0 0 8px rgba(224,172,105,0.15), 0 4px 6px rgba(224,172,105,0.5)',
                 }}>
-                  <TradingIcon size={14} color="#e0ac69" />
+                  <TradingIcon size={14} color="#15803D" />
                 </div>
               </div>
               <h3 style={{
@@ -1522,7 +1522,7 @@ export default function LandingPage() {
                 rx="8"
               />
             </svg>
-            <span style={{ color: '#e0ac69', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ color: '#15803D', position: 'relative', zIndex: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{
                 fontSize: 22.5,
                 fontWeight: 700,
@@ -1615,7 +1615,7 @@ export default function LandingPage() {
                     {faq.question}
                   </span>
                   <span style={{ 
-                    color: '#e0ac69', 
+                    color: '#15803D', 
                     fontSize: 10,
                     transition: 'transform 0.2s'
                   }}>

@@ -357,6 +357,9 @@ export default function BusinessDetailPage() {
   // Canvas refs for nn-style charts
   const subscriptionCanvasRef = useRef<HTMLCanvasElement>(null);
   const perfCanvasRef = useRef<HTMLCanvasElement>(null);
+  
+  // Tooltip state for bar chart
+  const [hoveredBar, setHoveredBar] = useState<{ month: string; value: number; isPositive: boolean } | null>(null);
 
   // Monthly history data for current month (payouts + expenses grouped by day)
   const monthlyHistoryData = useMemo(() => {
@@ -446,28 +449,84 @@ export default function BusinessDetailPage() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     ctx.scale(dpr, dpr);
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, w, h);
+    
     const padLeft = 30, padRight = 10, padTop = 5, padBottom = 25;
     const chartW = w - padLeft - padRight;
     const chartH = h - padTop - padBottom;
-    const barWidth = chartW / data.length * 0.7;
-    const gap = chartW / data.length * 0.3;
+    const barWidth = chartW / data.length * 0.6;
+    const gap = chartW / data.length * 0.4;
     const allVals = data.map(d => d.value);
     const max = allVals.length > 0 ? Math.max(...allVals.map(Math.abs)) : 500;
     const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
     const range = niceMax || 1;
+    
+    // Draw zero line
+    ctx.strokeStyle = '#666';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    const zeroY = padTop + chartH;
+    ctx.moveTo(padLeft, zeroY);
+    ctx.lineTo(padLeft + chartW, zeroY);
+    ctx.stroke();
+    
     function drawBar(x: number, val: number, isPositive: boolean) {
-      ctx!.fillStyle = isPositive ? '#D1D5DB' : '#555555';
+      ctx.fillStyle = isPositive ? '#D1D5DB' : '#555555';
       const barH = (Math.abs(val) / range) * chartH;
       const barY = isPositive 
-        ? padTop + chartH - barH 
-        : padTop + chartH;
-      ctx!.fillRect(x, barY, barWidth, barH);
+        ? zeroY - barH 
+        : zeroY;
+      ctx.fillRect(x, barY, barWidth, barH);
     }
+    
+    // Store bar positions for hover detection
+    const barPositions: { x: number; y: number; width: number; height: number; data: typeof data[0] }[] = [];
+    
     data.forEach((d, i) => {
       const x = padLeft + i * (barWidth + gap) + gap / 2;
+      const barH = (Math.abs(d.value) / range) * chartH;
+      const barY = d.isPositive ? zeroY - barH : zeroY;
+      
       drawBar(x, d.value, d.isPositive);
+      
+      // Store position for hover
+      barPositions.push({
+        x: x,
+        y: barY,
+        width: barWidth,
+        height: barH,
+        data: d
+      });
     });
-  }, []);
+    
+    // Add mouse move handler
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      
+      let hovered: typeof data[0] | null = null;
+      
+      for (const bar of barPositions) {
+        if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
+            mouseY >= bar.y && mouseY <= bar.y + bar.height) {
+          hovered = bar.data;
+          break;
+        }
+      }
+      
+      setHoveredBar(hovered);
+    };
+    
+    const handleMouseLeave = () => {
+      setHoveredBar(null);
+    };
+    
+    canvas.onmousemove = handleMouseMove;
+    canvas.onmouseleave = handleMouseLeave;
+  }, [setHoveredBar]);
 
   // Canvas line chart drawing (matches nn/src/dashboard.ts drawLineChart) - supports two lines
   const drawLineChart = useCallback((canvas: HTMLCanvasElement, dataPrimary: number[], dataSecondary?: number[]) => {
@@ -1091,11 +1150,36 @@ export default function BusinessDetailPage() {
                     const max = allVals.length > 0 ? Math.max(...allVals) : 500;
                     const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
                     return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v, idx) => (
-                      <span key={idx} style={{ fontSize: 10, color: '#3a3f47', fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
+                      <span key={idx} style={{ fontSize: 10, color: '#666', fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
                     ));
                   })()}
                 </div>
                 <canvas ref={subscriptionCanvasRef} style={{ display: 'block', width: '100%' }} />
+                {/* Tooltip */}
+                {hoveredBar && (
+                  <div 
+                    style={{
+                      position: 'absolute',
+                      top: '10px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      background: 'rgba(0, 0, 0, 0.9)',
+                      color: 'white',
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      fontFamily: 'Inter',
+                      zIndex: 10,
+                      pointerEvents: 'none',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{hoveredBar.month}</div>
+                    <div style={{ color: hoveredBar.isPositive ? '#15803D' : '#B91C1C' }}>
+                      {hoveredBar.isPositive ? 'Profit' : 'Loss'}: {currencySymbol}{fmtMoney(Math.abs(hoveredBar.value))}
+                    </div>
+                  </div>
+                )}
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
                   <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Jan</span>
                   <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Feb</span>
