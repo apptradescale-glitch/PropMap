@@ -735,10 +735,10 @@ export default function BusinessDetailPage() {
         </div>
 
         
-        {/* Performance + Location/Analytics row */}
+        {/* Combined view: Performance + Analytics row */}
+        {business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Performance Chart (combined) or Calendar (individual) - Left */}
-          {business?.isCombinedView ? (
+          {/* Performance Chart (combined) */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
@@ -795,50 +795,82 @@ export default function BusinessDetailPage() {
               </div>
             </CardContent>
           </Card>
-          ) : (
-          /* Monthly History Bar Chart */
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white">
-                  Monthly History
-                </CardTitle>
-                <CardDescription className="text-[#666]">
-                  {currentMonthLabel}
-                </CardDescription>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#D1D5DB' }} />
-                  <span className="text-[10px] text-[#888]">Payouts</span>
+
+          {/* Right side - Business Overview (combined only) */}
+          <div className="grid grid-cols-2 gap-4">
+            <Card className="border-[#2a2a2a] bg-[#0a0a0a] col-span-2">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+                <div className="flex flex-col gap-1">
+                  <CardTitle className="text-sm font-medium text-white">
+                    Business Overview
+                  </CardTitle>
+                  <CardDescription className="text-[#666]">
+                    View all your businesses
+                  </CardDescription>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#555555' }} />
-                  <span className="text-[10px] text-[#888]">Expenses</span>
+                <Building2 className="h-4 w-4 text-[#666]" />
+              </CardHeader>
+              <CardContent className="pt-2 pb-4">
+                <div className="h-full min-h-[280px] overflow-y-auto">
+                  {businessDataWithTotals && businessDataWithTotals.length > 0 ? (
+                    <div className="space-y-3">
+                      {businessDataWithTotals.map((biz: any, index: number) => (
+                        <div key={biz.id || index} className="p-4 rounded-lg bg-transparent border border-[#2a2a2a] hover:border-[#e0ac69]/50 transition-all duration-200">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
+                              <span className="text-[#888] font-medium" style={{ fontSize: '10px' }}>
+                                {biz.businessSector === 'proptrading' 
+                                  ? biz.userName?.charAt(0)?.toUpperCase() || 'U'
+                                  : biz.name?.charAt(0)?.toUpperCase() || 'B'
+                                }
+                              </span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <h4 className="text-white font-semibold text-sm truncate">
+                                  {biz.businessSector === 'proptrading' ? biz.userName : biz.name}
+                                </h4>
+                                <div className={`w-2 h-2 rounded-full ${biz.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                              </div>
+                              <div className="text-xs mt-1">
+                                <span>{biz.businessSector === 'proptrading' ? 'PropTrading' : biz.customSector}</span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-4 flex-shrink-0">
+                              <div className="text-right">
+                                <div className="text-sm font-bold text-white">
+                                  {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalRevenue)}
+                                </div>
+                                <p className="text-xs text-[#666]">Revenue</p>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-sm font-bold text-white">
+                                  {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalPayouts)}
+                                </div>
+                                <p className="text-xs text-[#666]">Payouts</p>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-sm font-bold text-white">
+                                  {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalExpenses)}
+                                </div>
+                                <p className="text-xs text-[#666]">Expenses</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center h-full min-h-[200px]">
+                      <p className="text-[#666] text-sm">No businesses found</p>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-2 pb-4">
-              <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
-                  {(() => {
-                    const allVals = monthlyHistoryData.flatMap(d => [d.payout, d.expense]);
-                    const max = allVals.length > 0 ? Math.max(...allVals) : 500;
-                    const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
-                    return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v, idx) => (
-                      <span key={idx} style={{ fontSize: 10, color: '#3a3f47' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
-                    ));
-                  })()}
-                </div>
-                <canvas ref={subscriptionCanvasRef} style={{ display: 'block', width: '100%' }} />
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                  <span className="text-[11px] text-[#666]">1st</span>
-                  <span className="text-[11px] text-[#666]">{new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()}th</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+        )}
 
           {/* Calendar Day Detail Dialog */}
           <Dialog open={!!selectedCalendarDay} onOpenChange={() => setSelectedCalendarDay(null)}>
@@ -880,291 +912,170 @@ export default function BusinessDetailPage() {
             </DialogContent>
           </Dialog>
 
-          {/* Right side - Analytics + Location stacked */}
-          <div className="grid grid-cols-2 gap-4">
-            {/* Business Overview Card - Only in combined view */}
-            {business?.isCombinedView && (
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a] col-span-2">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-                <div className="flex flex-col gap-1">
-                  <CardTitle className="text-sm font-medium text-white">
-                    Business Overview
-                  </CardTitle>
-                  <CardDescription className="text-[#666]">
-                    View all your businesses
-                  </CardDescription>
-                </div>
-                <Building2 className="h-4 w-4 text-[#666]" />
-              </CardHeader>
-              <CardContent className="pt-2 pb-4">
-                <div className="h-full min-h-[280px] overflow-y-auto">
-                  {/* Business List */}
-                  {businessDataWithTotals && businessDataWithTotals.length > 0 ? (
-                    <div className="space-y-3">
-                      {businessDataWithTotals.map((biz: any, index: number) => (
-                        <div key={biz.id || index} className="p-4 rounded-lg bg-transparent border border-[#2a2a2a] hover:border-[#e0ac69]/50 transition-all duration-200">
-                          <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
-                              <span className="text-[#888] font-medium" style={{ fontSize: '10px' }}>
-                                {biz.businessSector === 'proptrading' 
-                                  ? biz.userName?.charAt(0)?.toUpperCase() || 'U'
-                                  : biz.name?.charAt(0)?.toUpperCase() || 'B'
-                                }
-                              </span>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2">
-                                <h4 className="text-white font-semibold text-sm truncate">
-                                  {biz.businessSector === 'proptrading' ? biz.userName : biz.name}
-                                </h4>
-                                <div className={`w-2 h-2 rounded-full ${biz.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                              </div>
-                              <div className="text-xs mt-1">
-                                <span>{biz.businessSector === 'proptrading' ? 'PropTrading' : biz.customSector}</span>
-                              </div>
-                            </div>
-                            
-                            {/* Financial Numbers - Right Side */}
-                            <div className="flex items-center gap-4 flex-shrink-0">
-                              <div className="text-right">
-                                <div className="text-sm font-bold text-white">
-                                  {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalRevenue)}
-                                </div>
-                                <p className="text-xs text-[#666]">Revenue</p>
-                              </div>
-                              <div className="text-right">
-                                <div className="text-sm font-bold text-white">
-                                  {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalPayouts)}
-                                </div>
-                                <p className="text-xs text-[#666]">Payouts</p>
-                              </div>
-                              <div className="text-right">
-                                <div className="text-sm font-bold text-white">
-                                  {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalExpenses)}
-                                </div>
-                                <p className="text-xs text-[#666]">Expenses</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-center h-full min-h-[200px]">
-                      <p className="text-[#666] text-sm">No businesses found</p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-            )}
-
-            {/* Add Your Numbers Card - Hidden in combined view */}
-            {!business?.isCombinedView && (
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a] shadow-lg shadow-white/20 transition-all duration-200">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-                <div className="relative inline-block">
-                  <div 
-                    className="absolute inset-0 bg-[#e0ac69]/50 transform -rotate-1 rounded"
-                    style={{
-                      filter: 'blur(0.5px)',
-                      clipPath: 'polygon(0 5%, 95% 0%, 100% 95%, 5% 100%)'
-                    }}
-                  ></div>
-                  <div 
-                    className="relative bg-[#e0ac69]/50 px-2 py-1 rounded"
-                    style={{
-                      transform: 'rotate(0.5deg)',
-                      filter: 'blur(0.3px)'
-                    }}
-                  >
-                    <CardTitle className="text-sm font-medium text-white">
-                      Add your numbers
-                    </CardTitle>
-                  </div>
-                </div>
-                <Pen className="h-4 w-4 text-[#666]" />
-              </CardHeader>
-              <CardContent className="pt-2 pb-4">
-                <div className="space-y-4">
-                  {/* Payouts/Income Section */}
-                  <div className="space-y-2">
-                    <p className="text-white text-sm font-medium">Payouts / Income</p>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleOpenDialog('payouts', 'manual')}
-                        className="flex-1 bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs"
-                      >
-                        Add Manually
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleOpenDialog('payouts', 'automatic')}
-                        className="flex-1 bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs"
-                      >
-                        Add Automatically
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  {/* Separator Line */}
-                  <div className="h-px bg-[#333]"></div>
-                  
-                  {/* Expenses Section */}
-                  <div className="space-y-2">
-                    <p className="text-white text-sm font-medium">Add Expenses</p>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleOpenDialog('expenses', 'manual')}
-                        className="flex-1 bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs"
-                      >
-                        Add Manually
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleOpenDialog('expenses', 'automatic')}
-                        className="flex-1 bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs"
-                      >
-                        Add Automatically
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            )}
-
-            {/* PropFirm Breakdown / Income Expenses Flow Card - Hidden in combined view */}
-            {!business?.isCombinedView && (
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a] row-span-2 h-full">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+        {/* Individual business: Row 1 - Revenue History + PropFirm Breakdown (2x wide) */}
+        {!business?.isCombinedView && (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {/* Revenue History Card */}
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <div className="flex flex-col gap-1">
                 <CardTitle className="text-sm font-medium text-white">
-                  {business?.businessSector === 'proptrading' ? 'PropFirm Breakdown' : 'Income / Expenses Flow'}
+                  Revenue History
                 </CardTitle>
-                <LineChart className="h-4 w-4 text-[#666]" />
-              </CardHeader>
-              <CardContent className="pt-2 pb-4 h-full">
-                <div className="flex items-center justify-center h-full min-h-[280px]">
-                  <p className="text-[#666] text-sm">
-                    {business?.businessSector === 'proptrading' ? 'PropFirm breakdown coming soon' : 'Income / Expenses flow coming soon'}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-            )}
-
-            {/* Right - Cashflow Allocation Pie Chart - Hidden in combined view */}
-            {!business?.isCombinedView && (
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-                <div className="flex flex-col gap-1">
-                  <CardTitle className="text-sm font-medium text-white">
-                    Cashflow Allocation
-                  </CardTitle>
-                  <CardDescription className="text-[#666]">
-                    Income vs Expenses breakdown
-                  </CardDescription>
-                </div>
-                <PieChartIcon className="h-4 w-4 text-[#666]" />
-              </CardHeader>
-              <CardContent className="pt-2 pb-4">
-                <div style={{ width: '100%', height: 280 }}>
-                  {(() => {
-                    const PIE_COLORS_MID = ['#22c55e', '#dc2626'];
-                    const midPieData = [
-                      { name: 'Payouts / Income', value: Math.max(totalPayouts, 0), label: 'Payouts / Income' },
-                      { name: 'Expenses', value: Math.max(totalExpenses, 0), label: 'Expenses' }
-                    ];
-                    const midTotal = midPieData.reduce((sum, d) => sum + d.value, 0);
-                    const cs = currencySymbol;
-                    
-                    return midTotal > 0 ? (
-                      <div className="flex flex-col items-center gap-4 h-full">
-                        <ResponsiveContainer width="100%" height={200}>
-                          <RechartsPieChart>
-                            <Pie
-                              data={midPieData}
-                              cx="50%"
-                              cy="50%"
-                              innerRadius={50}
-                              outerRadius={80}
-                              paddingAngle={midPieData.filter(d => d.value > 0).length > 1 ? 3 : 0}
-                              dataKey="value"
-                              animationDuration={750}
-                            >
-                              {midPieData.map((_: any, index: number) => (
-                                <Cell key={`cell-mid-${index}`} fill={PIE_COLORS_MID[index]} />
-                              ))}
-                            </Pie>
-                            <Tooltip
-                              content={({ active, payload }) => {
-                                if (!active || !payload?.length) return null;
-                                const data = payload[0].payload;
-                                const percentage = midTotal > 0 ? ((data.value / midTotal) * 100).toFixed(1) : '0';
-                                return (
-                                  <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
-                                    <div className="text-sm text-white font-medium">{data.name}</div>
-                                    <div className="text-sm font-semibold text-[#e0ac69] mt-1">
-                                      {currencySymbol}{data.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({percentage}%)
-                                    </div>
-                                  </div>
-                                );
-                              }}
-                            />
-                          </RechartsPieChart>
-                        </ResponsiveContainer>
-                        {/* Legend */}
-                        <div className="flex flex-wrap justify-center gap-4">
-                          {midPieData.map((entry, index) => {
-                            const percentage = midTotal > 0 ? ((entry.value / midTotal) * 100).toFixed(1) : '0';
-                            return (
-                              <div key={index} className="flex flex-col items-center gap-0.5">
-                                <div className="flex items-center gap-2">
-                                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS_MID[index] }}></div>
-                                  <span className="text-white text-xs">{entry.label}</span>
-                                  <span className="text-white text-xs font-semibold">
-                                    {showPieAsMoney 
-                                      ? `${currencySymbol}${entry.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                                      : `${percentage}%`
-                                    }
-                                  </span>
-                                </div>
-                              </div>
-                            );
-                          })}
+                <CardDescription className="text-[#666]">
+                  Payouts & Expenses History
+                </CardDescription>
+              </div>
+              <Timer className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div className="h-full min-h-[350px] overflow-y-auto">
+                {combinedFinancialData.length === 0 ? (
+                  <div className="flex items-center justify-center h-full">
+                    <p className="text-[#666] text-sm">No payouts or expenses yet</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {combinedFinancialData.map((item) => (
+                      <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#2a2a2a]">
+                        <div className="flex-shrink-0">
+                          {item.type === 'payouts' ? (
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-green-500/50">
+                              <ArrowBigUp className="w-5 h-5 text-green-400" />
+                            </div>
+                          ) : (
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-red-500/50">
+                              <ArrowBigDown className="w-5 h-5 text-red-400" />
+                            </div>
+                          )}
                         </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setShowPieAsMoney(!showPieAsMoney)}
-                          className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-3 mt-1"
-                        >
-                          {showPieAsMoney ? 'Show %' : `Show in ${currencySymbol}`}
-                        </Button>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white text-sm font-medium truncate">
+                            {item.description}
+                          </p>
+                          {item.fileName && (
+                            <div className="flex items-center gap-1 mt-1">
+                              <FileText className="w-3 h-3 text-[#666]" />
+                              <p className="text-[#666] text-xs truncate">{item.fileName}</p>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-shrink-0 text-right">
+                          <p className={`text-sm font-bold ${
+                            item.type === 'payouts' ? 'text-green-400' : 'text-red-400'
+                          }`}>
+                            {currencySymbol}{fmtMoney(item.amount)}
+                          </p>
+                          <p className="text-[#666] text-xs">
+                            {new Date(item.date).toLocaleDateString()}
+                          </p>
+                        </div>
                       </div>
-                    ) : (
-                      <div className="flex items-center justify-center h-full">
-                        <p className="text-[#666] text-sm">No financial data yet</p>
-                      </div>
-                    );
+                    ))}
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* PropFirm Breakdown / Income Expenses Flow Card - 2x width */}
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a] md:col-span-2">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <CardTitle className="text-sm font-medium text-white">
+                {business?.businessSector === 'proptrading' ? 'PropFirm Breakdown' : 'Income / Expenses Flow'}
+              </CardTitle>
+              <LineChart className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4 h-full">
+              <div className="flex items-center justify-center h-full min-h-[350px]">
+                <p className="text-[#666] text-sm">
+                  {business?.businessSector === 'proptrading' ? 'PropFirm breakdown coming soon' : 'Income / Expenses flow coming soon'}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        )}
+
+        {/* Individual business: Row 2 - Revenue graph + Monthly History */}
+        {!business?.isCombinedView && (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {/* Revenue graph - nn style canvas line chart */}
+          <Card className="border-[#1E2228] bg-[#121417]">
+            <CardContent className="p-5">
+              <div style={{ fontSize: 13, color: '#8B949E', marginBottom: 8 }}>Revenue</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+                <span style={{ fontSize: 28, fontWeight: 600, color: '#E7E9EA', lineHeight: 1.2 }}>$19.3K</span>
+                <span style={{ fontSize: 12, lineHeight: 1.3 }}>
+                  <span style={{ color: '#22C55E' }}>+15%</span>
+                  <br />
+                  <span style={{ color: '#8B949E' }}>($17,840)</span>
+                </span>
+              </div>
+              <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
+                  {[500, 400, 300, 200, 100].map((v) => (
+                    <span key={v} style={{ fontSize: 10, color: '#3a3f47' }}>{v}</span>
+                  ))}
+                </div>
+                <canvas ref={perfCanvasRef} style={{ display: 'block', width: '100%' }} />
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
+                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'monospace' }}>Jan 1, 2024</span>
+                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'monospace' }}>Jan 30, 2024</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Monthly History Bar Chart */}
+          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <div className="flex flex-col gap-1">
+                <CardTitle className="text-sm font-medium text-white">
+                  Monthly History
+                </CardTitle>
+                <CardDescription className="text-[#666]">
+                  {currentMonthLabel}
+                </CardDescription>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#D1D5DB' }} />
+                  <span className="text-[10px] text-[#888]">Payouts</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#555555' }} />
+                  <span className="text-[10px] text-[#888]">Expenses</span>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
+                  {(() => {
+                    const allVals = monthlyHistoryData.flatMap(d => [d.payout, d.expense]);
+                    const max = allVals.length > 0 ? Math.max(...allVals) : 500;
+                    const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
+                    return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v, idx) => (
+                      <span key={idx} style={{ fontSize: 10, color: '#3a3f47' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
+                    ));
                   })()}
                 </div>
-              </CardContent>
-            </Card>
-            )}
-          </div>
+                <canvas ref={subscriptionCanvasRef} style={{ display: 'block', width: '100%' }} />
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
+                  <span className="text-[11px] text-[#666]">1st</span>
+                  <span className="text-[11px] text-[#666]">{new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()}th</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
+        )}
 
-        {/* Bottom Row - Revenue History */}
+        {/* Combined view: Bottom Row - Cashflow + Revenue History */}
+        {business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Cashflow Allocation Pie Chart - Only in combined view */}
-          {business?.isCombinedView ? (
+          {/* Cashflow Allocation Pie Chart */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
@@ -1233,7 +1144,6 @@ export default function BusinessDetailPage() {
                           />
                         </RechartsPieChart>
                       </ResponsiveContainer>
-                      {/* Legend */}
                       <div className="flex flex-wrap justify-center gap-4">
                         {pieData.map((entry: any, index: number) => {
                           const percentage = totalValue > 0 ? ((entry.value / totalValue) * 100).toFixed(1) : '0';
@@ -1264,34 +1174,6 @@ export default function BusinessDetailPage() {
               </div>
             </CardContent>
           </Card>
-          ) : (
-          /* Performance Chart - styled exactly as nn Revenue chart */
-          <Card className="border-[#1E2228] bg-[#121417]">
-            <CardContent className="p-5">
-              <div style={{ fontSize: 13, color: '#8B949E', marginBottom: 8 }}>Revenue</div>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontSize: 28, fontWeight: 600, color: '#E7E9EA', lineHeight: 1.2 }}>$19.3K</span>
-                <span style={{ fontSize: 12, lineHeight: 1.3 }}>
-                  <span style={{ color: '#22C55E' }}>+15%</span>
-                  <br />
-                  <span style={{ color: '#8B949E' }}>($17,840)</span>
-                </span>
-              </div>
-              <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
-                  {[500, 400, 300, 200, 100].map((v) => (
-                    <span key={v} style={{ fontSize: 10, color: '#3a3f47' }}>{v}</span>
-                  ))}
-                </div>
-                <canvas ref={perfCanvasRef} style={{ display: 'block', width: '100%' }} />
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'monospace' }}>Jan 1, 2024</span>
-                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'monospace' }}>Jan 30, 2024</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          )}
 
           {/* Revenue History Card */}
           <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
@@ -1316,7 +1198,6 @@ export default function BusinessDetailPage() {
                   <div className="space-y-3">
                     {combinedFinancialData.map((item) => (
                       <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#2a2a2a]">
-                        {/* Arrow Icon */}
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
                             <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-green-500/50">
@@ -1328,8 +1209,6 @@ export default function BusinessDetailPage() {
                             </div>
                           )}
                         </div>
-
-                        {/* Description and File */}
                         <div className="flex-1 min-w-0">
                           <p className="text-white text-sm font-medium truncate">
                             {item.description}
@@ -1352,8 +1231,6 @@ export default function BusinessDetailPage() {
                             </div>
                           )}
                         </div>
-
-                        {/* Amount */}
                         <div className="flex-shrink-0 text-right">
                           <p className={`text-sm font-bold ${
                             item.type === 'payouts' ? 'text-green-400' : 'text-red-400'
@@ -1372,6 +1249,7 @@ export default function BusinessDetailPage() {
             </CardContent>
           </Card>
         </div>
+        )}
       </div>
 
         {/* Add Numbers Dialog */}
