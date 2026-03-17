@@ -53,7 +53,7 @@ module.exports = {
                 },
             },
             fontFamily: {
-                sans: ["Inclusive Sans", "sans-serif"],
+                sans: ["JetBrains Mono", "monospace"],
             },
             borderRadius: {
                 lg: "var(--radius)",

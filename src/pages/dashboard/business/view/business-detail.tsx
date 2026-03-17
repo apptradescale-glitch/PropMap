@@ -647,9 +647,9 @@ export default function BusinessDetailPage() {
         {/* Top 4 Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {/* Business Information Card */}
-          <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="h-auto border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                 Business Information
               </CardTitle>
               <Building2 className="h-4 w-4 text-[#666]" />
@@ -692,44 +692,44 @@ export default function BusinessDetailPage() {
           </Card>
 
           {/* Empty Card 2 */}
-          <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="h-auto border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                 Revenue
               </CardTitle>
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white" style={{ fontFamily: 'Inclusive Sans' }}>{currencySymbol}{fmtMoney(totalRevenue)}</div>
-              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'Inclusive Sans' }}>Total Revenue</p>
+              <div className="text-2xl font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(totalRevenue)}</div>
+              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'JetBrains Mono' }}>Total Revenue</p>
             </CardContent>
           </Card>
 
           {/* Empty Card 3 */}
-          <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="h-auto border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                 Payouts / Income
               </CardTitle>
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white" style={{ fontFamily: 'Inclusive Sans' }}>{currencySymbol}{fmtMoney(totalPayouts)}</div>
-              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'Inclusive Sans' }}>Total Payouts</p>
+              <div className="text-2xl font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(totalPayouts)}</div>
+              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'JetBrains Mono' }}>Total Payouts</p>
             </CardContent>
           </Card>
 
           {/* Empty Card 4 */}
-          <Card className="h-auto border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="h-auto border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                 Expenses
               </CardTitle>
               <DollarSign className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div className="text-2xl font-bold text-white" style={{ fontFamily: 'Inclusive Sans' }}>{currencySymbol}{fmtMoney(totalExpenses)}</div>
-              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'Inclusive Sans' }}>Total Expenses</p>
+              <div className="text-2xl font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(totalExpenses)}</div>
+              <p className="text-xs text-[#666] mt-1" style={{ fontFamily: 'JetBrains Mono' }}>Total Expenses</p>
             </CardContent>
           </Card>
         </div>
@@ -739,13 +739,13 @@ export default function BusinessDetailPage() {
         {business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Performance Chart (combined) */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                   Performance
                 </CardTitle>
-                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>
                   Business performance metrics
                 </CardDescription>
               </div>
@@ -798,13 +798,13 @@ export default function BusinessDetailPage() {
 
           {/* Right side - Business Overview (combined only) */}
           <div className="grid grid-cols-2 gap-4">
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a] col-span-2">
+            <Card className="border-[#1a1a1a] bg-[#0a0a0a] col-span-2">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
                 <div className="flex flex-col gap-1">
-                  <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
+                  <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                     Business Overview
                   </CardTitle>
-                  <CardDescription className="text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>
+                  <CardDescription className="text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>
                     View all your businesses
                   </CardDescription>
                 </div>
@@ -815,7 +815,7 @@ export default function BusinessDetailPage() {
                   {businessDataWithTotals && businessDataWithTotals.length > 0 ? (
                     <div className="space-y-3">
                       {businessDataWithTotals.map((biz: any, index: number) => (
-                        <div key={biz.id || index} className="p-4 rounded-lg bg-transparent border border-[#2a2a2a] hover:border-[#e0ac69]/50 transition-all duration-200">
+                        <div key={biz.id || index} className="p-4 rounded-lg bg-transparent border border-[#1a1a1a] hover:border-[#e0ac69]/50 transition-all duration-200">
                           <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
                               <span className="text-[#888] font-medium" style={{ fontSize: '10px' }}>
@@ -827,33 +827,33 @@ export default function BusinessDetailPage() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
-                                <h4 className="text-white font-semibold text-sm truncate" style={{ fontFamily: 'Inclusive Sans' }}>
+                                <h4 className="text-white font-semibold text-sm truncate" style={{ fontFamily: 'JetBrains Mono' }}>
                                   {biz.businessSector === 'proptrading' ? biz.userName : biz.name}
                                 </h4>
                                 <div className={`w-2 h-2 rounded-full ${biz.isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
                               </div>
-                              <div className="text-xs mt-1" style={{ fontFamily: 'Inclusive Sans' }}>
+                              <div className="text-xs mt-1" style={{ fontFamily: 'JetBrains Mono' }}>
                                 <span>{biz.businessSector === 'proptrading' ? 'PropTrading' : biz.customSector}</span>
                               </div>
                             </div>
                             <div className="flex items-center gap-4 flex-shrink-0">
                               <div className="text-right">
-                                <div className="text-sm font-bold text-white" style={{ fontFamily: 'Inclusive Sans' }}>
+                                <div className="text-sm font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                                   {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalRevenue)}
                                 </div>
-                                <p className="text-xs text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>Revenue</p>
+                                <p className="text-xs text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Revenue</p>
                               </div>
                               <div className="text-right">
-                                <div className="text-sm font-bold text-white" style={{ fontFamily: 'Inclusive Sans' }}>
+                                <div className="text-sm font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                                   {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalPayouts)}
                                 </div>
-                                <p className="text-xs text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>Payouts</p>
+                                <p className="text-xs text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Payouts</p>
                               </div>
                               <div className="text-right">
-                                <div className="text-sm font-bold text-white" style={{ fontFamily: 'Inclusive Sans' }}>
+                                <div className="text-sm font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                                   {getCurrencySymbol(biz.currency)}{fmtMoney(biz.totalExpenses)}
                                 </div>
-                                <p className="text-xs text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>Expenses</p>
+                                <p className="text-xs text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Expenses</p>
                               </div>
                             </div>
                           </div>
@@ -862,7 +862,7 @@ export default function BusinessDetailPage() {
                     </div>
                   ) : (
                     <div className="flex items-center justify-center h-full min-h-[200px]">
-                      <p className="text-[#666] text-sm" style={{ fontFamily: 'Inclusive Sans' }}>No businesses found</p>
+                      <p className="text-[#666] text-sm" style={{ fontFamily: 'JetBrains Mono' }}>No businesses found</p>
                     </div>
                   )}
                 </div>
@@ -874,7 +874,7 @@ export default function BusinessDetailPage() {
 
           {/* Calendar Day Detail Dialog */}
           <Dialog open={!!selectedCalendarDay} onOpenChange={() => setSelectedCalendarDay(null)}>
-            <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white max-w-md">
+            <DialogContent className="bg-[#0a0a0a] border-[#1a1a1a] text-white max-w-md">
               <DialogHeader>
                 <DialogTitle className="text-white">
                   {selectedCalendarDay ? new Date(selectedCalendarDay + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : ''}
@@ -882,10 +882,10 @@ export default function BusinessDetailPage() {
               </DialogHeader>
               <div className="space-y-3 max-h-[350px] overflow-y-auto">
                 {selectedDayItems.length === 0 ? (
-                  <p className="text-[#666] text-sm text-center py-4" style={{ fontFamily: 'Inclusive Sans' }}>No transactions on this day</p>
+                  <p className="text-[#666] text-sm text-center py-4" style={{ fontFamily: 'JetBrains Mono' }}>No transactions on this day</p>
                 ) : (
                   selectedDayItems.map((item: any, idx: number) => (
-                    <div key={idx} className="flex items-center gap-3 p-3 rounded-lg border border-[#2a2a2a]">
+                    <div key={idx} className="flex items-center gap-3 p-3 rounded-lg border border-[#1a1a1a]">
                       <div className="flex-shrink-0">
                         {item.itemType === 'payout' ? (
                           <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#16A34A]/50">
@@ -898,12 +898,12 @@ export default function BusinessDetailPage() {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'Inclusive Sans' }}>{item.description}</p>
+                        <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'JetBrains Mono' }}>{item.description}</p>
                       </div>
                       <div className="flex-shrink-0 text-right">
                         <p className={`text-sm font-bold ${
                             item.itemType === 'payout' ? 'text-[#16A34A]' : 'text-[#DC2626]'
-                          }`} style={{ fontFamily: 'Inclusive Sans' }}>
+                          }`} style={{ fontFamily: 'JetBrains Mono' }}>
                           {currencySymbol}{fmtMoney(item.amount)}
                         </p>
                       </div>
@@ -918,7 +918,7 @@ export default function BusinessDetailPage() {
         {!business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Revenue History Card */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
                 <CardTitle className="text-sm font-medium text-white">
@@ -939,7 +939,7 @@ export default function BusinessDetailPage() {
                 ) : (
                   <div className="space-y-3">
                     {combinedFinancialData.map((item) => (
-                      <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#2a2a2a]">
+                      <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#1a1a1a]">
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
                             <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#16A34A]/50">
@@ -952,23 +952,23 @@ export default function BusinessDetailPage() {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'Inclusive Sans' }}>
+                          <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'JetBrains Mono' }}>
                             {item.description}
                           </p>
                           {item.fileName && (
                             <div className="flex items-center gap-1 mt-1">
                               <FileText className="w-3 h-3 text-[#666]" />
-                              <p className="text-[#666] text-xs truncate" style={{ fontFamily: 'Inclusive Sans' }}>{item.fileName}</p>
+                              <p className="text-[#666] text-xs truncate" style={{ fontFamily: 'JetBrains Mono' }}>{item.fileName}</p>
                             </div>
                           )}
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className={`text-sm font-bold ${
                             item.type === 'payouts' ? 'text-[#16A34A]' : 'text-[#DC2626]'
-                          }`} style={{ fontFamily: 'Inclusive Sans' }}>
+                          }`} style={{ fontFamily: 'JetBrains Mono' }}>
                             {currencySymbol}{fmtMoney(item.amount)}
                           </p>
-                          <p className="text-[#666] text-xs" style={{ fontFamily: 'Inclusive Sans' }}>
+                          <p className="text-[#666] text-xs" style={{ fontFamily: 'JetBrains Mono' }}>
                             {new Date(item.date).toLocaleDateString()}
                           </p>
                         </div>
@@ -981,16 +981,16 @@ export default function BusinessDetailPage() {
           </Card>
 
           {/* PropFirm Breakdown / Income Expenses Flow Card */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
+              <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                 {business?.businessSector === 'proptrading' ? 'PropFirm Breakdown' : 'Income / Expenses Flow'}
               </CardTitle>
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4 h-full">
               <div className="flex items-center justify-center h-full min-h-[350px]">
-                <p className="text-[#666] text-sm" style={{ fontFamily: 'Inclusive Sans' }}>
+                <p className="text-[#666] text-sm" style={{ fontFamily: 'JetBrains Mono' }}>
                   {business?.businessSector === 'proptrading' ? 'PropFirm breakdown coming soon' : 'Income / Expenses flow coming soon'}
                 </p>
               </div>
@@ -1003,12 +1003,12 @@ export default function BusinessDetailPage() {
         {!business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Revenue graph - nn style canvas line chart */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardContent className="p-5">
-              <div style={{ fontSize: 13, color: '#8B949E', marginBottom: 8, fontFamily: 'Inclusive Sans' }}>Revenue</div>
+              <div style={{ fontSize: 13, color: '#8B949E', marginBottom: 8, fontFamily: 'JetBrains Mono' }}>Revenue</div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontSize: 28, fontWeight: 600, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'Inclusive Sans' }}>$19.3K</span>
-                <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inclusive Sans' }}>
+                <span style={{ fontSize: 28, fontWeight: 600, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>$19.3K</span>
+                <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'JetBrains Mono' }}>
                   <span style={{ color: '#16A34A' }}>+15%</span>
                   <br />
                   <span style={{ color: '#8B949E' }}>($17,840)</span>
@@ -1017,37 +1017,37 @@ export default function BusinessDetailPage() {
               <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
                   {[500, 400, 300, 200, 100].map((v) => (
-                    <span key={v} style={{ fontSize: 10, color: '#3a3f47', fontFamily: 'Inclusive Sans' }}>{v}</span>
+                    <span key={v} style={{ fontSize: 10, color: '#3a3f47', fontFamily: 'JetBrains Mono' }}>{v}</span>
                   ))}
                 </div>
                 <canvas ref={perfCanvasRef} style={{ display: 'block', width: '100%' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'Inclusive Sans' }}>Jan 1, 2024</span>
-                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'Inclusive Sans' }}>Jan 30, 2024</span>
+                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'JetBrains Mono' }}>Jan 1, 2024</span>
+                  <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'JetBrains Mono' }}>Jan 30, 2024</span>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           {/* Monthly History Bar Chart */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                   Monthly History
                 </CardTitle>
-                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>
                   {currentMonthLabel}
                 </CardDescription>
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#D1D5DB' }} />
-                  <span className="text-[10px] text-[#888]" style={{ fontFamily: 'Inclusive Sans' }}>Payouts</span>
+                  <span className="text-[10px] text-[#888]" style={{ fontFamily: 'JetBrains Mono' }}>Payouts</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#555555' }} />
-                  <span className="text-[10px] text-[#888]" style={{ fontFamily: 'Inclusive Sans' }}>Expenses</span>
+                  <span className="text-[10px] text-[#888]" style={{ fontFamily: 'JetBrains Mono' }}>Expenses</span>
                 </div>
               </div>
             </CardHeader>
@@ -1059,14 +1059,14 @@ export default function BusinessDetailPage() {
                     const max = allVals.length > 0 ? Math.max(...allVals) : 500;
                     const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
                     return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v, idx) => (
-                      <span key={idx} style={{ fontSize: 10, color: '#3a3f47', fontFamily: 'Inclusive Sans' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
+                      <span key={idx} style={{ fontSize: 10, color: '#3a3f47', fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
                     ));
                   })()}
                 </div>
                 <canvas ref={subscriptionCanvasRef} style={{ display: 'block', width: '100%' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>1st</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>{new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()}th</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>1st</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>{new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()}th</span>
                 </div>
               </div>
             </CardContent>
@@ -1078,13 +1078,13 @@ export default function BusinessDetailPage() {
         {business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Cashflow Allocation Pie Chart */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inclusive Sans' }}>
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'JetBrains Mono' }}>
                   Cashflow Allocation
                 </CardTitle>
-                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>
                   See how your businesses compare in revenue
                 </CardDescription>
               </div>
@@ -1092,7 +1092,7 @@ export default function BusinessDetailPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => setShowPieAsMoney(!showPieAsMoney)}
-                className="bg-transparent border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-2" style={{ fontFamily: 'Inclusive Sans' }}
+                className="bg-transparent border-[#1a1a1a] hover:bg-[#1a1a1a] hover:border-[#444] text-[#666] hover:text-white text-xs h-7 px-2" style={{ fontFamily: 'JetBrains Mono' }}
               >
                 {showPieAsMoney ? 'Show in %' : `Show Revenue in ${currencySymbol}`}
               </Button>
@@ -1135,9 +1135,9 @@ export default function BusinessDetailPage() {
                               const percentage = totalValue > 0 ? ((data.value / totalValue) * 100).toFixed(1) : '0';
                               return (
                                 <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
-                                  <div className="text-sm text-white font-medium" style={{ fontFamily: 'Inclusive Sans' }}>{data.name}</div>
-                                  <div className="text-xs text-[#666]" style={{ fontFamily: 'Inclusive Sans' }}>{data.sector}</div>
-                                  <div className="text-sm font-semibold text-[#e0ac69] mt-1" style={{ fontFamily: 'Inclusive Sans' }}>
+                                  <div className="text-sm text-white font-medium" style={{ fontFamily: 'JetBrains Mono' }}>{data.name}</div>
+                                  <div className="text-xs text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>{data.sector}</div>
+                                  <div className="text-sm font-semibold text-[#e0ac69] mt-1" style={{ fontFamily: 'JetBrains Mono' }}>
                                     {currencySymbol}{data.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({percentage}%)
                                   </div>
                                 </div>
@@ -1153,15 +1153,15 @@ export default function BusinessDetailPage() {
                             <div key={index} className="flex flex-col items-center gap-0.5">
                               <div className="flex items-center gap-2">
                                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[index % PIE_COLORS.length] }}></div>
-                                <span className="text-white text-xs" style={{ fontFamily: 'Inclusive Sans' }}>{entry.name}</span>
-                                <span className="text-white text-xs font-semibold" style={{ fontFamily: 'Inclusive Sans' }}>
+                                <span className="text-white text-xs" style={{ fontFamily: 'JetBrains Mono' }}>{entry.name}</span>
+                                <span className="text-white text-xs font-semibold" style={{ fontFamily: 'JetBrains Mono' }}>
                                   {showPieAsMoney 
                                     ? `${entry.revenue < 0 ? '-' : ''}${getCurrencySymbol(entry.currency)}${Math.abs(entry.revenue).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
                                     : `${percentage}%`
                                   }
                                 </span>
                               </div>
-                              <span className="text-[#666] text-xs" style={{ fontFamily: 'Inclusive Sans' }}>{entry.sector}</span>
+                              <span className="text-[#666] text-xs" style={{ fontFamily: 'JetBrains Mono' }}>{entry.sector}</span>
                             </div>
                           );
                         })}
@@ -1169,7 +1169,7 @@ export default function BusinessDetailPage() {
                     </div>
                   ) : (
                     <div className="flex items-center justify-center h-full">
-                      <p className="text-[#666] text-sm" style={{ fontFamily: 'Inclusive Sans' }}>No revenue data yet</p>
+                      <p className="text-[#666] text-sm" style={{ fontFamily: 'JetBrains Mono' }}>No revenue data yet</p>
                     </div>
                   );
                 })()}
@@ -1178,7 +1178,7 @@ export default function BusinessDetailPage() {
           </Card>
 
           {/* Revenue History Card */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
                 <CardTitle className="text-sm font-medium text-white">
@@ -1199,7 +1199,7 @@ export default function BusinessDetailPage() {
                 ) : (
                   <div className="space-y-3">
                     {combinedFinancialData.map((item) => (
-                      <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#2a2a2a]">
+                      <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#1a1a1a]">
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
                             <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#16A34A]/50">
@@ -1212,16 +1212,16 @@ export default function BusinessDetailPage() {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'Inclusive Sans' }}>
+                          <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'JetBrains Mono' }}>
                             {item.description}
                           </p>
                           {business?.isCombinedView && item.businessName && (
                             <div className="flex items-center gap-2 mt-1">
-                              <span className="text-white text-xs truncate" style={{ fontFamily: 'Inclusive Sans' }}>
+                              <span className="text-white text-xs truncate" style={{ fontFamily: 'JetBrains Mono' }}>
                                 {item.businessName}
                               </span>
-                              <span className="text-[#666] text-xs" style={{ fontFamily: 'Inclusive Sans' }}>|</span>
-                              <span className="text-[#666] text-xs truncate" style={{ fontFamily: 'Inclusive Sans' }}>
+                              <span className="text-[#666] text-xs" style={{ fontFamily: 'JetBrains Mono' }}>|</span>
+                              <span className="text-[#666] text-xs truncate" style={{ fontFamily: 'JetBrains Mono' }}>
                                 {item.businessSector === 'proptrading' ? 'PropTrading' : item.businessSector === 'trade-copier-software' ? 'Trade Copier Software' : item.customSector || 'Business'}
                               </span>
                             </div>
@@ -1229,17 +1229,17 @@ export default function BusinessDetailPage() {
                           {item.fileName && (
                             <div className="flex items-center gap-1 mt-1">
                               <FileText className="w-3 h-3 text-[#666]" />
-                              <p className="text-[#666] text-xs truncate" style={{ fontFamily: 'Inclusive Sans' }}>{item.fileName}</p>
+                              <p className="text-[#666] text-xs truncate" style={{ fontFamily: 'JetBrains Mono' }}>{item.fileName}</p>
                             </div>
                           )}
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className={`text-sm font-bold ${
                             item.type === 'payouts' ? 'text-[#16A34A]' : 'text-[#DC2626]'
-                          }`} style={{ fontFamily: 'Inclusive Sans' }}>
+                          }`} style={{ fontFamily: 'JetBrains Mono' }}>
                             {currencySymbol}{fmtMoney(item.amount)}
                           </p>
-                          <p className="text-[#666] text-xs" style={{ fontFamily: 'Inclusive Sans' }}>
+                          <p className="text-[#666] text-xs" style={{ fontFamily: 'JetBrains Mono' }}>
                             {new Date(item.date).toLocaleDateString()}
                           </p>
                         </div>
@@ -1256,7 +1256,7 @@ export default function BusinessDetailPage() {
 
         {/* Add Numbers Dialog */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white max-w-md">
+          <DialogContent className="bg-[#0a0a0a] border-[#1a1a1a] text-white max-w-md">
             <DialogHeader>
               <DialogTitle className="text-white">
                 Add {dialogType === 'payouts' ? 'Payouts/Income' : 'Expenses'} {dialogMode === 'manual' ? 'Manually' : 'Automatically'}
@@ -1274,7 +1274,7 @@ export default function BusinessDetailPage() {
                     placeholder=""
                     value={formData.amount}
                     onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
-                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white"
+                    className="bg-[#1a1a1a] border-[#1a1a1a] text-white"
                     required
                   />
                 </div>
@@ -1287,7 +1287,7 @@ export default function BusinessDetailPage() {
                     placeholder=""
                     value={formData.description}
                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white min-h-[100px] resize-none"
+                    className="bg-[#1a1a1a] border-[#1a1a1a] text-white min-h-[100px] resize-none"
                     rows={4}
                   />
                 </div>
@@ -1295,7 +1295,7 @@ export default function BusinessDetailPage() {
                 {/* File Upload */}
                 <div className="space-y-2">
                   <Label htmlFor="file" className="text-[#666]">Upload File</Label>
-                  <div className="border-2 border-dashed border-[#2a2a2a] rounded-lg p-4 text-center">
+                  <div className="border-2 border-dashed border-[#1a1a1a] rounded-lg p-4 text-center">
                     <input
                       id="file"
                       type="file"
