@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PageContainer from '@/components/layout/page-container';
 import PageHead from '@/components/shared/page-head';
@@ -341,7 +341,7 @@ export default function BusinessDetailPage() {
     const sortedData = Object.entries(dailyData)
       .sort(([dateA], [dateB]) => new Date(dateA).getTime() - new Date(dateB).getTime())
       .map(([date, pnl]) => {
-        cumulativeSum += pnl;
+        cumulativeSum += Number(pnl);
         return {
           date: new Date(date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }),
           pnl: Number(cumulativeSum.toFixed(2))
@@ -353,6 +353,122 @@ export default function BusinessDetailPage() {
 
   const lastPnl = chartData.length > 0 ? Number(chartData[chartData.length - 1].pnl) : 0;
   const isPositivePerf = lastPnl >= 0;
+
+  // Canvas refs for nn-style charts
+  const subscriptionCanvasRef = useRef<HTMLCanvasElement>(null);
+  const perfCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Daily payout amounts for bar chart (grouped by date, sorted)
+  const dailyPayoutAmounts = useMemo(() => {
+    const grouped: Record<string, number> = {};
+    payouts.forEach((p: any) => {
+      grouped[p.date] = (grouped[p.date] || 0) + Number(p.amount);
+    });
+    return Object.entries(grouped)
+      .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
+      .map(([, amt]) => amt);
+  }, [payouts]);
+
+  // Sorted payout dates for x-axis labels
+  const sortedPayoutDates = useMemo(() => {
+    return [...new Set(payouts.map((p: any) => p.date))].sort();
+  }, [payouts]);
+
+  // Performance line data (pnl values from chartData)
+  const perfLineData = useMemo(() => chartData.map((d: any) => Number(d.pnl)), [chartData]);
+
+  // Canvas bar chart drawing (matches nn/src/dashboard.ts drawBarChart)
+  const drawBarChart = useCallback((canvas: HTMLCanvasElement, data: number[]) => {
+    if (!canvas || data.length === 0) return;
+    const parent = canvas.parentElement;
+    if (!parent) return;
+    const dpr = window.devicePixelRatio || 1;
+    const w = parent.clientWidth;
+    const h = 160;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.scale(dpr, dpr);
+    const padLeft = 30, padRight = 10, padTop = 5, padBottom = 5;
+    const chartW = w - padLeft - padRight;
+    const chartH = h - padTop - padBottom;
+    const maxVal = Math.max(...data) * 1.1;
+    const barWidth = 3;
+    const gap = data.length > 1 ? (chartW - data.length * barWidth) / (data.length - 1) : 0;
+    data.forEach((val, i) => {
+      const barH = (val / maxVal) * chartH;
+      const x = padLeft + i * (barWidth + gap);
+      const y = padTop + chartH - barH;
+      ctx.fillStyle = '#D1D5DB';
+      ctx.fillRect(x, y, barWidth, barH);
+    });
+  }, []);
+
+  // Canvas line chart drawing (matches nn/src/dashboard.ts drawLineChart)
+  const drawLineChart = useCallback((canvas: HTMLCanvasElement, data: number[]) => {
+    if (!canvas || data.length < 2) return;
+    const parent = canvas.parentElement;
+    if (!parent) return;
+    const dpr = window.devicePixelRatio || 1;
+    const w = parent.clientWidth;
+    const h = 160;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.scale(dpr, dpr);
+    const padLeft = 30, padRight = 10, padTop = 5, padBottom = 5;
+    const chartW = w - padLeft - padRight;
+    const chartH = h - padTop - padBottom;
+    const maxVal = Math.max(...data) * 1.1;
+    const minVal = Math.min(...data) < 0 ? Math.min(...data) * 1.1 : 0;
+    const range = maxVal - minVal || 1;
+    ctx.beginPath();
+    ctx.strokeStyle = '#D1D5DB';
+    ctx.lineWidth = 1.5;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    data.forEach((val, i) => {
+      const x = padLeft + (i / (data.length - 1)) * chartW;
+      const y = padTop + chartH - ((val - minVal) / range) * chartH;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+  }, []);
+
+  // Draw canvas charts on mount and data change
+  useEffect(() => {
+    if (subscriptionCanvasRef.current && dailyPayoutAmounts.length > 0) {
+      drawBarChart(subscriptionCanvasRef.current, dailyPayoutAmounts);
+    }
+    if (perfCanvasRef.current && perfLineData.length > 1) {
+      drawLineChart(perfCanvasRef.current, perfLineData);
+    }
+  }, [dailyPayoutAmounts, perfLineData, drawBarChart, drawLineChart]);
+
+  // Resize handler for canvas charts
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    const handleResize = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (subscriptionCanvasRef.current && dailyPayoutAmounts.length > 0) {
+          drawBarChart(subscriptionCanvasRef.current, dailyPayoutAmounts);
+        }
+        if (perfCanvasRef.current && perfLineData.length > 1) {
+          drawLineChart(perfCanvasRef.current, perfLineData);
+        }
+      }, 100);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => { window.removeEventListener('resize', handleResize); clearTimeout(timer); };
+  }, [dailyPayoutAmounts, perfLineData, drawBarChart, drawLineChart]);
 
   // Save financial data to Firestore with optimistic updates
   const saveFinancialData = async (type: 'payouts' | 'expenses', data: any) => {
@@ -643,81 +759,34 @@ export default function BusinessDetailPage() {
             </CardContent>
           </Card>
           ) : (
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white">
-                  Calendar
-                </CardTitle>
-                <CardDescription className="text-[#666] mb-12">
-                  Payouts & Expenses Timeline
-                </CardDescription>
+          /* New Subscriptions Bar Chart - nn style */
+          <div style={{ background: '#121417', border: '1px solid #1E2228', borderRadius: 12, padding: 20, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ fontSize: 13, color: '#8B949E', marginBottom: 8 }}>New Subscriptions</div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+              <span style={{ fontSize: 28, fontWeight: 600, color: '#E7E9EA', lineHeight: 1.2 }}>{payouts.length}</span>
+              <span style={{ fontSize: 12, color: '#22C55E' }}>Payouts</span>
+            </div>
+            <div style={{ position: 'relative', flex: 1, minHeight: 160, marginTop: 8 }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
+                {(() => {
+                  const max = dailyPayoutAmounts.length > 0 ? Math.max(...dailyPayoutAmounts) : 500;
+                  const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
+                  return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v) => (
+                    <span key={v} style={{ fontSize: 10, color: '#3a3f47' }}>{v}</span>
+                  ));
+                })()}
               </div>
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => {
-                    const d = new Date(calendarMonth);
-                    d.setMonth(d.getMonth() - 1);
-                    setCalendarMonth(d);
-                  }}
-                  className="p-1.5 hover:bg-white/5 rounded-md"
-                >
-                  <ChevronLeft className="h-4 w-4 text-[#666]" />
-                </button>
-                <span className="text-xs font-medium text-white">
-                  {calendarMonth.toLocaleDateString('default', { month: 'long', year: 'numeric' })}
+              <canvas ref={subscriptionCanvasRef} style={{ display: 'block', width: '100%' }} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
+                <span style={{ fontSize: 11, color: '#8B949E' }}>
+                  {sortedPayoutDates.length > 0 ? new Date(sortedPayoutDates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''}
                 </span>
-                <button
-                  onClick={() => {
-                    const d = new Date(calendarMonth);
-                    d.setMonth(d.getMonth() + 1);
-                    setCalendarMonth(d);
-                  }}
-                  className="p-1.5 hover:bg-white/5 rounded-md"
-                >
-                  <ChevronRight className="h-4 w-4 text-[#666]" />
-                </button>
+                <span style={{ fontSize: 11, color: '#8B949E' }}>
+                  {sortedPayoutDates.length > 0 ? new Date(sortedPayoutDates[sortedPayoutDates.length - 1]).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''}
+                </span>
               </div>
-            </CardHeader>
-            <CardContent className="pt-2 pb-4">
-              <div className="grid grid-cols-7 gap-1">
-                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
-                  <div key={d} className="p-1 rounded border border-[#2a2a2a] bg-[#0a0a0a]">
-                    <div className="flex items-center justify-center h-[18px]">
-                      <span className="text-[10px] font-medium text-[#666]">{d}</span>
-                    </div>
-                  </div>
-                ))}
-                {calendarDays.map((day: any, index: number) => {
-                  if (day.isEmpty) {
-                    return <div key={`empty-${index}`} className="p-1 h-[70px] rounded border border-[#2a2a2a] bg-[#0a0a0a]" />;
-                  }
-                  const cs = currencySymbol;
-                  const net = day.net;
-                  const textCls = net > 0 ? 'text-green-400' : net < 0 ? 'text-red-400' : 'text-[#666]';
-                  const borderCls = net > 0 ? 'border-green-500/30' : net < 0 ? 'border-red-500/30' : 'border-[#2a2a2a]';
-                  const shadowCls = net > 0 ? 'shadow-[inset_0_0_8px_0px_rgba(74,222,128,0.25)]' : net < 0 ? 'shadow-[inset_0_0_8px_0px_rgba(248,113,113,0.25)]' : '';
-                  return (
-                    <div
-                      key={`day-${index}`}
-                      className={`p-1 h-[70px] rounded border ${borderCls} bg-[#0a0a0a] hover:border-white/30 transition-all duration-200 ${shadowCls}`}
-                      onClick={() => day.hasData && setSelectedCalendarDay(day.date)}
-                      style={{ cursor: day.hasData ? 'pointer' : 'default' }}
-                    >
-                      <div className="flex flex-col h-full">
-                        <span className="text-[9px] text-[#666]">{day.day}</span>
-                        <div className="flex-1 flex items-center justify-center">
-                          <span className={`text-[13px] font-semibold ${textCls}`}>
-                            {day.hasData ? `${net < 0 ? '-' : ''}${cs}${fmtMoney(net, 0)}` : ''}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
           )}
 
           {/* Calendar Day Detail Dialog */}
@@ -1145,99 +1214,42 @@ export default function BusinessDetailPage() {
             </CardContent>
           </Card>
           ) : (
-          /* Performance Chart Duplicate - Individual business */
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white">
-                  Performance
-                </CardTitle>
-                <CardDescription className="text-[#666]">
-                  Business performance metrics
-                </CardDescription>
+          /* Performance Chart - nn style canvas line chart */
+          <div style={{ background: '#121417', border: '1px solid #1E2228', borderRadius: 12, padding: 20, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ fontSize: 13, color: '#8B949E', marginBottom: 8 }}>Performance</div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+              <span style={{ fontSize: 28, fontWeight: 600, color: '#E7E9EA', lineHeight: 1.2 }}>
+                {lastPnl < 0 ? '-' : ''}{currencySymbol}{fmtMoney(lastPnl)}
+              </span>
+              <span style={{ fontSize: 12, color: isPositivePerf ? '#22C55E' : '#EF4444' }}>
+                {isPositivePerf ? '+' : ''}{totalPayouts > 0 ? ((lastPnl / totalPayouts) * 100).toFixed(0) : 0}%
+              </span>
+            </div>
+            <div style={{ position: 'relative', flex: 1, minHeight: 160, marginTop: 8 }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
+                {(() => {
+                  const vals = perfLineData.filter(v => v !== 0 || perfLineData.length <= 2);
+                  const max = vals.length > 0 ? Math.max(...vals) : 500;
+                  const min = vals.length > 0 ? Math.min(...vals) : 0;
+                  const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
+                  const niceMin = min < 0 ? Math.floor(min * 1.1 / 100) * 100 : 0;
+                  const range = niceMax - niceMin || 500;
+                  return [niceMax, Math.round(niceMin + range * 0.75), Math.round(niceMin + range * 0.5), Math.round(niceMin + range * 0.25), niceMin].map((v, idx) => (
+                    <span key={idx} style={{ fontSize: 10, color: '#3a3f47' }}>{v < 0 ? '-' : ''}{currencySymbol}{fmtMoney(v, 0)}</span>
+                  ));
+                })()}
               </div>
-              <TrendingUp className="h-4 w-4 text-[#666]" />
-            </CardHeader>
-            <CardContent className="pt-2 pb-4">
-              <div style={{ width: '100%', height: 350, marginTop: '10px' }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart
-                    data={chartData}
-                    margin={{
-                      top: 10,
-                      right: 30,
-                      left: 10,
-                      bottom: 10
-                    }}
-                  >
-                    <defs>
-                      <linearGradient id="perfGradGreen" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#22c55e" stopOpacity={0.08}/>
-                        <stop offset="100%" stopColor="#22c55e" stopOpacity={0.0}/>
-                      </linearGradient>
-                      <linearGradient id="perfGradRed" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#dc2626" stopOpacity={0.08}/>
-                        <stop offset="100%" stopColor="#dc2626" stopOpacity={0.0}/>
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid 
-                      strokeDasharray="3 3"
-                      stroke="#6b7280"
-                      opacity={0.4}
-                    />
-                    <XAxis
-                      dataKey="date"
-                      tickLine={true}
-                      axisLine={true}
-                      tickMargin={8}
-                      minTickGap={32}
-                      tick={{ fontSize: 12, fill: 'white' }}
-                    />
-                    <YAxis
-                      tickLine={true}
-                      axisLine={true}
-                      tick={{ fontSize: 12, fill: 'white' }}
-                      tickFormatter={(value) => {
-                        const formattedNumber = Math.abs(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        return value < 0 ? `-${currencySymbol}${formattedNumber}` : `${currencySymbol}${formattedNumber}`;
-                      }}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="pnl"
-                      stroke={isPositivePerf ? '#22c55e' : '#dc2626'}
-                      strokeWidth={2}
-                      fill={isPositivePerf ? 'url(#perfGradGreen)' : 'url(#perfGradRed)'}
-                      connectNulls={true}
-                      isAnimationActive={true}
-                      animationDuration={750}
-                    />
-                    <Tooltip
-                      cursor={{ stroke: isPositivePerf ? '#22c55e33' : '#dc262633' }}
-                      content={({ active, payload }) => {
-                        if (!active || !payload?.length) return null;
-                        const value = Number(payload[0].value);
-                        const formattedValue = Math.abs(value).toLocaleString('en-US', {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2
-                        });
-                        return (
-                          <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
-                            <div className="text-sm text-stone-400">
-                              {payload[0].payload.date || 'Start'}
-                            </div>
-                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-green-500' : 'text-red-600'}`}>
-                              {value < 0 ? `-${currencySymbol}${formattedValue}` : `${currencySymbol}${formattedValue}`}
-                            </div>
-                          </div>
-                        );
-                      }}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
+              <canvas ref={perfCanvasRef} style={{ display: 'block', width: '100%' }} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
+                <span style={{ fontSize: 11, color: '#8B949E' }}>
+                  {chartData.length > 1 && chartData[1]?.date ? chartData[1].date : ''}
+                </span>
+                <span style={{ fontSize: 11, color: '#8B949E' }}>
+                  {chartData.length > 1 ? chartData[chartData.length - 1]?.date : ''}
+                </span>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
           )}
 
           {/* Revenue History Card */}
