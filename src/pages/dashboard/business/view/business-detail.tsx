@@ -739,7 +739,7 @@ export default function BusinessDetailPage() {
         {business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Performance Chart (combined) */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-white border-opacity-20 bg-transparent">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
                 <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
@@ -888,12 +888,12 @@ export default function BusinessDetailPage() {
                     <div key={idx} className="flex items-center gap-3 p-3 rounded-lg border border-[#2a2a2a]">
                       <div className="flex-shrink-0">
                         {item.itemType === 'payout' ? (
-                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-green-500/50">
-                            <ArrowBigUp className="w-4 h-4 text-green-400" />
+                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#22C55E]/50">
+                            <ArrowBigUp className="w-4 h-4 text-[#22C55E]" />
                           </div>
                         ) : (
-                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-red-500/50">
-                            <ArrowBigDown className="w-4 h-4 text-red-400" />
+                          <div className="p-2 rounded-lg border border-white/20 shadow-lg shadow-[#EF4444]/50">
+                            <ArrowBigDown className="w-4 h-4 text-[#EF4444]" />
                           </div>
                         )}
                       </div>
@@ -901,7 +901,9 @@ export default function BusinessDetailPage() {
                         <p className="text-white text-sm font-medium truncate" style={{ fontFamily: 'monospace' }}>{item.description}</p>
                       </div>
                       <div className="flex-shrink-0 text-right">
-                        <p className={`text-sm font-bold ${item.itemType === 'payout' ? 'text-green-400' : 'text-red-400'}`} style={{ fontFamily: 'monospace' }}>
+                        <p className={`text-sm font-bold ${
+                            item.itemType === 'payout' ? 'text-[#22C55E]' : 'text-[#EF4444]'
+                          }`} style={{ fontFamily: 'monospace' }}>
                           {currencySymbol}{fmtMoney(item.amount)}
                         </p>
                       </div>
@@ -916,7 +918,7 @@ export default function BusinessDetailPage() {
         {!business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Revenue History Card */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-white border-opacity-20 bg-transparent">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
                 <CardTitle className="text-sm font-medium text-white">
@@ -940,12 +942,12 @@ export default function BusinessDetailPage() {
                       <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#2a2a2a]">
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-green-500/50">
-                              <ArrowBigUp className="w-5 h-5 text-green-400" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#22C55E]/50">
+                              <ArrowBigUp className="w-5 h-5 text-[#22C55E]" />
                             </div>
                           ) : (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-red-500/50">
-                              <ArrowBigDown className="w-5 h-5 text-red-400" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#EF4444]/50">
+                              <ArrowBigDown className="w-5 h-5 text-[#EF4444]" />
                             </div>
                           )}
                         </div>
@@ -962,7 +964,7 @@ export default function BusinessDetailPage() {
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className={`text-sm font-bold ${
-                            item.type === 'payouts' ? 'text-green-400' : 'text-red-400'
+                            item.type === 'payouts' ? 'text-[#22C55E]' : 'text-[#EF4444]'
                           }`} style={{ fontFamily: 'monospace' }}>
                             {currencySymbol}{fmtMoney(item.amount)}
                           </p>
@@ -979,7 +981,7 @@ export default function BusinessDetailPage() {
           </Card>
 
           {/* PropFirm Breakdown / Income Expenses Flow Card */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-white border-opacity-20 bg-transparent">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
                 {business?.businessSector === 'proptrading' ? 'PropFirm Breakdown' : 'Income / Expenses Flow'}
@@ -1028,7 +1030,7 @@ export default function BusinessDetailPage() {
           </Card>
 
           {/* Monthly History Bar Chart */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-white border-opacity-20 bg-transparent">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
                 <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
@@ -1076,7 +1078,7 @@ export default function BusinessDetailPage() {
         {business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Cashflow Allocation Pie Chart */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-white border-opacity-20 bg-transparent">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
                 <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'monospace' }}>
@@ -1176,7 +1178,7 @@ export default function BusinessDetailPage() {
           </Card>
 
           {/* Revenue History Card */}
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+          <Card className="border-white border-opacity-20 bg-transparent">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
                 <CardTitle className="text-sm font-medium text-white">
@@ -1200,12 +1202,12 @@ export default function BusinessDetailPage() {
                       <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg bg-transparent border border-[#2a2a2a]">
                         <div className="flex-shrink-0">
                           {item.type === 'payouts' ? (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-green-500/50">
-                              <ArrowBigUp className="w-5 h-5 text-green-400" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#22C55E]/50">
+                              <ArrowBigUp className="w-5 h-5 text-[#22C55E]" />
                             </div>
                           ) : (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-red-500/50">
-                              <ArrowBigDown className="w-5 h-5 text-red-400" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#EF4444]/50">
+                              <ArrowBigDown className="w-5 h-5 text-[#EF4444]" />
                             </div>
                           )}
                         </div>
@@ -1233,7 +1235,7 @@ export default function BusinessDetailPage() {
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className={`text-sm font-bold ${
-                            item.type === 'payouts' ? 'text-green-400' : 'text-red-400'
+                            item.type === 'payouts' ? 'text-[#22C55E]' : 'text-[#EF4444]'
                           }`} style={{ fontFamily: 'monospace' }}>
                             {currencySymbol}{fmtMoney(item.amount)}
                           </p>
