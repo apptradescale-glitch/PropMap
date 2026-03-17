@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowLeft, Calendar, LineChart, Globe, DollarSign, Upload, X, Building2, Pen, Timer, TrendingUp, ArrowBigUp, ArrowBigDown, FileText, PieChart as PieChartIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Calendar, LineChart, Globe, DollarSign, Upload, X, Building2, Pen, Timer, TrendingUp, ArrowBigUp, ArrowBigDown, FileText, PieChart as PieChartIcon, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip, PieChart as RechartsPieChart, Pie, Cell } from 'recharts';
 import { 
   doc, 
@@ -456,8 +456,14 @@ export default function BusinessDetailPage() {
     const padLeft = 30, padRight = 10, padTop = 5, padBottom = 25;
     const chartW = w - padLeft - padRight;
     const chartH = h - padTop - padBottom;
-    const barWidth = chartW / data.length * 0.6;
-    const gap = chartW / data.length * 0.4;
+    
+    // Calculate bar width and spacing to center bars above month labels
+    const totalBars = data.length;
+    const barWidth = Math.min(chartW / totalBars * 0.5, 20); // Max width of 20px
+    const totalBarWidth = barWidth * totalBars;
+    const totalGapWidth = chartW - totalBarWidth;
+    const gap = totalGapWidth / (totalBars + 1); // Extra gap at both ends
+    
     const allVals = data.map(d => d.value);
     const max = allVals.length > 0 ? Math.max(...allVals.map(Math.abs)) : 500;
     const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
@@ -485,7 +491,10 @@ export default function BusinessDetailPage() {
     const barPositions: { x: number; y: number; width: number; height: number; data: typeof data[0] }[] = [];
     
     data.forEach((d, i) => {
-      const x = padLeft + i * (barWidth + gap) + gap / 2;
+      // Position each bar centered above its month label
+      const monthPosition = padLeft + (i + 0.5) * (chartW / totalBars);
+      const x = monthPosition - barWidth / 2;
+      
       const barH = (Math.abs(d.value) / range) * chartH;
       const barY = d.isPositive ? zeroY - barH : zeroY;
       
@@ -1077,7 +1086,7 @@ export default function BusinessDetailPage() {
               <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
                 {business?.businessSector === 'proptrading' ? 'PropFirm Breakdown' : 'Income / Expenses Flow'}
               </CardTitle>
-              <LineChart className="h-4 w-4 text-[#666]" />
+              <PieChartIcon className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4 h-full">
               <div className="flex items-center justify-center h-full min-h-[350px]">
@@ -1141,6 +1150,7 @@ export default function BusinessDetailPage() {
                   {new Date().getFullYear()} Overview
                 </CardDescription>
               </div>
+              <BarChart3 className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
               <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
@@ -1180,7 +1190,7 @@ export default function BusinessDetailPage() {
                     </div>
                   </div>
                 )}
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6, paddingLeft: '30px', paddingRight: '10px' }}>
                   <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Jan</span>
                   <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Feb</span>
                   <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Mar</span>
