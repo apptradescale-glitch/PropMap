@@ -52,7 +52,7 @@ export default function Header() {
   
   // Add Numbers state
   const [entryMode, setEntryMode] = useState<'manual' | 'automatic'>('manual');
-  const [entryType, setEntryType] = useState<'payout' | 'expense'>('payout');
+  const [entryType, setEntryType] = useState<'payouts' | 'expenses'>('payouts');
   const [entryAmount, setEntryAmount] = useState('');
   const [entryDescription, setEntryDescription] = useState('');
   const [selectedFirm, setSelectedFirm] = useState('Topstep');
@@ -224,21 +224,21 @@ export default function Header() {
                   <div className="flex gap-2">
                     <button
                       className={`flex-1 py-2 px-3 rounded-md border text-sm font-medium transition-all cursor-pointer ${
-                        entryType === 'payout'
+                        entryType === 'payouts'
                           ? 'bg-white text-black border-white'
                           : 'bg-transparent border-[#2a2a2a] text-[#666]'
                       }`}
-                      onClick={() => setEntryType('payout')}
+                      onClick={() => setEntryType('payouts')}
                     >
                       Payout
                     </button>
                     <button
                       className={`flex-1 py-2 px-3 rounded-md border text-sm font-medium transition-all cursor-pointer ${
-                        entryType === 'expense'
+                        entryType === 'expenses'
                           ? 'bg-white text-black border-white'
                           : 'bg-transparent border-[#2a2a2a] text-[#666]'
                       }`}
-                      onClick={() => setEntryType('expense')}
+                      onClick={() => setEntryType('expenses')}
                     >
                       Expense
                     </button>
@@ -248,7 +248,7 @@ export default function Header() {
                 {/* Amount Input */}
                 <div className="space-y-2">
                   <Label htmlFor="amount" className="text-[#666] text-sm">
-                    {entryType === 'payout' ? 'Payout Amount' : 'Expense Amount'}
+                    {entryType === 'payouts' ? 'Payout Amount' : 'Expense Amount'}
                   </Label>
                   <Input
                     id="amount"
@@ -326,7 +326,7 @@ export default function Header() {
                   className="w-full bg-white text-black hover:bg-gray-200 font-medium"
                   disabled={!entryAmount || !entryDescription || (isPropTrading && !isNotFromPropFirm && selectedFirm === 'Other' && !customFirm)}
                 >
-                  Add {entryType === 'payout' ? 'Payout' : 'Expense'}
+                  Add {entryType === 'payouts' ? 'Payout' : 'Expense'}
                 </Button>
               </div>
             )}
