@@ -60,8 +60,12 @@ export default function Header() {
   const [isNotFromPropFirm, setIsNotFromPropFirm] = useState(false);
 
   const handleAddEntry = async () => {
-    if (!currentUser || business?.isCombinedView) {
-      console.error('Cannot add financial data in combined view or without user.');
+    console.log('Debug - currentUser:', currentUser?.uid);
+    console.log('Debug - business:', business);
+    console.log('Debug - isCombinedView:', business?.isCombinedView);
+    
+    if (!currentUser || !business || business?.isCombinedView) {
+      console.error('Cannot add financial data. Need to be on a business detail page with a valid business.');
       return;
     }
 
@@ -143,8 +147,8 @@ export default function Header() {
   )}
 
   <div className="flex-1 flex justify-center relative" style={{ bottom: '-2rem' }}>
-    {/* Add Numbers button - only on business detail page */}
-    {isBusinessDetail && (
+    {/* Add Numbers button - only on business detail page with valid business */}
+    {isBusinessDetail && business && (
       <div className="pointer-events-auto">
         <span 
           style={{
