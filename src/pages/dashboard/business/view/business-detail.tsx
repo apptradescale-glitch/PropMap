@@ -516,11 +516,11 @@ export default function BusinessDetailPage() {
       
       // Payout bar (left)
       const payoutX = monthCenter - barWidth - gapBetweenBars / 2;
-      drawBar(payoutX, d.payouts, '#6B8E7A'); // Green for payouts
+      drawBar(payoutX, d.payouts, '#A1A1AA'); // Darker gray for payouts (same as Revenue primary line)
       
       // Expense bar (right)
       const expenseX = monthCenter + gapBetweenBars / 2;
-      drawBar(expenseX, d.expenses, '#D4A5A5'); // Red for expenses
+      drawBar(expenseX, d.expenses, '#666'); // Lighter gray for expenses (same as Revenue secondary line)
       
       // Store positions for hover
       if (d.payouts > 0) {
@@ -616,9 +616,9 @@ export default function BusinessDetailPage() {
       ctx!.stroke();
     }
     if (dataSecondary && dataSecondary.length >= 2) {
-      drawLine(dataSecondary, '#6B7280', 1);
+      drawLine(dataSecondary, '#666', 1);
     }
-    drawLine(dataPrimary, '#D1D5DB', 1.5);
+    drawLine(dataPrimary, '#A1A1AA', 1.5);
   }, []);
 
   // Draw canvas charts on mount and data change
@@ -1233,7 +1233,7 @@ export default function BusinessDetailPage() {
                     }}
                   >
                     <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{hoveredBar.month}</div>
-                    <div style={{ color: hoveredBar.type === 'payout' ? '#6B8E7A' : '#D4A5A5' }}>
+                    <div style={{ color: hoveredBar.type === 'payout' ? '#A1A1AA' : '#666' }}>
                       {hoveredBar.type === 'payout' ? 'Payout' : 'Expense'}: {currencySymbol}{fmtMoney(Math.abs(hoveredBar.value))}
                     </div>
                   </div>
