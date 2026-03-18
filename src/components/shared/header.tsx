@@ -40,6 +40,21 @@ export default function Header() {
   const [dateRangeText, setDateRangeText] = useState('All');
   const [isDateDialogOpen, setIsDateDialogOpen] = useState(false);
   const [dateRange, setDateRange] = useState({ startDate: '', endDate: '' });
+  
+  // Add Numbers state
+  const [entryMode, setEntryMode] = useState<'manual' | 'automatic'>('manual');
+  const [entryType, setEntryType] = useState<'payout' | 'expense'>('payout');
+  const [entryAmount, setEntryAmount] = useState('');
+  const [entryDescription, setEntryDescription] = useState('');
+
+  const handleAddEntry = async () => {
+    // This would save to Firestore - for now just show an alert
+    alert(`Adding ${entryType}: $${entryAmount} - ${entryDescription}`);
+    // Reset form
+    setEntryAmount('');
+    setEntryDescription('');
+    setIsDateDialogOpen(false);
+  };
 
   return (
     <header className="sticky inset-x-0 top-0 w-full z-50">
@@ -73,6 +88,13 @@ export default function Header() {
             padding: '5px 14px',
             borderRadius: 6,
             cursor: 'pointer',
+            transition: 'transform 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
           }}
           onClick={() => setIsDateDialogOpen(true)}
         >
@@ -80,15 +102,123 @@ export default function Header() {
         </span>
 
         <Dialog open={isDateDialogOpen} onOpenChange={setIsDateDialogOpen}>
-          <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white">
+          <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white max-w-md">
             <DialogHeader>
               <DialogTitle className="text-white">Add Numbers</DialogTitle>
             </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="text-center text-[#666]">
-                <p>Empty for now</p>
+            
+            {/* Manual/Automatic Toggle */}
+            <div className="flex items-center justify-center mb-6">
+              <div className="bg-[#1a1a1a] rounded-lg p-1 flex">
+                <button
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                    entryMode === 'manual' 
+                      ? 'bg-white text-black' 
+                      : 'text-[#666] hover:text-white'
+                  }`}
+                  onClick={() => setEntryMode('manual')}
+                >
+                  Manual
+                </button>
+                <button
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                    entryMode === 'automatic' 
+                      ? 'bg-white text-black' 
+                      : 'text-[#666] hover:text-white'
+                  }`}
+                  onClick={() => setEntryMode('automatic')}
+                >
+                  Automatic
+                </button>
               </div>
             </div>
+
+            {/* Manual Entry Form */}
+            {entryMode === 'manual' && (
+              <div className="space-y-4">
+                {/* Type Selection */}
+                <div className="space-y-2">
+                  <Label className="text-[#666] text-sm">Type</Label>
+                  <div className="flex gap-2">
+                    <button
+                      className={`flex-1 py-2 px-3 rounded-md border text-sm font-medium transition-all ${
+                        entryType === 'payout'
+                          ? 'bg-[#6B8E7A] border-[#6B8E7A] text-white'
+                          : 'bg-transparent border-[#2a2a2a] text-[#666] hover:border-[#6B8E7A] hover:text-[#6B8E7A]'
+                      }`}
+                      onClick={() => setEntryType('payout')}
+                    >
+                      Payout
+                    </button>
+                    <button
+                      className={`flex-1 py-2 px-3 rounded-md border text-sm font-medium transition-all ${
+                        entryType === 'expense'
+                          ? 'bg-[#D4A5A5] border-[#D4A5A5] text-white'
+                          : 'bg-transparent border-[#2a2a2a] text-[#666] hover:border-[#D4A5A5] hover:text-[#D4A5A5]'
+                      }`}
+                      onClick={() => setEntryType('expense')}
+                    >
+                      Expense
+                    </button>
+                  </div>
+                </div>
+
+                {/* Amount Input */}
+                <div className="space-y-2">
+                  <Label htmlFor="amount" className="text-[#666] text-sm">
+                    {entryType === 'payout' ? 'Payout Amount' : 'Expense Amount'}
+                  </Label>
+                  <Input
+                    id="amount"
+                    type="number"
+                    placeholder="0.00"
+                    value={entryAmount}
+                    onChange={(e) => setEntryAmount(e.target.value)}
+                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
+                  />
+                </div>
+
+                {/* Description Input */}
+                <div className="space-y-2">
+                  <Label htmlFor="description" className="text-[#666] text-sm">Description</Label>
+                  <Input
+                    id="description"
+                    type="text"
+                    placeholder="Enter description..."
+                    value={entryDescription}
+                    onChange={(e) => setEntryDescription(e.target.value)}
+                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
+                  />
+                </div>
+
+                {/* Add Button */}
+                <Button
+                  onClick={handleAddEntry}
+                  className="w-full bg-white text-black hover:bg-gray-200 font-medium"
+                  disabled={!entryAmount || !entryDescription}
+                >
+                  Add {entryType === 'payout' ? 'Payout' : 'Expense'}
+                </Button>
+              </div>
+            )}
+
+            {/* Automatic Entry */}
+            {entryMode === 'automatic' && (
+              <div className="space-y-4">
+                <div className="text-center py-8">
+                  <p className="text-[#666] mb-6">
+                    Connect your bank account to automatically import your transactions
+                  </p>
+                  <Button
+                    onClick={() => navigate('/dashboard/BankConnection')}
+                    className="bg-[#e0ac69] hover:bg-[#c9964f] text-black font-medium"
+                  >
+                    Connect Your Bank
+                  </Button>
+                </div>
+              </div>
+            )}
+
             <div className="flex justify-end pt-4">
               <Button
                 onClick={() => setIsDateDialogOpen(false)}
