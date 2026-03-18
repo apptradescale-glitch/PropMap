@@ -104,7 +104,7 @@ export default function Header() {
         <Dialog open={isDateDialogOpen} onOpenChange={setIsDateDialogOpen}>
           <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white max-w-md">
             <DialogHeader>
-              <DialogTitle className="text-white">Add Numbers</DialogTitle>
+              <DialogTitle className="text-white mb-4">Add Numbers</DialogTitle>
             </DialogHeader>
             
             {/* Manual/Automatic Toggle */}
@@ -141,21 +141,39 @@ export default function Header() {
                   <Label className="text-[#666] text-sm">Type</Label>
                   <div className="flex gap-2">
                     <button
-                      className={`flex-1 py-2 px-3 rounded-md border text-sm font-medium transition-all ${
+                      className={`flex-1 text-sm font-medium transition-all cursor-pointer ${
                         entryType === 'payout'
-                          ? 'bg-[#6B8E7A] border-[#6B8E7A] text-white'
-                          : 'bg-transparent border-[#2a2a2a] text-[#666] hover:border-[#6B8E7A] hover:text-[#6B8E7A]'
+                          ? 'text-white'
+                          : 'text-[#666]'
                       }`}
+                      style={{
+                        background: entryType === 'payout' ? '#fff' : 'transparent',
+                        color: entryType === 'payout' ? '#000' : '#666',
+                        fontSize: 13,
+                        fontWeight: 500,
+                        padding: '5px 14px',
+                        borderRadius: 6,
+                        border: 'none',
+                      }}
                       onClick={() => setEntryType('payout')}
                     >
                       Payout
                     </button>
                     <button
-                      className={`flex-1 py-2 px-3 rounded-md border text-sm font-medium transition-all ${
+                      className={`flex-1 text-sm font-medium transition-all cursor-pointer ${
                         entryType === 'expense'
-                          ? 'bg-[#D4A5A5] border-[#D4A5A5] text-white'
-                          : 'bg-transparent border-[#2a2a2a] text-[#666] hover:border-[#D4A5A5] hover:text-[#D4A5A5]'
+                          ? 'text-white'
+                          : 'text-[#666]'
                       }`}
+                      style={{
+                        background: entryType === 'expense' ? '#fff' : 'transparent',
+                        color: entryType === 'expense' ? '#000' : '#666',
+                        fontSize: 13,
+                        fontWeight: 500,
+                        padding: '5px 14px',
+                        borderRadius: 6,
+                        border: 'none',
+                      }}
                       onClick={() => setEntryType('expense')}
                     >
                       Expense
@@ -171,7 +189,7 @@ export default function Header() {
                   <Input
                     id="amount"
                     type="number"
-                    placeholder="0.00"
+                    placeholder=""
                     value={entryAmount}
                     onChange={(e) => setEntryAmount(e.target.value)}
                     className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
@@ -184,7 +202,7 @@ export default function Header() {
                   <Input
                     id="description"
                     type="text"
-                    placeholder="Enter description..."
+                    placeholder=""
                     value={entryDescription}
                     onChange={(e) => setEntryDescription(e.target.value)}
                     className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
@@ -219,15 +237,7 @@ export default function Header() {
               </div>
             )}
 
-            <div className="flex justify-end pt-4">
-              <Button
-                onClick={() => setIsDateDialogOpen(false)}
-                className="text-[#666] hover:text-white hover:bg-[#1a1a1a]"
-              >
-                Close
-              </Button>
-            </div>
-          </DialogContent>
+                      </DialogContent>
         </Dialog>
       </div>
     )}
