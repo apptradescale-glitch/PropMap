@@ -144,7 +144,7 @@ export default function Header() {
                       className={`flex-1 py-2 px-3 rounded-md border text-sm font-medium transition-all cursor-pointer ${
                         entryType === 'payout'
                           ? 'bg-white text-black border-white'
-                          : 'bg-transparent border-[#2a2a2a] text-[#666] hover:border-white hover:text-white'
+                          : 'bg-transparent border-[#2a2a2a] text-[#666]'
                       }`}
                       onClick={() => setEntryType('payout')}
                     >
@@ -154,7 +154,7 @@ export default function Header() {
                       className={`flex-1 py-2 px-3 rounded-md border text-sm font-medium transition-all cursor-pointer ${
                         entryType === 'expense'
                           ? 'bg-white text-black border-white'
-                          : 'bg-transparent border-[#2a2a2a] text-[#666] hover:border-white hover:text-white'
+                          : 'bg-transparent border-[#2a2a2a] text-[#666]'
                       }`}
                       onClick={() => setEntryType('expense')}
                     >
