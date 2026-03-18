@@ -17,6 +17,9 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useBusiness } from '@/context/BusinessContext';
+import { useAuth } from '@/context/FAuth';
+import { db } from '@/config/firestore';
+import { doc, getDoc, updateDoc, setDoc, arrayUnion } from 'firebase/firestore';
 import {
   Dialog,
   DialogContent,
@@ -39,6 +42,7 @@ export default function Header() {
   const headingText = useMatchedPath(pathname);
   const navigate = useNavigate();
   const { business } = useBusiness();
+  const { currentUser } = useAuth();
   const isBusinessDetail = pathname.startsWith('/dashboard/business/');
   const isPropTrading = business?.businessSector === 'proptrading';
 
@@ -56,16 +60,60 @@ export default function Header() {
   const [isNotFromPropFirm, setIsNotFromPropFirm] = useState(false);
 
   const handleAddEntry = async () => {
+    if (!currentUser || business?.isCombinedView) {
+      console.error('Cannot add financial data in combined view or without user.');
+      return;
+    }
+
     // Get the firm name (either selected or custom) - only for prop trading and if not from prop firm is unchecked
-    let displayText = `Adding ${entryType}: $${entryAmount} - ${entryDescription}`;
+    let fullDescription = entryDescription;
     
     if (isPropTrading && !isNotFromPropFirm) {
       const firmName = selectedFirm === 'Other' ? customFirm : selectedFirm;
-      displayText += ` | ${firmName}`;
+      fullDescription += ` | ${firmName}`;
     }
-    
-    // This would save to Firestore - for now just show an alert
-    alert(displayText);
+
+    // Use business ID as primary identifier, fallback to name if no ID
+    const businessId = business?.id || business?.name || 'default';
+    const businessName = business?.businessSector === 'proptrading' ? business.userName : business.name;
+
+    // Create the new item
+    const newItem = {
+      id: crypto.randomUUID(),
+      type: entryType, // 'payouts' or 'expenses'
+      businessId: businessId,
+      businessName: businessName,
+      businessSector: business?.businessSector,
+      customSector: business?.customSector,
+      amount: Number(entryAmount),
+      description: fullDescription,
+      fileName: null,
+      timestamp: new Date().toISOString(),
+      date: new Date().toISOString().split('T')[0], // YYYY-MM-DD
+    };
+
+    // Save to Firestore
+    try {
+      const collectionRef = doc(db, entryType, currentUser.uid);
+      const docSnap = await getDoc(collectionRef);
+
+      if (docSnap.exists()) {
+        await updateDoc(collectionRef, {
+          items: arrayUnion(newItem)
+        });
+      } else {
+        await setDoc(collectionRef, {
+          items: [newItem]
+        });
+      }
+      
+      console.log(`${entryType} added successfully`);
+    } catch (error) {
+      console.error('Error saving financial data:', error);
+      alert('Failed to save data. Please try again.');
+      throw error;
+    }
+
     // Reset form
     setEntryAmount('');
     setEntryDescription('');
