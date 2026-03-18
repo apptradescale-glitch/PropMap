@@ -275,7 +275,7 @@ export default function Header() {
                       type="date"
                       value={entryDate}
                       onChange={(e) => setEntryDate(e.target.value)}
-                      className="dark-mode-date-input bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
+                      className="dark-mode-date-input bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555] [&::-webkit-calendar-picker-indicator]:!invert [&::-webkit-calendar-picker-indicator]:!brightness-200 [&::-webkit-calendar-picker-indicator]:!opacity-100"
                       max={new Date().toISOString().split('T')[0]} // Prevent future dates
                     />
                   </div>

@@ -4,8 +4,10 @@
 }
 
 .dark-mode-date-input::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+  filter: invert(1) brightness(2) !important;
   cursor: pointer;
+  background: white;
+  border-radius: 4px;
 }
 
 .dark-mode-date-input::-webkit-datetime-edit-text {
@@ -30,8 +32,23 @@
 
 /* Firefox styling */
 .dark-mode-date-input::-moz-calendar-picker-indicator {
-  filter: invert(1);
+  filter: invert(1) brightness(2) !important;
   cursor: pointer;
+  background: white;
+  border-radius: 4px;
+}
+
+/* Additional aggressive styling for calendar icon */
+input[type="date"].dark-mode-date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(2) !important;
+  opacity: 1 !important;
+  -webkit-filter: invert(1) brightness(2) !important;
+}
+
+/* Try to override any conflicting styles */
+.dark-mode-date-input::-webkit-calendar-picker-indicator:hover {
+  filter: invert(1) brightness(2) !important;
+  background: white;
 }
 
 .dark-mode-date-input::-moz-datetime-edit-text {
