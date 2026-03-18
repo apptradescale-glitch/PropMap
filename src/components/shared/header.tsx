@@ -141,39 +141,21 @@ export default function Header() {
                   <Label className="text-[#666] text-sm">Type</Label>
                   <div className="flex gap-2">
                     <button
-                      className={`flex-1 text-sm font-medium transition-all cursor-pointer ${
+                      className={`flex-1 py-2 px-3 rounded-md border text-sm font-medium transition-all cursor-pointer ${
                         entryType === 'payout'
-                          ? 'text-white'
-                          : 'text-[#666]'
+                          ? 'bg-white text-black border-white'
+                          : 'bg-transparent border-[#2a2a2a] text-[#666] hover:border-white hover:text-white'
                       }`}
-                      style={{
-                        background: entryType === 'payout' ? '#fff' : 'transparent',
-                        color: entryType === 'payout' ? '#000' : '#666',
-                        fontSize: 13,
-                        fontWeight: 500,
-                        padding: '5px 14px',
-                        borderRadius: 6,
-                        border: 'none',
-                      }}
                       onClick={() => setEntryType('payout')}
                     >
                       Payout
                     </button>
                     <button
-                      className={`flex-1 text-sm font-medium transition-all cursor-pointer ${
+                      className={`flex-1 py-2 px-3 rounded-md border text-sm font-medium transition-all cursor-pointer ${
                         entryType === 'expense'
-                          ? 'text-white'
-                          : 'text-[#666]'
+                          ? 'bg-white text-black border-white'
+                          : 'bg-transparent border-[#2a2a2a] text-[#666] hover:border-white hover:text-white'
                       }`}
-                      style={{
-                        background: entryType === 'expense' ? '#fff' : 'transparent',
-                        color: entryType === 'expense' ? '#000' : '#666',
-                        fontSize: 13,
-                        fontWeight: 500,
-                        padding: '5px 14px',
-                        borderRadius: 6,
-                        border: 'none',
-                      }}
                       onClick={() => setEntryType('expense')}
                     >
                       Expense
@@ -227,12 +209,27 @@ export default function Header() {
                   <p className="text-[#666] mb-6">
                     Connect your bank account to automatically import your transactions
                   </p>
-                  <Button
+                  <span 
+                    style={{
+                      background: '#fff',
+                      color: '#000',
+                      fontSize: 13,
+                      fontWeight: 500,
+                      padding: '5px 14px',
+                      borderRadius: 6,
+                      cursor: 'pointer',
+                      transition: 'transform 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.05)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                    }}
                     onClick={() => navigate('/dashboard/BankConnection')}
-                    className="bg-[#e0ac69] hover:bg-[#c9964f] text-black font-medium"
                   >
                     Connect Your Bank
-                  </Button>
+                  </span>
                 </div>
               </div>
             )}
