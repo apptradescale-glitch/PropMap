@@ -581,7 +581,7 @@ export default function OverViewPage() {
 
           {/* Added Business Cards */}
           {addedBusinesses.map((business, index) => (
-            <Card key={index} className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a] hover:border-white/35 hover:shadow-lg hover:shadow-white/20 transition-all duration-200 hover:scale-105 cursor-pointer" onClick={(e) => {
+            <Card key={index} className="w-80 h-48 border-[#1a1a1a] bg-[#0a0a0a] shadow-none transition-all duration-200 hover:scale-105 cursor-pointer" onClick={(e) => {
                 const target = e.target as HTMLElement;
                 if (!target.closest('button')) {
                   handleCardClick(business, index);
@@ -686,7 +686,7 @@ export default function OverViewPage() {
           {/* All Businesses Combined Card - Only show if 2+ businesses */}
           {addedBusinesses.length >= 2 && (
             <Card 
-              className="w-80 h-48 border-[#2a2a2a] bg-[#0a0a0a] hover:border-[#e0ac69]/60 shadow-lg shadow-[#e0ac69]/30 transition-all duration-200 hover:scale-105 cursor-pointer" 
+              className="w-80 h-48 border-[#1a1a1a] bg-[#0a0a0a] shadow-none transition-all duration-200 hover:scale-105 cursor-pointer" 
               onClick={handleViewAllBusinesses}
             >
               <CardContent className="flex flex-col h-full p-6">
@@ -713,7 +713,7 @@ export default function OverViewPage() {
                 
                 {/* View All Businesses text */}
                 <div className="mt-auto flex items-center justify-center pt-4">
-                  <p className="text-[#e0ac69] text-sm font-medium">
+                  <p className="text-white text-sm font-medium">
                     View Combined Analytics
                   </p>
                 </div>
