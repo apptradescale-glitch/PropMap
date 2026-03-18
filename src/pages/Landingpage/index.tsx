@@ -958,7 +958,7 @@ export default function LandingPage() {
               padding: '32px',
               textAlign: 'center',
               position: 'relative',
-              boxShadow: '0 0 20px 2px rgba(21, 128, 61, 0.5)',
+              boxShadow: '0 0 20px 2px rgba(107, 142, 122, 0.5)',
             }}>
               <div style={{
                 position: 'absolute',
