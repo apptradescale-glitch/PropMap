@@ -359,7 +359,7 @@ export default function BusinessDetailPage() {
   const perfCanvasRef = useRef<HTMLCanvasElement>(null);
   
   // Tooltip state for bar chart
-  const [hoveredBar, setHoveredBar] = useState<{ month: string; value: number; isPositive: boolean } | null>(null);
+  const [hoveredBar, setHoveredBar] = useState<{ month: string; value: number; type: 'payout' | 'expense' } | null>(null);
 
   // Monthly history data for current month (payouts + expenses grouped by day)
   const monthlyHistoryData = useMemo(() => {
@@ -408,7 +408,7 @@ export default function BusinessDetailPage() {
         })
         .reduce((sum, item) => sum + item.amount, 0);
       const netValue = monthPayouts - monthExpenses;
-      return { month, value: netValue, isPositive: netValue >= 0 };
+      return { month, value: netValue, isPositive: netValue >= 0, payouts: monthPayouts, expenses: monthExpenses };
     });
   }, [combinedFinancialData]);
 
@@ -456,7 +456,7 @@ export default function BusinessDetailPage() {
   }, [calendarMonth]);
 
   // Canvas bar chart drawing for yearly data
-  const drawBarChart = useCallback((canvas: HTMLCanvasElement, data: { month: string; value: number; isPositive: boolean }[]) => {
+  const drawBarChart = useCallback((canvas: HTMLCanvasElement, data: { month: string; value: number; isPositive: boolean; payouts: number; expenses: number }[]) => {
     if (!canvas || data.length < 1) return;
     const parent = canvas.parentElement;
     if (!parent) return;
@@ -478,14 +478,14 @@ export default function BusinessDetailPage() {
     const chartW = w - padLeft - padRight;
     const chartH = h - padTop - padBottom;
     
-    // Calculate bar width and spacing to center bars above month labels
-    const totalBars = data.length;
-    const barWidth = Math.min(chartW / totalBars * 0.5, 20); // Max width of 20px
-    const totalBarWidth = barWidth * totalBars;
-    const totalGapWidth = chartW - totalBarWidth;
-    const gap = totalGapWidth / (totalBars + 1); // Extra gap at both ends
+    // Calculate bar width and spacing for two bars per month
+    const totalMonths = data.length;
+    const pairWidth = chartW / totalMonths;
+    const barWidth = Math.min(pairWidth * 0.35, 12); // Thinner bars, max 12px
+    const gapBetweenBars = pairWidth * 0.1; // Small gap between payout and expense bars
     
-    const allVals = data.map(d => d.value);
+    // Get all values for scaling (both payouts and expenses)
+    const allVals = data.flatMap(d => [d.payouts, d.expenses]);
     const max = allVals.length > 0 ? Math.max(...allVals.map(Math.abs)) : 500;
     const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
     const range = niceMax || 1;
@@ -499,36 +499,53 @@ export default function BusinessDetailPage() {
     ctx.lineTo(padLeft + chartW, zeroY);
     ctx.stroke();
     
-    function drawBar(x: number, val: number, isPositive: boolean) {
-      ctx.fillStyle = isPositive ? '#D1D5DB' : '#555555';
+    function drawBar(x: number, val: number, color: string) {
+      ctx.fillStyle = color;
       const barH = (Math.abs(val) / range) * chartH;
-      const barY = isPositive 
-        ? zeroY - barH 
-        : zeroY;
+      const barY = zeroY - barH; // Always draw upward from zero line
       ctx.fillRect(x, barY, barWidth, barH);
     }
     
     // Store bar positions for hover detection
-    const barPositions: { x: number; y: number; width: number; height: number; data: typeof data[0] }[] = [];
+    const barPositions: { x: number; y: number; width: number; height: number; data: any; type: 'payout' | 'expense' }[] = [];
     
     data.forEach((d, i) => {
-      // Position each bar centered above its month label with adjustment
-      const monthPosition = padLeft + (i + 0.5) * (chartW / totalBars);
-      const x = monthPosition - barWidth / 2 - 2; // Move 2px to the left for better alignment
+      // Calculate positions for the two bars in this month
+      const monthStart = padLeft + i * pairWidth;
+      const monthCenter = monthStart + pairWidth / 2;
       
-      const barH = (Math.abs(d.value) / range) * chartH;
-      const barY = d.isPositive ? zeroY - barH : zeroY;
+      // Payout bar (left)
+      const payoutX = monthCenter - barWidth - gapBetweenBars / 2;
+      drawBar(payoutX, d.payouts, '#6B8E7A'); // Green for payouts
       
-      drawBar(x, d.value, d.isPositive);
+      // Expense bar (right)
+      const expenseX = monthCenter + gapBetweenBars / 2;
+      drawBar(expenseX, d.expenses, '#D4A5A5'); // Red for expenses
       
-      // Store position for hover
-      barPositions.push({
-        x: x,
-        y: barY,
-        width: barWidth,
-        height: barH,
-        data: d
-      });
+      // Store positions for hover
+      if (d.payouts > 0) {
+        const payoutBarH = (d.payouts / range) * chartH;
+        barPositions.push({
+          x: payoutX,
+          y: zeroY - payoutBarH,
+          width: barWidth,
+          height: payoutBarH,
+          data: d,
+          type: 'payout'
+        });
+      }
+      
+      if (d.expenses > 0) {
+        const expenseBarH = (d.expenses / range) * chartH;
+        barPositions.push({
+          x: expenseX,
+          y: zeroY - expenseBarH,
+          width: barWidth,
+          height: expenseBarH,
+          data: d,
+          type: 'expense'
+        });
+      }
     });
     
     // Add mouse move handler
@@ -537,12 +554,16 @@ export default function BusinessDetailPage() {
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
       
-      let hovered: typeof data[0] | null = null;
+      let hovered: { month: string; value: number; type: 'payout' | 'expense' } | null = null;
       
       for (const bar of barPositions) {
         if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
             mouseY >= bar.y && mouseY <= bar.y + bar.height) {
-          hovered = bar.data;
+          hovered = {
+            month: bar.data.month,
+            value: bar.type === 'payout' ? bar.data.payouts : bar.data.expenses,
+            type: bar.type
+          };
           break;
         }
       }
@@ -1212,8 +1233,8 @@ export default function BusinessDetailPage() {
                     }}
                   >
                     <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{hoveredBar.month}</div>
-                    <div style={{ color: hoveredBar.isPositive ? '#6B8E7A' : '#D4A5A5' }}>
-                      {hoveredBar.isPositive ? 'Profit' : 'Loss'}: {currencySymbol}{fmtMoney(Math.abs(hoveredBar.value))}
+                    <div style={{ color: hoveredBar.type === 'payout' ? '#6B8E7A' : '#D4A5A5' }}>
+                      {hoveredBar.type === 'payout' ? 'Payout' : 'Expense'}: {currencySymbol}{fmtMoney(Math.abs(hoveredBar.value))}
                     </div>
                   </div>
                 )}
