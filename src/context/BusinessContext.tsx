@@ -1,4 +1,7 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useAuth } from '@/context/FAuth';
+import { db } from '@/config/firestore';
+import { getDoc, doc } from 'firebase/firestore';
 
 interface BusinessContextType {
   business: any;
@@ -20,6 +23,7 @@ export const useBusiness = () => {
 };
 
 export const BusinessProvider = ({ children }: { children: ReactNode }) => {
+  const { currentUser } = useAuth();
   const [business, setBusiness] = useState<any>(null);
   const [payouts, setPayouts] = useState<any[]>([]);
   const [expenses, setExpenses] = useState<any[]>([]);
@@ -31,6 +35,29 @@ export const BusinessProvider = ({ children }: { children: ReactNode }) => {
   const addExpense = (expense: any) => {
     setExpenses(prev => [...prev, expense]);
   };
+
+  // Load financial data from Firestore
+  useEffect(() => {
+    if (!currentUser) return;
+
+    const loadFinancialData = async () => {
+      try {
+        // Load payouts
+        const payoutsDoc = await getDoc(doc(db, 'payouts', currentUser.uid));
+        const payoutsData = payoutsDoc.exists() ? payoutsDoc.data().items || [] : [];
+        setPayouts(payoutsData);
+
+        // Load expenses
+        const expensesDoc = await getDoc(doc(db, 'expenses', currentUser.uid));
+        const expensesData = expensesDoc.exists() ? expensesDoc.data().items || [] : [];
+        setExpenses(expensesData);
+      } catch (error) {
+        console.error('Error loading financial data:', error);
+      }
+    };
+
+    loadFinancialData();
+  }, [currentUser]);
 
   return (
     <BusinessContext.Provider value={{ business, setBusiness, addPayout, addExpense, payouts, expenses }}>

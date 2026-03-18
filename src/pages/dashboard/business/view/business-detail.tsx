@@ -89,7 +89,7 @@ export default function BusinessDetailPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  const { setBusiness, payouts, expenses, addPayout, addExpense } = useBusiness();
+  const { setBusiness, payouts: allPayouts, expenses: allExpenses, addPayout, addExpense } = useBusiness();
   const business = state?.business as Business;
 
   // Set business in context when component mounts
@@ -100,6 +100,49 @@ export default function BusinessDetailPage() {
     // Cleanup on unmount
     return () => setBusiness(null);
   }, [business, setBusiness]);
+
+  // Filter payouts and expenses for this specific business
+  const payouts = useMemo(() => {
+    if (!business) return [];
+    
+    if (business?.isCombinedView) {
+      // Combined view - show all data for all businesses
+      const allBusinessIds = business?.businesses?.map((b: any) => b.id || b.name) || [];
+      return allPayouts.filter((item: any) => allBusinessIds.includes(item.businessId));
+    } else {
+      // Single business view - filter by business ID or name
+      const businessId = business?.id || 'default';
+      const businessName = business?.businessSector === 'proptrading' ? business.userName : business.name;
+      
+      return allPayouts.filter((item: any) => 
+        item.businessId === businessId || 
+        item.businessName === businessName ||
+        item.businessId === businessName ||
+        (business?.businessSector === 'proptrading' && item.businessName === business.userName)
+      );
+    }
+  }, [business, allPayouts]);
+
+  const expenses = useMemo(() => {
+    if (!business) return [];
+    
+    if (business?.isCombinedView) {
+      // Combined view - show all data for all businesses
+      const allBusinessIds = business?.businesses?.map((b: any) => b.id || b.name) || [];
+      return allExpenses.filter((item: any) => allBusinessIds.includes(item.businessId));
+    } else {
+      // Single business view - filter by business ID or name
+      const businessId = business?.id || 'default';
+      const businessName = business?.businessSector === 'proptrading' ? business.userName : business.name;
+      
+      return allExpenses.filter((item: any) => 
+        item.businessId === businessId || 
+        item.businessName === businessName ||
+        item.businessId === businessName ||
+        (business?.businessSector === 'proptrading' && item.businessName === business.userName)
+      );
+    }
+  }, [business, allExpenses]);
 
   // Derive correct currency: for combined view, use first business's currency
   const effectiveCurrency = business?.isCombinedView
