@@ -98,14 +98,23 @@ export default function Header() {
 
     // Save to Firestore
     try {
+      console.log('Debug - entryType:', entryType);
+      console.log('Debug - currentUser.uid:', currentUser.uid);
+      console.log('Debug - newItem:', newItem);
+      
       const collectionRef = doc(db, entryType, currentUser.uid);
+      console.log('Debug - collectionRef path:', collectionRef.path);
+      
       const docSnap = await getDoc(collectionRef);
+      console.log('Debug - docSnap.exists():', docSnap.exists());
 
       if (docSnap.exists()) {
+        console.log('Debug - updating existing document');
         await updateDoc(collectionRef, {
           items: arrayUnion(newItem)
         });
       } else {
+        console.log('Debug - creating new document');
         await setDoc(collectionRef, {
           items: [newItem]
         });
@@ -114,6 +123,8 @@ export default function Header() {
       console.log(`${entryType} added successfully`);
     } catch (error) {
       console.error('Error saving financial data:', error);
+      const firebaseError = error as any;
+      console.error('Error details:', firebaseError.code, firebaseError.message);
       alert('Failed to save data. Please try again.');
       throw error;
     }
