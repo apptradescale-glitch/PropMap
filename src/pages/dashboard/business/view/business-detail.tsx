@@ -515,11 +515,11 @@ export default function BusinessDetailPage() {
       const monthCenter = monthStart + pairWidth / 2;
       
       // Payout bar (left)
-      const payoutX = monthCenter - barWidth - gapBetweenBars / 2;
+      const payoutX = monthCenter - barWidth - gapBetweenBars / 2 - 3; // Move 3px to the left
       drawBar(payoutX, d.payouts, '#A1A1AA'); // Darker gray for payouts (same as Revenue primary line)
       
       // Expense bar (right)
-      const expenseX = monthCenter + gapBetweenBars / 2;
+      const expenseX = monthCenter + gapBetweenBars / 2 - 3; // Move 3px to the left
       drawBar(expenseX, d.expenses, '#666'); // Lighter gray for expenses (same as Revenue secondary line)
       
       // Store positions for hover
@@ -618,7 +618,7 @@ export default function BusinessDetailPage() {
     if (dataSecondary && dataSecondary.length >= 2) {
       drawLine(dataSecondary, '#666', 1);
     }
-    drawLine(dataPrimary, '#A1A1AA', 1.5);
+    drawLine(dataPrimary, '#D1D5DB', 1.5);
   }, []);
 
   // Draw canvas charts on mount and data change
