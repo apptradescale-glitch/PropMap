@@ -23,7 +23,7 @@ const TestPage = lazy(() => import('@/pages/Test'));
 
 const ManageSubscriptionPage = lazy(() => import('@/pages/ManageSubscription'));
 
-const BusinessDetailPage = lazy(() => import('@/pages/dashboard/business/view/business-detail'));
+import BusinessDetailPage from '@/pages/dashboard/business/view/business-detail';
 const StoragePage = lazy(() => import('@/pages/dashboard/storage'));
 const TransactionsPage = lazy(() => import('@/pages/dashboard/transactions'));
 const TaxPage = lazy(() => import('@/pages/dashboard/tax'));
@@ -145,11 +145,7 @@ export default function AppRouter() {
         },
         {
           path: 'business/:id',
-          element: (
-            <Suspense fallback={<CenteredLogoLoader />}>
-              <BusinessDetailPage />
-            </Suspense>
-          )
+          element: <BusinessDetailPage />
         },
         {
           path: 'Storage',
