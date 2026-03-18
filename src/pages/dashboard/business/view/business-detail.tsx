@@ -1137,8 +1137,8 @@ export default function BusinessDetailPage() {
                               <ArrowBigUp className="w-5 h-5 text-[#6B8E7A]" />
                             </div>
                           ) : (
-                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#D4A5A5]/50">
-                              <ArrowBigDown className="w-5 h-5 text-[#D4A5A5]" />
+                            <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#8e6b6bff]/50">
+                              <ArrowBigDown className="w-5 h-5 text-[#8e6b6bff]" />
                             </div>
                           )}
                         </div>
