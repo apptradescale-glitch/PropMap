@@ -1,0 +1,51 @@
+/* Dark mode date input styling */
+.dark-mode-date-input {
+  color-scheme: dark;
+}
+
+.dark-mode-date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.dark-mode-date-input::-webkit-datetime-edit-text {
+  color: white;
+}
+
+.dark-mode-date-input::-webkit-datetime-edit-month-field {
+  color: white;
+}
+
+.dark-mode-date-input::-webkit-datetime-edit-day-field {
+  color: white;
+}
+
+.dark-mode-date-input::-webkit-datetime-edit-year-field {
+  color: white;
+}
+
+.dark-mode-date-input::-webkit-inner-spin-button {
+  filter: invert(1);
+}
+
+/* Firefox styling */
+.dark-mode-date-input::-moz-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.dark-mode-date-input::-moz-datetime-edit-text {
+  color: white;
+}
+
+.dark-mode-date-input::-moz-datetime-edit-month-field {
+  color: white;
+}
+
+.dark-mode-date-input::-moz-datetime-edit-day-field {
+  color: white;
+}
+
+.dark-mode-date-input::-moz-datetime-edit-year-field {
+  color: white;
+}

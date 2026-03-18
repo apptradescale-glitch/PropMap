@@ -20,6 +20,7 @@ import { useBusiness } from '@/context/BusinessContext';
 import { useAuth } from '@/context/FAuth';
 import { db } from '@/config/firestore';
 import { doc, getDoc, updateDoc, setDoc, arrayUnion } from 'firebase/firestore';
+import '@/styles/date-input.css';
 import {
   Dialog,
   DialogContent,
@@ -268,14 +269,16 @@ export default function Header() {
                 {/* Date Input */}
                 <div className="space-y-2">
                   <Label htmlFor="date" className="text-[#666] text-sm">Date</Label>
-                  <Input
-                    id="date"
-                    type="date"
-                    value={entryDate}
-                    onChange={(e) => setEntryDate(e.target.value)}
-                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
-                    max={new Date().toISOString().split('T')[0]} // Prevent future dates
-                  />
+                  <div className="relative">
+                    <Input
+                      id="date"
+                      type="date"
+                      value={entryDate}
+                      onChange={(e) => setEntryDate(e.target.value)}
+                      className="dark-mode-date-input bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
+                      max={new Date().toISOString().split('T')[0]} // Prevent future dates
+                    />
+                  </div>
                 </div>
 
                 {/* Firm Selection - Only show for prop trading businesses */}
