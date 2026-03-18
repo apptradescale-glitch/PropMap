@@ -41,7 +41,7 @@ export default function Header() {
   const pathname = usePathname();
   const headingText = useMatchedPath(pathname);
   const navigate = useNavigate();
-  const { business } = useBusiness();
+  const { business, addPayout, addExpense } = useBusiness();
   const { currentUser } = useAuth();
   const isBusinessDetail = pathname.startsWith('/dashboard/business/');
   const isPropTrading = business?.businessSector === 'proptrading';
@@ -55,15 +55,12 @@ export default function Header() {
   const [entryType, setEntryType] = useState<'payouts' | 'expenses'>('payouts');
   const [entryAmount, setEntryAmount] = useState('');
   const [entryDescription, setEntryDescription] = useState('');
+  const [entryDate, setEntryDate] = useState(new Date().toISOString().split('T')[0]); // Default to today
   const [selectedFirm, setSelectedFirm] = useState('Topstep');
   const [customFirm, setCustomFirm] = useState('');
   const [isNotFromPropFirm, setIsNotFromPropFirm] = useState(false);
 
   const handleAddEntry = async () => {
-    console.log('Debug - currentUser:', currentUser?.uid);
-    console.log('Debug - business:', business);
-    console.log('Debug - isCombinedView:', business?.isCombinedView);
-    
     if (!currentUser || !business || business?.isCombinedView) {
       console.error('Cannot add financial data. Need to be on a business detail page with a valid business.');
       return;
@@ -92,39 +89,33 @@ export default function Header() {
       amount: Number(entryAmount),
       description: fullDescription,
       fileName: null,
-      timestamp: new Date().toISOString(),
-      date: new Date().toISOString().split('T')[0], // YYYY-MM-DD
+      timestamp: new Date(entryDate).toISOString(),
+      date: entryDate, // Use selected date
     };
 
-    // Save to Firestore
+    // Optimistic update - update local state immediately
+    if (entryType === 'payouts') {
+      addPayout(newItem);
+    } else {
+      addExpense(newItem);
+    }
+
+    // Save to Firestore in the background
     try {
-      console.log('Debug - entryType:', entryType);
-      console.log('Debug - currentUser.uid:', currentUser.uid);
-      console.log('Debug - newItem:', newItem);
-      
       const collectionRef = doc(db, entryType, currentUser.uid);
-      console.log('Debug - collectionRef path:', collectionRef.path);
-      
       const docSnap = await getDoc(collectionRef);
-      console.log('Debug - docSnap.exists():', docSnap.exists());
 
       if (docSnap.exists()) {
-        console.log('Debug - updating existing document');
         await updateDoc(collectionRef, {
           items: arrayUnion(newItem)
         });
       } else {
-        console.log('Debug - creating new document');
         await setDoc(collectionRef, {
           items: [newItem]
         });
       }
-      
-      console.log(`${entryType} added successfully`);
     } catch (error) {
       console.error('Error saving financial data:', error);
-      const firebaseError = error as any;
-      console.error('Error details:', firebaseError.code, firebaseError.message);
       alert('Failed to save data. Please try again.');
       throw error;
     }
@@ -132,6 +123,7 @@ export default function Header() {
     // Reset form
     setEntryAmount('');
     setEntryDescription('');
+    setEntryDate(new Date().toISOString().split('T')[0]); // Reset to today
     setSelectedFirm('Topstep');
     setCustomFirm('');
     setIsNotFromPropFirm(false);
@@ -270,6 +262,19 @@ export default function Header() {
                     value={entryDescription}
                     onChange={(e) => setEntryDescription(e.target.value)}
                     className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
+                  />
+                </div>
+
+                {/* Date Input */}
+                <div className="space-y-2">
+                  <Label htmlFor="date" className="text-[#666] text-sm">Date</Label>
+                  <Input
+                    id="date"
+                    type="date"
+                    value={entryDate}
+                    onChange={(e) => setEntryDate(e.target.value)}
+                    className="bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555]"
+                    max={new Date().toISOString().split('T')[0]} // Prevent future dates
                   />
                 </div>
 

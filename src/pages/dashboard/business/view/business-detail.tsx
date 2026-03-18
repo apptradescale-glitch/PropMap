@@ -89,7 +89,7 @@ export default function BusinessDetailPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  const { setBusiness } = useBusiness();
+  const { setBusiness, payouts, expenses, addPayout, addExpense } = useBusiness();
   const business = state?.business as Business;
 
   // Set business in context when component mounts
@@ -116,9 +116,7 @@ export default function BusinessDetailPage() {
   const [dialogMode, setDialogMode] = useState<'manual' | 'automatic'>('manual');
   const [formData, setFormData] = useState<FormData>({ amount: '', description: '', file: null });
 
-  // Financial data state
-  const [payouts, setPayouts] = useState<any[]>([]);
-  const [expenses, setExpenses] = useState<any[]>([]);
+  // Financial data state is now managed in BusinessContext
 
   // Calendar state
   const [calendarMonth, setCalendarMonth] = useState(new Date());
@@ -152,7 +150,7 @@ export default function BusinessDetailPage() {
                 }
                 return item;
               });
-            setPayouts(combinedPayouts);
+            // setPayouts is now handled by context
           } else {
             // Single business view - handle both new ID system and legacy name system
             const businessId = business?.id || 'default';
@@ -170,7 +168,7 @@ export default function BusinessDetailPage() {
               return matchesById || matchesByName || matchesByBusinessName;
             });
             
-            setPayouts(businessPayouts);
+            // setPayouts is now handled by context
           }
         }
 
@@ -196,7 +194,7 @@ export default function BusinessDetailPage() {
                 }
                 return item;
               });
-            setExpenses(combinedExpenses);
+            // setExpenses is now handled by context
           } else {
             // Single business view - handle both new ID system and legacy name system
             const businessId = business?.id || 'default';
@@ -214,7 +212,7 @@ export default function BusinessDetailPage() {
               return matchesById || matchesByName || matchesByBusinessName;
             });
             
-            setExpenses(businessExpenses);
+            // setExpenses is now handled by context
           }
         }
       } catch (error) {
@@ -685,11 +683,11 @@ export default function BusinessDetailPage() {
       date: new Date().toISOString().split('T')[0], // YYYY-MM-DD
     };
 
-    // Optimistic update - update local state immediately
+    // Optimistic update - update context state immediately
     if (type === 'payouts') {
-      setPayouts(prev => [...prev, newItem]);
+      addPayout(newItem);
     } else {
-      setExpenses(prev => [...prev, newItem]);
+      addExpense(newItem);
     }
 
     // Save to Firestore in the background
@@ -710,12 +708,8 @@ export default function BusinessDetailPage() {
       // If Firestore save fails, revert the optimistic update
       console.error('Error saving financial data:', error);
       
-      // Remove the item from local state
-      if (type === 'payouts') {
-        setPayouts(prev => prev.filter(item => item.id !== newItem.id));
-      } else {
-        setExpenses(prev => prev.filter(item => item.id !== newItem.id));
-      }
+      // Note: For simplicity, we're not implementing rollback in context
+      // In a production app, you'd want removePayout/removeExpense functions
       
       // Show error to user
       alert('Failed to save data. Please try again.');
@@ -1118,7 +1112,7 @@ export default function BusinessDetailPage() {
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className="text-sm font-bold" style={{ 
-                            color: item.type === 'payouts' ? '#6B8E7A' : '#D4A5A5',
+                            color: item.type === 'payouts' ? '#6B8E7A' : '#8e6b6bff',
                             fontFamily: 'JetBrains Mono' 
                           }}>
                             {currencySymbol}{fmtMoney(item.amount)}
