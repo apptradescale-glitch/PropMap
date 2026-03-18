@@ -1088,7 +1088,7 @@ export default function BusinessDetailPage() {
               <div className="h-full min-h-[350px] overflow-y-auto">
                 {combinedFinancialData.length === 0 ? (
                   <div className="flex items-center justify-center h-full">
-                    <p className="text-[#666] text-sm">No payouts or expenses yet</p>
+                    <p className="text-[#666] text-sm"></p>
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -1146,7 +1146,7 @@ export default function BusinessDetailPage() {
             <CardContent className="pt-2 pb-4 h-full">
               <div className="flex items-center justify-center h-full min-h-[350px]">
                 <p className="text-[#666] text-sm" style={{ fontFamily: 'Inter' }}>
-                  {business?.businessSector === 'proptrading' ? 'PropFirm breakdown coming soon' : 'Income / Expenses flow coming soon'}
+                  {business?.businessSector === 'proptrading' ? '' : ''}
                 </p>
               </div>
             </CardContent>

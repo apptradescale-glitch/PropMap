@@ -218,7 +218,7 @@ export default function Header() {
                         id="not-from-prop-firm"
                         checked={isNotFromPropFirm}
                         onCheckedChange={(checked) => setIsNotFromPropFirm(checked as boolean)}
-                        className="border-[#2a2a2a] data-[state=checked]:bg-white data-[state=checked]:border-white"
+                        className="border-[#2a2a2a] data-[state=checked]:bg-white data-[state=checked]:border-white data-[state=checked]:text-black"
                       />
                       <Label htmlFor="not-from-prop-firm" className="text-[#666] text-sm cursor-pointer">
                         This {entryType.toLowerCase()} is not from a prop firm
