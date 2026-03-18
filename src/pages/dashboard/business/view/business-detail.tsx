@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import PageContainer from '@/components/layout/page-container';
 import PageHead from '@/components/shared/page-head';
+import { useBusiness } from '@/context/BusinessContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -88,7 +89,17 @@ export default function BusinessDetailPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
+  const { setBusiness } = useBusiness();
   const business = state?.business as Business;
+
+  // Set business in context when component mounts
+  useEffect(() => {
+    if (business) {
+      setBusiness(business);
+    }
+    // Cleanup on unmount
+    return () => setBusiness(null);
+  }, [business, setBusiness]);
 
   // Derive correct currency: for combined view, use first business's currency
   const effectiveCurrency = business?.isCombinedView

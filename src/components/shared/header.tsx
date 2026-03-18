@@ -14,6 +14,9 @@ import { ArrowLeft, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useBusiness } from '@/context/BusinessContext';
 import {
   Dialog,
   DialogContent,
@@ -35,7 +38,9 @@ export default function Header() {
   const pathname = usePathname();
   const headingText = useMatchedPath(pathname);
   const navigate = useNavigate();
+  const { business } = useBusiness();
   const isBusinessDetail = pathname.startsWith('/dashboard/business/');
+  const isPropTrading = business?.businessSector === 'proptrading';
 
   const [dateRangeText, setDateRangeText] = useState('All');
   const [isDateDialogOpen, setIsDateDialogOpen] = useState(false);
@@ -46,13 +51,27 @@ export default function Header() {
   const [entryType, setEntryType] = useState<'payout' | 'expense'>('payout');
   const [entryAmount, setEntryAmount] = useState('');
   const [entryDescription, setEntryDescription] = useState('');
+  const [selectedFirm, setSelectedFirm] = useState('Topstep');
+  const [customFirm, setCustomFirm] = useState('');
+  const [isNotFromPropFirm, setIsNotFromPropFirm] = useState(false);
 
   const handleAddEntry = async () => {
+    // Get the firm name (either selected or custom) - only for prop trading and if not from prop firm is unchecked
+    let displayText = `Adding ${entryType}: $${entryAmount} - ${entryDescription}`;
+    
+    if (isPropTrading && !isNotFromPropFirm) {
+      const firmName = selectedFirm === 'Other' ? customFirm : selectedFirm;
+      displayText += ` | ${firmName}`;
+    }
+    
     // This would save to Firestore - for now just show an alert
-    alert(`Adding ${entryType}: $${entryAmount} - ${entryDescription}`);
+    alert(displayText);
     // Reset form
     setEntryAmount('');
     setEntryDescription('');
+    setSelectedFirm('Topstep');
+    setCustomFirm('');
+    setIsNotFromPropFirm(false);
     setIsDateDialogOpen(false);
   };
 
@@ -191,11 +210,58 @@ export default function Header() {
                   />
                 </div>
 
+                {/* Firm Selection - Only show for prop trading businesses */}
+                {isPropTrading && (
+                  <>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="not-from-prop-firm"
+                        checked={isNotFromPropFirm}
+                        onCheckedChange={(checked) => setIsNotFromPropFirm(checked as boolean)}
+                        className="border-[#2a2a2a] data-[state=checked]:bg-white data-[state=checked]:border-white"
+                      />
+                      <Label htmlFor="not-from-prop-firm" className="text-[#666] text-sm cursor-pointer">
+                        This {entryType.toLowerCase()} is not from a prop firm
+                      </Label>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-[#666] text-sm">Firm</Label>
+                      <Select value={selectedFirm} onValueChange={setSelectedFirm} disabled={isNotFromPropFirm}>
+                        <SelectTrigger className={`bg-[#1a1a1a] border-[#2a2a2a] text-white ${isNotFromPropFirm ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
+                          <SelectItem value="Topstep" className="text-white">Topstep</SelectItem>
+                          <SelectItem value="Apex Funding Trader" className="text-white">Apex Funding Trader</SelectItem>
+                          <SelectItem value="Other" className="text-white">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Custom Firm Input - Only show when "Other" is selected */}
+                    {selectedFirm === 'Other' && (
+                      <div className="space-y-2">
+                        <Label htmlFor="custom-firm" className="text-[#666] text-sm">Custom Firm Name</Label>
+                        <Input
+                          id="custom-firm"
+                          type="text"
+                          placeholder="Enter firm name..."
+                          value={customFirm}
+                          onChange={(e) => setCustomFirm(e.target.value)}
+                          disabled={isNotFromPropFirm}
+                          className={`bg-[#1a1a1a] border-[#2a2a2a] text-white placeholder-[#555] ${isNotFromPropFirm ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+
                 {/* Add Button */}
                 <Button
                   onClick={handleAddEntry}
                   className="w-full bg-white text-black hover:bg-gray-200 font-medium"
-                  disabled={!entryAmount || !entryDescription}
+                  disabled={!entryAmount || !entryDescription || (isPropTrading && !isNotFromPropFirm && selectedFirm === 'Other' && !customFirm)}
                 >
                   Add {entryType === 'payout' ? 'Payout' : 'Expense'}
                 </Button>

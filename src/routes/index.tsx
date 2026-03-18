@@ -23,7 +23,9 @@ const TestPage = lazy(() => import('@/pages/Test'));
 
 const ManageSubscriptionPage = lazy(() => import('@/pages/ManageSubscription'));
 
-import BusinessDetailPage from '@/pages/dashboard/business/view/business-detail';
+import { BusinessProvider } from '@/context/BusinessContext';
+
+const BusinessDetailPage = lazy(() => import('@/pages/dashboard/business/view/business-detail'));
 const StoragePage = lazy(() => import('@/pages/dashboard/storage'));
 const TransactionsPage = lazy(() => import('@/pages/dashboard/transactions'));
 const TaxPage = lazy(() => import('@/pages/dashboard/tax'));
@@ -111,9 +113,11 @@ export default function AppRouter() {
       element: (
         // <ProtectedRoute>
           <Suspense fallback={<CenteredLogoLoader />}>
-            <DashboardLayout>
-              <Outlet />
-            </DashboardLayout>
+            <BusinessProvider>
+              <DashboardLayout>
+                <Outlet />
+              </DashboardLayout>
+            </BusinessProvider>
           </Suspense>
         // </ProtectedRoute>
       ),
