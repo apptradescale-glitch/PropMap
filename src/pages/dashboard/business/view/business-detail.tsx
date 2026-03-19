@@ -157,7 +157,7 @@ const PropFirmBreakdown = ({ payouts, expenses }: { payouts: any[], expenses: an
               <span className="text-white text-sm font-medium" style={{ fontFamily: 'Inter' }}>
                 {firm.name}
               </span>
-              <span className={`text-sm font-bold ${isProfit ? 'text-[#A1A1AA]' : 'text-[#666]'}`} style={{ fontFamily: 'JetBrains Mono' }}>
+              <span className={`text-sm font-bold ${isProfit ? 'text-[#6B8E7A]' : 'text-[#8e6b6bff]'}`} style={{ fontFamily: 'JetBrains Mono' }}>
                 {isProfit ? '+' : '-'}${fmtMoney(firm.profit)}
               </span>
             </div>
