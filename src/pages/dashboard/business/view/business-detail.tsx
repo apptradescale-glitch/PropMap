@@ -1409,6 +1409,21 @@ export default function BusinessDetailPage() {
                 <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
                   Business performance metrics
                 </CardDescription>
+                <button 
+                  style={{
+                    backgroundColor: 'transparent',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    color: 'white',
+                    padding: '4px 12px',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    fontFamily: 'Inter',
+                    cursor: 'pointer',
+                    marginTop: '8px'
+                  }}
+                >
+                  hello
+                </button>
               </div>
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
@@ -1461,6 +1476,21 @@ export default function BusinessDetailPage() {
                 <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
                   {new Date().getFullYear()} Overview
                 </CardDescription>
+                <button 
+                  style={{
+                    backgroundColor: 'transparent',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    color: 'white',
+                    padding: '4px 12px',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    fontFamily: 'Inter',
+                    cursor: 'pointer',
+                    marginTop: '8px'
+                  }}
+                >
+                  hello
+                </button>
               </div>
               <BarChart3 className="h-4 w-4 text-[#666]" />
             </CardHeader>
@@ -1473,7 +1503,8 @@ export default function BusinessDetailPage() {
                   <span style={{ color: '#6B8E7A' }}>
                     {currentMonthMetrics.payoutsPercentage.toFixed(1)}%
                   </span>
-                  <span style={{ color: '#8e6b6bff', marginLeft: 8 }}>
+                  <br />
+                  <span style={{ color: '#8e6b6bff' }}>
                     {currentMonthMetrics.expensesPercentage.toFixed(1)}%
                   </span>
                 </span>
