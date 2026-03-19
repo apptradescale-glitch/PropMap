@@ -157,14 +157,14 @@ const PropFirmBreakdown = ({ payouts, expenses }: { payouts: any[], expenses: an
               <span className="text-white text-sm font-medium" style={{ fontFamily: 'Inter' }}>
                 {firm.name}
               </span>
-              <span className={`text-sm font-bold ${isProfit ? 'text-[#6B8E7A]' : 'text-[#8e6b6bff]'}`} style={{ fontFamily: 'JetBrains Mono' }}>
+              <span className={`text-sm font-bold ${isProfit ? 'text-[#A1A1AA]' : 'text-[#666]'}`} style={{ fontFamily: 'JetBrains Mono' }}>
                 {isProfit ? '+' : '-'}${fmtMoney(firm.profit)}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex-1 bg-transparent rounded-full h-3 overflow-hidden border-2 border-opacity-60 border-[#6B8E7A]" style={{
-                boxShadow: isProfit ? '0 0 8px rgba(107, 142, 122, 0.5)' : '0 0 8px rgba(142, 107, 191, 0.5)',
-                borderColor: isProfit ? '#6B8E7A' : '#8e6b6bff'
+              <div className="flex-1 bg-transparent rounded-full h-3 overflow-hidden border-2 border-opacity-60" style={{
+                boxShadow: isProfit ? '0 0 8px rgba(161, 161, 170, 0.5)' : '0 0 8px rgba(102, 102, 102, 0.5)',
+                borderColor: isProfit ? '#A1A1AA' : '#666'
               }}>
                 <div
                   className="h-full transition-all duration-500 bg-transparent"
