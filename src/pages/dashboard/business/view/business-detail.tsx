@@ -85,6 +85,101 @@ const getCurrencySymbol = (currency: string) => {
   return symbols[currency] || '$';
 };
 
+// PropFirm Breakdown Component
+const PropFirmBreakdown = ({ payouts, expenses }: { payouts: any[], expenses: any[] }) => {
+  // Combine payouts and expenses and group by firm
+  const firmData = useMemo(() => {
+    const firmMap = new Map<string, { payouts: number; expenses: number; name: string }>();
+    
+    // Process payouts
+    payouts.forEach(item => {
+      const firmName = extractFirmName(item.description);
+      if (!firmMap.has(firmName)) {
+        firmMap.set(firmName, { payouts: 0, expenses: 0, name: firmName });
+      }
+      firmMap.get(firmName)!.payouts += item.amount;
+    });
+    
+    // Process expenses
+    expenses.forEach(item => {
+      const firmName = extractFirmName(item.description);
+      if (!firmMap.has(firmName)) {
+        firmMap.set(firmName, { payouts: 0, expenses: 0, name: firmName });
+      }
+      firmMap.get(firmName)!.expenses += item.amount;
+    });
+    
+    // Convert to array and calculate profit/loss
+    const firms = Array.from(firmMap.values()).map(firm => ({
+      ...firm,
+      profit: firm.payouts - firm.expenses
+    }));
+    
+    // Sort by profit (highest first)
+    return firms.sort((a, b) => b.profit - a.profit);
+  }, [payouts, expenses]);
+  
+  // Helper function to extract firm name from description
+  const extractFirmName = (description: string): string => {
+    // Check if description contains " | " which indicates firm info
+    if (description.includes(' | ')) {
+      const parts = description.split(' | ');
+      return parts[parts.length - 1].trim(); // Get the last part (firm name)
+    }
+    return 'Unknown Firm';
+  };
+  
+  // Calculate max absolute value for scaling
+  const maxAbsValue = Math.max(...firmData.map(firm => Math.abs(firm.profit)), 1);
+  
+  const fmtMoney = (val: number, decimals = 2) =>
+    Math.abs(val).toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  
+  if (firmData.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-full min-h-[350px]">
+        <p className="text-[#666] text-sm" style={{ fontFamily: 'Inter' }}>
+          No firm data available
+        </p>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="space-y-4 p-4">
+      {firmData.map((firm, index) => {
+        const isProfit = firm.profit >= 0;
+        const barWidth = maxAbsValue > 0 ? (Math.abs(firm.profit) / maxAbsValue) * 100 : 0;
+        
+        return (
+          <div key={firm.name} className="space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-white text-sm font-medium" style={{ fontFamily: 'Inter' }}>
+                {firm.name}
+              </span>
+              <span className={`text-sm font-bold ${isProfit ? 'text-[#6B8E7A]' : 'text-[#8e6b6bff]'}`} style={{ fontFamily: 'JetBrains Mono' }}>
+                {isProfit ? '+' : '-'}${fmtMoney(firm.profit)}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="flex-1 bg-[#1a1a1a] rounded-full h-6 overflow-hidden">
+                <div
+                  className={`h-full transition-all duration-500 ${isProfit ? 'bg-[#6B8E7A]' : 'bg-[#8e6b6bff]'}`}
+                  style={{ width: `${barWidth}%` }}
+                />
+              </div>
+            </div>
+            <div className="flex justify-between text-xs text-[#666]" style={{ fontFamily: 'Inter' }}>
+              <span>Payouts: ${fmtMoney(firm.payouts)}</span>
+              <span>Expenses: ${fmtMoney(firm.expenses)}</span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 export default function BusinessDetailPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -1181,11 +1276,15 @@ export default function BusinessDetailPage() {
               <PieChartIcon className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4 h-full">
-              <div className="flex items-center justify-center h-full min-h-[350px]">
-                <p className="text-[#666] text-sm" style={{ fontFamily: 'Inter' }}>
-                  {business?.businessSector === 'proptrading' ? '' : ''}
-                </p>
-              </div>
+              {business?.businessSector === 'proptrading' ? (
+                <PropFirmBreakdown payouts={payouts} expenses={expenses} />
+              ) : (
+                <div className="flex items-center justify-center h-full min-h-[350px]">
+                  <p className="text-[#666] text-sm" style={{ fontFamily: 'Inter' }}>
+                    Income / Expenses Flow
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
