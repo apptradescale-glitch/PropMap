@@ -168,8 +168,9 @@ const PropFirmBreakdown = ({ payouts, expenses }: { payouts: any[], expenses: an
                 width: `${Math.max(barWidth, 2)}%`
               }} />
             </div>
-            <div className="flex justify-between text-xs text-[#666]" style={{ fontFamily: 'Inter' }}>
+            <div className="text-xs text-[#666]" style={{ fontFamily: 'Inter' }}>
               <span>Payouts: ${fmtMoney(firm.payouts)}</span>
+              <span className="mx-2">|</span>
               <span>Expenses: ${fmtMoney(firm.expenses)}</span>
             </div>
           </div>
@@ -258,8 +259,9 @@ const IncomeExpensesFlow = ({ payouts, expenses }: { payouts: any[], expenses: a
                 width: `${Math.max(barWidth, 2)}%`
               }} />
             </div>
-            <div className="flex justify-between text-xs text-[#666]" style={{ fontFamily: 'Inter' }}>
+            <div className="text-xs text-[#666]" style={{ fontFamily: 'Inter' }}>
               <span>Payouts: ${fmtMoney(desc.payouts)}</span>
+              <span className="mx-2">|</span>
               <span>Expenses: ${fmtMoney(desc.expenses)}</span>
             </div>
           </div>
