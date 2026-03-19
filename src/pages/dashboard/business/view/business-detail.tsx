@@ -605,8 +605,10 @@ export default function BusinessDetailPage() {
   
   // Calculate real metrics
   const revenueMetrics = useMemo(() => {
-    // Total revenue = sum of all payouts
-    const totalRevenue = payouts.reduce((sum, item) => sum + item.amount, 0);
+    // Total revenue = sum of all payouts - sum of all expenses (actual profit/loss)
+    const totalPayouts = payouts.reduce((sum, item) => sum + item.amount, 0);
+    const totalExpenses = expenses.reduce((sum, item) => sum + item.amount, 0);
+    const totalRevenue = totalPayouts - totalExpenses;
     
     // Today's change
     const today = new Date().toISOString().split('T')[0];
@@ -634,6 +636,46 @@ export default function BusinessDetailPage() {
       totalRevenue,
       dailyChange,
       dailyChangePercent
+    };
+  }, [payouts, expenses]);
+  
+  // Calculate current month metrics for Monthly History card
+  const currentMonthMetrics = useMemo(() => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+    
+    // Filter current month data
+    const currentMonthPayouts = payouts.filter(item => {
+      const itemDate = new Date(item.date);
+      return itemDate.getMonth() === currentMonth && itemDate.getFullYear() === currentYear;
+    });
+    
+    const currentMonthExpenses = expenses.filter(item => {
+      const itemDate = new Date(item.date);
+      return itemDate.getMonth() === currentMonth && itemDate.getFullYear() === currentYear;
+    });
+    
+    const monthPayoutsTotal = currentMonthPayouts.reduce((sum, item) => sum + item.amount, 0);
+    const monthExpensesTotal = currentMonthExpenses.reduce((sum, item) => sum + item.amount, 0);
+    const monthRevenue = monthPayoutsTotal - monthExpensesTotal;
+    
+    // Calculate percentages
+    const totalMonthActivity = monthPayoutsTotal + monthExpensesTotal;
+    let payoutsPercentage = 0;
+    let expensesPercentage = 0;
+    
+    if (totalMonthActivity > 0) {
+      payoutsPercentage = (monthPayoutsTotal / totalMonthActivity) * 100;
+      expensesPercentage = (monthExpensesTotal / totalMonthActivity) * 100;
+    }
+    
+    return {
+      monthRevenue,
+      payoutsPercentage,
+      expensesPercentage,
+      monthPayoutsTotal,
+      monthExpensesTotal
     };
   }, [payouts, expenses]);
 
@@ -1423,6 +1465,19 @@ export default function BusinessDetailPage() {
               <BarChart3 className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+                <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>
+                  {currencySymbol}{fmtMoney(currentMonthMetrics.monthRevenue)}
+                </span>
+                <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inter' }}>
+                  <span style={{ color: '#6B8E7A' }}>
+                    {currentMonthMetrics.payoutsPercentage.toFixed(1)}%
+                  </span>
+                  <span style={{ color: '#8e6b6bff', marginLeft: 8 }}>
+                    {currentMonthMetrics.expensesPercentage.toFixed(1)}%
+                  </span>
+                </span>
+              </div>
               <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
                   {(() => {
