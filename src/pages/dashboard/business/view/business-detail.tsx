@@ -129,8 +129,8 @@ const PropFirmBreakdown = ({ payouts, expenses }: { payouts: any[], expenses: an
     return firms.sort((a, b) => b.profit - a.profit);
   }, [payouts, expenses]);
   
-  // Calculate max absolute value for scaling
-  const maxAbsValue = Math.max(...firmData.map(firm => Math.abs(firm.profit)), 1);
+  // Use a fixed scale for better visual comparison (e.g., max of $2000 or actual max if higher)
+  const maxAbsValue = Math.max(Math.max(...firmData.map(firm => Math.abs(firm.profit))), 2000);
   
   const fmtMoney = (val: number, decimals = 2) =>
     Math.abs(val).toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
@@ -223,8 +223,8 @@ const IncomeExpensesFlow = ({ payouts, expenses }: { payouts: any[], expenses: a
     return descriptions.sort((a, b) => b.profit - a.profit);
   }, [payouts, expenses]);
   
-  // Calculate max absolute value for scaling
-  const maxAbsValue = Math.max(...descriptionData.map(desc => Math.abs(desc.profit)), 1);
+  // Use a fixed scale for better visual comparison (e.g., max of $2000 or actual max if higher)
+  const maxAbsValue = Math.max(Math.max(...descriptionData.map(desc => Math.abs(desc.profit))), 2000);
   
   const fmtMoney = (val: number, decimals = 2) =>
     Math.abs(val).toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
