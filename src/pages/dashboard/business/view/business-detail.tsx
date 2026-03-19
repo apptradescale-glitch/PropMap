@@ -1574,7 +1574,7 @@ export default function BusinessDetailPage() {
               ) : (
                 <div className="flex items-center justify-center h-full min-h-[350px]">
                   <p className="text-[#666] text-sm" style={{ fontFamily: 'Inter' }}>
-                    Income / Expenses Flow
+                 
                   </p>
                 </div>
               )}
