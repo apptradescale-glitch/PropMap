@@ -162,9 +162,12 @@ const PropFirmBreakdown = ({ payouts, expenses }: { payouts: any[], expenses: an
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex-1 bg-[#1a1a1a] rounded-full h-6 overflow-hidden">
+              <div className="flex-1 bg-transparent rounded-full h-3 overflow-hidden border-2 border-opacity-60 border-[#6B8E7A]" style={{
+                boxShadow: isProfit ? '0 0 8px rgba(107, 142, 122, 0.5)' : '0 0 8px rgba(142, 107, 191, 0.5)',
+                borderColor: isProfit ? '#6B8E7A' : '#8e6b6bff'
+              }}>
                 <div
-                  className={`h-full transition-all duration-500 ${isProfit ? 'bg-[#6B8E7A]' : 'bg-[#8e6b6bff]'}`}
+                  className="h-full transition-all duration-500 bg-transparent"
                   style={{ width: `${barWidth}%` }}
                 />
               </div>
