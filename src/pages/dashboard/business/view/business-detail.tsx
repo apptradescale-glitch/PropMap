@@ -1487,7 +1487,7 @@ export default function BusinessDetailPage() {
                   <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>
                     {currencySymbol}{fmtMoney(currentMonthMetrics.monthRevenue)}
                   </span>
-                  <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inter' }}>
+                  <span style={{ fontSize: 12, lineHeight: 1.1, fontFamily: 'Inter', marginTop: '-2px' }}>
                     <span style={{ color: '#6B8E7A' }}>
                       {currentMonthMetrics.payoutsPercentage.toFixed(1)}%
                     </span>
