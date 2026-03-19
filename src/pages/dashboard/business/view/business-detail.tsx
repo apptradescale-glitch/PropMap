@@ -1430,26 +1430,15 @@ export default function BusinessDetailPage() {
                 </div>
                 <button 
                   style={{
-                    background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
-                    border: 'none',
+                    backgroundColor: 'transparent',
+                    border: '1px solid rgba(255, 255, 255, 0.10)',
                     color: 'white',
-                    padding: '6px 16px',
-                    borderRadius: '20px',
-                    fontSize: '11px',
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    fontSize: '12px',
                     fontFamily: 'Inter',
-                    fontWeight: '500',
                     cursor: 'pointer',
-                    flexShrink: 0,
-                    boxShadow: '0 2px 8px rgba(79, 70, 229, 0.3)',
-                    transition: 'all 0.2s ease'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-1px)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.4)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0px)';
-                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(79, 70, 229, 0.3)';
+                    flexShrink: 0
                   }}
                 >
                   Total Profit & (Daily Change)
@@ -1510,26 +1499,15 @@ export default function BusinessDetailPage() {
                 </div>
                 <button 
                   style={{
-                    background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
-                    border: 'none',
+                    backgroundColor: 'transparent',
+                    border: '1px solid rgba(255, 255, 255, 0.10)',
                     color: 'white',
-                    padding: '6px 16px',
-                    borderRadius: '20px',
-                    fontSize: '11px',
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    fontSize: '12px',
                     fontFamily: 'Inter',
-                    fontWeight: '500',
                     cursor: 'pointer',
-                    flexShrink: 0,
-                    boxShadow: '0 2px 8px rgba(79, 70, 229, 0.3)',
-                    transition: 'all 0.2s ease'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-1px)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.4)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0px)';
-                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(79, 70, 229, 0.3)';
+                    flexShrink: 0
                   }}
                 >
                   Current Months Profit
