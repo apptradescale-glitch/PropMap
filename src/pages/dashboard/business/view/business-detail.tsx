@@ -564,17 +564,78 @@ export default function BusinessDetailPage() {
 
   const currentMonthLabel = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
-  // Performance line data - fake data matching nn/dashboard.ts Revenue chart
-  const perfDataPrimary = [
-    80, 95, 110, 90, 130, 160, 140, 200, 180, 250,
-    310, 280, 350, 390, 340, 420, 460, 500, 480, 440,
-    410, 380, 350, 320, 360, 400, 450, 420, 380, 350
-  ];
-  const perfDataSecondary = [
-    60, 70, 85, 75, 100, 120, 110, 150, 135, 180,
-    200, 220, 190, 210, 230, 250, 240, 260, 280, 300,
-    290, 310, 330, 350, 340, 320, 300, 280, 260, 240
-  ];
+  // Real performance data from payouts and expenses
+  const performanceData = useMemo(() => {
+    // Get last 30 days of data
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today);
+    thirtyDaysAgo.setDate(today.getDate() - 29);
+    
+    // Initialize arrays for 30 days
+    const payoutData = new Array(30).fill(0);
+    const expenseData = new Array(30).fill(0);
+    
+    // Process payouts
+    payouts.forEach(item => {
+      const itemDate = new Date(item.date);
+      if (itemDate >= thirtyDaysAgo && itemDate <= today) {
+        const dayIndex = Math.floor((itemDate.getTime() - thirtyDaysAgo.getTime()) / (1000 * 60 * 60 * 24));
+        if (dayIndex >= 0 && dayIndex < 30) {
+          payoutData[dayIndex] += item.amount;
+        }
+      }
+    });
+    
+    // Process expenses (absolute values for chart, but we'll treat them as positive for upward movement)
+    expenses.forEach(item => {
+      const itemDate = new Date(item.date);
+      if (itemDate >= thirtyDaysAgo && itemDate <= today) {
+        const dayIndex = Math.floor((itemDate.getTime() - thirtyDaysAgo.getTime()) / (1000 * 60 * 60 * 24));
+        if (dayIndex >= 0 && dayIndex < 30) {
+          expenseData[dayIndex] += item.amount;
+        }
+      }
+    });
+    
+    return { payoutData, expenseData };
+  }, [payouts, expenses]);
+  
+  const perfDataPrimary = performanceData.payoutData;
+  const perfDataSecondary = performanceData.expenseData;
+  
+  // Calculate real metrics
+  const revenueMetrics = useMemo(() => {
+    // Total revenue = sum of all payouts
+    const totalRevenue = payouts.reduce((sum, item) => sum + item.amount, 0);
+    
+    // Today's change
+    const today = new Date().toISOString().split('T')[0];
+    const todayPayouts = payouts.filter(item => item.date === today).reduce((sum, item) => sum + item.amount, 0);
+    const todayExpenses = expenses.filter(item => item.date === today).reduce((sum, item) => sum + item.amount, 0);
+    const dailyChange = todayPayouts - todayExpenses;
+    
+    // Yesterday's total for percentage calculation
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+    const yesterdayTotal = payouts.filter(item => item.date === yesterdayStr).reduce((sum, item) => sum + item.amount, 0) -
+                            expenses.filter(item => item.date === yesterdayStr).reduce((sum, item) => sum + item.amount, 0);
+    
+    // Calculate daily change percentage
+    let dailyChangePercent = 0;
+    if (yesterdayTotal !== 0) {
+      dailyChangePercent = (dailyChange / Math.abs(yesterdayTotal)) * 100;
+    } else if (dailyChange !== 0) {
+      // If yesterday was 0 but today has activity, show as 100% change
+      dailyChangePercent = 100;
+    }
+    
+    return {
+      totalRevenue,
+      dailyChange,
+      dailyChangePercent
+    };
+  }, [payouts, expenses]);
 
   // Calculate dynamic dates for Revenue chart
   const revenueDateRange = useMemo(() => {
@@ -1311,26 +1372,37 @@ export default function BusinessDetailPage() {
             </CardHeader>
             <CardContent className="pt-2 pb-4">
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>$19.3K</span>
+                <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>
+                  {currencySymbol}{fmtMoney(revenueMetrics.totalRevenue)}
+                </span>
                 <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inter' }}>
-                  <span style={{ color: '#6B8E7A' }}>+15%</span>
+                  <span style={{ color: revenueMetrics.dailyChange >= 0 ? '#6B8E7A' : '#8e6b6bff' }}>
+                    {revenueMetrics.dailyChangePercent >= 0 ? '+' : ''}{revenueMetrics.dailyChangePercent.toFixed(1)}%
+                  </span>
                   <br />
-                  <span style={{ color: '#8B949E' }}>($17,840)</span>
+                  <span style={{ color: '#8B949E' }}>
+                    ({revenueMetrics.dailyChange >= 0 ? '+' : ''}{currencySymbol}{fmtMoney(revenueMetrics.dailyChange)})
+                  </span>
                 </span>
               </div>
               <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
-                  {[500, 400, 300, 200, 100].map((v) => (
-                    <span key={v} style={{ fontSize: 10, color: '#666', fontFamily: 'JetBrains Mono' }}>{v}</span>
-                  ))}
+                  {(() => {
+                    const allValues = [...perfDataPrimary, ...perfDataSecondary];
+                    const maxValue = allValues.length > 0 ? Math.max(...allValues) : 100;
+                    const niceMax = Math.ceil(maxValue * 1.2 / 50) * 50 || 100;
+                    return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v, idx) => (
+                      <span key={idx} style={{ fontSize: 10, color: '#666', fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
+                    ));
+                  })()}
                 </div>
                 <canvas ref={perfCanvasRef} style={{ display: 'block', width: '100%' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
                   <span style={{ fontSize: 11, color: '#666', fontFamily: 'JetBrains Mono' }}>
-                    {revenueDateRange.startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    {new Date(Date.now() - 29 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                   </span>
                   <span style={{ fontSize: 11, color: '#666', fontFamily: 'JetBrains Mono' }}>
-                    {revenueDateRange.endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                   </span>
                 </div>
               </div>
