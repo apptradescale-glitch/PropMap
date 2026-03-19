@@ -1313,10 +1313,10 @@ export default function BusinessDetailPage() {
           <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white">
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
                   Revenue History
                 </CardTitle>
-                <CardDescription className="text-[#666]">
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
                   Payouts & Expenses History
                 </CardDescription>
               </div>
@@ -1339,7 +1339,7 @@ export default function BusinessDetailPage() {
                             </div>
                           ) : (
                             <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#8e6b6bff]/50">
-                              <ArrowBigDown className="w-5 h-5 text-[#8e6b6bff]" />
+                              <ArrowBigDown className="w-5 h-5 text-[#D4A5A5]" />
                             </div>
                           )}
                         </div>
@@ -1544,9 +1544,17 @@ export default function BusinessDetailPage() {
                       whiteSpace: 'nowrap'
                     }}
                   >
-                    <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{hoveredBar.month}</div>
-                    <div style={{ color: hoveredBar.type === 'payout' ? '#A1A1AA' : '#666' }}>
-                      {hoveredBar.type === 'payout' ? 'Payout' : 'Expense'}: {currencySymbol}{fmtMoney(Math.abs(hoveredBar.value))}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
+                      <div>
+                        <div style={{ fontSize: '12px', fontWeight: 600, marginBottom: '2px' }}>{hoveredBar.month}</div>
+                        <div style={{ fontSize: '10px', color: '#666', fontFamily: 'Inter' }}>{hoveredBar.type === 'payouts' ? 'Payout' : 'Expense'}</div>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ fontSize: '14px', fontWeight: 600, marginBottom: '2px', color: hoveredBar.type === 'payouts' ? '#A1A1AA' : '#666', fontFamily: 'JetBrains Mono' }}>
+                          {currencySymbol}{fmtMoney(hoveredBar.value)}
+                        </div>
+                        <div style={{ fontSize: '10px', color: '#666', fontFamily: 'Inter' }}>{new Date(hoveredBar.date).toLocaleDateString()}</div>
+                      </div>
                     </div>
                   </div>
                 )}
