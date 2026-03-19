@@ -1306,7 +1306,7 @@ export default function BusinessDetailPage() {
             </DialogContent>
           </Dialog>
 
-        {/* Individual business: Row 1 - Revenue History + PropFirm Breakdown */}
+        {/* Individual business: Row 1 - Revenue graph + Monthly History */}
         {!business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Revenue History Card */}
@@ -1396,7 +1396,7 @@ export default function BusinessDetailPage() {
         </div>
         )}
 
-        {/* Individual business: Row 2 - Revenue graph + Monthly History */}
+        {/* Individual business: Row 2 - Revenue History + PropFirm Breakdown */}
         {!business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Revenue graph - nn style canvas line chart */}
