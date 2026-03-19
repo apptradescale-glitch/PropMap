@@ -1164,7 +1164,7 @@ export default function BusinessDetailPage() {
                         return value < 0 ? `-${currencySymbol}${formattedNumber}` : `${currencySymbol}${formattedNumber}`;
                       }}
                     />
-                    <Area type="monotone" dataKey="pnl" stroke="#ffffff" strokeWidth={2} fill="url(#performanceGradient)" connectNulls={true} isAnimationActive={true} animationDuration={750} />
+                    <Area type="monotone" dataKey="pnl" stroke="#ffffff" strokeWidth={1} fill="none" connectNulls={true} isAnimationActive={true} animationDuration={750} />
                     <Tooltip
                       cursor={{ stroke: '#ffffff33' }}
                       content={({ active, payload }) => {
@@ -1174,7 +1174,7 @@ export default function BusinessDetailPage() {
                         return (
                           <div className="rounded-lg bg-white/5 backdrop-blur-sm px-4 py-2 shadow-md">
                             <div className="text-sm text-stone-400">{payload[0].payload.date || 'Start'}</div>
-                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-white' : 'text-red-500'}`}>
+                            <div className={`text-lg font-semibold ${value >= 0 ? 'text-white' : 'text-[#8e6b6bff]'}`}>
                               {value < 0 ? `-${currencySymbol}${formattedValue}` : `${currencySymbol}${formattedValue}`}
                             </div>
                           </div>
@@ -1206,7 +1206,7 @@ export default function BusinessDetailPage() {
                   {businessDataWithTotals && businessDataWithTotals.length > 0 ? (
                     <div className="space-y-3">
                       {businessDataWithTotals.map((biz: any, index: number) => (
-                        <div key={biz.id || index} className="p-4 rounded-lg bg-transparent border border-[#1a1a1a] hover:border-[#e0ac69]/50 transition-all duration-200">
+                        <div key={biz.id || index} className="p-4 rounded-lg bg-transparent border border-[#1a1a1a] hover:border-white/50 transition-all duration-200">
                           <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0">
                               <span className="text-[#888] font-medium" style={{ fontSize: '10px' }}>
