@@ -162,15 +162,11 @@ const PropFirmBreakdown = ({ payouts, expenses }: { payouts: any[], expenses: an
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex-1 bg-transparent rounded-full h-3 overflow-hidden border-2 border-opacity-60" style={{
+              <div className="bg-transparent rounded-full h-3 overflow-hidden border-2 border-opacity-60 transition-all duration-500" style={{
                 boxShadow: isProfit ? '0 0 8px rgba(161, 161, 170, 0.5)' : '0 0 8px rgba(102, 102, 102, 0.5)',
-                borderColor: isProfit ? '#A1A1AA' : '#666'
-              }}>
-                <div
-                  className="h-full transition-all duration-500 bg-transparent"
-                  style={{ width: `${barWidth}%` }}
-                />
-              </div>
+                borderColor: isProfit ? '#A1A1AA' : '#666',
+                width: `${Math.max(barWidth, 2)}%`
+              }} />
             </div>
             <div className="flex justify-between text-xs text-[#666]" style={{ fontFamily: 'Inter' }}>
               <span>Payouts: ${fmtMoney(firm.payouts)}</span>
@@ -256,15 +252,11 @@ const IncomeExpensesFlow = ({ payouts, expenses }: { payouts: any[], expenses: a
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex-1 bg-transparent rounded-full h-3 overflow-hidden border-2 border-opacity-60" style={{
+              <div className="bg-transparent rounded-full h-3 overflow-hidden border-2 border-opacity-60 transition-all duration-500" style={{
                 boxShadow: isProfit ? '0 0 8px rgba(161, 161, 170, 0.5)' : '0 0 8px rgba(102, 102, 102, 0.5)',
-                borderColor: isProfit ? '#A1A1AA' : '#666'
-              }}>
-                <div
-                  className="h-full transition-all duration-500 bg-transparent"
-                  style={{ width: `${barWidth}%` }}
-                />
-              </div>
+                borderColor: isProfit ? '#A1A1AA' : '#666',
+                width: `${Math.max(barWidth, 2)}%`
+              }} />
             </div>
             <div className="flex justify-between text-xs text-[#666]" style={{ fontFamily: 'Inter' }}>
               <span>Payouts: ${fmtMoney(desc.payouts)}</span>
