@@ -1086,13 +1086,13 @@ export default function BusinessDetailPage() {
           <Card className="h-auto border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
               <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
-                Revenue
+                Profit
               </CardTitle>
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
               <div className="text-2xl font-bold text-white" style={{ fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(totalRevenue)}</div>
-              <p className="text-xs text-[#888] mt-1" style={{ fontFamily: 'Inter' }}>Total Revenue</p>
+              <p className="text-xs text-[#888] mt-1" style={{ fontFamily: 'Inter' }}>Total Profit</p>
             </CardContent>
           </Card>
 
@@ -1409,38 +1409,40 @@ export default function BusinessDetailPage() {
                 <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
                   Business performance metrics
                 </CardDescription>
-                <button 
-                  style={{
-                    backgroundColor: 'transparent',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    color: 'white',
-                    padding: '4px 12px',
-                    borderRadius: '4px',
-                    fontSize: '12px',
-                    fontFamily: 'Inter',
-                    cursor: 'pointer',
-                    marginTop: '8px'
-                  }}
-                >
-                  hello
-                </button>
               </div>
               <LineChart className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>
-                  {currencySymbol}{fmtMoney(revenueMetrics.totalRevenue)}
-                </span>
-                <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inter' }}>
-                  <span style={{ color: revenueMetrics.dailyChange >= 0 ? '#6B8E7A' : '#8e6b6bff' }}>
-                    {revenueMetrics.dailyChangePercent >= 0 ? '+' : ''}{revenueMetrics.dailyChangePercent.toFixed(1)}%
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4, justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                  <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>
+                    {currencySymbol}{fmtMoney(revenueMetrics.totalRevenue)}
                   </span>
-                  <br />
-                  <span style={{ color: '#8B949E' }}>
-                    ({revenueMetrics.dailyChange >= 0 ? '+' : ''}{currencySymbol}{fmtMoney(revenueMetrics.dailyChange)})
+                  <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inter' }}>
+                    <span style={{ color: revenueMetrics.dailyChange >= 0 ? '#6B8E7A' : '#8e6b6bff' }}>
+                      {revenueMetrics.dailyChangePercent >= 0 ? '+' : ''}{revenueMetrics.dailyChangePercent.toFixed(1)}%
+                    </span>
+                    <br />
+                    <span style={{ color: '#8B949E' }}>
+                      ({revenueMetrics.dailyChange >= 0 ? '+' : ''}{currencySymbol}{fmtMoney(revenueMetrics.dailyChange)})
+                    </span>
                   </span>
-                </span>
+                </div>
+                <button 
+                  style={{
+                    backgroundColor: 'transparent',
+                    border: '1px solid rgba(255, 255, 255, 0.10)',
+                    color: 'white',
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    fontFamily: 'Inter',
+                    cursor: 'pointer',
+                    flexShrink: 0
+                  }}
+                >
+                  Total Profit & (Daily Change)
+                </button>
               </div>
               <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
@@ -1476,38 +1478,40 @@ export default function BusinessDetailPage() {
                 <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
                   {new Date().getFullYear()} Overview
                 </CardDescription>
-                <button 
-                  style={{
-                    backgroundColor: 'transparent',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    color: 'white',
-                    padding: '4px 12px',
-                    borderRadius: '4px',
-                    fontSize: '12px',
-                    fontFamily: 'Inter',
-                    cursor: 'pointer',
-                    marginTop: '8px'
-                  }}
-                >
-                  hello
-                </button>
               </div>
               <BarChart3 className="h-4 w-4 text-[#666]" />
             </CardHeader>
             <CardContent className="pt-2 pb-4">
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>
-                  {currencySymbol}{fmtMoney(currentMonthMetrics.monthRevenue)}
-                </span>
-                <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inter' }}>
-                  <span style={{ color: '#6B8E7A' }}>
-                    {currentMonthMetrics.payoutsPercentage.toFixed(1)}%
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4, justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                  <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>
+                    {currencySymbol}{fmtMoney(currentMonthMetrics.monthRevenue)}
                   </span>
-                  <br />
-                  <span style={{ color: '#8e6b6bff' }}>
-                    {currentMonthMetrics.expensesPercentage.toFixed(1)}%
+                  <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inter' }}>
+                    <span style={{ color: '#6B8E7A' }}>
+                      {currentMonthMetrics.payoutsPercentage.toFixed(1)}%
+                    </span>
+                    <br />
+                    <span style={{ color: '#8e6b6bff' }}>
+                      {currentMonthMetrics.expensesPercentage.toFixed(1)}%
+                    </span>
                   </span>
-                </span>
+                </div>
+                <button 
+                  style={{
+                    backgroundColor: 'transparent',
+                    border: '1px solid rgba(255, 255, 255, 0.10)',
+                    color: 'white',
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    fontFamily: 'Inter',
+                    cursor: 'pointer',
+                    flexShrink: 0
+                  }}
+                >
+                  Current Months Profit
+                </button>
               </div>
               <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
