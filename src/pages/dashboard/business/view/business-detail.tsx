@@ -183,6 +183,100 @@ const PropFirmBreakdown = ({ payouts, expenses }: { payouts: any[], expenses: an
   );
 };
 
+// Income / Expenses Flow Component (for non-prop trading businesses)
+const IncomeExpensesFlow = ({ payouts, expenses }: { payouts: any[], expenses: any[] }) => {
+  // Helper function to extract description name (use the description directly)
+  const extractDescriptionName = (description: string): string => {
+    // Use the description as-is, but handle empty cases
+    return description.trim() || 'Unknown';
+  };
+  
+  // Combine payouts and expenses and group by description
+  const descriptionData = useMemo(() => {
+    const descriptionMap = new Map<string, { payouts: number; expenses: number; name: string }>();
+    
+    // Process payouts
+    payouts.forEach(item => {
+      const descriptionName = extractDescriptionName(item.description);
+      if (!descriptionMap.has(descriptionName)) {
+        descriptionMap.set(descriptionName, { payouts: 0, expenses: 0, name: descriptionName });
+      }
+      descriptionMap.get(descriptionName)!.payouts += item.amount;
+    });
+    
+    // Process expenses
+    expenses.forEach(item => {
+      const descriptionName = extractDescriptionName(item.description);
+      if (!descriptionMap.has(descriptionName)) {
+        descriptionMap.set(descriptionName, { payouts: 0, expenses: 0, name: descriptionName });
+      }
+      descriptionMap.get(descriptionName)!.expenses += item.amount;
+    });
+    
+    // Convert to array and calculate profit/loss
+    const descriptions = Array.from(descriptionMap.values()).map(desc => ({
+      ...desc,
+      profit: desc.payouts - desc.expenses
+    }));
+    
+    // Sort by profit (highest first)
+    return descriptions.sort((a, b) => b.profit - a.profit);
+  }, [payouts, expenses]);
+  
+  // Calculate max absolute value for scaling
+  const maxAbsValue = Math.max(...descriptionData.map(desc => Math.abs(desc.profit)), 1);
+  
+  const fmtMoney = (val: number, decimals = 2) =>
+    Math.abs(val).toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  
+  if (descriptionData.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-full min-h-[350px]">
+        <p className="text-[#666] text-sm" style={{ fontFamily: 'Inter' }}>
+          No income/expense data available
+        </p>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="space-y-4 p-4">
+      {descriptionData.map((desc, index) => {
+        const isProfit = desc.profit >= 0;
+        const barWidth = maxAbsValue > 0 ? (Math.abs(desc.profit) / maxAbsValue) * 100 : 0;
+        
+        return (
+          <div key={desc.name} className="space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-white text-sm font-medium" style={{ fontFamily: 'Inter' }}>
+                {desc.name}
+              </span>
+              <span className={`text-sm font-bold ${isProfit ? 'text-[#6B8E7A]' : 'text-[#8e6b6bff]'}`} style={{ fontFamily: 'JetBrains Mono' }}>
+                {isProfit ? '+' : '-'}${fmtMoney(desc.profit)}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="flex-1 bg-transparent rounded-full h-3 overflow-hidden border-2 border-opacity-60" style={{
+                boxShadow: isProfit ? '0 0 8px rgba(161, 161, 170, 0.5)' : '0 0 8px rgba(102, 102, 102, 0.5)',
+                borderColor: isProfit ? '#A1A1AA' : '#666'
+              }}>
+                <div
+                  className="h-full transition-all duration-500 bg-transparent"
+                  style={{ width: `${barWidth}%` }}
+                />
+              </div>
+            </div>
+            <div className="flex justify-between text-xs text-[#666]" style={{ fontFamily: 'Inter' }}>
+              <span>Payouts: ${fmtMoney(desc.payouts)}</span>
+              <span>Expenses: ${fmtMoney(desc.expenses)}</span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 export default function BusinessDetailPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -1572,11 +1666,7 @@ export default function BusinessDetailPage() {
               {business?.businessSector === 'proptrading' ? (
                 <PropFirmBreakdown payouts={payouts} expenses={expenses} />
               ) : (
-                <div className="flex items-center justify-center h-full min-h-[350px]">
-                  <p className="text-[#666] text-sm" style={{ fontFamily: 'Inter' }}>
-                 
-                  </p>
-                </div>
+                <IncomeExpensesFlow payouts={payouts} expenses={expenses} />
               )}
             </CardContent>
           </Card>
