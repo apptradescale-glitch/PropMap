@@ -1309,6 +1309,193 @@ export default function BusinessDetailPage() {
         {/* Individual business: Row 1 - Revenue graph + Monthly History */}
         {!business?.isCombinedView && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {/* Revenue graph - nn style canvas line chart */}
+          <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <div className="flex flex-col gap-1">
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
+                  Revenue
+                </CardTitle>
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
+                  Business performance metrics
+                </CardDescription>
+              </div>
+              <LineChart className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4, justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                  <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>
+                    {currencySymbol}{fmtMoney(revenueMetrics.totalRevenue)}
+                  </span>
+                  <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inter' }}>
+                    <span style={{ color: revenueMetrics.dailyChange >= 0 ? '#6B8E7A' : '#8e6b6bff' }}>
+                      {revenueMetrics.dailyChangePercent >= 0 ? '+' : ''}{revenueMetrics.dailyChangePercent.toFixed(1)}%
+                    </span>
+                    <br />
+                    <span style={{ color: '#8B949E' }}>
+                      ({revenueMetrics.dailyChange >= 0 ? '+' : ''}{currencySymbol}{fmtMoney(revenueMetrics.dailyChange)})
+                    </span>
+                  </span>
+                </div>
+                <button 
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%)',
+                    border: '1px solid rgba(124, 58, 237, 0.4)',
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    padding: '5px 14px',
+                    borderRadius: '20px',
+                    fontSize: '11px',
+                    fontFamily: 'Inter',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    flexShrink: 0,
+                    boxShadow: '0 0 12px rgba(124, 58, 237, 0.3), inset 0 0 12px rgba(124, 58, 237, 0.1)',
+                    letterSpacing: '0.3px'
+                  }}
+                >
+                  Total Profit & (Daily Change)
+                </button>
+              </div>
+              <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
+                  {(() => {
+                    const allValues = [...perfDataPrimary, ...perfDataSecondary];
+                    const maxValue = allValues.length > 0 ? Math.max(...allValues) : 100;
+                    const niceMax = Math.ceil(maxValue * 1.2 / 50) * 50 || 100;
+                    return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v, idx) => (
+                      <span key={idx} style={{ fontSize: 10, color: '#666', fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
+                    ));
+                  })()}
+                </div>
+                <canvas ref={perfCanvasRef} style={{ display: 'block', width: '100%' }} />
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
+                  <span style={{ fontSize: 11, color: '#666', fontFamily: 'JetBrains Mono' }}>
+                    {new Date(Date.now() - 29 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </span>
+                  <span style={{ fontSize: 11, color: '#666', fontFamily: 'JetBrains Mono' }}>
+                    {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Monthly History Bar Chart */}
+          <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
+              <div className="flex flex-col gap-1">
+                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
+                  Monthly History
+                </CardTitle>
+                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
+                  {new Date().getFullYear()} Overview
+                </CardDescription>
+              </div>
+              <BarChart3 className="h-4 w-4 text-[#666]" />
+            </CardHeader>
+            <CardContent className="pt-2 pb-4">
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4, justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                  <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>
+                    {currencySymbol}{fmtMoney(currentMonthMetrics.monthRevenue)}
+                  </span>
+                  <span style={{ fontSize: 12, lineHeight: 1.1, fontFamily: 'Inter', marginTop: '-6px' }}>
+                    <span style={{ color: '#6B8E7A' }}>
+                      {currentMonthMetrics.payoutsPercentage.toFixed(1)}%
+                    </span>
+                    <br />
+                    <span style={{ color: '#8e6b6bff' }}>
+                      {currentMonthMetrics.expensesPercentage.toFixed(1)}%
+                    </span>
+                  </span>
+                </div>
+                <button 
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%)',
+                    border: '1px solid rgba(124, 58, 237, 0.4)',
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    padding: '5px 14px',
+                    borderRadius: '20px',
+                    fontSize: '11px',
+                    fontFamily: 'Inter',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    flexShrink: 0,
+                    boxShadow: '0 0 12px rgba(124, 58, 237, 0.3), inset 0 0 12px rgba(124, 58, 237, 0.1)',
+                    letterSpacing: '0.3px'
+                  }}
+                >
+                  Current Months Profit
+                </button>
+              </div>
+              <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
+                  {(() => {
+                    const allVals = yearlyData.map(d => d.value);
+                    const max = allVals.length > 0 ? Math.max(...allVals) : 500;
+                    const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
+                    return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v, idx) => (
+                      <span key={idx} style={{ fontSize: 10, color: '#666', fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
+                    ));
+                  })()}
+                </div>
+                <canvas ref={subscriptionCanvasRef} style={{ display: 'block', width: '100%' }} />
+                {/* Tooltip */}
+                {hoveredBar && (
+                  <div 
+                    style={{
+                      position: 'absolute',
+                      top: '10px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      background: 'rgba(0, 0, 0, 0.9)',
+                      color: 'white',
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      fontFamily: 'Inter',
+                      zIndex: 10,
+                      pointerEvents: 'none',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
+                      <div>
+                        <div style={{ fontSize: '12px', fontWeight: 600, marginBottom: '2px' }}>{hoveredBar.month}</div>
+                        <div style={{ fontSize: '10px', color: '#666', fontFamily: 'Inter' }}>{hoveredBar.type === 'payout' ? 'Payout' : 'Expense'}</div>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ fontSize: '14px', fontWeight: 600, marginBottom: '2px', color: hoveredBar.type === 'payout' ? '#A1A1AA' : '#666', fontFamily: 'JetBrains Mono' }}>
+                          {currencySymbol}{fmtMoney(hoveredBar.value)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6, paddingLeft: '25px', paddingRight: '5px' }}>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Jan</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Feb</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Mar</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Apr</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>May</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Jun</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Jul</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Aug</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Sep</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Oct</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Nov</span>
+                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Dec</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        )}
+
+        {/* Individual business: Row 2 - Revenue History + PropFirm Breakdown */}
+        {!business?.isCombinedView && (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Revenue History Card */}
           <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
@@ -1391,188 +1578,6 @@ export default function BusinessDetailPage() {
                   </p>
                 </div>
               )}
-            </CardContent>
-          </Card>
-        </div>
-        )}
-
-        {/* Individual business: Row 2 - Revenue History + PropFirm Breakdown */}
-        {!business?.isCombinedView && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {/* Revenue graph - nn style canvas line chart */}
-          <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
-                  Revenue
-                </CardTitle>
-                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
-                  Business performance metrics
-                </CardDescription>
-              </div>
-              <LineChart className="h-4 w-4 text-[#666]" />
-            </CardHeader>
-            <CardContent className="pt-2 pb-4">
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4, justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                  <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>
-                    {currencySymbol}{fmtMoney(revenueMetrics.totalRevenue)}
-                  </span>
-                  <span style={{ fontSize: 12, lineHeight: 1.3, fontFamily: 'Inter' }}>
-                    <span style={{ color: revenueMetrics.dailyChange >= 0 ? '#6B8E7A' : '#8e6b6bff' }}>
-                      {revenueMetrics.dailyChangePercent >= 0 ? '+' : ''}{revenueMetrics.dailyChangePercent.toFixed(1)}%
-                    </span>
-                    <br />
-                    <span style={{ color: '#8B949E' }}>
-                      ({revenueMetrics.dailyChange >= 0 ? '+' : ''}{currencySymbol}{fmtMoney(revenueMetrics.dailyChange)})
-                    </span>
-                  </span>
-                </div>
-                <button 
-                  style={{
-                    backgroundColor: 'transparent',
-                    border: '1px solid rgba(255, 255, 255, 0.10)',
-                    color: 'white',
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    fontSize: '12px',
-                    fontFamily: 'Inter',
-                    cursor: 'pointer',
-                    flexShrink: 0
-                  }}
-                >
-                  Total Profit & (Daily Change)
-                </button>
-              </div>
-              <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
-                  {(() => {
-                    const allValues = [...perfDataPrimary, ...perfDataSecondary];
-                    const maxValue = allValues.length > 0 ? Math.max(...allValues) : 100;
-                    const niceMax = Math.ceil(maxValue * 1.2 / 50) * 50 || 100;
-                    return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v, idx) => (
-                      <span key={idx} style={{ fontSize: 10, color: '#666', fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
-                    ));
-                  })()}
-                </div>
-                <canvas ref={perfCanvasRef} style={{ display: 'block', width: '100%' }} />
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-                  <span style={{ fontSize: 11, color: '#666', fontFamily: 'JetBrains Mono' }}>
-                    {new Date(Date.now() - 29 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                  </span>
-                  <span style={{ fontSize: 11, color: '#666', fontFamily: 'JetBrains Mono' }}>
-                    {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                  </span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Monthly History Bar Chart */}
-          <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-              <div className="flex flex-col gap-1">
-                <CardTitle className="text-sm font-medium text-white" style={{ fontFamily: 'Inter' }}>
-                  Monthly History
-                </CardTitle>
-                <CardDescription className="text-[#666]" style={{ fontFamily: 'Inter' }}>
-                  {new Date().getFullYear()} Overview
-                </CardDescription>
-              </div>
-              <BarChart3 className="h-4 w-4 text-[#666]" />
-            </CardHeader>
-            <CardContent className="pt-2 pb-4">
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4, justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                  <span style={{ fontSize: 28, fontWeight: 400, color: '#E7E9EA', lineHeight: 1.2, fontFamily: 'JetBrains Mono' }}>
-                    {currencySymbol}{fmtMoney(currentMonthMetrics.monthRevenue)}
-                  </span>
-                  <span style={{ fontSize: 12, lineHeight: 1.1, fontFamily: 'Inter', marginTop: '-6px' }}>
-                    <span style={{ color: '#6B8E7A' }}>
-                      {currentMonthMetrics.payoutsPercentage.toFixed(1)}%
-                    </span>
-                    <br />
-                    <span style={{ color: '#8e6b6bff' }}>
-                      {currentMonthMetrics.expensesPercentage.toFixed(1)}%
-                    </span>
-                  </span>
-                </div>
-                <button 
-                  style={{
-                    backgroundColor: 'transparent',
-                    border: '1px solid rgba(255, 255, 255, 0.10)',
-                    color: 'white',
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    fontSize: '12px',
-                    fontFamily: 'Inter',
-                    cursor: 'pointer',
-                    flexShrink: 0
-                  }}
-                >
-                  Current Months Profit
-                </button>
-              </div>
-              <div style={{ position: 'relative', minHeight: 160, marginTop: 8 }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', pointerEvents: 'none', zIndex: 1 }}>
-                  {(() => {
-                    const allVals = yearlyData.map(d => d.value);
-                    const max = allVals.length > 0 ? Math.max(...allVals) : 500;
-                    const niceMax = Math.ceil(max * 1.1 / 100) * 100 || 500;
-                    return [niceMax, Math.round(niceMax * 0.75), Math.round(niceMax * 0.5), Math.round(niceMax * 0.25), 0].map((v, idx) => (
-                      <span key={idx} style={{ fontSize: 10, color: '#666', fontFamily: 'JetBrains Mono' }}>{currencySymbol}{fmtMoney(v, 0)}</span>
-                    ));
-                  })()}
-                </div>
-                <canvas ref={subscriptionCanvasRef} style={{ display: 'block', width: '100%' }} />
-                {/* Tooltip */}
-                {hoveredBar && (
-                  <div 
-                    style={{
-                      position: 'absolute',
-                      top: '10px',
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      background: 'rgba(0, 0, 0, 0.9)',
-                      color: 'white',
-                      padding: '8px 12px',
-                      borderRadius: '6px',
-                      fontSize: '12px',
-                      fontFamily: 'Inter',
-                      zIndex: 10,
-                      pointerEvents: 'none',
-                      whiteSpace: 'nowrap'
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                      <div>
-                        <div style={{ fontSize: '12px', fontWeight: 600, marginBottom: '2px' }}>{hoveredBar.month}</div>
-                        <div style={{ fontSize: '10px', color: '#666', fontFamily: 'Inter' }}>{hoveredBar.type === 'payouts' ? 'Payout' : 'Expense'}</div>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontSize: '14px', fontWeight: 600, marginBottom: '2px', color: hoveredBar.type === 'payouts' ? '#A1A1AA' : '#666', fontFamily: 'JetBrains Mono' }}>
-                          {currencySymbol}{fmtMoney(hoveredBar.value)}
-                        </div>
-                        <div style={{ fontSize: '10px', color: '#666', fontFamily: 'Inter' }}>{new Date(hoveredBar.date).toLocaleDateString()}</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6, paddingLeft: '25px', paddingRight: '5px' }}>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Jan</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Feb</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Mar</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Apr</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>May</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Jun</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Jul</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Aug</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Sep</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Oct</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Nov</span>
-                  <span className="text-[11px] text-[#666]" style={{ fontFamily: 'JetBrains Mono' }}>Dec</span>
-                </div>
-              </div>
             </CardContent>
           </Card>
         </div>
