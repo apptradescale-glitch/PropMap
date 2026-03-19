@@ -87,6 +87,16 @@ const getCurrencySymbol = (currency: string) => {
 
 // PropFirm Breakdown Component
 const PropFirmBreakdown = ({ payouts, expenses }: { payouts: any[], expenses: any[] }) => {
+  // Helper function to extract firm name from description
+  const extractFirmName = (description: string): string => {
+    // Check if description contains " | " which indicates firm info
+    if (description.includes(' | ')) {
+      const parts = description.split(' | ');
+      return parts[parts.length - 1].trim(); // Get the last part (firm name)
+    }
+    return 'Unknown Firm';
+  };
+  
   // Combine payouts and expenses and group by firm
   const firmData = useMemo(() => {
     const firmMap = new Map<string, { payouts: number; expenses: number; name: string }>();
@@ -118,16 +128,6 @@ const PropFirmBreakdown = ({ payouts, expenses }: { payouts: any[], expenses: an
     // Sort by profit (highest first)
     return firms.sort((a, b) => b.profit - a.profit);
   }, [payouts, expenses]);
-  
-  // Helper function to extract firm name from description
-  const extractFirmName = (description: string): string => {
-    // Check if description contains " | " which indicates firm info
-    if (description.includes(' | ')) {
-      const parts = description.split(' | ');
-      return parts[parts.length - 1].trim(); // Get the last part (firm name)
-    }
-    return 'Unknown Firm';
-  };
   
   // Calculate max absolute value for scaling
   const maxAbsValue = Math.max(...firmData.map(firm => Math.abs(firm.profit)), 1);
