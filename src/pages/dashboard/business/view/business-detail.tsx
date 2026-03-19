@@ -1340,8 +1340,8 @@ export default function BusinessDetailPage() {
                 </div>
                 <button 
                   style={{
-                    background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%)',
-                    border: '1px solid rgba(124, 58, 237, 0.4)',
+                    background: 'linear-gradient(135deg, rgba(209, 213, 219, 0.15) 0%, rgba(209, 213, 219, 0.15) 100%)',
+                    border: '1px solid rgba(209, 213, 219, 0.4)',
                     color: 'rgba(255, 255, 255, 0.9)',
                     padding: '5px 14px',
                     borderRadius: '20px',
@@ -1350,7 +1350,7 @@ export default function BusinessDetailPage() {
                     fontWeight: 500,
                     cursor: 'pointer',
                     flexShrink: 0,
-                    boxShadow: '0 0 12px rgba(124, 58, 237, 0.3), inset 0 0 12px rgba(124, 58, 237, 0.1)',
+                    boxShadow: '0 0 12px rgba(209, 213, 219, 0.3), inset 0 0 12px rgba(209, 213, 219, 0.1)',
                     letterSpacing: '0.3px'
                   }}
                 >
@@ -1412,8 +1412,8 @@ export default function BusinessDetailPage() {
                 </div>
                 <button 
                   style={{
-                    background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%)',
-                    border: '1px solid rgba(124, 58, 237, 0.4)',
+                    background: 'linear-gradient(135deg, rgba(209, 213, 219, 0.15) 0%, rgba(209, 213, 219, 0.15) 100%)',
+                    border: '1px solid rgba(209, 213, 219, 0.4)',
                     color: 'rgba(255, 255, 255, 0.9)',
                     padding: '5px 14px',
                     borderRadius: '20px',
@@ -1422,7 +1422,7 @@ export default function BusinessDetailPage() {
                     fontWeight: 500,
                     cursor: 'pointer',
                     flexShrink: 0,
-                    boxShadow: '0 0 12px rgba(124, 58, 237, 0.3), inset 0 0 12px rgba(124, 58, 237, 0.1)',
+                    boxShadow: '0 0 12px rgba(209, 213, 219, 0.3), inset 0 0 12px rgba(209, 213, 219, 0.1)',
                     letterSpacing: '0.3px'
                   }}
                 >
