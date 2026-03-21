@@ -484,14 +484,12 @@ export default function StoragePage() {
             <div className="space-y-4 mt-2">
               {/* Preview area */}
               {previewItem.fileType.startsWith('image/') ? (
-                <a 
-                  href={previewItem.fileData} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
+                <div 
+                  onClick={() => window.open(previewItem.fileData, '_blank')}
                   className="block rounded-lg overflow-hidden border border-[#2a2a2a] bg-[#111] hover:border-white/50 transition-colors cursor-pointer"
                 >
                   <img src={previewItem.fileData} alt={previewItem.label} className="w-full max-h-[300px] object-contain" />
-                </a>
+                </div>
               ) : (
                 <a 
                   href={previewItem.fileData} 
