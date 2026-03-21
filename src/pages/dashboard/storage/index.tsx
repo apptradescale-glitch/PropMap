@@ -196,12 +196,9 @@ export default function StoragePage() {
       <div className="space-y-4 pt-6">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Archive className="h-6 w-6 text-white" />
-            <div>
-              <h2 className="text-xl font-semibold text-white">Storage</h2>
-              <p className="text-sm text-[#666]">Store and manage your documents, invoices & certificates</p>
-            </div>
+          <div>
+            <h2 className="text-xl font-semibold text-white">Storage</h2>
+            <p className="text-sm text-[#666]">Store and manage your documents, invoices & certificates</p>
           </div>
           <Button
             onClick={() => setIsUploadOpen(true)}
@@ -243,46 +240,11 @@ export default function StoragePage() {
           </CardContent>
         </Card>
 
-        {/* Stats Row */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardContent className="pt-4 pb-4">
-              <div>
-                <p className="text-xs text-[#666]">Total Documents</p>
-                <p className="text-2xl font-bold text-white">{items.length}</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardContent className="pt-4 pb-4">
-              <div>
-                <p className="text-xs text-[#666]">Invoices</p>
-                <p className="text-2xl font-bold text-white">{items.filter(i => i.category === 'Invoice').length}</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardContent className="pt-4 pb-4">
-              <div>
-                <p className="text-xs text-[#666]">Certificates</p>
-                <p className="text-2xl font-bold text-white">{items.filter(i => i.category === 'Certificate').length}</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardContent className="pt-4 pb-4">
-              <div>
-                <p className="text-xs text-[#666]">Other Documents</p>
-                <p className="text-2xl font-bold text-white">{items.filter(i => i.category !== 'Invoice' && i.category !== 'Certificate').length}</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
 
         {/* Documents List */}
         <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-white">Documents</CardTitle>
+            <CardTitle className="text-sm font-medium text-white">Documents ({items.length})</CardTitle>
             <CardDescription className="text-[#666]">
              
             </CardDescription>
@@ -290,7 +252,7 @@ export default function StoragePage() {
           <CardContent>
             {loading ? (
               <div className="flex items-center justify-center py-12">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e0ac69]" />
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white" />
               </div>
             ) : filteredItems.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -320,7 +282,7 @@ export default function StoragePage() {
                     >
                       {/* File Icon */}
                       <div className="flex-shrink-0 p-2.5 rounded-lg bg-[#111] border border-[#2a2a2a]">
-                        <IconComponent className="h-5 w-5 text-[#e0ac69]" />
+                        <IconComponent className="h-5 w-5 text-white" />
                       </div>
 
                       {/* Info */}
@@ -390,7 +352,7 @@ export default function StoragePage() {
         <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-white flex items-center gap-2">
-              <Upload className="h-5 w-5 text-[#e0ac69]" />
+              <Upload className="h-5 w-5 text-white" />
               Upload Document
             </DialogTitle>
           </DialogHeader>
@@ -398,7 +360,7 @@ export default function StoragePage() {
             {/* File Drop Area */}
             <div
               className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
-                uploadFile ? 'border-[#e0ac69]/50 bg-[#e0ac69]/5' : 'border-[#2a2a2a] hover:border-[#444]'
+                uploadFile ? 'border-white/50 bg-white/5' : 'border-[#2a2a2a] hover:border-[#444]'
               }`}
               onClick={() => document.getElementById('file-input')?.click()}
             >
@@ -416,7 +378,7 @@ export default function StoragePage() {
               />
               {uploadFile ? (
                 <div className="flex items-center justify-center gap-3">
-                  <FileText className="h-8 w-8 text-[#e0ac69]" />
+                  <FileText className="h-8 w-8 text-white" />
                   <div className="text-left">
                     <p className="text-sm text-white font-medium truncate max-w-[250px]">{uploadFile.name}</p>
                     <p className="text-xs text-[#666]">{formatFileSize(uploadFile.size)}</p>
@@ -441,7 +403,7 @@ export default function StoragePage() {
                 value={uploadLabel}
                 onChange={(e) => setUploadLabel(e.target.value)}
                 placeholder="e.g. January Invoice"
-                className="bg-[#111] border-[#2a2a2a] text-white placeholder:text-[#555] focus:border-[#e0ac69]"
+                className="bg-[#111] border-[#2a2a2a] text-white placeholder:text-[#555] focus:border-white"
               />
             </div>
 
@@ -452,7 +414,7 @@ export default function StoragePage() {
                 value={uploadDescription}
                 onChange={(e) => setUploadDescription(e.target.value)}
                 placeholder="Optional description..."
-                className="bg-[#111] border-[#2a2a2a] text-white placeholder:text-[#555] focus:border-[#e0ac69]"
+                className="bg-[#111] border-[#2a2a2a] text-white placeholder:text-[#555] focus:border-white"
               />
             </div>
 
@@ -481,7 +443,7 @@ export default function StoragePage() {
                   type="date"
                   value={uploadDocDate}
                   onChange={(e) => setUploadDocDate(e.target.value)}
-                  className="bg-[#111] border-[#2a2a2a] text-white focus:border-[#e0ac69]"
+                  className="bg-[#111] border-[#2a2a2a] text-white focus:border-white"
                 />
               </div>
             </div>
@@ -490,7 +452,7 @@ export default function StoragePage() {
             <Button
               onClick={handleUpload}
               disabled={!uploadFile || !uploadLabel || uploading}
-              className="w-full bg-[#e0ac69] hover:bg-[#c99a5a] text-black font-medium disabled:opacity-50"
+              className="w-full bg-white hover:bg-gray-100 text-black font-medium disabled:opacity-50"
             >
               {uploading ? (
                 <div className="flex items-center gap-2">
@@ -513,7 +475,7 @@ export default function StoragePage() {
         <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="text-white flex items-center gap-2">
-              <Eye className="h-5 w-5 text-[#e0ac69]" />
+              <Eye className="h-5 w-5 text-white" />
               Document Details
             </DialogTitle>
           </DialogHeader>
@@ -526,7 +488,7 @@ export default function StoragePage() {
                 </div>
               ) : (
                 <div className="flex items-center gap-3 p-4 rounded-lg border border-[#2a2a2a] bg-[#111]">
-                  <FileText className="h-10 w-10 text-[#e0ac69]" />
+                  <FileText className="h-10 w-10 text-white" />
                   <div>
                     <p className="text-sm font-medium text-white">{previewItem.fileName}</p>
                     <p className="text-xs text-[#666]">{formatFileSize(previewItem.fileSize)} · {previewItem.fileType}</p>
