@@ -5,7 +5,14 @@ import { useBusiness } from '@/context/BusinessContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Calculator, TrendingUp, DollarSign, FileText, AlertCircle, Info } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Calculator, TrendingUp, DollarSign, FileText, AlertCircle, Info, Globe } from 'lucide-react';
 
 // Tax rates by country (simplified for demonstration)
 const TAX_RATES = {
@@ -93,6 +100,8 @@ export default function TaxPage() {
   const { payouts: allPayouts, expenses: allExpenses } = useBusiness();
   const [selectedBusinessId, setSelectedBusinessId] = useState<string>('all');
   const [taxYear, setTaxYear] = useState<string>(new Date().getFullYear().toString());
+  const [showDisclaimer, setShowDisclaimer] = useState<boolean>(true);
+  const [disclaimerAccepted, setDisclaimerAccepted] = useState<boolean>(false);
 
   // Get unique businesses from payouts and expenses
   const businesses = useMemo(() => {
@@ -231,172 +240,238 @@ export default function TaxPage() {
   return (
     <PageContainer scrollable>
       <PageHead title="PROPMAP - Tax Overview" />
-      <div className="space-y-6 pt-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-white">Tax Calculator</h1>
-            <p className="text-sm text-[#666] mt-1">Automatic tax calculations based on your financial data</p>
-          </div>
-          <div className="flex items-center gap-3">
-            {/* Year Selector */}
-            <Select value={taxYear} onValueChange={setTaxYear}>
-              <SelectTrigger className="w-[120px] bg-[#111] border-[#2a2a2a] text-white">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="bg-[#111] border-[#2a2a2a]">
-                <SelectItem value="2024" className="text-white hover:bg-white/5">2024</SelectItem>
-                <SelectItem value="2023" className="text-white hover:bg-white/5">2023</SelectItem>
-                <SelectItem value="2022" className="text-white hover:bg-white/5">2022</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* Business Selector */}
-            <Select value={selectedBusinessId} onValueChange={setSelectedBusinessId}>
-              <SelectTrigger className="w-[200px] bg-[#111] border-[#2a2a2a] text-white">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="bg-[#111] border-[#2a2a2a]">
-                <SelectItem value="all" className="text-white hover:bg-white/5">All Businesses</SelectItem>
-                {businesses.map(business => (
-                  <SelectItem key={business.id} value={business.id} className="text-white hover:bg-white/5">
-                    {business.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        {/* Tax Calculation Results */}
-        {taxCalculation ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {/* Total Income Card */}
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-white">Total Income</CardTitle>
-                <TrendingUp className="h-4 w-4 text-green-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-white">{formatCurrency(taxCalculation.totalIncome)}</div>
-                <p className="text-xs text-[#666] mt-1">Gross revenue</p>
-              </CardContent>
-            </Card>
-
-            {/* Total Expenses Card */}
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-white">Total Expenses</CardTitle>
-                <DollarSign className="h-4 w-4 text-red-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-white">{formatCurrency(taxCalculation.totalExpenses)}</div>
-                <p className="text-xs text-[#666] mt-1">Business expenses</p>
-              </CardContent>
-            </Card>
-
-            {/* Estimated Tax Card */}
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-white">Estimated Tax</CardTitle>
-                <Calculator className="h-4 w-4 text-yellow-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-white">{formatCurrency(taxCalculation.totalTax)}</div>
-                <p className="text-xs text-[#666] mt-1">{formatPercentage(taxCalculation.effectiveRate)} effective rate</p>
-              </CardContent>
-            </Card>
-
-            {/* After Tax Income Card */}
-            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-white">After Tax Income</CardTitle>
-                <FileText className="h-4 w-4 text-blue-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-white">{formatCurrency(taxCalculation.afterTaxIncome)}</div>
-                <p className="text-xs text-[#666] mt-1">Net income after taxes</p>
-              </CardContent>
-            </Card>
-          </div>
-        ) : (
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardContent className="flex flex-col items-center justify-center py-12">
-              <AlertCircle className="h-12 w-12 text-[#666] mb-4" />
-              <h3 className="text-lg font-medium text-white mb-2">No Financial Data Available</h3>
-              <p className="text-sm text-[#666] text-center max-w-md">
-                Add some payouts and expenses to see your tax calculations. The tax calculator will automatically estimate your taxes based on your business country and type.
+      
+      {/* Legal Disclaimer Dialog */}
+      <Dialog open={showDisclaimer} onOpenChange={setShowDisclaimer}>
+        <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <AlertCircle className="h-5 w-5 text-yellow-500" />
+              Important Disclaimer
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="text-sm text-[#666] leading-relaxed">
+              <p className="mb-3">
+                <strong>This is NOT tax advice.</strong> The tax calculator provided is for informational purposes only and should not be considered as professional tax advice.
               </p>
-            </CardContent>
-          </Card>
-        )}
+              <p className="mb-3">
+                Tax laws are complex and vary significantly by jurisdiction, individual circumstances, and frequently change. The calculations provided are simplified estimates and may not reflect your actual tax liability.
+              </p>
+              <p>
+                Always consult with a qualified tax professional or accountant for accurate tax advice, planning, and filing requirements specific to your situation.
+              </p>
+            </div>
+            
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-[#111] border border-[#2a2a2a]">
+              <Checkbox 
+                id="disclaimer" 
+                checked={disclaimerAccepted}
+                onCheckedChange={(checked) => setDisclaimerAccepted(checked as boolean)}
+                className="mt-0.5"
+              />
+              <div className="text-xs text-[#666]">
+                <label htmlFor="disclaimer" className="cursor-pointer">
+                  I understand this is not tax advice and will consult a qualified tax professional for my tax planning and filing needs.
+                </label>
+              </div>
+            </div>
+            
+            <div className="flex justify-end pt-2">
+              <Button
+                onClick={() => setShowDisclaimer(false)}
+                disabled={!disclaimerAccepted}
+                className="bg-white hover:bg-gray-100 text-black disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                I Understand
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {showDisclaimer === false && (
+        <div className="space-y-6 pt-6">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-white">Tax Calculator</h1>
+              <p className="text-sm text-[#666] mt-1">Automatic tax calculations based on your financial data</p>
+            </div>
+            <div className="flex items-center gap-3">
+              {/* Year Selector */}
+              <Select value={taxYear} onValueChange={setTaxYear}>
+                <SelectTrigger className="w-[120px] bg-[#111] border-[#2a2a2a] text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#111] border-[#2a2a2a]">
+                  <SelectItem value="2024" className="text-white hover:bg-white/5">2024</SelectItem>
+                  <SelectItem value="2023" className="text-white hover:bg-white/5">2023</SelectItem>
+                  <SelectItem value="2022" className="text-white hover:bg-white/5">2022</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {/* Business Selector */}
+              <Select value={selectedBusinessId} onValueChange={setSelectedBusinessId}>
+                <SelectTrigger className="w-[200px] bg-[#111] border-[#2a2a2a] text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#111] border-[#2a2a2a]">
+                  <SelectItem value="all" className="text-white hover:bg-white/5">All Businesses</SelectItem>
+                  {businesses.map(business => (
+                    <SelectItem key={business.id} value={business.id} className="text-white hover:bg-white/5">
+                      {business.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Tax Calculation Results */}
+          {taxCalculation ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
+              {/* Total Income Card */}
+              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-white">Total Income</CardTitle>
+                  <DollarSign className="h-4 w-4 text-white" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-white">{formatCurrency(taxCalculation.totalIncome)}</div>
+                  <p className="text-xs text-[#666] mt-1">Gross revenue</p>
+                </CardContent>
+              </Card>
+
+              {/* Total Expenses Card */}
+              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-white">Total Expenses</CardTitle>
+                  <DollarSign className="h-4 w-4 text-white" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-white">{formatCurrency(taxCalculation.totalExpenses)}</div>
+                  <p className="text-xs text-[#666] mt-1">Business expenses</p>
+                </CardContent>
+              </Card>
+
+              {/* Estimated Tax Card */}
+              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-white">Estimated Tax</CardTitle>
+                  <Calculator className="h-4 w-4 text-white" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-white">{formatCurrency(taxCalculation.totalTax)}</div>
+                  <p className="text-xs text-[#666] mt-1">{formatPercentage(taxCalculation.effectiveRate)} effective rate</p>
+                </CardContent>
+              </Card>
+
+              {/* After Tax Income Card */}
+              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-white">After Tax Income</CardTitle>
+                  <FileText className="h-4 w-4 text-white" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-white">{formatCurrency(taxCalculation.afterTaxIncome)}</div>
+                  <p className="text-xs text-[#666] mt-1">Net income after taxes</p>
+                </CardContent>
+              </Card>
+
+              {/* Country Card */}
+              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-white">Country</CardTitle>
+                  <Globe className="h-4 w-4 text-white" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-white">
+                    {businesses.find(b => selectedBusinessId === 'all' ? b : b.id === selectedBusinessId)?.country || 'US'}
+                  </div>
+                  <p className="text-xs text-[#666] mt-1">Tax jurisdiction</p>
+                </CardContent>
+              </Card>
+            </div>
+          ) : (
+            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+              <CardContent className="flex flex-col items-center justify-center py-12">
+                <AlertCircle className="h-12 w-12 text-[#666] mb-4" />
+                <h3 className="text-lg font-medium text-white mb-2">No Financial Data Available</h3>
+                <p className="text-sm text-[#666] text-center max-w-md">
+                  Add some payouts and expenses to see your tax calculations. The tax calculator will automatically estimate your taxes based on your business country and type.
+                </p>
+              </CardContent>
+            </Card>
+          )}
 
         {/* Tax Breakdown Details */}
-        {taxCalculation && (
-          <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
-            <CardHeader>
-              <CardTitle className="text-white">Tax Breakdown</CardTitle>
-              <CardDescription className="text-[#666]">
-                Detailed calculation for {taxYear} • {selectedBusinessId === 'all' ? 'All Businesses' : businesses.find(b => b.id === selectedBusinessId)?.name}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Income Calculation */}
-              <div className="space-y-2">
-                <h4 className="text-sm font-medium text-white">Income Calculation</h4>
-                <div className="space-y-1">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-[#666]">Total Income:</span>
-                    <span className="text-white">{formatCurrency(taxCalculation.totalIncome)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-[#666]">Total Expenses:</span>
-                    <span className="text-white">-{formatCurrency(taxCalculation.totalExpenses)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm font-medium pt-2 border-t border-[#2a2a2a]">
-                    <span className="text-white">Taxable Income:</span>
-                    <span className="text-white">{formatCurrency(taxCalculation.taxableIncome)}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Tax Calculation */}
-              <div className="space-y-2">
-                <h4 className="text-sm font-medium text-white">Tax Calculation</h4>
-                <div className="space-y-1">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-[#666]">Income Tax:</span>
-                    <span className="text-white">{formatCurrency(taxCalculation.estimatedTax)}</span>
-                  </div>
-                  {taxCalculation.selfEmploymentTax > 0 && (
+          {taxCalculation && (
+            <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+              <CardHeader>
+                <CardTitle className="text-white">Tax Breakdown</CardTitle>
+                <CardDescription className="text-[#666]">
+                  Detailed calculation for {taxYear} • {selectedBusinessId === 'all' ? 'All Businesses' : businesses.find(b => b.id === selectedBusinessId)?.name}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {/* Income Calculation */}
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium text-white">Income Calculation</h4>
+                  <div className="space-y-1">
                     <div className="flex justify-between text-sm">
-                      <span className="text-[#666]">Self-Employment Tax:</span>
-                      <span className="text-white">{formatCurrency(taxCalculation.selfEmploymentTax)}</span>
+                      <span className="text-[#666]">Total Income:</span>
+                      <span className="text-white">{formatCurrency(taxCalculation.totalIncome)}</span>
                     </div>
-                  )}
-                  <div className="flex justify-between text-sm font-medium pt-2 border-t border-[#2a2a2a]">
-                    <span className="text-white">Total Tax:</span>
-                    <span className="text-white">{formatCurrency(taxCalculation.totalTax)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm font-medium">
-                    <span className="text-white">After Tax Income:</span>
-                    <span className="text-green-500">{formatCurrency(taxCalculation.afterTaxIncome)}</span>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-[#666]">Total Expenses:</span>
+                      <span className="text-white">-{formatCurrency(taxCalculation.totalExpenses)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm font-medium pt-2 border-t border-[#2a2a2a]">
+                      <span className="text-white">Taxable Income:</span>
+                      <span className="text-white">{formatCurrency(taxCalculation.taxableIncome)}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Disclaimer */}
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-[#111] border border-[#2a2a2a]">
-                <Info className="h-4 w-4 text-blue-500 flex-shrink-0 mt-0.5" />
-                <div className="text-xs text-[#666]">
-                  <p className="font-medium text-white mb-1">Tax Disclaimer</p>
-                  <p>This is a simplified tax estimation for informational purposes only. Tax laws are complex and vary by jurisdiction. Please consult with a qualified tax professional for accurate tax advice and filing.</p>
+                {/* Tax Calculation */}
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium text-white">Tax Calculation</h4>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-[#666]">Income Tax:</span>
+                      <span className="text-white">{formatCurrency(taxCalculation.estimatedTax)}</span>
+                    </div>
+                    {taxCalculation.selfEmploymentTax > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-[#666]">Self-Employment Tax:</span>
+                        <span className="text-white">{formatCurrency(taxCalculation.selfEmploymentTax)}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between text-sm font-medium pt-2 border-t border-[#2a2a2a]">
+                      <span className="text-white">Total Tax:</span>
+                      <span className="text-white">{formatCurrency(taxCalculation.totalTax)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm font-medium">
+                      <span className="text-white">After Tax Income:</span>
+                      <span className="text-green-500">{formatCurrency(taxCalculation.afterTaxIncome)}</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-      </div>
+
+                {/* Disclaimer */}
+                <div className="flex items-start gap-3 p-4 rounded-lg bg-[#111] border border-[#2a2a2a]">
+                  <Info className="h-4 w-4 text-blue-500 flex-shrink-0 mt-0.5" />
+                  <div className="text-xs text-[#666]">
+                    <p className="font-medium text-white mb-1">Tax Disclaimer</p>
+                    <p>This is a simplified tax estimation for informational purposes only. Tax laws are complex and vary by jurisdiction. Please consult with a qualified tax professional for accurate tax advice and filing.</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
     </PageContainer>
   );
 }
