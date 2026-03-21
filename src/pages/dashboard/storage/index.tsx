@@ -484,17 +484,27 @@ export default function StoragePage() {
             <div className="space-y-4 mt-2">
               {/* Preview area */}
               {previewItem.fileType.startsWith('image/') ? (
-                <div className="rounded-lg overflow-hidden border border-[#2a2a2a] bg-[#111]">
+                <a 
+                  href={previewItem.fileData} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block rounded-lg overflow-hidden border border-[#2a2a2a] bg-[#111] hover:border-white/50 transition-colors cursor-pointer"
+                >
                   <img src={previewItem.fileData} alt={previewItem.label} className="w-full max-h-[300px] object-contain" />
-                </div>
+                </a>
               ) : (
-                <div className="flex items-center gap-3 p-4 rounded-lg border border-[#2a2a2a] bg-[#111]">
+                <a 
+                  href={previewItem.fileData} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-4 rounded-lg border border-[#2a2a2a] bg-[#111] hover:border-white/50 transition-colors cursor-pointer"
+                >
                   <FileText className="h-10 w-10 text-white" />
                   <div>
                     <p className="text-sm font-medium text-white">{previewItem.fileName}</p>
                     <p className="text-xs text-[#666]">{formatFileSize(previewItem.fileSize)} · {previewItem.fileType}</p>
                   </div>
-                </div>
+                </a>
               )}
 
               {/* Details */}
