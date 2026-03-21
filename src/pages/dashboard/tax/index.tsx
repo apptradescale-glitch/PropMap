@@ -246,7 +246,7 @@ export default function TaxPage() {
         <DialogContent className="bg-[#0a0a0a] border-[#2a2a2a] text-white max-w-md">
           <DialogHeader>
             <DialogTitle className="text-white flex items-center gap-2">
-              <AlertCircle className="h-5 w-5 text-yellow-500" />
+              <AlertCircle className="h-5 w-5 text-white" />
               Important Disclaimer
             </DialogTitle>
           </DialogHeader>
@@ -305,9 +305,18 @@ export default function TaxPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-[#111] border-[#2a2a2a]">
-                  <SelectItem value="2024" className="text-white hover:bg-white/5">2024</SelectItem>
-                  <SelectItem value="2023" className="text-white hover:bg-white/5">2023</SelectItem>
-                  <SelectItem value="2022" className="text-white hover:bg-white/5">2022</SelectItem>
+                  {Array.from({ length: 10 }, (_, i) => {
+                    const year = new Date().getFullYear() - i;
+                    return (
+                      <SelectItem 
+                        key={year} 
+                        value={year.toString()} 
+                        className="text-white hover:bg-white/5"
+                      >
+                        {year}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
 
@@ -330,12 +339,11 @@ export default function TaxPage() {
 
           {/* Tax Calculation Results */}
           {taxCalculation ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-6">
               {/* Total Income Card */}
               <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-white">Total Income</CardTitle>
-                  <DollarSign className="h-4 w-4 text-white" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-white">{formatCurrency(taxCalculation.totalIncome)}</div>
@@ -347,7 +355,6 @@ export default function TaxPage() {
               <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-white">Total Expenses</CardTitle>
-                  <DollarSign className="h-4 w-4 text-white" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-white">{formatCurrency(taxCalculation.totalExpenses)}</div>
@@ -397,6 +404,38 @@ export default function TaxPage() {
                     })()}
                   </div>
                   <p className="text-xs text-[#666] mt-1">Tax jurisdiction</p>
+                </CardContent>
+              </Card>
+
+              {/* Business Type Card */}
+              <Card className="border-[#2a2a2a] bg-[#0a0a0a]">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-white">Business Type</CardTitle>
+                  <FileText className="h-4 w-4 text-white" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-white">
+                    {(() => {
+                      // If business has multiple businesses, use the first one's business type
+                      if (business?.businesses && business?.businesses.length > 0) {
+                        const firstBusiness = business.businesses[0];
+                        if (firstBusiness?.businessType === 'sole-proprietor') return 'Sole Proprietor';
+                        if (firstBusiness?.businessType === 'partnership') return 'Partnership';
+                        if (firstBusiness?.businessType === 'llc') return 'LLC';
+                        if (firstBusiness?.businessType === 'corporation') return 'Corporation';
+                        if (firstBusiness?.customBusinessType) return firstBusiness.customBusinessType;
+                        return 'Other';
+                      }
+                      // Otherwise use the single business type
+                      if (business?.businessType === 'sole-proprietor') return 'Sole Proprietor';
+                      if (business?.businessType === 'partnership') return 'Partnership';
+                      if (business?.businessType === 'llc') return 'LLC';
+                      if (business?.businessType === 'corporation') return 'Corporation';
+                      if (business?.customBusinessType) return business.customBusinessType;
+                      return 'Other';
+                    })()}
+                  </div>
+                  <p className="text-xs text-[#666] mt-1">Legal structure</p>
                 </CardContent>
               </Card>
             </div>
