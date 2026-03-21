@@ -387,7 +387,14 @@ export default function TaxPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-white">
-                    {business?.country || 'US'}
+                    {(() => {
+                      // If business has multiple businesses, use the first one's country
+                      if (business?.businesses && business?.businesses.length > 0) {
+                        return business.businesses[0]?.country || 'US';
+                      }
+                      // Otherwise use the single business country
+                      return business?.country || 'US';
+                    })()}
                   </div>
                   <p className="text-xs text-[#666] mt-1">Tax jurisdiction</p>
                 </CardContent>
