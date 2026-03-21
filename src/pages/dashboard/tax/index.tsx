@@ -97,7 +97,7 @@ interface TaxCalculation {
 }
 
 export default function TaxPage() {
-  const { payouts: allPayouts, expenses: allExpenses } = useBusiness();
+  const { payouts: allPayouts, expenses: allExpenses, business } = useBusiness();
   const [selectedBusinessId, setSelectedBusinessId] = useState<string>('all');
   const [taxYear, setTaxYear] = useState<string>(new Date().getFullYear().toString());
   const [showDisclaimer, setShowDisclaimer] = useState<boolean>(true);
@@ -111,7 +111,7 @@ export default function TaxPage() {
       if (payout.businessId && !businessMap.has(payout.businessId)) {
         businessMap.set(payout.businessId, {
           name: payout.businessName || 'Unknown Business',
-          country: payout.country,
+          country: payout.businessCountry || payout.country, // Check for businessCountry first
           businessType: payout.businessType
         });
       }
@@ -121,7 +121,7 @@ export default function TaxPage() {
       if (expense.businessId && !businessMap.has(expense.businessId)) {
         businessMap.set(expense.businessId, {
           name: expense.businessName || 'Unknown Business',
-          country: expense.country,
+          country: expense.businessCountry || expense.country, // Check for businessCountry first
           businessType: expense.businessType
         });
       }
@@ -387,7 +387,7 @@ export default function TaxPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-white">
-                    {businesses.find(b => selectedBusinessId === 'all' ? b : b.id === selectedBusinessId)?.country || 'US'}
+                    {business?.country || 'US'}
                   </div>
                   <p className="text-xs text-[#666] mt-1">Tax jurisdiction</p>
                 </CardContent>
