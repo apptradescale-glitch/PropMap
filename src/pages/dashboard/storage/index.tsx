@@ -278,7 +278,8 @@ export default function StoragePage() {
                   return (
                     <div
                       key={item.id}
-                      className="flex items-center gap-4 p-3 rounded-lg border border-[#2a2a2a] hover:border-[#444] transition-colors group"
+                      className="flex items-center gap-4 p-3 rounded-lg border border-[#2a2a2a] hover:border-[#444] transition-colors group cursor-pointer"
+                      onClick={() => setPreviewItem(item)}
                     >
                       {/* File Icon */}
                       <div className="flex-shrink-0 p-2.5 rounded-lg bg-[#111] border border-[#2a2a2a]">
