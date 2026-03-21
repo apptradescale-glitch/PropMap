@@ -197,7 +197,7 @@ export default function StoragePage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Archive className="h-6 w-6 text-[#e0ac69]" />
+            <Archive className="h-6 w-6 text-white" />
             <div>
               <h2 className="text-xl font-semibold text-white">Storage</h2>
               <p className="text-sm text-[#666]">Store and manage your documents, invoices & certificates</p>
@@ -205,7 +205,7 @@ export default function StoragePage() {
           </div>
           <Button
             onClick={() => setIsUploadOpen(true)}
-            className="bg-[#e0ac69] hover:bg-[#c99a5a] text-black font-medium"
+            className="bg-white hover:bg-gray-100 text-black font-medium"
           >
             <Plus className="h-4 w-4 mr-2" />
             Upload Document
@@ -222,7 +222,7 @@ export default function StoragePage() {
                   placeholder="Search documents..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-[#111] border-[#2a2a2a] text-white placeholder:text-[#666] focus:border-[#e0ac69]"
+                  className="pl-10 bg-[#111] border-[#2a2a2a] text-white placeholder:text-[#666] focus:border-white/40"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -294,7 +294,7 @@ export default function StoragePage() {
               </div>
             ) : filteredItems.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
-                <Archive className="h-12 w-12 text-[#333] mb-4" />
+                <Archive className="h-12 w-12 text-white mb-4" />
                 <p className="text-[#666] text-sm">
                   {items.length === 0 ? 'No documents uploaded yet' : 'No documents match your search'}
                 </p>

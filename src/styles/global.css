@@ -183,12 +183,12 @@
     }
 
     .scrollbar-thin::-webkit-scrollbar-thumb {
-        background-color: rgba(255, 255, 255, 0.1);  /* Changed to white with lower opacity */
+        background-color: rgba(255, 255, 255, 0.05);  /* Much more transparent to prevent white flash */
         border-radius: 4px;  /* Increased to match wider scrollbar */
     }
 
     .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-        background-color: rgba(255, 255, 255, 0.2);  /* Slightly more opaque on hover */
+        background-color: rgba(255, 255, 255, 0.15);  /* Slightly more opaque on hover */
     }
 
     input:-webkit-autofill,
