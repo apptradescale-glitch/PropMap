@@ -698,73 +698,32 @@ export default function BusinessDetailPage() {
     const totalExpenses = expenses.reduce((sum, item) => sum + item.amount, 0);
     const totalRevenue = totalPayouts - totalExpenses;
     
-    // Combine all financial data and sort by date (newest first)
-    const allFinancialData = [...payouts, ...expenses]
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    // Today's change
+    const today = new Date().toISOString().split('T')[0];
+    const todayPayouts = payouts.filter(item => item.date === today).reduce((sum, item) => sum + item.amount, 0);
+    const todayExpenses = expenses.filter(item => item.date === today).reduce((sum, item) => sum + item.amount, 0);
+    const dailyChange = todayPayouts - todayExpenses;
     
-    // Calculate cumulative change from most recent transaction(s)
-    let cumulativeChange = 0;
-    let cumulativeChangePercent = 0;
+    // Yesterday's total for percentage calculation
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+    const yesterdayTotal = payouts.filter(item => item.date === yesterdayStr).reduce((sum, item) => sum + item.amount, 0) -
+                            expenses.filter(item => item.date === yesterdayStr).reduce((sum, item) => sum + item.amount, 0);
     
-    if (allFinancialData.length > 0) {
-      // Get the most recent transaction date
-      const mostRecentDate = allFinancialData[0].date;
-      
-      // Group transactions by date to find the most recent transaction date
-      const transactionsByDate = allFinancialData.reduce((groups, item) => {
-        if (!groups[item.date]) {
-          groups[item.date] = [];
-        }
-        groups[item.date].push(item);
-        return groups;
-      }, {} as Record<string, any[]>);
-      
-      // Sort dates to find the most recent
-      const sortedDates = Object.keys(transactionsByDate).sort((a, b) => 
-        new Date(b).getTime() - new Date(a).getTime()
-      );
-      
-      if (sortedDates.length > 0) {
-        const mostRecentDate = sortedDates[0];
-        const previousDate = sortedDates[1]; // The date before most recent
-        
-        // Calculate total at most recent date
-        const mostRecentTotal = allFinancialData
-          .filter(item => new Date(item.date).getTime() <= new Date(mostRecentDate).getTime())
-          .reduce((sum, item) => {
-            return sum + (item.type === 'payouts' ? item.amount : -item.amount);
-          }, 0);
-        
-        // Calculate total before most recent date (all transactions from previous dates)
-        let beforeMostRecentTotal = 0;
-        if (previousDate) {
-          beforeMostRecentTotal = allFinancialData
-            .filter(item => new Date(item.date).getTime() < new Date(mostRecentDate).getTime())
-            .reduce((sum, item) => {
-              return sum + (item.type === 'payouts' ? item.amount : -item.amount);
-            }, 0);
-        }
-        
-        // The change is just the sum of transactions on the most recent date
-        const mostRecentDateTransactions = transactionsByDate[mostRecentDate];
-        cumulativeChange = mostRecentDateTransactions.reduce((sum: number, item: any) => {
-          return sum + (item.type === 'payouts' ? item.amount : -item.amount);
-        }, 0);
-        
-        // Calculate percentage change based on the total before most recent transactions
-        if (beforeMostRecentTotal !== 0) {
-          cumulativeChangePercent = (cumulativeChange / Math.abs(beforeMostRecentTotal)) * 100;
-        } else if (cumulativeChange !== 0) {
-          // If starting from 0, show as 100% change
-          cumulativeChangePercent = 100;
-        }
-      }
+    // Calculate daily change percentage
+    let dailyChangePercent = 0;
+    if (yesterdayTotal !== 0) {
+      dailyChangePercent = (dailyChange / Math.abs(yesterdayTotal)) * 100;
+    } else if (dailyChange !== 0) {
+      // If yesterday was 0 but today has activity, show as 100% change
+      dailyChangePercent = 100;
     }
     
     return {
       totalRevenue,
-      dailyChange: cumulativeChange, // Keep the same property name for compatibility
-      dailyChangePercent: cumulativeChangePercent // Keep the same property name for compatibility
+      dailyChange,
+      dailyChangePercent
     };
   }, [payouts, expenses]);
   
