@@ -698,32 +698,48 @@ export default function BusinessDetailPage() {
     const totalExpenses = expenses.reduce((sum, item) => sum + item.amount, 0);
     const totalRevenue = totalPayouts - totalExpenses;
     
-    // Today's change
-    const today = new Date().toISOString().split('T')[0];
-    const todayPayouts = payouts.filter(item => item.date === today).reduce((sum, item) => sum + item.amount, 0);
-    const todayExpenses = expenses.filter(item => item.date === today).reduce((sum, item) => sum + item.amount, 0);
-    const dailyChange = todayPayouts - todayExpenses;
+    // Combine all financial data and sort by date (newest first)
+    const allFinancialData = [...payouts, ...expenses]
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     
-    // Yesterday's total for percentage calculation
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayStr = yesterday.toISOString().split('T')[0];
-    const yesterdayTotal = payouts.filter(item => item.date === yesterdayStr).reduce((sum, item) => sum + item.amount, 0) -
-                            expenses.filter(item => item.date === yesterdayStr).reduce((sum, item) => sum + item.amount, 0);
+    // Calculate cumulative change from most recent transaction
+    let cumulativeChange = 0;
+    let cumulativeChangePercent = 0;
     
-    // Calculate daily change percentage
-    let dailyChangePercent = 0;
-    if (yesterdayTotal !== 0) {
-      dailyChangePercent = (dailyChange / Math.abs(yesterdayTotal)) * 100;
-    } else if (dailyChange !== 0) {
-      // If yesterday was 0 but today has activity, show as 100% change
-      dailyChangePercent = 100;
+    if (allFinancialData.length > 0) {
+      // Get the most recent transaction date
+      const mostRecentDate = allFinancialData[0].date;
+      
+      // Calculate total before most recent transaction
+      const beforeMostRecent = allFinancialData
+        .filter(item => item.date < mostRecentDate)
+        .reduce((sum, item) => {
+          return sum + (item.type === 'payouts' ? item.amount : -item.amount);
+        }, 0);
+      
+      // Calculate total including most recent transaction
+      const includingMostRecent = allFinancialData
+        .filter(item => item.date <= mostRecentDate)
+        .reduce((sum, item) => {
+          return sum + (item.type === 'payouts' ? item.amount : -item.amount);
+        }, 0);
+      
+      // The change is the difference caused by the most recent transaction(s)
+      cumulativeChange = includingMostRecent - beforeMostRecent;
+      
+      // Calculate percentage change
+      if (beforeMostRecent !== 0) {
+        cumulativeChangePercent = (cumulativeChange / Math.abs(beforeMostRecent)) * 100;
+      } else if (cumulativeChange !== 0) {
+        // If starting from 0, show as 100% change
+        cumulativeChangePercent = 100;
+      }
     }
     
     return {
       totalRevenue,
-      dailyChange,
-      dailyChangePercent
+      dailyChange: cumulativeChange, // Keep the same property name for compatibility
+      dailyChangePercent: cumulativeChangePercent // Keep the same property name for compatibility
     };
   }, [payouts, expenses]);
   
