@@ -702,7 +702,7 @@ export default function BusinessDetailPage() {
     const allFinancialData = [...payouts, ...expenses]
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     
-    // Calculate cumulative change from most recent transaction
+    // Calculate cumulative change from most recent transaction(s)
     let cumulativeChange = 0;
     let cumulativeChangePercent = 0;
     
@@ -710,29 +710,54 @@ export default function BusinessDetailPage() {
       // Get the most recent transaction date
       const mostRecentDate = allFinancialData[0].date;
       
-      // Calculate total before most recent transaction
-      const beforeMostRecent = allFinancialData
-        .filter(item => item.date < mostRecentDate)
-        .reduce((sum, item) => {
+      // Group transactions by date to find the most recent transaction date
+      const transactionsByDate = allFinancialData.reduce((groups, item) => {
+        if (!groups[item.date]) {
+          groups[item.date] = [];
+        }
+        groups[item.date].push(item);
+        return groups;
+      }, {} as Record<string, any[]>);
+      
+      // Sort dates to find the most recent
+      const sortedDates = Object.keys(transactionsByDate).sort((a, b) => 
+        new Date(b).getTime() - new Date(a).getTime()
+      );
+      
+      if (sortedDates.length > 0) {
+        const mostRecentDate = sortedDates[0];
+        const previousDate = sortedDates[1]; // The date before most recent
+        
+        // Calculate total at most recent date
+        const mostRecentTotal = allFinancialData
+          .filter(item => new Date(item.date).getTime() <= new Date(mostRecentDate).getTime())
+          .reduce((sum, item) => {
+            return sum + (item.type === 'payouts' ? item.amount : -item.amount);
+          }, 0);
+        
+        // Calculate total before most recent date (all transactions from previous dates)
+        let beforeMostRecentTotal = 0;
+        if (previousDate) {
+          beforeMostRecentTotal = allFinancialData
+            .filter(item => new Date(item.date).getTime() < new Date(mostRecentDate).getTime())
+            .reduce((sum, item) => {
+              return sum + (item.type === 'payouts' ? item.amount : -item.amount);
+            }, 0);
+        }
+        
+        // The change is just the sum of transactions on the most recent date
+        const mostRecentDateTransactions = transactionsByDate[mostRecentDate];
+        cumulativeChange = mostRecentDateTransactions.reduce((sum: number, item: any) => {
           return sum + (item.type === 'payouts' ? item.amount : -item.amount);
         }, 0);
-      
-      // Calculate total including most recent transaction
-      const includingMostRecent = allFinancialData
-        .filter(item => item.date <= mostRecentDate)
-        .reduce((sum, item) => {
-          return sum + (item.type === 'payouts' ? item.amount : -item.amount);
-        }, 0);
-      
-      // The change is the difference caused by the most recent transaction(s)
-      cumulativeChange = includingMostRecent - beforeMostRecent;
-      
-      // Calculate percentage change
-      if (beforeMostRecent !== 0) {
-        cumulativeChangePercent = (cumulativeChange / Math.abs(beforeMostRecent)) * 100;
-      } else if (cumulativeChange !== 0) {
-        // If starting from 0, show as 100% change
-        cumulativeChangePercent = 100;
+        
+        // Calculate percentage change based on the total before most recent transactions
+        if (beforeMostRecentTotal !== 0) {
+          cumulativeChangePercent = (cumulativeChange / Math.abs(beforeMostRecentTotal)) * 100;
+        } else if (cumulativeChange !== 0) {
+          // If starting from 0, show as 100% change
+          cumulativeChangePercent = 100;
+        }
       }
     }
     
