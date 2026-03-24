@@ -29,7 +29,23 @@ export default function TransactionsPage() {
         </p>
         <Button
           onClick={() => navigate('/dashboard/BankConnection')}
-          className="bg-[#e0ac69] hover:bg-[#c9964f] text-black font-medium"
+          style={{
+            background: '#fff',
+            color: '#000',
+            fontSize: 13,
+            fontWeight: 500,
+            padding: '5px 14px',
+            borderRadius: 6,
+            cursor: 'pointer',
+            transition: 'transform 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+          className="hover:bg-white hover:text-black"
         >
           Connect Bank Account
         </Button>
