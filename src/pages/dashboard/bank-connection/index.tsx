@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Landmark, ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/FAuth';
+import { auth } from '@/config/firebase';
 
 // Plaid imports - Official CDN approach
 declare global {
@@ -32,11 +34,13 @@ const loadPlaidScript = () => {
 
 export default function BankConnectionPage() {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const [linkToken, setLinkToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [plaidHandler, setPlaidHandler] = useState<any>(null);
+  const [connectedInstitution, setConnectedInstitution] = useState<string | null>(null);
+  const [transactionCount, setTransactionCount] = useState<number>(0);
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
@@ -95,9 +99,23 @@ export default function BankConnectionPage() {
       token,
       onSuccess: async (public_token: string, metadata: any) => {
         try {
-          const response = await fetch('/api/plaid/exchange-public-token', {
+          setIsLoading(true);
+          setError(null);
+
+          // Get Firebase auth token
+          const firebaseUser = auth.currentUser;
+          if (!firebaseUser) {
+            throw new Error('You must be logged in to connect a bank account.');
+          }
+          const authToken = await firebaseUser.getIdToken();
+
+          // 1. Exchange public token for access token & save to Firestore
+          const exchangeRes = await fetch('/api/plaid/exchange-public-token', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${authToken}`,
+            },
             body: JSON.stringify({
               public_token,
               institution: metadata.institution,
@@ -105,23 +123,38 @@ export default function BankConnectionPage() {
             }),
           });
 
-          if (response.ok) {
-            const data = await response.json();
-            setSuccess(true);
-            localStorage.setItem('plaid_connection', JSON.stringify({
-              institution: metadata.institution,
-              accounts: metadata.accounts,
-              item_id: data.item_id,
-              connected_at: new Date().toISOString(),
-            }));
-            console.log('Bank connected successfully:', data);
-          } else {
-            const errData = await response.json().catch(() => ({}));
+          if (!exchangeRes.ok) {
+            const errData = await exchangeRes.json().catch(() => ({}));
             throw new Error(errData.error || 'Failed to save bank connection');
           }
+
+          const exchangeData = await exchangeRes.json();
+          console.log('Bank connected:', exchangeData);
+
+          // 2. Fetch transactions from Plaid and save to Firestore
+          const fetchRes = await fetch('/api/plaid/fetch-transactions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${authToken}`,
+            },
+          });
+
+          if (fetchRes.ok) {
+            const txData = await fetchRes.json();
+            setTransactionCount(txData.total_transactions || 0);
+            console.log(`Fetched ${txData.total_transactions} transactions`);
+          } else {
+            console.warn('Could not fetch transactions yet — they may take a moment to appear in sandbox.');
+          }
+
+          setConnectedInstitution(metadata.institution?.name || 'Your Bank');
+          setSuccess(true);
         } catch (err: any) {
-          console.error('Error exchanging token:', err);
-          setError(err.message || 'Failed to save bank connection. Please try again.');
+          console.error('Error during bank connection:', err);
+          setError(err.message || 'Failed to complete bank connection. Please try again.');
+        } finally {
+          setIsLoading(false);
         }
       },
       onExit: (err: any) => {
@@ -195,14 +228,32 @@ export default function BankConnectionPage() {
               <div className="text-center py-8">
                 <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
                 <h3 className="text-white text-lg font-semibold mb-2">
-                  Bank Account Connected!
+                  {connectedInstitution ? `${connectedInstitution} Connected!` : 'Bank Account Connected!'}
                 </h3>
-                <p className="text-[#666] mb-6">
-                  Your transactions will now be automatically imported and synced with your PropMap account.
+                <p className="text-[#666] mb-2">
+                  Your bank account has been securely linked to PropMap.
                 </p>
+                {transactionCount > 0 && (
+                  <p className="text-[#888] text-sm mb-6">
+                    {transactionCount} transactions imported successfully.
+                  </p>
+                )}
+                {transactionCount === 0 && (
+                  <p className="text-[#888] text-sm mb-6">
+                    Transactions may take a moment to sync. Check back shortly.
+                  </p>
+                )}
                 <Button
                   onClick={handleGoBack}
-                  className="bg-white hover:bg-gray-100 text-black"
+                  style={{
+                    background: '#fff',
+                    color: '#000',
+                    fontSize: 13,
+                    fontWeight: 500,
+                    padding: '5px 14px',
+                    borderRadius: 6,
+                    cursor: 'pointer',
+                  }}
                 >
                   View Transactions
                 </Button>
