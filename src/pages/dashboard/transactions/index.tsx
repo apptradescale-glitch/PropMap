@@ -271,13 +271,15 @@ export default function TransactionsPage() {
                 className="flex items-center justify-between py-3 px-4 rounded-lg hover:bg-[#111] transition-colors"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    isNegative ? 'bg-[#6B8E7A]/10' : 'bg-[#8e6b6bff]/10'
-                  }`}>
+                  <div className="flex-shrink-0">
                     {isNegative ? (
-                      <ArrowDownLeft className="w-4 h-4 text-[#6B8E7A]" />
+                      <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#6B8E7A]/50">
+                        <ArrowDownLeft className="w-4 h-4 text-[#6B8E7A]" />
+                      </div>
                     ) : (
-                      <ArrowUpRight className="w-4 h-4 text-[#8e6b6bff]" />
+                      <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#8e6b6bff]/50">
+                        <ArrowUpRight className="w-4 h-4 text-[#8e6b6bff]" />
+                      </div>
                     )}
                   </div>
                   <div className="min-w-0">
