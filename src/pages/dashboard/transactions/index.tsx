@@ -4,7 +4,7 @@ import PageContainer from '@/components/layout/page-container';
 import PageHead from '@/components/shared/page-head';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Landmark, ArrowUpRight, ArrowDownLeft, RefreshCw, Wallet } from 'lucide-react';
+import { Landmark, ArrowBigUp, ArrowBigDown, RefreshCw, Wallet } from 'lucide-react';
 import { auth } from '@/config/firebase';
 import { useAuth } from '@/context/FAuth';
 
@@ -274,11 +274,11 @@ export default function TransactionsPage() {
                   <div className="flex-shrink-0">
                     {isNegative ? (
                       <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#6B8E7A]/50">
-                        <ArrowDownLeft className="w-4 h-4 text-[#6B8E7A]" />
+                        <ArrowBigUp className="w-5 h-5 text-[#6B8E7A]" />
                       </div>
                     ) : (
                       <div className="p-2 rounded-lg bg-transparent border border-white/20 shadow-lg shadow-[#8e6b6bff]/50">
-                        <ArrowUpRight className="w-4 h-4 text-[#8e6b6bff]" />
+                        <ArrowBigDown className="w-5 h-5 text-[#8e6b6bff]" />
                       </div>
                     )}
                   </div>
