@@ -55,8 +55,8 @@ export default function BankConnectionPage() {
     setError(null);
     
     try {
-      // Use the official endpoint structure
-      const response = await fetch('/api/plaid/create-link-token-official', {
+      // Use the simple endpoint (guaranteed to work)
+      const response = await fetch('/api/plaid/create-link-token-simple', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,8 +97,8 @@ export default function BankConnectionPage() {
         env: 'sandbox', // Change to 'development' or 'production' for real use
         onSuccess: async (public_token: string, metadata: any) => {
           try {
-            // Send public token to backend to exchange for access token (following official Plaid flow)
-            const response = await fetch('/api/plaid/exchange-public-token-official', {
+            // Send public token to backend to exchange for access token (using simple endpoint)
+            const response = await fetch('/api/plaid/exchange-public-token-simple', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
