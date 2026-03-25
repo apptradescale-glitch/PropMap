@@ -272,12 +272,12 @@ export default function TransactionsPage() {
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    isNegative ? 'bg-green-500/10' : 'bg-red-500/10'
+                    isNegative ? 'bg-[#6B8E7A]/10' : 'bg-[#8e6b6bff]/10'
                   }`}>
                     {isNegative ? (
-                      <ArrowDownLeft className="w-4 h-4 text-green-500" />
+                      <ArrowDownLeft className="w-4 h-4 text-[#6B8E7A]" />
                     ) : (
-                      <ArrowUpRight className="w-4 h-4 text-red-500" />
+                      <ArrowUpRight className="w-4 h-4 text-[#8e6b6bff]" />
                     )}
                   </div>
                   <div className="min-w-0">
@@ -292,7 +292,7 @@ export default function TransactionsPage() {
                   </div>
                 </div>
                 <span className={`text-sm font-medium flex-shrink-0 ml-4 ${
-                  isNegative ? 'text-green-400' : 'text-red-400'
+                  isNegative ? 'text-[#6B8E7A]' : 'text-[#8e6b6bff]'
                 }`}>
                   {isNegative ? '+' : '-'}{formatted}
                 </span>
