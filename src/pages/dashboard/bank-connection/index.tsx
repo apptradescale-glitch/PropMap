@@ -6,8 +6,28 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Landmark, ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-// Plaid imports - Official React SDK
-import { usePlaidLink, PlaidLinkOptions } from 'react-plaid-link';
+// Plaid imports - Official CDN approach
+declare global {
+  interface Window {
+    Plaid: any;
+  }
+}
+
+// Load Plaid Link script
+const loadPlaidScript = () => {
+  return new Promise((resolve, reject) => {
+    if (window.Plaid) {
+      resolve(window.Plaid);
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://cdn.plaid.com/link/v2/stable/link-initialize.js';
+    script.onload = () => resolve(window.Plaid);
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+};
 
 
 export default function BankConnectionPage() {
@@ -16,6 +36,7 @@ export default function BankConnectionPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [plaidHandler, setPlaidHandler] = useState<any>(null);
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
@@ -68,64 +89,87 @@ export default function BankConnectionPage() {
     }
   };
 
-  // Plaid Link configuration
-  const config: PlaidLinkOptions = {
-    token: linkToken || undefined,
-    clientName: 'PropMap',
-    env: 'sandbox', // Change to 'development' or 'production' for real use
-    product: ['auth', 'transactions'],
-    publicKey: process.env.NEXT_PUBLIC_PLAID_PUBLIC_KEY || 'your-plaid-public-key',
-    onSuccess: async (public_token: string, metadata: any) => {
-      try {
-        // Send public token to backend to exchange for access token (following official Plaid flow)
-        const response = await fetch('/api/plaid/exchange-public-token-official', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            public_token: public_token,
-            institution: metadata.institution,
-            accounts: metadata.accounts,
-          }),
-        });
+  // Initialize Plaid handler when link token is available
+  useEffect(() => {
+    if (linkToken && window.Plaid) {
+      const handler = window.Plaid.create({
+        token: linkToken,
+        env: 'sandbox', // Change to 'development' or 'production' for real use
+        onSuccess: async (public_token: string, metadata: any) => {
+          try {
+            // Send public token to backend to exchange for access token (following official Plaid flow)
+            const response = await fetch('/api/plaid/exchange-public-token-official', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                public_token: public_token,
+                institution: metadata.institution,
+                accounts: metadata.accounts,
+              }),
+            });
 
-        if (response.ok) {
-          const data = await response.json();
-          setSuccess(true);
-          // Store connection info following official Plaid data structure
-          localStorage.setItem('plaid_connection', JSON.stringify({
-            institution: metadata.institution,
-            accounts: metadata.accounts,
-            access_token: data.access_token,
-            item_id: data.item_id,
-            connected_at: new Date().toISOString(),
-          }));
-          console.log('Bank connected successfully (official Plaid flow):', data);
-        } else {
-          throw new Error('Failed to save bank connection');
+            if (response.ok) {
+              const data = await response.json();
+              setSuccess(true);
+              // Store connection info following official Plaid data structure
+              localStorage.setItem('plaid_connection', JSON.stringify({
+                institution: metadata.institution,
+                accounts: metadata.accounts,
+                access_token: data.access_token,
+                item_id: data.item_id,
+                connected_at: new Date().toISOString(),
+              }));
+              console.log('Bank connected successfully (official Plaid flow):', data);
+            } else {
+              throw new Error('Failed to save bank connection');
+            }
+          } catch (err) {
+            console.error('Error saving bank connection:', err);
+            setError('Failed to save bank connection. Please try again.');
+          }
+        },
+        onExit: (err: any, metadata: any) => {
+          if (err) {
+            console.error('Plaid Link error:', err);
+            setError('Bank connection was cancelled or failed. Please try again.');
+          }
+          setLinkToken(null);
+        },
+      });
+      
+      setPlaidHandler(handler);
+      
+      return () => {
+        if (handler) {
+          handler.exit();
         }
-      } catch (err) {
-        console.error('Error saving bank connection:', err);
-        setError('Failed to save bank connection. Please try again.');
-      }
-    },
-    onExit: (err: any, metadata: any) => {
-      if (err) {
-        console.error('Plaid Link error:', err);
-        setError('Bank connection was cancelled or failed. Please try again.');
-      }
-      setLinkToken(null);
-    },
-  };
+      };
+    }
+  }, [linkToken]);
 
-  const { open, ready } = usePlaidLink(config);
-
-  const handleConnectBank = () => {
+  const handleConnectBank = async () => {
     if (!linkToken) {
-      generateLinkToken();
-    } else if (ready) {
-      open();
+      await generateLinkToken();
+      // Load Plaid script after getting link token
+      try {
+        await loadPlaidScript();
+      } catch (err) {
+        console.error('Failed to load Plaid script:', err);
+        setError('Failed to load bank connection. Please refresh and try again.');
+        return;
+      }
+    } else if (plaidHandler) {
+      plaidHandler.open();
+    } else {
+      // Try to load script and initialize
+      try {
+        await loadPlaidScript();
+      } catch (err) {
+        console.error('Failed to load Plaid script:', err);
+        setError('Failed to load bank connection. Please refresh and try again.');
+      }
     }
   };
 
