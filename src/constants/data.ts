@@ -54,10 +54,14 @@ export const navItems: NavItem[] = [
     href: '/dashboard/BankConnection',
     icon: 'landmark',
     label: 'Bank Connection',
-  
-    
   },
 
+  {
+    title: 'Email Upload',
+    href: '/dashboard/EmailConnection',
+    icon: 'mail',
+    label: 'Email Upload',
+  },
 
   {
     divider: true

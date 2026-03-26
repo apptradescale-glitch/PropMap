@@ -51,6 +51,7 @@ PiggyBank,
 Archive,
 Receipt,
 House,
+Upload,
 
 } from 'lucide-react';
 import { c } from 'nuqs/dist/serializer-DjSGvhZt';
@@ -66,6 +67,7 @@ export const Icons = {
   house: House,
   archive: Archive,
   receipt: Receipt,
+  upload: Upload,
   piggybank: PiggyBank,
   crosshair: Crosshair,
   lockopen: AlarmClockCheck,
