@@ -196,17 +196,6 @@ export default function BankConnectionPage() {
       <PageHead title="PROPMAP - Bank Connection" />
       
       <div className="max-w-2xl mx-auto pt-8">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Button
-            variant="ghost"
-            onClick={handleGoBack}
-            className="text-[#666] hover:text-white hover:bg-[#1a1a1a]"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Transactions
-          </Button>
-        </div>
 
         {/* Main Content */}
         <Card className="border-[#1a1a1a] bg-[#0a0a0a]">
@@ -243,20 +232,6 @@ export default function BankConnectionPage() {
                     Transactions may take a moment to sync. Check back shortly.
                   </p>
                 )}
-                <Button
-                  onClick={handleGoBack}
-                  style={{
-                    background: '#fff',
-                    color: '#000',
-                    fontSize: 13,
-                    fontWeight: 500,
-                    padding: '5px 14px',
-                    borderRadius: 6,
-                    cursor: 'pointer',
-                  }}
-                >
-                  View Transactions
-                </Button>
               </div>
             ) : (
               <>
@@ -268,46 +243,13 @@ export default function BankConnectionPage() {
                   </div>
                 )}
 
-                {/* Features */}
-                <div className="space-y-4">
-                  <h4 className="text-white font-medium mb-3">What you'll get:</h4>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-[#666] text-xs">✓</span>
-                      </div>
-                      <div>
-                        <p className="text-white text-sm font-medium">Automatic Transaction Import</p>
-                        <p className="text-[#666] text-xs">All your transactions synced automatically</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-[#666] text-xs">✓</span>
-                      </div>
-                      <div>
-                        <p className="text-white text-sm font-medium">Real-time Updates</p>
-                        <p className="text-[#666] text-xs">Get instant updates when new transactions occur</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-[#666] text-xs">✓</span>
-                      </div>
-                      <div>
-                        <p className="text-white text-sm font-medium">Secure Connection</p>
-                        <p className="text-[#666] text-xs">Bank-level security with Plaid encryption</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
                 {/* Connect Button */}
-                <div className="pt-4">
+                <div className="pt-4 flex justify-center">
                   <Button
                     onClick={handleConnectBank}
                     disabled={isLoading}
-                    className="w-full bg-white hover:bg-gray-100 text-black font-medium"
+                    className="bg-white hover:bg-gray-100 text-black font-medium"
                     style={{
                       background: '#fff',
                       color: '#000',
