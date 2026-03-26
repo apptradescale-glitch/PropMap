@@ -206,7 +206,7 @@ export default function BankConnectionPage() {
             <CardTitle className="text-white text-xl mb-2">
               Connect Your Bank Account
             </CardTitle>
-            <CardDescription className="text-[#666] max-w-md">
+            <CardDescription className="text-[#666] max-w-md text-center">
               Securely connect your bank account to automatically import transactions and get real-time financial updates
             </CardDescription>
           </CardHeader>
@@ -243,6 +243,38 @@ export default function BankConnectionPage() {
                   </div>
                 )}
 
+                {/* Features */}
+                <div className="space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-[#666] text-xs">✓</span>
+                      </div>
+                      <div>
+                        <p className="text-white text-sm font-medium">Automatic Transaction Import</p>
+                        <p className="text-[#666] text-xs">All your transactions synced automatically</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-[#666] text-xs">✓</span>
+                      </div>
+                      <div>
+                        <p className="text-white text-sm font-medium">Real-time Updates</p>
+                        <p className="text-[#666] text-xs">Get instant updates when new transactions occur</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-[#666] text-xs">✓</span>
+                      </div>
+                      <div>
+                        <p className="text-white text-sm font-medium">Secure Connection</p>
+                        <p className="text-[#666] text-xs">Bank-level security with Plaid encryption</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
                 {/* Connect Button */}
                 <div className="pt-4 flex justify-center">
