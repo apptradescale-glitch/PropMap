@@ -53,47 +53,16 @@ export const navItems: NavItem[] = [
     title: 'Bank Connection',
     href: '/dashboard/BankConnection',
     icon: 'landmark',
-    label: 'BankConnection',
+    label: 'Bank Connection',
   
     
   },
 
-        {
-    title: 'Email Connection',
-    href: '/dashboard/EmailConnection',
-    icon: 'mail',
-    label: 'EmailConnection',
-   
-    
-  },
 
- 
-
-
-
-
- 
-
-   
-
-  
-
-   {
+  {
     divider: true
   },
 
-
-           {
-    title: 'PropFirms',
-    href: '/dashboard/PropFirm',
-    icon: 'chartcandlestick',
-    label: 'PropFirm',
-     
-  },
-
-   {
-    divider: true
-  },
 
                {
     title: 'Manage Subscriptions',
