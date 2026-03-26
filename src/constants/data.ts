@@ -57,10 +57,10 @@ export const navItems: NavItem[] = [
   },
 
   {
-    title: 'Email Upload',
+    title: 'Email Connection',
     href: '/dashboard/EmailConnection',
     icon: 'mail',
-    label: 'Email Upload',
+    label: 'Email Connection',
   },
 
   {
